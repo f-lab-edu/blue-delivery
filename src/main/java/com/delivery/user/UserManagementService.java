@@ -14,7 +14,7 @@ public class UserManagementService {
 
     public void register(User user) {
         try { // db에 접근하는 횟수를 줄이기 위해 바로 insert 후 중복되는 key면 예외처리
-            userRepository.insert(user);
+            userRepository.save(user);
         } catch (DuplicateKeyException ex) {
             throw ex;
         }

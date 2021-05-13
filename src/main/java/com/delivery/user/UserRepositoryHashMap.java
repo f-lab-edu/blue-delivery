@@ -16,7 +16,7 @@ public class UserRepositoryHashMap implements UserRepository {
     }
 
     @Override
-    public void insert(User user) {
+    public void save(User user) {
         if (repository.containsKey(user.getEmail())) {
             throw new DuplicateKeyException("key already exists");
         }

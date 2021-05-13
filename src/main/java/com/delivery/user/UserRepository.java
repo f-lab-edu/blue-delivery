@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository {
 
-    void insert(User user);
+    void save(User user);
 
     User findByEmail(String email);
 }
