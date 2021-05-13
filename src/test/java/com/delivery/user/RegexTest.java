@@ -48,5 +48,4 @@ public class RegexTest {
         boolean wrongLength = "010-1234-567".matches(regex);
         Assertions.assertThat(wrongLength).isFalse();
     }
-
 }

@@ -110,5 +110,4 @@ class UserManagementControllerTest {
                 .andExpect(status)
                 .andReturn();
     }
-
 }
