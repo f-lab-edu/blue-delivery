@@ -1,5 +1,7 @@
 package com.delivery.user;
 
+import com.delivery.utility.RegexConstants;
+
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 
@@ -13,17 +15,17 @@ public class UserRegisterDto {
     private String nickname;
 
     @NotNull(message = "must not null")
-    @Pattern(regexp = "^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$",
+    @Pattern(regexp = RegexConstants.PHONE,
             message = "01로 시작하는 10-11자리 숫자여야 합니다.")
     private String phone;
 
     @NotNull(message = "must not null")
-    @Pattern(regexp = "(?=.*[a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣])(?=.*[0-9])(?=.*[^\\w\\s]).{8,20}",
+    @Pattern(regexp = RegexConstants.PASSWORD,
             message = "알파벳, 숫자, 특수문자가 각 1개이상 포함된 8~20 글자여야 합니다.")
     private String password;
 
     @NotNull(message = "must not null")
-    @Pattern(regexp = "(?=.*[a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣])(?=.*[0-9])(?=.*[^\\w\\s]).{8,20}",
+    @Pattern(regexp = RegexConstants.PASSWORD,
             message = "알파벳, 숫자, 특수문자가 각 1개이상 포함된 8~20 글자여야 합니다.")
     private String confirmedPassword;
 
