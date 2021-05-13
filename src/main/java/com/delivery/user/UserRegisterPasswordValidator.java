@@ -6,6 +6,7 @@ import org.springframework.validation.Validator;
 
 @Component
 public class UserRegisterPasswordValidator implements Validator {
+
     @Override
     public boolean supports(Class<?> clazz) {
         return clazz.isAssignableFrom(UserRegisterDto.class);

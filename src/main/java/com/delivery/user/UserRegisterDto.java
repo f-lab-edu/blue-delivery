@@ -4,6 +4,7 @@ import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 public class UserRegisterDto {
+
     @NotNull(message = "must not null")
     @Email(message = "이메일 형식이어야 합니다.")
     private String email;

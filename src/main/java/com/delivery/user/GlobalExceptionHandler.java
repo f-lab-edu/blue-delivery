@@ -16,7 +16,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new LinkedHashMap<>();
-        errors.put("errorLength" , String.valueOf(ex.getFieldErrors().size()));
+        errors.put("errorLength", String.valueOf(ex.getFieldErrors().size()));
         for (FieldError error : ex.getFieldErrors()) {
             errors.put(error.getField(), error.getDefaultMessage());
         }
