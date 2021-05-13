@@ -7,13 +7,24 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@RestController()
+@RestController
 @RequestMapping("/members")
 public class UserManagementController {
 
+    private UserManagementService userManagementService;
+
+    public UserManagementController(UserManagementService userManagementService) {
+        this.userManagementService = userManagementService;
+    }
+
     @PostMapping("/register")
     public void register(@Valid @RequestBody UserRegisterDto dto) {
+        User user = dtoToUser(dto);
+        userManagementService.register(user);
+    }
 
+    private User dtoToUser(UserRegisterDto dto) {
+        return new User(dto.getEmail());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
