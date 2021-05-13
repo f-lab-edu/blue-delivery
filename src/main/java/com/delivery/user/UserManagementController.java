@@ -1,6 +1,8 @@
 package com.delivery.user;
 
 import com.delivery.utility.EncryptUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,9 +27,10 @@ public class UserManagementController {
     }
 
     @PostMapping("/register")
-    public void register(@Valid @RequestBody UserRegisterDto dto) {
+    public ResponseEntity<User> register(@Valid @RequestBody UserRegisterDto dto) {
         User user = dtoToUser(dto);
         userManagementService.register(user);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     // TODO User에 필요한 데이터가 정해지면 수정

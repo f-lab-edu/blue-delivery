@@ -20,7 +20,7 @@ public class UserRepositoryHashMap implements UserRepository {
         if (repository.containsKey(user.getEmail())) {
             throw new DuplicateKeyException("key already exists");
         }
-        User put = repository.put(user.getEmail(), user);
+        repository.put(user.getEmail(), user);
     }
 
     @Override

@@ -49,7 +49,7 @@ class UserManagementControllerTest {
                 "myP@ssw0rd",
                 LocalDate.of(2000, Month.APRIL, 1)
         );
-        sendRequest(dto, status().isOk());
+        sendRequest(dto, status().isCreated());
     }
 
     @Test
