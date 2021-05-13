@@ -4,6 +4,8 @@ spring:
     username: root
     password:
     driver-class-name: com.mysql.cj.jdbc.Driver
+  profiles:
+    active: dev
 
 mybatis:
   type-aliases-package: com/deliver
