@@ -1,6 +1,5 @@
 package com.delivery.user;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ class UserManagementServiceTest {
     @Test
     void registerDuplicateEmailTest() {
         String email1 = "myEmail@email.com";
-        User user1 = new User(email1);
+        User user1 = new User(email1, "password");
         assertDoesNotThrow(() -> service.register(user1));
         assertThrows(DuplicateKeyException.class, () -> service.register(user1));
     }

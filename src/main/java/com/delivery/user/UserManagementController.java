@@ -1,5 +1,6 @@
 package com.delivery.user;
 
+import com.delivery.utility.EncryptUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +32,7 @@ public class UserManagementController {
 
     // TODO User에 필요한 데이터가 정해지면 수정
     private User dtoToUser(UserRegisterDto dto) {
-        return new User(dto.getEmail());
+        return new User(dto.getEmail(), EncryptUtils.sha256(dto.getPassword()));
     }
 
 }

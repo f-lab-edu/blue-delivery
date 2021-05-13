@@ -21,7 +21,7 @@ class UserRepositoryTest {
     @Test
     void insertTest() {
         String email1 = "user1@email.com";
-        User user1 = new User(email1);
+        User user1 = new User(email1, "password");
 
         User found = userRepository.findByEmail(user1.getEmail());
         assertThat(found).isNull();
@@ -31,7 +31,7 @@ class UserRepositoryTest {
         assertThat(found).isNotNull();
 
         String email2 = "user2@email.com";
-        User user2 = new User(email2);
+        User user2 = new User(email2, "password");
 
         found = userRepository.findByEmail(user2.getEmail());
         assertThat(found).isNull();
@@ -44,7 +44,8 @@ class UserRepositoryTest {
     @Test
     void duplicateEmailTest() {
         String email = "user3@email.com";
-        userRepository.insert(new User(email));
-        assertThrows(DuplicateKeyException.class, () -> userRepository.insert(new User(email))) ;
+        User user = new User(email, "password");
+        userRepository.insert(user);
+        assertThrows(DuplicateKeyException.class, () -> userRepository.insert(user)) ;
     }
 }
