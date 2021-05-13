@@ -7,17 +7,20 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException ex) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("errorLength=" + ex.getFieldErrors().size()+"\n");
+        Map<String, String> errors = new LinkedHashMap<>();
+        errors.put("errorLength" , String.valueOf(ex.getFieldErrors().size()));
         for (FieldError error : ex.getFieldErrors()) {
-            sb.append(error.getField() + " : " + error.getDefaultMessage() +"\n");
+            errors.put(error.getField(), error.getDefaultMessage());
         }
-        return ResponseEntity.badRequest().body(sb.toString());
+        return ResponseEntity.badRequest().body(errors.toString());
     }
 
 
