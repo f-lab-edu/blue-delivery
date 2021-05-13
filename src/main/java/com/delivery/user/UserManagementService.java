@@ -1,9 +1,7 @@
 package com.delivery.user;
 
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @Service
 public class UserManagementService {
@@ -22,8 +20,4 @@ public class UserManagementService {
         }
     }
 
-    @ExceptionHandler(DuplicateKeyException.class)
-    public ResponseEntity<String> methodArgumentNotValidExceptionHandler(DuplicateKeyException ex) {
-        return ResponseEntity.badRequest().body("email already exists - " + ex.getMessage());
-    }
 }
