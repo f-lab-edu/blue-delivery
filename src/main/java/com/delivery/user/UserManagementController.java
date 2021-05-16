@@ -46,21 +46,15 @@ public class UserManagementController {
 
     //로그인 처리
     @PostMapping("/login")
-    public void login(@RequestBody LoginDto loginDto, HttpServletRequest request) throws Exception {
+    public void login(@RequestBody UserLoginDto loginDto, HttpServletRequest request) throws Exception {
 
         User user = userManagementService.login(loginDto);
         HttpSession httpSession = request.getSession();
 
-        if (!isPasswordEquals(loginDto, user)) {
-            return;
-        } else {
+        if (user.checkPasswordEquality(loginDto.getUserPassword())) {
             log.info("login success");
             httpSession.setAttribute("login", user);
         }
-    }
-
-    private boolean isPasswordEquals(LoginDto loginDto, User user) {
-        return user == null || loginDto.getUserPassword().equals(user.getPassword());
     }
 
 }

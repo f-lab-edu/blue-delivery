@@ -1,11 +1,11 @@
 package com.delivery.user;
 
-public class LoginDto {
+public class UserLoginDto {
 
     private String email;
     private String userPassword;
 
-    public LoginDto(String email, String userPassword) {
+    public UserLoginDto(String email, String userPassword) {
         this.email = email;
         this.userPassword = userPassword;
     }
@@ -25,4 +25,5 @@ public class LoginDto {
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
     }
+
 }
