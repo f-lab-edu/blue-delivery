@@ -1,0 +1,30 @@
+#!/bin/sh
+
+cd $(dirname ${BASH_SOURCE[0]}) && cd ../  # shell script의 주소로 이동후 프로젝트 루트로 이동
+SCRIPT_DIR=`pwd` # shell script의 주소 저장
+
+# commit 전에 test 수행
+./gradlew clean test
+
+if [ $? -eq 0 ]; then
+  echo "================================"
+  echo "Test has successfully completed"
+  echo "================================"
+else 
+  echo "================================"
+  echo "Fail to test"
+  echo "================================"
+  exit 1
+fi
+
+./gradlew check
+if [ $? -eq 0 ]; then
+  echo "================================"
+  echo "Code style check has successfully completed"
+  echo "================================"
+else
+  echo "================================"
+  echo "Fail to check Code style"
+  echo "================================"
+  exit 1
+fi

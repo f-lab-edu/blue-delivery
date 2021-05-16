@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# main 브랜치에 push 하지 못하도록 방지
+FORBIDDEN="refs/heads/main"
+while read local_ref local_sha remote_ref remote_sha
+do
+    echo $FORBIDDEN
+    echo $remote_ref
+    if [ $remote_ref = $FORBIDDEN ] ; then
+      echo "Not allowed to push into ${FORBIDDEN}"
+	    exit 1
+    fi	
+done
+
+# push 전에 항상 main 브랜치를 pull 해서 최신 상태를 유지
+git pull origin main
+if [ $? -eq 0 ]; then
+  echo "================================"
+  echo "Pull has successfully completed"
+  echo "================================"
+else
+  echo "================================"
+  echo "Fail to pull"
+  echo "================================"
+  exit 1
+fi

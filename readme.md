@@ -59,3 +59,26 @@ Github Flow는 main 브랜치를 가 곧 product가 되는 전략입니다.
 
 리뷰가 끝난 커밋은 main 브랜치로 병합됩니다.
 
+
+
+### (로컬) 빌드 자동화
+
+`git hook` 을 이용해 로컬환경에서 빌드 자동화를 구성했습니다.
+
+**적용방법** 
+
+커맨드라인에서 `git config core.hookspath .githooks` 설정
+
+- git --version 으로 버전 확인 후 2.9 아래면 업데이트 필요
+- 이후 commit 이나 push 명령시 자동으로 트리거가 실행됌
+
+`commit` 
+
+- 테스트 수행 
+- Linting (checkstyle 플러그인 + <a href="https://naver.github.io/hackday-conventions-java">네이버 캠퍼스 핵데이 Java 코딩 컨벤션</a>)
+
+`push` 
+
+- 원격 저장소의 브랜치가 main 인지 확인 (main이면 push 불가능)
+- main 브랜치를 pull해서 최신 상태 유지
+
