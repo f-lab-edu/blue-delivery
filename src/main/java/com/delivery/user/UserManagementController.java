@@ -18,18 +18,18 @@ public class UserManagementController {
 
     private UserManagementService userManagementService;
 
-    private UserRegisterPasswordValidator validator;
+    private UserRegisterPasswordValidator userRegisterPasswordValidator;
 
     private Logger log = LoggerFactory.getLogger(getClass());
 
-    public UserManagementController(UserManagementService userManagementService, UserRegisterPasswordValidator validator) {
+    public UserManagementController(UserManagementService userManagementService, UserRegisterPasswordValidator userRegisterPasswordValidator) {
         this.userManagementService = userManagementService;
-        this.validator = validator;
+        this.userRegisterPasswordValidator = userRegisterPasswordValidator;
     }
 
-    @InitBinder
+    @InitBinder("userRegisterDto")
     void initRegisterPasswordValidator(WebDataBinder binder) {
-        binder.addValidators(validator);
+        binder.addValidators(userRegisterPasswordValidator);
     }
 
     @PostMapping("/register")
