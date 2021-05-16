@@ -51,7 +51,7 @@ public class UserManagementController {
         User user = userManagementService.login(loginDto);
         HttpSession httpSession = request.getSession();
 
-        if (user == null || !isPasswordEquals(loginDto, user)) {
+        if (!isPasswordEquals(loginDto, user)) {
             return;
         } else {
             log.info("login success");
@@ -60,7 +60,7 @@ public class UserManagementController {
     }
 
     private boolean isPasswordEquals(LoginDto loginDto, User user) {
-        return loginDto.getUserPassword().equals(user.getPassword());
+        return user == null || loginDto.getUserPassword().equals(user.getPassword());
     }
 
 }
