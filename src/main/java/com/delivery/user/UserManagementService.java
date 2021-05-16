@@ -22,8 +22,8 @@ public class UserManagementService {
     }
 
     //로그인 처리
-    public User login(LoginDto loginDto) {
-        return userRepository.loadUser(loginDto);
+    public User login(UserLoginDto loginDto) {
+        return userRepository.findByEmail(loginDto.getEmail());
     }
 
 }

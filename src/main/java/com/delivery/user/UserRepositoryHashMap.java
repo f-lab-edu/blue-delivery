@@ -28,11 +28,6 @@ public class UserRepositoryHashMap implements UserRepository {
         return repository.get(email);
     }
 
-    @Override
-    public User loadUser(LoginDto loginDto) {
-
-        return repository.get(loginDto);
-    }
 }
 
 
