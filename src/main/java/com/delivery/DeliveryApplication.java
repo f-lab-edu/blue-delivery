@@ -1,7 +1,5 @@
 package com.delivery;
 
-import com.delivery.user.model.User;
-import com.delivery.user.service.UserService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

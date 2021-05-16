@@ -1,13 +1,13 @@
-package com.delivery.user.model;
+package com.delivery.user;
 
-public class User {
+public class LoginDto {
 
     private Long userId;
     private String email;
     private String userPassword;
 
-    public User(Long userId, String email, String userPassword) {
-        this.userId = userId;
+    public LoginDto(Long id, String email, String userPassword) {
+        this.userId = id;
         this.email = email;
         this.userPassword = userPassword;
     }
@@ -20,12 +20,12 @@ public class User {
         this.userId = id;
     }
 
-    public String getEmail() {
+    public String getUserId() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUserId(String userId) {
+        this.email = userId;
     }
 
     public String getUserPassword() {
@@ -35,5 +35,4 @@ public class User {
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
     }
-
 }
