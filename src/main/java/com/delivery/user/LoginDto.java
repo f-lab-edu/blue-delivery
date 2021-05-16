@@ -5,17 +5,17 @@ public class LoginDto {
     private String email;
     private String userPassword;
 
-    public LoginDto(Long id, String email, String userPassword) {
+    public LoginDto(String email, String userPassword) {
         this.email = email;
         this.userPassword = userPassword;
     }
 
-    public String getUserId() {
+    public String getEmail() {
         return email;
     }
 
-    public void setUserId(String userId) {
-        this.email = userId;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getUserPassword() {
