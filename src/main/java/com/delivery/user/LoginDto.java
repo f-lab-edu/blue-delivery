@@ -2,22 +2,12 @@ package com.delivery.user;
 
 public class LoginDto {
 
-    private Long userId;
     private String email;
     private String userPassword;
 
     public LoginDto(Long id, String email, String userPassword) {
-        this.userId = id;
         this.email = email;
         this.userPassword = userPassword;
-    }
-
-    public Long getId() {
-        return userId;
-    }
-
-    public void setId(Long id) {
-        this.userId = id;
     }
 
     public String getUserId() {
