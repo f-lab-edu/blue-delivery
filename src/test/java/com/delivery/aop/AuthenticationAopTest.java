@@ -29,7 +29,6 @@ class AuthenticationAopTest {
 	@Test
 	@DisplayName("session에 인증 정보가 없으면 InvalidAuthenticationException 발생")
 	void throwInvalidAuthenticationException() {
-		System.out.println("service = " + service);
 		assertThrows(InvalidAuthenticationException.class, () -> service.orderFood());
 	}
 
