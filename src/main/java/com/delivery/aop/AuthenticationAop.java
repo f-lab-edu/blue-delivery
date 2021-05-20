@@ -25,8 +25,12 @@ public class AuthenticationAop {
 		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 		HttpSession session = attributes.getRequest().getSession();
 
-		Authentication auth = (Authentication) session.getAttribute("auth");
-		if (auth == null) {
+		try {
+			Authentication auth = (Authentication) session.getAttribute("auth");
+			if (auth == null) {
+				throw new InvalidAuthenticationException();
+			}
+		} catch (ClassCastException ex) {
 			throw new InvalidAuthenticationException();
 		}
 	}
