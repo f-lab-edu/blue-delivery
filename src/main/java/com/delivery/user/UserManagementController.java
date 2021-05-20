@@ -1,6 +1,5 @@
 package com.delivery.user;
 
-import com.delivery.utility.EncryptUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -34,17 +33,11 @@ public class UserManagementController {
 
     @PostMapping("/register")
     public ResponseEntity<User> register(@Valid @RequestBody UserRegisterDto dto) {
-        User user = dtoToUser(dto);
+        User user = dto.toEntity();
         userManagementService.register(user);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    // TODO User에 필요한 데이터가 정해지면 수정
-    private User dtoToUser(UserRegisterDto dto) {
-        return new User(dto.getEmail(), EncryptUtils.sha256(dto.getPassword()));
-    }
-
-    //로그인 처리
     @PostMapping("/login")
     public void login(@RequestBody UserLoginDto loginDto, HttpServletRequest request) throws Exception {
 

@@ -42,51 +42,34 @@ public class UserRegisterDto {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public String getEmail() {
-        return email;
+    public User toEntity() {
+        return new User(
+                this.email,
+                this.password
+        );
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public String getEmail() {
+        return email;
     }
 
     public String getNickname() {
         return nickname;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
     public String getPhone() {
         return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getConfirmedPassword() {
         return confirmedPassword;
     }
 
-    public void setConfirmedPassword(String confirmedPassword) {
-        this.confirmedPassword = confirmedPassword;
-    }
-
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
-    }
-
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
     }
 }
