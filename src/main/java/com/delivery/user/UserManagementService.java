@@ -1,6 +1,5 @@
 package com.delivery.user;
 
-import com.delivery.aop.AuthenticationRequired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 

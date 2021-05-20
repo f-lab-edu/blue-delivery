@@ -1,12 +1,11 @@
 package com.delivery.aop;
 
 import com.delivery.exception.InvalidAuthenticationException;
-import com.delivery.user.User;
+import com.delivery.user.Authentication;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -25,9 +24,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class AuthenticationAopTest {
 
 	@Autowired
-	ApplicationContext ac;
-
-	@Autowired
 	TestService service;
 
 	@Test
@@ -41,7 +37,7 @@ class AuthenticationAopTest {
 	void authenticate() {
 		ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 		HttpSession session = requestAttributes.getRequest().getSession();
-		session.setAttribute("login", new User("a", "a"));
+		session.setAttribute("auth", new Authentication("a@a", "nick", "01012341234"));
 
 		assertDoesNotThrow(() -> service.orderFood());
 	}

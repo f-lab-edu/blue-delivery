@@ -39,14 +39,19 @@ public class UserManagementController {
     }
 
     @PostMapping("/login")
-    public void login(@RequestBody UserLoginDto loginDto, HttpServletRequest request) throws Exception {
+    public void login(@RequestBody UserLoginDto loginDto, HttpServletRequest request) {
 
         User user = userManagementService.login(loginDto);
         HttpSession httpSession = request.getSession();
 
         if (user.checkPasswordEquality(loginDto.getUserPassword())) {
             log.info("login success");
-            httpSession.setAttribute("login", user);
+            Authentication auth = new Authentication(
+                    user.getEmail(),
+                    user.getNickname(),
+                    user.getPhone()
+            );
+            httpSession.setAttribute("auth", auth);
         }
     }
 

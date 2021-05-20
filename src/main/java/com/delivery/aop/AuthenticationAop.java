@@ -1,7 +1,7 @@
 package com.delivery.aop;
 
 import com.delivery.exception.InvalidAuthenticationException;
-import com.delivery.user.User;
+import com.delivery.user.Authentication;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -25,8 +25,8 @@ public class AuthenticationAop {
 		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 		HttpSession session = attributes.getRequest().getSession();
 
-		User user = (User) session.getAttribute("login");
-		if (user == null) {
+		Authentication auth = (Authentication) session.getAttribute("auth");
+		if (auth == null) {
 			throw new InvalidAuthenticationException();
 		}
 	}

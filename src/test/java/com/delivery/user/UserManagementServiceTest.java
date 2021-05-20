@@ -22,7 +22,7 @@ class UserManagementServiceTest {
     @Test
     void registerDuplicateEmailTest() {
         String email1 = "myEmail@email.com";
-        User user1 = new User(email1, "password");
+        User user1 = new User(email1, "password", "nick", "01012341234");
         assertDoesNotThrow(() -> service.register(user1));
         assertThrows(DuplicateKeyException.class, () -> service.register(user1));
     }
