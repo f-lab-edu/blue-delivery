@@ -1,5 +1,6 @@
 package com.delivery.config;
 
+import com.delivery.exception.InvalidAuthenticationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -31,5 +32,10 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(IllegalArgumentException.class)
 	public ResponseEntity<String> illegalArgumentExceptionHandler(IllegalArgumentException ex) {
 		return ResponseEntity.badRequest().body(ex.getMessage());
+	}
+
+	@ExceptionHandler(InvalidAuthenticationException.class)
+	public ResponseEntity<String> invalidAuthenticationExceptionHandler(InvalidAuthenticationException ex) {
+		return ResponseEntity.badRequest().build();
 	}
 }
