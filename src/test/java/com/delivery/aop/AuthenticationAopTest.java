@@ -2,6 +2,7 @@ package com.delivery.aop;
 
 import com.delivery.exception.InvalidAuthenticationException;
 import com.delivery.user.Authentication;
+import com.delivery.user.AuthenticationHolder;
 import com.delivery.user.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,28 +29,20 @@ class AuthenticationAopTest {
 	TestService service;
 
 	@Test
-	@DisplayName("session에 인증 정보가 없으면 InvalidAuthenticationException 발생")
+	@DisplayName("인증 정보가 없으면 InvalidAuthenticationException 발생")
 	void throwInvalidAuthenticationExceptionTest() {
 		assertThrows(InvalidAuthenticationException.class, () -> service.orderFood());
 	}
 
 	@Test
 	void authenticateTest() {
-		ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-		HttpSession session = requestAttributes.getRequest().getSession();
-		session.setAttribute("auth", new Authentication("a@a", "nick", "01012341234"));
-
+		AuthenticationHolder.setAuthentication(new Authentication("a@a", "nick", "01012341234"));
 		assertDoesNotThrow(() -> service.orderFood());
 	}
 
 	@Test
 	void wrongAuthenticationTypeTest() {
-		ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-		HttpSession session = requestAttributes.getRequest().getSession();
-		session.setAttribute("auth", new User("e@e", "pwd", "nick", "01012341234"));
-		assertThrows(InvalidAuthenticationException.class, () -> service.orderFood());
-
-		session.setAttribute("auth", null);
+		AuthenticationHolder.setAuthentication(null);
 		assertThrows(InvalidAuthenticationException.class, () -> service.orderFood());
 	}
 
