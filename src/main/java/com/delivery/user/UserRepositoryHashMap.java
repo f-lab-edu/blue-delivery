@@ -4,6 +4,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
+
 import java.util.Map;
 
 @Repository
@@ -26,6 +27,12 @@ public class UserRepositoryHashMap implements UserRepository {
     @Override
     public User findByEmail(String email) {
         return repository.get(email);
+    }
+
+    @Override
+    public void update(UserUpdateAccountDto dto) {
+        User findUser = findByEmail(dto.getEmail());
+        repository.put(findUser.getEmail(), new User(findUser.getEmail(), dto.getNickname(),dto.getPhone(), dto.getPassword(), dto.getDateOfBirth()));
     }
 
 }

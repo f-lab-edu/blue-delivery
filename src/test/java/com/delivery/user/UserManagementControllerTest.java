@@ -24,90 +24,108 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest({UserManagementController.class, UserRegisterPasswordValidator.class})
 class UserManagementControllerTest {
 
-    @MockBean
-    UserManagementService service;
+	@MockBean
+	UserManagementService service;
 
-    @Autowired
-    UserRegisterPasswordValidator v;
+	@Autowired
+	UserRegisterPasswordValidator v;
 
-    @Autowired
-    MockMvc mockMvc;
+	@Autowired
+	MockMvc mockMvc;
 
-    @Autowired
-    ObjectMapper objectMapper;
+	@Autowired
+	ObjectMapper objectMapper;
 
-    String url = "/members/register";
+	String url = "/members/register";
+	String userUpdateUrl = "/members/update";
 
-    @Test
-    void validationTest() throws Exception {
-        UserRegisterDto dto = new UserRegisterDto(
-                "blue@gmail.com",
-                "chicken",
-                "010-1234-4321",
-                "myP@ssw0rd",
-                "myP@ssw0rd",
-                LocalDate.of(2000, Month.APRIL, 1)
-        );
-        sendRequest(dto, status().isCreated());
-    }
+	@Test
+	void validationTest() throws Exception {
+		UserRegisterDto dto = new UserRegisterDto(
+				"blue@gmail.com",
+				"chicken",
+				"010-1234-4321",
+				"myP@ssw0rd",
+				"myP@ssw0rd",
+				LocalDate.of(2000, Month.APRIL, 1)
+		);
+		sendRequest(dto, status().isCreated());
+	}
 
-    @Test
-    void registerPasswordValidatorTest() throws Exception {
-        UserRegisterDto wrongPassword = new UserRegisterDto(
-                "blue@email.com",
-                "hello",
-                "010-1234-4311",
-                "P@ssw0rd!",
-                "P@ssw0rd#",
-                LocalDate.of(2000, Month.APRIL, 1)
-        );
-        MvcResult mvcResult = sendRequest(wrongPassword, status().isBadRequest());
-        String responseBody = mvcResult.getResponse().getContentAsString();
-        Assertions.assertThat(responseBody).contains("errorLength=" + 1);
-    }
+	@Test
+	void registerPasswordValidatorTest() throws Exception {
+		UserRegisterDto wrongPassword = new UserRegisterDto(
+				"blue@email.com",
+				"hello",
+				"010-1234-4311",
+				"P@ssw0rd!",
+				"P@ssw0rd#",
+				LocalDate.of(2000, Month.APRIL, 1)
+		);
+		MvcResult mvcResult = sendRequest(wrongPassword, status().isBadRequest());
+		String responseBody = mvcResult.getResponse().getContentAsString();
+		Assertions.assertThat(responseBody).contains("errorLength=" + 1);
+	}
 
-    @Test
-    void validationFailTest() throws Exception {
-        UserRegisterDto wrongEmail = new UserRegisterDto(
-                "blue",
-                "",
-                "020-1234-4321",
-                "mypassword",
-                "mypassword2",
-                LocalDate.of(2030, Month.APRIL, 1)
-        );
-        MvcResult mvcResult = sendRequest(wrongEmail, status().isBadRequest());
-        String responseBody = mvcResult.getResponse().getContentAsString();
-        Assertions.assertThat(responseBody).contains("errorLength=" + 7);
+	@Test
+	void validationFailTest() throws Exception {
+		UserRegisterDto wrongEmail = new UserRegisterDto(
+				"blue",
+				"",
+				"020-1234-4321",
+				"mypassword",
+				"mypassword2",
+				LocalDate.of(2030, Month.APRIL, 1)
+		);
+		MvcResult mvcResult = sendRequest(wrongEmail, status().isBadRequest());
+		String responseBody = mvcResult.getResponse().getContentAsString();
+		Assertions.assertThat(responseBody).contains("errorLength=" + 7);
 
-    }
+	}
 
-    @Test
-    void notNullTest() throws Exception {
-        UserRegisterDto wrongEmail = new UserRegisterDto(
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
-        MvcResult mvcResult = sendRequest(wrongEmail, status().isBadRequest());
-        String responseBody = mvcResult.getResponse().getContentAsString();
-        Assertions.assertThat(responseBody).contains("errorLength=" + 6);
+	@Test
+	void notNullTest() throws Exception {
+		UserRegisterDto wrongEmail = new UserRegisterDto(
+				null,
+				null,
+				null,
+				null,
+				null,
+				null
+		);
+		MvcResult mvcResult = sendRequest(wrongEmail, status().isBadRequest());
+		String responseBody = mvcResult.getResponse().getContentAsString();
+		Assertions.assertThat(responseBody).contains("errorLength=" + 6);
 
-    }
+	}
 
-    private MvcResult sendRequest(UserRegisterDto dto, ResultMatcher status) throws Exception {
-        String body;
-        body = objectMapper.writeValueAsString(dto);
-        return mockMvc.perform(post(url)
-                .content(body)
-                .contentType(MediaType.APPLICATION_JSON)
-        )
-                .andDo(print())
-                .andExpect(status)
-                .andReturn();
-    }
+	private MvcResult sendRequest(UserRegisterDto dto, ResultMatcher status) throws Exception {
+		String body;
+		body = objectMapper.writeValueAsString(dto);
+		return mockMvc.perform(post(url)
+				.content(body)
+				.contentType(MediaType.APPLICATION_JSON)
+		)
+				.andDo(print())
+				.andExpect(status)
+				.andReturn();
+	}
+
+	@Test
+	public void userUpdateTest() throws Exception {
+
+		User user = new User("test1", "testName1", "010-1111-1111", "1234", LocalDate.of(2030, Month.APRIL, 1));
+		service.register(user);
+		UserUpdateAccountDto dto = new UserUpdateAccountDto("test1", "testName2", "010-2222-2222", "1234", LocalDate.of(2030, Month.APRIL, 1));
+
+		String body;
+		body = objectMapper.writeValueAsString(dto);
+
+		mockMvc.perform(post(userUpdateUrl)
+				.content(body).contentType(MediaType.APPLICATION_JSON)
+		)
+				.andExpect(status().isOk())
+				.andDo(print());
+	}
 
 }

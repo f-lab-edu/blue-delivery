@@ -26,4 +26,11 @@ public class UserManagementService {
         return userRepository.findByEmail(loginDto.getEmail());
     }
 
+    public void updateAccount(UserUpdateAccountDto dto) {
+        User user = userRepository.findByEmail(dto.getEmail());
+        if (user.checkPasswordEquality(dto.getPassword())) {
+            userRepository.update(dto);
+        }
+    }
+
 }

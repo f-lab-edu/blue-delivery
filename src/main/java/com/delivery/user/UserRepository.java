@@ -9,4 +9,5 @@ public interface UserRepository {
 
     User findByEmail(String email);
 
+    void update(UserUpdateAccountDto dto);
 }
