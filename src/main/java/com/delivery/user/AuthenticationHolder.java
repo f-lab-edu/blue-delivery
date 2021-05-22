@@ -3,7 +3,7 @@ package com.delivery.user;
 public class AuthenticationHolder {
 	private static ThreadLocal<Authentication> local = new ThreadLocal<>();
 
-	public static boolean isAuthenticated() {
+	public static boolean hasAuthentication() {
 		return local.get() != null;
 	}
 

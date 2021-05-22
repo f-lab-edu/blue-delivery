@@ -1,7 +1,6 @@
 package com.delivery.aop;
 
 import com.delivery.exception.InvalidAuthenticationException;
-import com.delivery.user.Authentication;
 import com.delivery.user.AuthenticationHolder;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -18,7 +17,7 @@ public class AuthenticationAop {
 
 	@Before("pointcut()")
 	public void authenticate() {
-		if (!AuthenticationHolder.isAuthenticated()) {
+		if (!AuthenticationHolder.hasAuthentication()) {
 			throw new InvalidAuthenticationException();
 		}
 	}
