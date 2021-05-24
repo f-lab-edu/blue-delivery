@@ -23,9 +23,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(errors.toString());
     }
 
-
     @ExceptionHandler(DuplicateKeyException.class)
     public ResponseEntity<String> methodArgumentNotValidExceptionHandler(DuplicateKeyException ex) {
         return ResponseEntity.badRequest().body("email already exists - " + ex.getMessage());
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> illegalArgumentExceptionHandler(IllegalArgumentException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
     }
 }

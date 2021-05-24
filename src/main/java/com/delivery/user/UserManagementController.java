@@ -44,9 +44,8 @@ public class UserManagementController {
         return new User(dto.getEmail(), EncryptUtils.sha256(dto.getPassword()));
     }
 
-    //로그인 처리
     @PostMapping("/login")
-    public void login(@RequestBody UserLoginDto loginDto, HttpServletRequest request) throws Exception {
+    public void login(@RequestBody UserLoginDto loginDto, HttpServletRequest request) {
 
         User user = userManagementService.login(loginDto);
         HttpSession httpSession = request.getSession();
@@ -55,6 +54,13 @@ public class UserManagementController {
             log.info("login success");
             httpSession.setAttribute("login", user);
         }
+    }
+
+    @DeleteMapping("/")
+    public ResponseEntity<String> deleteAccount(@Valid @RequestBody DeleteAccountDto dto, HttpSession session) {
+        userManagementService.deleteAccount(dto);
+        session.invalidate();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("User account deleted.");
     }
 
 }

@@ -1,6 +1,7 @@
 package com.delivery.user;
 
 import com.delivery.config.RepositoryConfigDev;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,29 @@ class UserManagementServiceTest {
     @Autowired
     UserManagementService service;
 
+    User user;
+    String email;
+    String password;
+
+    @BeforeEach
+    void addUser() {
+        email = "myEmail@email.com";
+        password = "P@ssw0rd!";
+        user = new User(email, password);
+        assertDoesNotThrow(() -> service.register(user));
+
+    }
+
     @Test
     void registerDuplicateEmailTest() {
-        String email1 = "myEmail@email.com";
-        User user1 = new User(email1, "password");
-        assertDoesNotThrow(() -> service.register(user1));
-        assertThrows(DuplicateKeyException.class, () -> service.register(user1));
+        assertThrows(DuplicateKeyException.class, () -> service.register(user));
     }
+
+    @Test
+    void deleteAccountNotExistsTest() {
+        DeleteAccountDto dto = new DeleteAccountDto(email, password);
+        assertDoesNotThrow(() -> service.deleteAccount(dto));
+        assertThrows(IllegalArgumentException.class, () -> service.deleteAccount(dto));
+    }
+
 }
