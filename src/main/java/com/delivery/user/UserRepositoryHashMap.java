@@ -9,7 +9,7 @@ import java.util.Map;
 @Repository
 public class UserRepositoryHashMap implements UserRepository {
 
-    Map<String, User> repository;
+    private final Map<String, User> repository;
 
     public UserRepositoryHashMap() {
         this.repository = new HashMap<>();
@@ -25,7 +25,16 @@ public class UserRepositoryHashMap implements UserRepository {
 
     @Override
     public User findByEmail(String email) {
-        return repository.get(email);
+        User user = repository.get(email);
+        if (user == null) {
+            throw new IllegalArgumentException("User not found");
+        }
+        return user;
+    }
+
+    @Override
+    public void delete(User user) {
+        repository.remove(user.getEmail());
     }
 
 }

@@ -55,4 +55,11 @@ public class UserManagementController {
         }
     }
 
+    @DeleteMapping("/")
+    public ResponseEntity<String> deleteAccount(@Valid @RequestBody DeleteAccountDto dto, HttpSession session) {
+        userManagementService.deleteAccount(dto);
+        session.invalidate();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("User account deleted.");
+    }
+
 }
