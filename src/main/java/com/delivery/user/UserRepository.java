@@ -5,9 +5,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository {
 
-    void save(User user);
+	void save(User user);
 
-    User findByEmail(String email);
+	User findByEmail(String email);
 
-    void update(UserUpdateAccountDto dto);
+	void update(User user);
 }

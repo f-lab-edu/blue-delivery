@@ -1,7 +1,6 @@
 package com.delivery.user;
 
 import com.delivery.config.RepositoryConfigDev;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.time.LocalDate;
 import java.time.Month;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
@@ -38,5 +38,9 @@ class UserManagementServiceTest {
 
 		UserUpdateAccountDto dto = new UserUpdateAccountDto("test1", "testName2", "010-2222-2222", "1234", LocalDate.of(2030, Month.APRIL, 1));
 		service.updateAccount(dto);
+
+		User findUser = service.getAccount(user.getEmail());
+
+		assertThat(user.getNickname()).isNotEqualTo(findUser.getNickname());
 	}
 }

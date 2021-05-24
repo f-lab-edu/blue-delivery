@@ -10,31 +10,30 @@ import java.util.Map;
 @Repository
 public class UserRepositoryHashMap implements UserRepository {
 
-    Map<String, User> repository;
+	Map<String, User> repository;
 
-    public UserRepositoryHashMap() {
-        this.repository = new HashMap<>();
-    }
+	public UserRepositoryHashMap() {
+		this.repository = new HashMap<>();
+	}
 
-    @Override
-    public void save(User user) {
-        if (repository.containsKey(user.getEmail())) {
-            throw new DuplicateKeyException("key already exists");
-        }
-        repository.put(user.getEmail(), user);
-    }
+	@Override
+	public void save(User user) {
+		if (repository.containsKey(user.getEmail())) {
+			throw new DuplicateKeyException("key already exists");
+		}
+		repository.put(user.getEmail(), user);
+	}
 
-    @Override
-    public User findByEmail(String email) {
-        return repository.get(email);
-    }
+	@Override
+	public User findByEmail(String email) {
+		return repository.get(email);
+	}
 
-    @Override
-    public void update(UserUpdateAccountDto dto) {
-        User findUser = findByEmail(dto.getEmail());
-        repository.put(findUser.getEmail(), new User(findUser.getEmail(), dto.getNickname(),dto.getPhone(), dto.getPassword(), dto.getDateOfBirth()));
-    }
+	@Override
+	public void update(User user) {
+		if (repository.containsKey(user.getEmail())) {
+			repository.put(user.getEmail(), new User(user.getEmail(), user.getNickname(), user.getPhone(), user.getPassword(), user.getDateOfBirth()));
+		}
+	}
 
 }
-
-

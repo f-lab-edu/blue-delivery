@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Profile;
 @Profile("dev")
 public class RepositoryConfigDev {
 
-    @Bean
-    public UserRepository userRepository() {
-        return new UserRepositoryHashMap();
-    }
+	@Bean
+	public UserRepository userRepository() {
+		return new UserRepositoryHashMap();
+	}
 }

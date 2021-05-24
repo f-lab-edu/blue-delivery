@@ -27,7 +27,7 @@ public class UserManagementController {
 		this.userRegisterPasswordValidator = userRegisterPasswordValidator;
 	}
 
-	@InitBinder({"userRegisterDto", "UserUpdateAccountDto"})
+	@InitBinder("userRegisterDto")
 	void initRegisterPasswordValidator(WebDataBinder binder) {
 		binder.addValidators(userRegisterPasswordValidator);
 	}
