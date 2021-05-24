@@ -28,14 +28,14 @@ class UserManagementServiceTest {
     void addUser() {
         email = "myEmail@email.com";
         password = "P@ssw0rd!";
-        user = new User(email, password);
+        user = new User(email, password, "nickname", "");
         assertDoesNotThrow(() -> service.register(user));
-
     }
 
     @Test
     void registerDuplicateEmailTest() {
-        assertThrows(DuplicateKeyException.class, () -> service.register(user));
+        User user1 = new User(email, "password", "nick", "01012341234");
+        assertThrows(DuplicateKeyException.class, () -> service.register(user1));
     }
 
     @Test
