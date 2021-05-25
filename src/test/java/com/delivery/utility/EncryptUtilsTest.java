@@ -1,13 +1,11 @@
 package com.delivery.utility;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-
 class EncryptUtilsTest {
-
+    
     @Test
     void encryptedPasswordTest() {
         String password = "encryptMe@1";
