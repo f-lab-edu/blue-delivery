@@ -1,15 +1,8 @@
 package com.delivery.user;
 
-import com.delivery.config.RepositoryConfigDev;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -20,7 +13,6 @@ class UserManagementServiceTest {
 
 	UserManagementService service = new UserManagementService(new UserRepositoryHashMap());
 
-    User user;
     String email = "myEmail@email.com";
     String password = "P@ssw0rd!";
     UserRegisterDto dto = new UserRegisterDto(email, "nickname", "010-1234-5676", password, password, LocalDate.now().minusDays(1));
