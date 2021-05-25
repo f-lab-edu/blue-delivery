@@ -1,8 +1,6 @@
 package com.delivery.user;
 
 import com.delivery.config.RepositoryConfigDev;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,4 +47,5 @@ class UserManagementServiceTest {
         UserUpdateAccountDto dto = new UserUpdateAccountDto(email, "testName2", "010-2222-2222", password, LocalDate.of(2030, Month.APRIL, 1));
         service.updateAccount(dto);
     }
+
 }

@@ -39,7 +39,8 @@ public class UserManagementController {
 
     @PostMapping("/register")
     public ResponseEntity<User> register(@Valid @RequestBody UserRegisterDto dto) {
-        userManagementService.register(dto);
+        User user = dto.toEntity();
+        userManagementService.register(user);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
