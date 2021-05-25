@@ -40,7 +40,9 @@ public class UserRepositoryHashMap implements UserRepository {
 
     @Override
     public void update(User user) {
-        repository.put(user.getEmail(), new User(user.getEmail(), user.getNickname(), user.getPhone(), user.getPassword(), user.getDateOfBirth()));
+        if (repository.containsKey(user.getEmail())) {
+            repository.put(user.getEmail(), user);
+        }
     }
 
 }
