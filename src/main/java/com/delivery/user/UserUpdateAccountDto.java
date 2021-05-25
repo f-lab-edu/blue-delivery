@@ -18,6 +18,8 @@ public class UserUpdateAccountDto {
 	private String phone;
 
 	@NotNull(message = "must not null")
+	@Pattern(regexp = RegexConstants.PASSWORD,
+			message = "알파벳, 숫자, 특수문자가 각 1개이상 포함된 8~20 글자여야 합니다.")
 	private String password;
 
 	@NotNull(message = "생년월일이 입력되어야 합니다.")
@@ -71,5 +73,4 @@ public class UserUpdateAccountDto {
 	public void setDateOfBirth(LocalDate dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
-
 }
