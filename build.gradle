@@ -21,7 +21,7 @@ repositories {
 
 checkstyle {
     toolVersion = '8.42'
-    ignoreFailures = true // 분석결과 예외가 발생하면 build 실패하는데, 이것을 무시함
+    ignoreFailures = false // 분석결과 error가 발생하면 build 실패
     configFile = file("config/checkstyle/checkstyle.xml") // 작성한 checkstyle.xml 적용 (네이버)
     reportsDir = file("${buildDir}/checkstyle-output") // report 파일 위치 지정
 }
@@ -39,6 +39,10 @@ test {
     useJUnitPlatform()
 }
 
+/**
+ * https://github.com/gradle/gradle/issues/881
+ * IgnoreFailures = false 가 Warn에 적용되도록 수정
+ */
 tasks.withType(Checkstyle).each { checkstyleTask ->
     checkstyleTask.doLast {
         reports.all { report ->
