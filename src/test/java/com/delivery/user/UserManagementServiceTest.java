@@ -7,6 +7,7 @@ import org.springframework.dao.DuplicateKeyException;
 import java.time.LocalDate;
 import java.time.Month;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserManagementServiceTest {
@@ -36,8 +37,17 @@ class UserManagementServiceTest {
 
     @Test
     void userUpdateTest() {
-        UserUpdateAccountDto dto = new UserUpdateAccountDto(email, "testName2", "010-2222-2222", password, LocalDate.of(2030, Month.APRIL, 1));
+        UserRegisterDto user = new UserRegisterDto("test1", "testName1", "010-1111-1111", "1234", "1234", LocalDate.of(2030, Month.APRIL, 1));
+        service.register(user);
+
+        UserUpdateAccountDto dto = new UserUpdateAccountDto("test1", "testName2", "010-2222-2222", "1234", LocalDate.of(2030, Month.APRIL, 1));
         service.updateAccount(dto);
+
+        User findUser = service.getAccount(user.getEmail());
+
+        assertThat(user.getNickname()).isNotEqualTo(findUser.getNickname());
     }
+
+
 
 }

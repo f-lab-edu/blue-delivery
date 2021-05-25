@@ -1,6 +1,7 @@
 package com.delivery.config;
 
 import com.delivery.exception.InvalidAuthenticationException;
+import com.delivery.exception.PasswordAuthenticationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -37,5 +38,10 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(InvalidAuthenticationException.class)
 	public ResponseEntity<String> invalidAuthenticationExceptionHandler(InvalidAuthenticationException ex) {
 		return ResponseEntity.badRequest().build();
+	}
+
+	@ExceptionHandler(PasswordAuthenticationException.class)
+	public ResponseEntity<String> PasswordAuthenticationExceptionHandler(PasswordAuthenticationException ex) {
+		return ResponseEntity.badRequest().body("password not match - " + ex.getMessage());
 	}
 }

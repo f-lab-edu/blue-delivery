@@ -1,5 +1,7 @@
 package com.delivery.user;
 
+import com.delivery.exception.PasswordAuthenticationException;
+import com.delivery.utility.EncryptUtils;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,9 +22,12 @@ public class UserManagementService {
 	}
 
 	public void updateAccount(UserUpdateAccountDto dto) {
-		User user = userRepository.findByEmail(dto.getEmail());
-		if (user.checkPasswordEquality(dto.getPassword())) {
-			userRepository.update(dto);
+		User user = new User(dto.getEmail(), dto.getNickname(), dto.getPhone(), dto.getPassword(), dto.getDateOfBirth());
+		User findUser = userRepository.findByEmail(dto.getEmail());
+		if (findUser.checkPasswordEquality(user.getPassword())) {
+			userRepository.update(user);
+		} else {
+			throw new PasswordAuthenticationException();
 		}
 	}
 
@@ -31,5 +36,9 @@ public class UserManagementService {
 		if (user.checkPasswordEquality(dto.getPassword())) {
 			userRepository.delete(user);
 		}
+	}
+
+	public User getAccount(String email) {
+		return userRepository.findByEmail(email);
 	}
 }

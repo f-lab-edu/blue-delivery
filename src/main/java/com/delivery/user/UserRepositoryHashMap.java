@@ -39,9 +39,10 @@ public class UserRepositoryHashMap implements UserRepository {
     }
 
     @Override
-    public void update(UserUpdateAccountDto dto) {
-        User findUser = findByEmail(dto.getEmail());
-        repository.put(findUser.getEmail(), new User(findUser.getEmail(), dto.getNickname(),dto.getPhone(), dto.getPassword(), dto.getDateOfBirth()));
+    public void update(User user) {
+        if (repository.containsKey(user.getEmail())) {
+            repository.put(user.getEmail(), new User(user.getEmail(), user.getNickname(), user.getPhone(), user.getPassword(), user.getDateOfBirth()));
+        }
     }
 
 }
