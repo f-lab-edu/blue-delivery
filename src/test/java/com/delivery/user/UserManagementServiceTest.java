@@ -1,41 +1,31 @@
 package com.delivery.user;
 
-import com.delivery.config.RepositoryConfigDev;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.LocalDate;
+import java.time.Month;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(SpringExtension.class)
-@WebMvcTest({UserManagementService.class, UserRepository.class, RepositoryConfigDev.class})
-@ActiveProfiles("dev")
 class UserManagementServiceTest {
 
-    @Autowired
-    UserManagementService service;
+	UserManagementService service = new UserManagementService(new UserRepositoryHashMap());
 
-    User user;
-    String email;
-    String password;
+    String email = "myEmail@email.com";
+    String password = "P@ssw0rd!";
+    UserRegisterDto dto = new UserRegisterDto(email, "nickname", "010-1234-5676", password, password, LocalDate.now().minusDays(1));
 
     @BeforeEach
-    void addUser() {
-        email = "myEmail@email.com";
-        password = "P@ssw0rd!";
-        user = new User(email, password, "nickname", "");
-        assertDoesNotThrow(() -> service.register(user));
+    void setup() {
+        assertDoesNotThrow(() -> service.register(dto));
     }
 
     @Test
     void registerDuplicateEmailTest() {
-        User user1 = new User(email, "password", "nick", "01012341234");
-        assertThrows(DuplicateKeyException.class, () -> service.register(user1));
+        assertThrows(DuplicateKeyException.class, () -> service.register(dto));
     }
 
     @Test
@@ -44,5 +34,20 @@ class UserManagementServiceTest {
         assertDoesNotThrow(() -> service.deleteAccount(dto));
         assertThrows(IllegalArgumentException.class, () -> service.deleteAccount(dto));
     }
+
+    @Test
+    void userUpdateTest() {
+        UserRegisterDto user = new UserRegisterDto("test1", "testName1", "010-1111-1111", "1234", "1234", LocalDate.of(2030, Month.APRIL, 1));
+        service.register(user);
+
+        UserUpdateAccountDto dto = new UserUpdateAccountDto("test1", "testName2", "010-2222-2222", "1234", LocalDate.of(2030, Month.APRIL, 1));
+        service.updateAccount(dto);
+
+        User findUser = service.getAccount(user.getEmail());
+
+        assertThat(user.getNickname()).isNotEqualTo(findUser.getNickname());
+    }
+
+
 
 }

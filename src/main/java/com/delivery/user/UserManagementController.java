@@ -34,7 +34,7 @@ public class UserManagementController {
     @PostMapping("/register")
     public ResponseEntity<User> register(@Valid @RequestBody UserRegisterDto dto) {
         User user = dto.toEntity();
-        userManagementService.register(user);
+        userManagementService.register(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -60,6 +60,12 @@ public class UserManagementController {
         userManagementService.deleteAccount(dto);
         session.invalidate();
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("User account deleted.");
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<String> updateAccount(@Valid @RequestBody UserUpdateAccountDto dto) {
+        userManagementService.updateAccount(dto);
+        return ResponseEntity.status(HttpStatus.OK).body("User account update.");
     }
 
 }

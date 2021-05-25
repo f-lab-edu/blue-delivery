@@ -30,7 +30,6 @@ class UserManagementControllerTest {
 
     @MockBean
     UserManagementService service;
-
     @Autowired
     UserRegisterPasswordValidator v;
 
@@ -41,8 +40,28 @@ class UserManagementControllerTest {
     ObjectMapper objectMapper;
 
     String registerUrl = "/members/register";
-    String deleteAccountUrl = "/members/";
 
+	String deleteAccountUrl = "/members/";
+
+	String userUpdateUrl = "/members/update";
+
+	@Test
+	public void userUpdateTest() throws Exception {
+		String email = "email@email.com";
+		String password = "P@ssw0rd";
+		UserRegisterDto user = new UserRegisterDto(email, "testName1", "010-1111-1111", password, password, LocalDate.of(2000, Month.APRIL, 1));
+		service.register(user);
+		UserUpdateAccountDto dto = new UserUpdateAccountDto(email, "testName2", "010-2222-2222", password, LocalDate.of(2000, Month.APRIL, 1));
+
+		String body;
+		body = objectMapper.writeValueAsString(dto);
+
+		mockMvc.perform(post(userUpdateUrl)
+				.content(body).contentType(MediaType.APPLICATION_JSON)
+		)
+				.andExpect(status().isOk())
+				.andDo(print());
+	}
 
     @Test
     void deletingAccountInvalidateSessionTest() throws Exception {
