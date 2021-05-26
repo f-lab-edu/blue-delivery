@@ -1,7 +1,16 @@
 package com.delivery.user;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.assertj.core.api.Assertions;
+import static org.assertj.core.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.time.LocalDate;
+import java.time.Month;
+
+import javax.servlet.http.HttpSession;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,68 +22,72 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultMatcher;
 
-import javax.servlet.http.HttpSession;
-import java.time.LocalDate;
-import java.time.Month;
-
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest({UserManagementController.class, UserRegisterPasswordValidator.class})
 class UserManagementControllerTest {
-
+    
     @MockBean
     UserManagementService service;
     @Autowired
-    UserRegisterPasswordValidator v;
-
+    UserRegisterPasswordValidator validator;
+    
     @Autowired
     MockMvc mockMvc;
-
+    
     @Autowired
     ObjectMapper objectMapper;
-
+    
     String registerUrl = "/members/register";
-
-	String deleteAccountUrl = "/members/";
-
-	String userUpdateUrl = "/members/update";
-
-	@Test
-	public void userUpdateTest() throws Exception {
-		String email = "email@email.com";
-		String password = "P@ssw0rd";
-		UserRegisterDto user = new UserRegisterDto(email, "testName1", "010-1111-1111", password, password, LocalDate.of(2000, Month.APRIL, 1));
-		service.register(user);
-		UserUpdateAccountDto dto = new UserUpdateAccountDto(email, "testName2", "010-2222-2222", password, LocalDate.of(2000, Month.APRIL, 1));
-
-		String body;
-		body = objectMapper.writeValueAsString(dto);
-
-		mockMvc.perform(post(userUpdateUrl)
-				.content(body).contentType(MediaType.APPLICATION_JSON)
-		)
-				.andExpect(status().isOk())
-				.andDo(print());
-	}
-
+    
+    String deleteAccountUrl = "/members/";
+    
+    String userUpdateUrl = "/members/update";
+    
+    @Test
+    public void userUpdateTest() throws Exception {
+        String email = "email@email.com";
+        String password = "P@ssw0rd";
+        UserRegisterDto user = new UserRegisterDto(
+                email,
+                "testName1",
+                "010-1111-1111",
+                password,
+                password,
+                LocalDate.of(2000, Month.APRIL, 1)
+        );
+        service.register(user);
+        UserUpdateAccountDto dto = new UserUpdateAccountDto(
+                email,
+                "testName2",
+                "010-2222-2222",
+                password,
+                LocalDate.of(2000, Month.APRIL, 1)
+        );
+        
+        String body;
+        body = objectMapper.writeValueAsString(dto);
+        
+        mockMvc.perform(post(userUpdateUrl)
+                .content(body).contentType(MediaType.APPLICATION_JSON)
+        )
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+    
     @Test
     void deletingAccountInvalidateSessionTest() throws Exception {
         DeleteAccountDto dto = new DeleteAccountDto("nothing@email.com", "P@ssw0rd!");
         MvcResult mvcResult = sendDeleteAccountRequest(dto, status().isNoContent());
-
+        
         HttpSession session = mvcResult.getRequest().getSession();
         assertThat(session.getAttribute("login")).isNull();
-
+        
         String responseBody = mvcResult.getResponse().getContentAsString();
         assertThat(responseBody).contains("User account deleted.");
     }
-
+    
     private MvcResult sendDeleteAccountRequest(DeleteAccountDto dto, ResultMatcher status) throws Exception {
         String body = objectMapper.writeValueAsString(dto);
         return mockMvc.perform(delete(deleteAccountUrl)
@@ -86,7 +99,7 @@ class UserManagementControllerTest {
                 .andExpect(status)
                 .andReturn();
     }
-
+    
     @Test
     void validationTest() throws Exception {
         UserRegisterDto dto = new UserRegisterDto(
@@ -99,7 +112,7 @@ class UserManagementControllerTest {
         );
         sendRegisterRequest(dto, status().isCreated());
     }
-
+    
     @Test
     void registerPasswordValidatorTest() throws Exception {
         UserRegisterDto wrongPassword = new UserRegisterDto(
@@ -114,7 +127,7 @@ class UserManagementControllerTest {
         String responseBody = mvcResult.getResponse().getContentAsString();
         assertThat(responseBody).contains("errorLength=" + 1);
     }
-
+    
     @Test
     void validationFailTest() throws Exception {
         UserRegisterDto wrongEmail = new UserRegisterDto(
@@ -128,9 +141,9 @@ class UserManagementControllerTest {
         MvcResult mvcResult = sendRegisterRequest(wrongEmail, status().isBadRequest());
         String responseBody = mvcResult.getResponse().getContentAsString();
         assertThat(responseBody).contains("errorLength=" + 7);
-
+        
     }
-
+    
     @Test
     void notNullTest() throws Exception {
         UserRegisterDto wrongEmail = new UserRegisterDto(
@@ -144,9 +157,9 @@ class UserManagementControllerTest {
         MvcResult mvcResult = sendRegisterRequest(wrongEmail, status().isBadRequest());
         String responseBody = mvcResult.getResponse().getContentAsString();
         assertThat(responseBody).contains("errorLength=" + 6);
-
+        
     }
-
+    
     private MvcResult sendRegisterRequest(UserRegisterDto dto, ResultMatcher status) throws Exception {
         String body;
         body = objectMapper.writeValueAsString(dto);
@@ -158,5 +171,5 @@ class UserManagementControllerTest {
                 .andExpect(status)
                 .andReturn();
     }
-
+    
 }

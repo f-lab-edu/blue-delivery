@@ -5,7 +5,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class EncryptUtils {
-
+    
     public static String sha256(String password) {
         StringBuilder hashed = new StringBuilder();
         try {

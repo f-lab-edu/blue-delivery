@@ -5,6 +5,8 @@
 ---
 
 ## 기능정의
+**가게**  
+[위키참조](https://github.com/f-lab-edu/blue-delivery/wiki/%EA%B8%B0%EB%8A%A5%EC%A0%95%EC%9D%98:-%EA%B0%80%EA%B2%8C")
 
 **고객**
 
@@ -14,13 +16,6 @@
 - 주문하기
 - 결제하기
 - 리뷰작성
-
-**가게**
-
-- 가게 정보 관리
-- 메뉴 등록
-- 배달기사 호출
-- 리뷰답글
 
 **라이더**
 
@@ -76,6 +71,8 @@ Github Flow는 main 브랜치를 가 곧 product가 되는 전략입니다.
 
 - 테스트 수행 
 - Linting (checkstyle 플러그인 + <a href="https://naver.github.io/hackday-conventions-java">네이버 캠퍼스 핵데이 Java 코딩 컨벤션</a>)
+    - [indentation-tab] indent 를 tab -> space로 변경
+    - [no-trailing-spaces] 적용 안함 
 
 `push` 
 
