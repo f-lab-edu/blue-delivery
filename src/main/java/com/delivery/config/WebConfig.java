@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Profile;
 
 import com.delivery.restaurant.RestaurantMapper;
 import com.delivery.restaurant.RestaurantRepository;
-import com.delivery.restaurant.RestaurantRepositoryHashMap;
 import com.delivery.restaurant.RestaurantRepositoryMybatis;
 import com.delivery.restaurant.businesshour.BusinessHourMapper;
 import com.delivery.user.UserRepository;
@@ -41,9 +40,5 @@ public class WebConfig {
             return new UserRepositoryHashMap();
         }
         
-        @Bean
-        public RestaurantRepository restaurantRepository() {
-            return new RestaurantRepositoryHashMap();
-        }
     }
 }

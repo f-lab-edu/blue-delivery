@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import com.delivery.restaurant.businesshour.BusinessHour;
 import com.delivery.restaurant.businesshour.BusinessHourMapper;
-import com.delivery.restaurant.businesshour.BusinessHours;
+import com.delivery.restaurant.businesshour.BusinessHourPolicy;
 
 @Repository
 public class RestaurantRepositoryMybatis implements RestaurantRepository {
@@ -26,26 +26,28 @@ public class RestaurantRepositoryMybatis implements RestaurantRepository {
     
     @Override
     public void save(Restaurant restaurant) {
-        BusinessHours bhs = restaurant.getBusinessHour();
-        Set<BusinessHour> businessHoursByDayType = bhs.getBusinessHoursByDayType();
-        
         restaurantMapper.save(restaurant.getName());
-        for (BusinessHour businessHour : businessHoursByDayType) {
-            businessHourMapper.insert(restaurant.getId(), businessHour.getOpen(), businessHour.getClose(),
-                    businessHour.getDayType(), bhs.getBusinessHourType());
-        }
+        insertBusinessHour(restaurant);
     }
     
     @Override
     public void update(Restaurant restaurant) {
-        BusinessHours bhs = restaurant.getBusinessHour();
-        Set<BusinessHour> businessHoursByDayType = bhs.getBusinessHoursByDayType();
-        
         restaurantMapper.update(restaurant.getId(), restaurant.getName());
         businessHourMapper.deleteAllByRestaurantId(restaurant.getId());
-        for (BusinessHour businessHour : businessHoursByDayType) {
-            businessHourMapper.insert(restaurant.getId(), businessHour.getOpen(), businessHour.getClose(),
-                    businessHour.getDayType(), bhs.getBusinessHourType());
+        insertBusinessHour(restaurant);
+    }
+    
+    private void insertBusinessHour(Restaurant restaurant) {
+        BusinessHourPolicy bhs = restaurant.getBusinessHour();
+        Set<BusinessHour> bhByType = bhs.getBusinessHoursByDayType();
+        
+        for (BusinessHour bh : bhByType) {
+            businessHourMapper.insert(
+                    restaurant.getId(),
+                    bh.getOpen(),
+                    bh.getClose(),
+                    bh.getDayType(),
+                    bhs.getBusinessHourType());
         }
     }
 }

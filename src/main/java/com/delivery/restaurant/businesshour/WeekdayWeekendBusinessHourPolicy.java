@@ -9,10 +9,10 @@ import java.util.function.Supplier;
 import com.delivery.utility.BusinessHourType;
 import com.delivery.utility.DayType;
 
-public class WeekdayWeekendBusinessHour extends BusinessHours {
+public class WeekdayWeekendBusinessHourPolicy extends BusinessHourPolicy {
     private Supplier<IllegalArgumentException> ex = () -> new IllegalArgumentException("proper type required");
     
-    public WeekdayWeekendBusinessHour(List<BusinessHour> bh) {
+    public WeekdayWeekendBusinessHourPolicy(List<BusinessHour> bh) {
         super.businessHourType = BusinessHourType.WEEKDAY_SAT_SUNDAY;
         BusinessHour weekday = matchBusinessHour(bh, DayType.WEEKDAY);
         for (DayOfWeek day : values()) {

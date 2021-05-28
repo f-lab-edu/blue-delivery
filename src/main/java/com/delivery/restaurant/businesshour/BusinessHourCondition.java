@@ -9,5 +9,5 @@ public interface BusinessHourCondition {
     
     boolean isSatisfied(BusinessHourType type, List<BusinessHour> bh);
     
-    BusinessHours matchBusinessHours(List<BusinessHour> bh);
+    BusinessHourPolicy returnBusinessHourPolicy(List<BusinessHour> bh);
 }

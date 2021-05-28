@@ -8,19 +8,19 @@ import org.springframework.stereotype.Component;
 import com.delivery.utility.BusinessHourType;
 
 @Component
-public class BusinessHoursConditions {
+public class BusinessHourConditions {
     private List<BusinessHourCondition> conditions;
     
-    public BusinessHoursConditions() {
+    public BusinessHourConditions() {
         this.conditions = new ArrayList<>();
-        this.conditions.add(new EveryDayBusinessHourCondition());
+        this.conditions.add(new EverydayBusinessHourCondition());
         this.conditions.add(new WeekdayWeekendBusinessHourCondition());
     }
     
-    public BusinessHours makeBusinessHoursBy(BusinessHourType type, List<BusinessHour> bh) {
+    public BusinessHourPolicy makeBusinessHoursBy(BusinessHourType type, List<BusinessHour> bh) {
         for (BusinessHourCondition condition : conditions) {
             if (condition.isSatisfied(type, bh)) {
-                return condition.matchBusinessHours(bh);
+                return condition.returnBusinessHourPolicy(bh);
             }
         }
         throw new IllegalArgumentException("wrong values for business hour");

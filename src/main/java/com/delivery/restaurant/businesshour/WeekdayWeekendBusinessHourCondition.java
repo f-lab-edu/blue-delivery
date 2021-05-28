@@ -16,7 +16,7 @@ public class WeekdayWeekendBusinessHourCondition implements BusinessHourConditio
     }
     
     @Override
-    public BusinessHours matchBusinessHours(List<BusinessHour> bh) {
-        return new WeekdayWeekendBusinessHour(bh);
+    public BusinessHourPolicy returnBusinessHourPolicy(List<BusinessHour> bh) {
+        return new WeekdayWeekendBusinessHourPolicy(bh);
     }
 }

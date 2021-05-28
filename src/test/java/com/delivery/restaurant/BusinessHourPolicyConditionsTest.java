@@ -12,14 +12,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.delivery.restaurant.businesshour.BusinessHour;
-import com.delivery.restaurant.businesshour.BusinessHours;
-import com.delivery.restaurant.businesshour.BusinessHoursConditions;
+import com.delivery.restaurant.businesshour.BusinessHourConditions;
+import com.delivery.restaurant.businesshour.BusinessHourPolicy;
 import com.delivery.utility.BusinessHourType;
 import com.delivery.utility.DayType;
 
-class BusinessHoursConditionsTest {
+class BusinessHourPolicyConditionsTest {
     
-    BusinessHoursConditions policies = new BusinessHoursConditions();
+    BusinessHourConditions policies = new BusinessHourConditions();
     List<BusinessHour> bh = new ArrayList<>();
     
     
@@ -30,9 +30,9 @@ class BusinessHoursConditionsTest {
         LocalTime close = LocalTime.of(20, 0);
         bh.add(new BusinessHour(open, close));
         
-        BusinessHours businessHours = policies.makeBusinessHoursBy(BusinessHourType.EVERYDAY, bh);
+        BusinessHourPolicy businessHourPolicy = policies.makeBusinessHoursBy(BusinessHourType.EVERYDAY, bh);
         for (DayOfWeek day : DayOfWeek.values()) {
-            BusinessHour hour = businessHours.getBusinessHourOf(day);
+            BusinessHour hour = businessHourPolicy.getBusinessHourOf(day);
             assertThat(hour.getOpen()).isEqualTo(open);
             assertThat(hour.getClose()).isEqualTo(close);
             System.out.println(hour + " on " + day);
@@ -52,9 +52,9 @@ class BusinessHoursConditionsTest {
         bh.add(new BusinessHour(satOpen, satClose, DayType.SATURDAY));
         bh.add(new BusinessHour(sunOpen, sunClose, DayType.SUNDAY));
         
-        BusinessHours businessHours = policies.makeBusinessHoursBy(BusinessHourType.WEEKDAY_SAT_SUNDAY, bh);
+        BusinessHourPolicy businessHourPolicy = policies.makeBusinessHoursBy(BusinessHourType.WEEKDAY_SAT_SUNDAY, bh);
         for (DayOfWeek day : DayOfWeek.values()) {
-            BusinessHour hour = businessHours.getBusinessHourOf(day);
+            BusinessHour hour = businessHourPolicy.getBusinessHourOf(day);
             if (day.compareTo(DayOfWeek.FRIDAY) <= 0) {
                 assertThat(hour.getOpen()).isEqualTo(weekdayOpen);
                 assertThat(hour.getClose()).isEqualTo(weekdayClose);

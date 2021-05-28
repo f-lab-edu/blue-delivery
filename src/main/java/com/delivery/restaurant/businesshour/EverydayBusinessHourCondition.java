@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.delivery.utility.BusinessHourType;
 
-public class EveryDayBusinessHourCondition implements BusinessHourCondition {
+public class EverydayBusinessHourCondition implements BusinessHourCondition {
     @Override
     public boolean isSatisfied(BusinessHourType type, List<BusinessHour> bh) {
         if (type == BusinessHourType.EVERYDAY && bh.size() == 1) {
@@ -14,8 +14,8 @@ public class EveryDayBusinessHourCondition implements BusinessHourCondition {
     }
     
     @Override
-    public BusinessHours matchBusinessHours(List<BusinessHour> bh) {
-        return new EveryDayBusinessHour(bh);
+    public BusinessHourPolicy returnBusinessHourPolicy(List<BusinessHour> bh) {
+        return new EverydayBusinessHourPolicy(bh);
     }
     
 }

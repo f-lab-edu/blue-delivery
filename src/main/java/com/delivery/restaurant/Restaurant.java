@@ -1,22 +1,18 @@
 package com.delivery.restaurant;
 
-import com.delivery.restaurant.businesshour.BusinessHours;
+import com.delivery.restaurant.businesshour.BusinessHourPolicy;
 
 public class Restaurant {
     private Long id;
     private String name;
-    private BusinessHours businessHour;
+    private BusinessHourPolicy businessHour;
     
     public Restaurant() {
     
     }
     
-    public void updateBusinessHour(BusinessHours bh) {
+    public void updateBusinessHour(BusinessHourPolicy bh) {
         this.businessHour = bh;
-    }
-    
-    public void rename(String name) {
-        this.name = name;
     }
     
     public Long getId() {
@@ -27,7 +23,7 @@ public class Restaurant {
         return name;
     }
     
-    public BusinessHours getBusinessHour() {
+    public BusinessHourPolicy getBusinessHour() {
         return businessHour;
     }
 }

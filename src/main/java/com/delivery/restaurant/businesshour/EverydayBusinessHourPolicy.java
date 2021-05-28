@@ -6,8 +6,8 @@ import java.util.List;
 import com.delivery.utility.BusinessHourType;
 
 
-public class EveryDayBusinessHour extends BusinessHours {
-    public EveryDayBusinessHour(List<BusinessHour> businessHours) {
+public class EverydayBusinessHourPolicy extends BusinessHourPolicy {
+    public EverydayBusinessHourPolicy(List<BusinessHour> businessHours) {
         super.businessHourType = BusinessHourType.EVERYDAY;
         BusinessHour businessHour = businessHours.get(0);
         for (DayOfWeek day : DayOfWeek.values()) {

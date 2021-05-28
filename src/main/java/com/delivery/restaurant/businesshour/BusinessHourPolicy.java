@@ -8,11 +8,11 @@ import java.util.stream.Collectors;
 
 import com.delivery.utility.BusinessHourType;
 
-public abstract class BusinessHours {
+public abstract class BusinessHourPolicy {
     protected BusinessHourType businessHourType;
     protected Map<DayOfWeek, BusinessHour> businessHours;
     
-    public BusinessHours() {
+    public BusinessHourPolicy() {
         this.businessHours = new LinkedHashMap<>();
     }
     
