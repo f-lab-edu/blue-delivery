@@ -20,11 +20,16 @@ public class RestaurantRepositoryHashMap implements RestaurantRepository {
         if (restaurantMap.containsKey(id)) {
             return restaurantMap.get(id);
         }
-        throw new IllegalArgumentException();
+        throw new IllegalArgumentException("restaurant not found");
     }
     
     @Override
     public void save(Restaurant restaurant) {
         restaurantMap.put(idCount, restaurant);
+    }
+    
+    @Override
+    public void update(Restaurant restaurant) {
+    
     }
 }

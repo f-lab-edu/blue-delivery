@@ -1,4 +1,4 @@
-package com.delivery.restaurant;
+package com.delivery.restaurant.businesshour;
 
 import java.util.List;
 

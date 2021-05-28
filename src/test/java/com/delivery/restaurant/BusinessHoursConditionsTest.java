@@ -11,6 +11,9 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.delivery.restaurant.businesshour.BusinessHour;
+import com.delivery.restaurant.businesshour.BusinessHours;
+import com.delivery.restaurant.businesshour.BusinessHoursConditions;
 import com.delivery.utility.BusinessHourType;
 import com.delivery.utility.DayType;
 
@@ -77,7 +80,7 @@ class BusinessHoursConditionsTest {
         bh.add(new BusinessHour(everydayOpen, everydayClose));
         bh.add(new BusinessHour(satOpen, satClose, DayType.SATURDAY));
         bh.add(new BusinessHour(sunOpen, sunClose, DayType.SUNDAY));
-    
+        
         assertThrows(IllegalArgumentException.class, () -> policies.makeBusinessHoursBy(BusinessHourType.EVERYDAY, bh));
     }
     

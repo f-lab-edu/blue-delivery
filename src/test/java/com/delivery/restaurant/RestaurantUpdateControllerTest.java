@@ -13,12 +13,17 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.delivery.restaurant.businesshour.BusinessHour;
+import com.delivery.restaurant.businesshour.UpdateBusinessHoursDto;
 import com.delivery.utility.BusinessHourType;
 import com.delivery.utility.DayType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+
+@ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc
 class RestaurantUpdateControllerTest {
@@ -29,7 +34,7 @@ class RestaurantUpdateControllerTest {
     @Autowired
     ObjectMapper objectMapper;
     
-    @MockBean
+    @MockBean(name = "restaurantRepository")
     RestaurantRepository restaurantRepository;
     
     @Test

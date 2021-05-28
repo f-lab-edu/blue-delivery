@@ -2,6 +2,9 @@ package com.delivery.restaurant;
 
 import org.springframework.stereotype.Service;
 
+import com.delivery.restaurant.businesshour.BusinessHoursConditions;
+import com.delivery.restaurant.businesshour.UpdateBusinessHoursDto;
+
 @Service
 public class RestaurantUpdateService {
     
@@ -18,7 +21,7 @@ public class RestaurantUpdateService {
         Restaurant restaurant = restaurantRepository.findRestaurantById(id);
         restaurant.updateBusinessHour(
                 businessHoursConditions.makeBusinessHoursBy(dto.getType(), dto.getBusinessHours()));
-        restaurantRepository.save(restaurant);
+        restaurantRepository.update(restaurant);
     }
     
 }

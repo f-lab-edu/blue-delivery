@@ -1,4 +1,4 @@
-package com.delivery.restaurant;
+package com.delivery.restaurant.businesshour;
 
 
 import java.time.LocalTime;
@@ -10,7 +10,7 @@ public class BusinessHour {
     
     private LocalTime open;
     private LocalTime close;
-    private DayType day;
+    private DayType dayType;
     
     public BusinessHour() {
     }
@@ -18,13 +18,13 @@ public class BusinessHour {
     public BusinessHour(LocalTime open, LocalTime close) {
         this.open = open;
         this.close = close;
-        this.day = DayType.DEFAULT;
+        this.dayType = DayType.DEFAULT;
     }
     
-    public BusinessHour(LocalTime open, LocalTime close, DayType day) {
+    public BusinessHour(LocalTime open, LocalTime close, DayType dayType) {
         this.open = open;
         this.close = close;
-        this.day = day;
+        this.dayType = dayType;
     }
     
     public LocalTime getOpen() {
@@ -35,24 +35,24 @@ public class BusinessHour {
         return close;
     }
     
-    public DayType getDay() {
-        return day;
+    public DayType getDayType() {
+        return dayType;
     }
     
     @Override
     public boolean equals(Object obj) {
         BusinessHour that = (BusinessHour) obj;
-        return day == that.day;
+        return dayType == that.dayType;
     }
     
     @Override
     public int hashCode() {
-        return Objects.hash(day);
+        return Objects.hash(dayType);
     }
     
     @Override
     public String toString() {
-        return "Business Hour : " + "day=" + day + " " + open + " ~ " + close;
+        return "Business Hour : " + "day=" + dayType + " " + open + " ~ " + close;
     }
     
 }
