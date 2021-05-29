@@ -25,12 +25,6 @@ public class RestaurantRepositoryMybatis implements RestaurantRepository {
     }
     
     @Override
-    public void save(Restaurant restaurant) {
-        restaurantMapper.save(restaurant.getName());
-        insertBusinessHour(restaurant);
-    }
-    
-    @Override
     public void updateBusinessHour(Restaurant restaurant) {
         businessHourMapper.deleteAllByRestaurantId(restaurant.getId());
         insertBusinessHour(restaurant);

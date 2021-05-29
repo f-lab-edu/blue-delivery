@@ -2,6 +2,8 @@ package com.delivery.restaurant;
 
 import javax.validation.Valid;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,8 +22,10 @@ public class RestaurantUpdateController {
         this.updateService = updateService;
     }
     
-    @PutMapping("/{id}/business-hour")
-    public void updateBusinessHours(@PathVariable("id") Long id, @Valid @RequestBody UpdateBusinessHoursDto dto) {
+    @PutMapping("/{id}/business-hours")
+    public ResponseEntity<UpdateBusinessHoursDto> updateBusinessHours(
+            @PathVariable("id") Long id, @Valid @RequestBody UpdateBusinessHoursDto dto) {
         updateService.updateBusinessHour(id, dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 }

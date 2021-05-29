@@ -6,7 +6,5 @@ import org.springframework.stereotype.Repository;
 public interface RestaurantRepository {
     Restaurant findRestaurantById(Long id);
     
-    void save(Restaurant restaurant);
-    
     void updateBusinessHour(Restaurant restaurant);
 }
