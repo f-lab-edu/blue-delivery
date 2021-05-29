@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.delivery.restaurant.businesshour.UpdateBusinessHoursDto;
 
 @RestController
-@RequestMapping("/restaurant")
+@RequestMapping("/restaurants")
 public class RestaurantUpdateController {
     
     private RestaurantUpdateService updateService;
@@ -20,8 +20,8 @@ public class RestaurantUpdateController {
         this.updateService = updateService;
     }
     
-    @PutMapping("/{id}/business-hours")
+    @PutMapping("/{id}/business-hour")
     public void updateBusinessHours(@PathVariable("id") Long id, @Valid @RequestBody UpdateBusinessHoursDto dto) {
-        updateService.updateBusinessHours(id, dto);
+        updateService.updateBusinessHour(id, dto);
     }
 }

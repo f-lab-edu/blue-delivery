@@ -15,6 +15,7 @@ import com.delivery.user.UserRepositoryHashMap;
 @Configuration
 public class WebConfig {
     
+    @Configuration
     @Profile("dev")
     static class DevConfig {
         @Autowired
@@ -33,6 +34,7 @@ public class WebConfig {
         }
     }
     
+    @Configuration
     @Profile("test")
     static class TestConfig {
         @Bean

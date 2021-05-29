@@ -8,5 +8,5 @@ public interface RestaurantRepository {
     
     void save(Restaurant restaurant);
     
-    void update(Restaurant restaurant);
+    void updateBusinessHour(Restaurant restaurant);
 }
