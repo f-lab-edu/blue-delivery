@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
     
     @ExceptionHandler(DuplicateKeyException.class)
     public ResponseEntity<String> duplicateKeyExceptionHandler(DuplicateKeyException ex) {
-        return ResponseEntity.badRequest().body("email already exists - " + ex.getMessage());
+        return ResponseEntity.badRequest().body("key already exists - " + ex.getMessage());
     }
     
     @ExceptionHandler(IllegalArgumentException.class)
