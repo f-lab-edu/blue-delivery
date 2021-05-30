@@ -12,14 +12,18 @@ public class MenuGroupRegisterDto {
     @NotNull
     private String groupName;
 
-    private String groupDescription;
+    private String content;
+
+    @NotNull
+    private Long shopId;
 
     private List<Menu> menuList;
 
-    public MenuGroupRegisterDto(Long id, String groupName, String groupDescription, List<Menu> menuList) {
+    public MenuGroupRegisterDto(Long id, String groupName, String content, Long shopId, List<Menu> menuList) {
         this.id = id;
         this.groupName = groupName;
-        this.groupDescription = groupDescription;
+        this.content = content;
+        this.shopId = shopId;
         this.menuList = menuList;
     }
 
@@ -30,7 +34,8 @@ public class MenuGroupRegisterDto {
         return new MenuGroup(
                 this.id,
                 this.groupName,
-                this.groupDescription,
+                this.content,
+                this.shopId,
                 this.menuList
         );
     }
@@ -51,12 +56,20 @@ public class MenuGroupRegisterDto {
         this.groupName = groupName;
     }
 
-    public String getGroupDescription() {
-        return groupDescription;
+    public String getContent() {
+        return content;
     }
 
-    public void setGroupDescription(String groupDescription) {
-        this.groupDescription = groupDescription;
+    public void setContent(String groupDescription) {
+        this.content = groupDescription;
+    }
+
+    public Long getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(Long shopId) {
+        this.shopId = shopId;
     }
 
     public List<Menu> getMenuList() {
@@ -66,5 +79,4 @@ public class MenuGroupRegisterDto {
     public void setMenuList(List<Menu> menuList) {
         this.menuList = menuList;
     }
-
 }

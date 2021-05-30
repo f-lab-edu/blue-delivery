@@ -15,8 +15,8 @@ public class MenuGroupController {
         this.service = service;
     }
 
-    @PostMapping("/groups")
-    public ResponseEntity<MenuGroup> registerMenuGroup(@Validated @RequestBody MenuGroupRegisterDto dto) {
+    @PostMapping("shops/{shopId}/menuGroups")
+    public ResponseEntity<MenuGroup> registerMenuGroup(@Validated @RequestBody MenuGroupRegisterDto dto, @PathVariable Long shopId) {
         service.registerMenuGroup(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

@@ -19,7 +19,7 @@ class MenuServiceTest {
     MenuGroupService service = new MenuGroupService(new MenuGroupRepositoryHashMap());
 
     Menu menu = new Menu(0L, "타코");
-    MenuGroupRegisterDto menuGroup = new MenuGroupRegisterDto(1L, "사이드", "5000원", new ArrayList<>(Arrays.asList(menu)));
+    MenuGroupRegisterDto menuGroup = new MenuGroupRegisterDto(1L, "사이드", "5000원",2L ,new ArrayList<>(Arrays.asList(menu)));
 
     @BeforeEach
     public void registerMenuGroupTest() {

@@ -8,17 +8,16 @@ public class MenuGroup {
 
     private Long id;
     private String groupName;
-    private String groupDescription;
+    private String content;
+    private Long shopId;
     private List<Menu> menuList;
 
-    public MenuGroup(Long id, String groupName, String groupDescription, List<Menu> menuList) {
+    public MenuGroup(Long id, String groupName, String content, Long shopId, List<Menu> menuList) {
         this.id = id;
         this.groupName = groupName;
-        this.groupDescription = groupDescription;
+        this.content = content;
+        this.shopId = shopId;
         this.menuList = menuList;
-    }
-
-    public MenuGroup() {
     }
 
     public Long getId() {
@@ -29,12 +28,15 @@ public class MenuGroup {
         return groupName;
     }
 
-    public String getGroupDescription() {
-        return groupDescription;
+    public String getContent() {
+        return content;
+    }
+
+    public Long getShopId() {
+        return shopId;
     }
 
     public List<Menu> getMenuList() {
         return menuList;
     }
-
 }
