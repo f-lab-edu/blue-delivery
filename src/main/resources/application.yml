@@ -1,11 +1,15 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost3306/test
+    url: jdbc:mysql://localhost:3306/testdb
     username: root
-    password:
+    password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
+    initialization-mode: always
   profiles:
     active: dev
+  jpa:
+    hibernate:
+      ddl-auto: none
 
 mybatis:
   type-aliases-package: com/deliver
