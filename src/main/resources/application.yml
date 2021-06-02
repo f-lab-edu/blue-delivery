@@ -4,13 +4,16 @@ spring:
     username: root
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
-    initialization-mode: always
   profiles:
     active: dev
   jpa:
     hibernate:
       ddl-auto: none
-
+  flyway:
+    baseline-on-migrate: true
+    user: root
+    password: password
+    url: jdbc:mysql://localhost:3306/testdb
 mybatis:
   type-aliases-package: com/deliver
   mapper-locations: resources/mybatis/mapper/**/*.xml
