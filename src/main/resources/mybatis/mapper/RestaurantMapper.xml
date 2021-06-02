@@ -7,4 +7,10 @@
     <update id="updateIntroduce" parameterType="map">
         UPDATE RESTAURANTS SET INTRODUCE = #{introduce} WHERE id = #{id}
     </update>
+    <update id="updatePhone" parameterType="map">
+        UPDATE RESTAURANTS SET PHONE = #{phone} WHERE id = #{id}
+    </update>
+    <update id="updateDeliveryAreaGuide" parameterType="map">
+        UPDATE RESTAURANTS SET DELIVERY_AREA_GUIDE = #{guide} WHERE id = #{id}
+    </update>
 </mapper>

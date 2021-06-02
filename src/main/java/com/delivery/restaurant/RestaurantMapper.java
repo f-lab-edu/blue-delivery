@@ -11,4 +11,8 @@ public interface RestaurantMapper {
     Restaurant findRestaurantById(@Param("id") Long id);
     
     void updateIntroduce(Long id, String introduce);
+    
+    void updatePhone(Long id, String phone);
+    
+    void updateDeliveryAreaGuide(Long id, String guide);
 }

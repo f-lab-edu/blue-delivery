@@ -20,18 +20,31 @@ public class RestaurantUpdateService {
     
     @Transactional
     public void updateBusinessHour(Long id, UpdateBusinessHoursDto dto) {
-        Restaurant restaurant = restaurantRepository.findRestaurantById(id);
+        Restaurant restaurant = restaurantRepository.findRestaurantById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Restaurant does not exist"));
         restaurant.updateBusinessHour(
                 businessHourConditions.makeBusinessHoursBy(dto.getType(), dto.getBusinessHours()));
         restaurantRepository.updateBusinessHour(restaurant);
     }
     
     public void editIntroduce(Long id, String introduce) {
-        Restaurant restaurant = restaurantRepository.findRestaurantById(id);
-        if (restaurant == null) {
-            throw new IllegalArgumentException("Restaurant does not exist");
-        }
+        Restaurant restaurant = restaurantRepository.findRestaurantById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Restaurant does not exist"));
         restaurant.editIntroduce(introduce);
         restaurantRepository.updateIntroduce(restaurant);
+    }
+    
+    public void editPhoneNumber(Long id, String phone) {
+        Restaurant restaurant = restaurantRepository.findRestaurantById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Restaurant does not exist"));
+        restaurant.editPhoneNumber(phone);
+        restaurantRepository.updatePhone(restaurant);
+    }
+    
+    public void editDeliveryAreaGuide(Long id, String guide) {
+        Restaurant restaurant = restaurantRepository.findRestaurantById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Restaurant does not exist"));
+        restaurant.editDeliveryAreaGuide(guide);
+        restaurantRepository.updateDeliveryAreaGuide(restaurant);
     }
 }

@@ -17,7 +17,6 @@ else
   exit 1
 fi
 
-# lint
 ./gradlew check
 if [ $? -eq 0 ]; then
   echo "================================"
@@ -29,7 +28,3 @@ else
   echo "================================"
   exit 1
 fi
-
-# db migration
-./gradlew flywayMigrate
-echo "##Database Migration##"

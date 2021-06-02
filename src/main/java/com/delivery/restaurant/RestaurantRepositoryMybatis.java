@@ -1,5 +1,6 @@
 package com.delivery.restaurant;
 
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.stereotype.Repository;
@@ -20,8 +21,8 @@ public class RestaurantRepositoryMybatis implements RestaurantRepository {
     }
     
     @Override
-    public Restaurant findRestaurantById(Long id) {
-        return restaurantMapper.findRestaurantById(id);
+    public Optional<Restaurant> findRestaurantById(Long id) {
+        return Optional.ofNullable(restaurantMapper.findRestaurantById(id));
     }
     
     @Override
@@ -33,6 +34,16 @@ public class RestaurantRepositoryMybatis implements RestaurantRepository {
     @Override
     public void updateIntroduce(Restaurant restaurant) {
         restaurantMapper.updateIntroduce(restaurant.getId(), restaurant.getIntroduce());
+    }
+    
+    @Override
+    public void updatePhone(Restaurant restaurant) {
+        restaurantMapper.updatePhone(restaurant.getId(), restaurant.getPhone());
+    }
+    
+    @Override
+    public void updateDeliveryAreaGuide(Restaurant restaurant) {
+        restaurantMapper.updateDeliveryAreaGuide(restaurant.getId(), restaurant.getDeliveryAreaGuide());
     }
     
     private void insertBusinessHour(Restaurant restaurant) {

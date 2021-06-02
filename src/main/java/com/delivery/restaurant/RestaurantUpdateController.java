@@ -24,10 +24,21 @@ public class RestaurantUpdateController {
     }
     
     @PatchMapping("/{id}/introduce")
-    public ResponseEntity<String> editIntroduce(@PathVariable("id") Long id,
-                                                @RequestBody @Valid String introduce) {
+    public void editIntroduce(@PathVariable("id") Long id,
+                              @RequestBody String introduce) {
         updateService.editIntroduce(id, introduce);
-        return ResponseEntity.status(HttpStatus.OK).body(introduce);
+    }
+    
+    @PatchMapping("/{id}/phone")
+    public void editPhoneNumber(@PathVariable("id") Long id,
+                                @RequestBody @Valid EditPhoneDto dto) {
+        updateService.editPhoneNumber(id, dto.getPhone());
+    }
+    
+    @PatchMapping("/{id}/delivery-area-guide")
+    public void editDeliveryAreaGuid(@PathVariable("id") Long id,
+                                     @RequestBody @Valid String guide) {
+        updateService.editDeliveryAreaGuide(id, guide);
     }
     
     @PutMapping("/{id}/business-hours")
