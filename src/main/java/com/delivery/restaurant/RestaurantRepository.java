@@ -7,4 +7,6 @@ public interface RestaurantRepository {
     Restaurant findRestaurantById(Long id);
     
     void updateBusinessHour(Restaurant restaurant);
+    
+    void updateIntroduce(Restaurant restaurant);
 }

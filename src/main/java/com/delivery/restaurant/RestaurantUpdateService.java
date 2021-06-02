@@ -26,4 +26,12 @@ public class RestaurantUpdateService {
         restaurantRepository.updateBusinessHour(restaurant);
     }
     
+    public void editIntroduce(Long id, String introduce) {
+        Restaurant restaurant = restaurantRepository.findRestaurantById(id);
+        if (restaurant == null) {
+            throw new IllegalArgumentException("Restaurant does not exist");
+        }
+        restaurant.editIntroduce(introduce);
+        restaurantRepository.updateIntroduce(restaurant);
+    }
 }

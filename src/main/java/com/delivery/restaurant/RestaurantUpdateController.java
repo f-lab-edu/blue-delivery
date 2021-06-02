@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +21,13 @@ public class RestaurantUpdateController {
     
     public RestaurantUpdateController(RestaurantUpdateService updateService) {
         this.updateService = updateService;
+    }
+    
+    @PatchMapping("/{id}/introduce")
+    public ResponseEntity<String> editIntroduce(@PathVariable("id") Long id,
+                                                @RequestBody @Valid String introduce) {
+        updateService.editIntroduce(id, introduce);
+        return ResponseEntity.status(HttpStatus.OK).body(introduce);
     }
     
     @PutMapping("/{id}/business-hours")

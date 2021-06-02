@@ -30,6 +30,11 @@ public class RestaurantRepositoryMybatis implements RestaurantRepository {
         insertBusinessHour(restaurant);
     }
     
+    @Override
+    public void updateIntroduce(Restaurant restaurant) {
+        restaurantMapper.updateIntroduce(restaurant.getId(), restaurant.getIntroduce());
+    }
+    
     private void insertBusinessHour(Restaurant restaurant) {
         BusinessHourPolicy bhs = restaurant.getBusinessHour();
         Set<BusinessHour> bhByType = bhs.getBusinessHoursByDayType();

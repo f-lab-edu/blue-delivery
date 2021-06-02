@@ -6,6 +6,7 @@ public class Restaurant {
     private Long id;
     private String name;
     private BusinessHourPolicy businessHour;
+    private String introduce;
     
     public Restaurant() {
     
@@ -13,6 +14,10 @@ public class Restaurant {
     
     public void updateBusinessHour(BusinessHourPolicy bh) {
         this.businessHour = bh;
+    }
+    
+    public void editIntroduce(String introduce) {
+        this.introduce = introduce;
     }
     
     public Long getId() {
@@ -25,5 +30,9 @@ public class Restaurant {
     
     public BusinessHourPolicy getBusinessHour() {
         return businessHour;
+    }
+    
+    public String getIntroduce() {
+        return introduce;
     }
 }
