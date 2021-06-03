@@ -13,4 +13,6 @@ public interface RestaurantRepository {
     void updatePhone(Restaurant restaurant);
     
     void updateDeliveryAreaGuide(Restaurant restaurant);
+    
+    void updateName(Restaurant restaurant);
 }

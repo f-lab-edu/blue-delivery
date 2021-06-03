@@ -8,10 +8,12 @@
         <result property="days" javaType="java.time.DayOfWeek" column="DAY_OF_WEEK" typeHandler="com.delivery.utility.MyBatisDayOfWeekHandler"/>
         <association property="businessHours" resultMap="businessHourResultMap"/>
     </resultMap>
+
     <resultMap id="businessHourResultMap" type="com.delivery.restaurant.businesshour.BusinessHour">
         <result column="OPEN" property="open" typeHandler="org.apache.ibatis.type.LocalTimeTypeHandler"/>
         <result column="CLOSE" property="close" typeHandler="org.apache.ibatis.type.LocalTimeTypeHandler"/>
     </resultMap>
+
     <select id="findHoursByRestaurantId"
             resultMap="customMap"
             parameterType="java.lang.Long">

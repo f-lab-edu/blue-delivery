@@ -40,26 +40,6 @@ public class RestaurantRepositoryMybatis implements RestaurantRepository {
         return restaurant;
     }
     
-    private Map<DayOfWeek, BusinessHour> getHoursByRestaurantId(Long id) {
-        LinkedHashMap<DayOfWeek, BusinessHour> bhs = new LinkedHashMap<>();
-        List<Map<DayOfWeek, BusinessHour>> list = businessHourMapper.findHoursByRestaurantId(id);
-        for (Map<DayOfWeek, BusinessHour> pair : list) {
-            Collection<BusinessHour> values = pair.values();
-            DayOfWeek dayOfWeek = null;
-            BusinessHour businessHour = null;
-            for (Object o : values) {
-                if (o instanceof DayOfWeek) {
-                    dayOfWeek = (DayOfWeek) o;
-                }
-                if (o instanceof BusinessHour) {
-                    businessHour = (BusinessHour) o;
-                }
-            }
-            bhs.put(dayOfWeek, businessHour);
-        }
-        return bhs;
-    }
-    
     @Override
     public void updateBusinessHour(Restaurant restaurant) {
         businessHourMapper.deleteAllByRestaurantId(restaurant.getId());
@@ -81,6 +61,11 @@ public class RestaurantRepositoryMybatis implements RestaurantRepository {
         restaurantMapper.updateDeliveryAreaGuide(restaurant.getId(), restaurant.getDeliveryAreaGuide());
     }
     
+    @Override
+    public void updateName(Restaurant restaurant) {
+        restaurantMapper.updateName(restaurant.getId(), restaurant.getName());
+    }
+    
     private void insertBusinessHour(Restaurant restaurant) {
         BusinessHourPolicy bhs = restaurant.getBusinessHour();
         for (Map.Entry<DayOfWeek, BusinessHour> bh : bhs.getBusinessHours().entrySet()) {
@@ -91,5 +76,25 @@ public class RestaurantRepositoryMybatis implements RestaurantRepository {
                     bh.getKey()
             );
         }
+    }
+    
+    private Map<DayOfWeek, BusinessHour> getHoursByRestaurantId(Long id) {
+        LinkedHashMap<DayOfWeek, BusinessHour> bhs = new LinkedHashMap<>();
+        List<Map<DayOfWeek, BusinessHour>> list = businessHourMapper.findHoursByRestaurantId(id);
+        for (Map<DayOfWeek, BusinessHour> pair : list) {
+            Collection<BusinessHour> values = pair.values();
+            DayOfWeek dayOfWeek = null;
+            BusinessHour businessHour = null;
+            for (Object o : values) {
+                if (o instanceof DayOfWeek) {
+                    dayOfWeek = (DayOfWeek) o;
+                }
+                if (o instanceof BusinessHour) {
+                    businessHour = (BusinessHour) o;
+                }
+            }
+            bhs.put(dayOfWeek, businessHour);
+        }
+        return bhs;
     }
 }

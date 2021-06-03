@@ -12,4 +12,6 @@ public interface RestaurantMapper {
     void updatePhone(Long id, String phone);
     
     void updateDeliveryAreaGuide(Long id, String guide);
+    
+    void updateName(Long id, String name);
 }

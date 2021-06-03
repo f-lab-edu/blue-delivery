@@ -10,7 +10,6 @@
         <result column="introduce" property="introduce" jdbcType="VARCHAR"/>
         <result column="phone" property="phone" jdbcType="VARCHAR"/>
         <result column="delivery_area_guide" property="deliveryAreaGuide" jdbcType="VARCHAR"/>
-        <!--        <association property="businessHours" resultMap="businessHourPolicyResultMap"/>-->
     </resultMap>
 
     <resultMap id="businessHourResultMap" type="com.delivery.restaurant.businesshour.BusinessHour">
@@ -55,6 +54,12 @@
     <update id="updateDeliveryAreaGuide" parameterType="map">
         UPDATE RESTAURANTS
         SET DELIVERY_AREA_GUIDE = #{guide}
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateName" parameterType="map">
+        UPDATE RESTAURANTS
+        SET DELIVERY_AREA_GUIDE = #{name}
         WHERE id = #{id}
     </update>
 </mapper>

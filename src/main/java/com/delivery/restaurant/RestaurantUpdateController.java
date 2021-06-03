@@ -23,9 +23,15 @@ public class RestaurantUpdateController {
         this.updateService = updateService;
     }
     
+    @PutMapping("/{id}/business-hours")
+    public ResponseEntity<UpdateBusinessHoursDto> updateBusinessHours(
+            @PathVariable("id") Long id, @RequestBody @Valid UpdateBusinessHoursDto dto) {
+        updateService.updateBusinessHour(id, dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
+    }
+    
     @PatchMapping("/{id}/introduce")
-    public void editIntroduce(@PathVariable("id") Long id,
-                              @RequestBody String introduce) {
+    public void editIntroduce(@PathVariable("id") Long id, @RequestBody String introduce) {
         updateService.editIntroduce(id, introduce);
     }
     
@@ -36,15 +42,12 @@ public class RestaurantUpdateController {
     }
     
     @PatchMapping("/{id}/delivery-area-guide")
-    public void editDeliveryAreaGuid(@PathVariable("id") Long id,
-                                     @RequestBody @Valid String guide) {
+    public void editDeliveryAreaGuid(@PathVariable("id") Long id, @RequestBody String guide) {
         updateService.editDeliveryAreaGuide(id, guide);
     }
     
-    @PutMapping("/{id}/business-hours")
-    public ResponseEntity<UpdateBusinessHoursDto> updateBusinessHours(
-            @PathVariable("id") Long id, @Valid @RequestBody UpdateBusinessHoursDto dto) {
-        updateService.updateBusinessHour(id, dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
+    @PatchMapping("/{id}/name")
+    public void rename(@PathVariable("id") Long id, @RequestBody String name) {
+        updateService.rename(id, name);
     }
 }

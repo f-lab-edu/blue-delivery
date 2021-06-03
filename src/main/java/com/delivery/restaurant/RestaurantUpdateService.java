@@ -40,4 +40,10 @@ public class RestaurantUpdateService {
         restaurant.editDeliveryAreaGuide(guide);
         restaurantRepository.updateDeliveryAreaGuide(restaurant);
     }
+    
+    public void rename(Long id, String name) {
+        Restaurant restaurant = restaurantRepository.findRestaurantById(id);
+        restaurant.rename(name);
+        restaurantRepository.updateName(restaurant);
+    }
 }

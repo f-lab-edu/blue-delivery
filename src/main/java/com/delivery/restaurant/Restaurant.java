@@ -30,6 +30,10 @@ public class Restaurant {
         this.deliveryAreaGuide = guide;
     }
     
+    public void rename(String name) {
+        this.name = name;
+    }
+    
     public String getPhone() {
         return phone;
     }
