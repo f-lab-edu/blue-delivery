@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.delivery.restaurant.businesshour.BusinessHourMapper">
+    <resultMap id="customMap" type="java.util.LinkedHashMap">
+        <result property="days" javaType="java.time.DayOfWeek" column="DAY_OF_WEEK" typeHandler="com.delivery.utility.MyBatisDayOfWeekHandler"/>
+        <association property="businessHours" resultMap="businessHourResultMap"/>
+    </resultMap>
+    <resultMap id="businessHourResultMap" type="com.delivery.restaurant.businesshour.BusinessHour">
+        <result column="OPEN" property="open" typeHandler="org.apache.ibatis.type.LocalTimeTypeHandler"/>
+        <result column="CLOSE" property="close" typeHandler="org.apache.ibatis.type.LocalTimeTypeHandler"/>
+    </resultMap>
+    <select id="findHoursByRestaurantId"
+            resultMap="customMap"
+            parameterType="java.lang.Long">
+        select
+            OPEN,
+            CLOSE,
+            DAY_OF_WEEK
+        FROM BUSINESS_HOURS bhs
+        WHERE REST_ID = #{id}
+    </select>
+</mapper>

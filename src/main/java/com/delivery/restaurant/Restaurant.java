@@ -5,7 +5,7 @@ import com.delivery.restaurant.businesshour.BusinessHourPolicy;
 public class Restaurant {
     private Long id;
     private String name;
-    private BusinessHourPolicy businessHour;
+    private BusinessHourPolicy businessHours;
     private String introduce;
     private String phone;
     private String deliveryAreaGuide;
@@ -15,7 +15,7 @@ public class Restaurant {
     }
     
     public void updateBusinessHour(BusinessHourPolicy bh) {
-        this.businessHour = bh;
+        this.businessHours = bh;
     }
     
     public void editIntroduce(String introduce) {
@@ -47,7 +47,7 @@ public class Restaurant {
     }
     
     public BusinessHourPolicy getBusinessHour() {
-        return businessHour;
+        return businessHours;
     }
     
     public String getIntroduce() {

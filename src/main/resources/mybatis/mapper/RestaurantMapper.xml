@@ -4,13 +4,57 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.delivery.restaurant.RestaurantMapper">
+    <resultMap id="restaurantResultMap" type="com.delivery.restaurant.Restaurant">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="introduce" jdbcType="VARCHAR"/>
+        <result column="introduce" property="introduce" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="delivery_area_guide" property="deliveryAreaGuide" jdbcType="VARCHAR"/>
+        <!--        <association property="businessHours" resultMap="businessHourPolicyResultMap"/>-->
+    </resultMap>
+
+    <resultMap id="businessHourResultMap" type="com.delivery.restaurant.businesshour.BusinessHour">
+        <result column="OPEN" property="open"/>
+        <result column="CLOSE" property="close"/>
+    </resultMap>
+
+    <select id="findRestaurantById" resultMap="restaurantResultMap" parameterType="java.lang.Long">
+        select r.ID                  as id,
+               r.NAME                as name,
+               r.INTRODUCE           as introduce,
+               r.PHONE               as phone,
+               r.DELIVERY_AREA_GUIDE as delivery_area_guide
+        FROM RESTAURANTS r
+        WHERE r.ID = #{id}
+    </select>
+
+    <select id="selectBusinessHours">
+        select
+            OPEN,
+            CLOSE,
+            BUSINESS_HOUR_TYPE,
+            DAY_TYPE
+        from
+            BUSINESS_HOURS
+        where
+            REST_ID = #{ID}
+    </select>
+
     <update id="updateIntroduce" parameterType="map">
-        UPDATE RESTAURANTS SET INTRODUCE = #{introduce} WHERE id = #{id}
+        UPDATE RESTAURANTS
+        SET INTRODUCE = #{introduce}
+        WHERE id = #{id}
     </update>
+
     <update id="updatePhone" parameterType="map">
-        UPDATE RESTAURANTS SET PHONE = #{phone} WHERE id = #{id}
+        UPDATE RESTAURANTS
+        SET PHONE = #{phone}
+        WHERE id = #{id}
     </update>
+
     <update id="updateDeliveryAreaGuide" parameterType="map">
-        UPDATE RESTAURANTS SET DELIVERY_AREA_GUIDE = #{guide} WHERE id = #{id}
+        UPDATE RESTAURANTS
+        SET DELIVERY_AREA_GUIDE = #{guide}
+        WHERE id = #{id}
     </update>
 </mapper>

@@ -1,6 +1,11 @@
 package com.delivery.restaurant;
 
-import java.util.Optional;
+import java.time.DayOfWeek;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.stereotype.Repository;
@@ -21,8 +26,38 @@ public class RestaurantRepositoryMybatis implements RestaurantRepository {
     }
     
     @Override
-    public Optional<Restaurant> findRestaurantById(Long id) {
-        return Optional.ofNullable(restaurantMapper.findRestaurantById(id));
+    public Restaurant findRestaurantById(Long id) {
+        Restaurant restaurant = restaurantMapper.findRestaurantById(id);
+        if (restaurant == null) {
+            throw new IllegalArgumentException("restaurant does not exist");
+        }
+        Map<DayOfWeek, BusinessHour> bhs = getHoursByRestaurantId(id);
+        if (bhs != null) {
+            BusinessHourPolicy policy = new BusinessHourPolicy();
+            policy.updateAll(bhs);
+            restaurant.updateBusinessHour(policy);
+        }
+        return restaurant;
+    }
+    
+    private Map<DayOfWeek, BusinessHour> getHoursByRestaurantId(Long id) {
+        LinkedHashMap<DayOfWeek, BusinessHour> bhs = new LinkedHashMap<>();
+        List<Map<DayOfWeek, BusinessHour>> list = businessHourMapper.findHoursByRestaurantId(id);
+        for (Map<DayOfWeek, BusinessHour> pair : list) {
+            Collection<BusinessHour> values = pair.values();
+            DayOfWeek dayOfWeek = null;
+            BusinessHour businessHour = null;
+            for (Object o : values) {
+                if (o instanceof DayOfWeek) {
+                    dayOfWeek = (DayOfWeek) o;
+                }
+                if (o instanceof BusinessHour) {
+                    businessHour = (BusinessHour) o;
+                }
+            }
+            bhs.put(dayOfWeek, businessHour);
+        }
+        return bhs;
     }
     
     @Override
@@ -48,15 +83,13 @@ public class RestaurantRepositoryMybatis implements RestaurantRepository {
     
     private void insertBusinessHour(Restaurant restaurant) {
         BusinessHourPolicy bhs = restaurant.getBusinessHour();
-        Set<BusinessHour> bhByType = bhs.getBusinessHoursByDayType();
-        
-        for (BusinessHour bh : bhByType) {
+        for (Map.Entry<DayOfWeek, BusinessHour> bh : bhs.getBusinessHours().entrySet()) {
             businessHourMapper.insert(
                     restaurant.getId(),
-                    bh.getOpen(),
-                    bh.getClose(),
-                    bh.getDayType(),
-                    bhs.getBusinessHourType());
+                    bh.getValue().getOpen(),
+                    bh.getValue().getClose(),
+                    bh.getKey()
+            );
         }
     }
 }

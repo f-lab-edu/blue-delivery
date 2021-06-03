@@ -14,7 +14,7 @@ public class EditPhoneDto {
     }
     
     public EditPhoneDto(String phone) {
-        this.phone = phone;
+        this.phone = phone.replaceAll("-", "");
     }
     
     public String getPhone() {

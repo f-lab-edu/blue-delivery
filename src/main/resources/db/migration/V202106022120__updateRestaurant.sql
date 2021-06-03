@@ -13,12 +13,11 @@ CREATE TABLE RESTAURANTS
 
 CREATE TABLE BUSINESS_HOURS
 (
-    ID                 INT AUTO_INCREMENT,
-    REST_ID            INT,
-    OPEN               TIME,
-    CLOSE              TIME,
-    DAY_TYPE           VARCHAR(50),
-    BUSINESS_HOUR_TYPE varchar(50),
+    ID          INT AUTO_INCREMENT,
+    REST_ID     INT,
+    OPEN        TIME,
+    CLOSE       TIME,
+    DAY_OF_WEEK VARCHAR(50),
     PRIMARY KEY (ID),
     FOREIGN KEY (REST_ID) REFERENCES RESTAURANTS (ID)
 );
