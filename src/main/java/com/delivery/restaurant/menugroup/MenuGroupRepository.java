@@ -1,6 +1,5 @@
 package com.delivery.restaurant.menugroup;
 
-
 import org.springframework.stereotype.Repository;
 
 @Repository

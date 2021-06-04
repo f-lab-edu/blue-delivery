@@ -1,8 +1,8 @@
 package com.delivery.restaurant.menugroup;
 
-import com.delivery.restaurant.menu.Menu;
-
 import java.util.List;
+
+import com.delivery.restaurant.menu.Menu;
 
 public class MenuGroup {
 

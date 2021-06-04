@@ -1,9 +1,9 @@
 package com.delivery.restaurant.menugroup;
 
-import org.springframework.dao.DuplicateKeyException;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import org.springframework.dao.DuplicateKeyException;
 
 public class MenuGroupRepositoryHashMap implements MenuGroupRepository {
 
@@ -15,7 +15,7 @@ public class MenuGroupRepositoryHashMap implements MenuGroupRepository {
 
     @Override
     public void saveMenuGroup(MenuGroup menuGroup) {
-        if(menuGroupRepository.containsKey(menuGroup.getGroupName())) {
+        if (menuGroupRepository.containsKey(menuGroup.getGroupName())) {
             throw new DuplicateKeyException("group already exists");
         }
         menuGroupRepository.put(menuGroup.getGroupName(), menuGroup);
