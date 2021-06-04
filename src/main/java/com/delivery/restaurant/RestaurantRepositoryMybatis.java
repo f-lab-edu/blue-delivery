@@ -1,12 +1,10 @@
 package com.delivery.restaurant;
 
 import java.time.DayOfWeek;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.stereotype.Repository;
 
@@ -31,12 +29,8 @@ public class RestaurantRepositoryMybatis implements RestaurantRepository {
         if (restaurant == null) {
             throw new IllegalArgumentException("restaurant does not exist");
         }
-        Map<DayOfWeek, BusinessHour> bhs = getHoursByRestaurantId(id);
-        if (bhs != null) {
-            BusinessHourPolicy policy = new BusinessHourPolicy();
-            policy.updateAll(bhs);
-            restaurant.updateBusinessHour(policy);
-        }
+    
+        injectBusinessHours(id, restaurant);
         return restaurant;
     }
     
@@ -78,7 +72,18 @@ public class RestaurantRepositoryMybatis implements RestaurantRepository {
         }
     }
     
-    private Map<DayOfWeek, BusinessHour> getHoursByRestaurantId(Long id) {
+    private void injectBusinessHours(Long id, Restaurant restaurant) {
+        Map<DayOfWeek, BusinessHour> bhs = selectBusinessHoursFromMapper(id);
+        if (bhs != null) {
+            BusinessHourPolicy policy = new BusinessHourPolicy();
+            policy.updateAll(bhs);
+            restaurant.updateBusinessHour(policy);
+        }
+    }
+    
+    // Mybatis에서 바로 Map 타입으로 받아오지 못하고, List<Map<>>로 받아오고 내부 Map의 value로 값들이 담겨오기 때문에
+    // 이것을 Map<DayOfWeek, BusinessHour>로 변환해주는 역할
+    private Map<DayOfWeek, BusinessHour> selectBusinessHoursFromMapper(Long id) {
         LinkedHashMap<DayOfWeek, BusinessHour> bhs = new LinkedHashMap<>();
         List<Map<DayOfWeek, BusinessHour>> list = businessHourMapper.findHoursByRestaurantId(id);
         for (Map<DayOfWeek, BusinessHour> pair : list) {
