@@ -16,6 +16,4 @@ public interface MenuGroupMapper {
 
     int shopIdCheck(int id);
 
-    List<MenuGroupDto> getMenuGroup(Long id);
-
 }

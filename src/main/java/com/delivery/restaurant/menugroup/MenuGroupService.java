@@ -1,7 +1,5 @@
 package com.delivery.restaurant.menugroup;
 
-import java.util.List;
-
 import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -31,10 +29,6 @@ public class MenuGroupService {
 
     public int shopIdCheck(int id) {
         return menuGroupMapper.shopIdCheck(id);
-    }
-
-    public List<MenuGroupDto> getMenuGroup(Long id) {
-        return menuGroupMapper.getMenuGroup(id);
     }
 
 }
