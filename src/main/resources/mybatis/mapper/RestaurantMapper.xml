@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.delivery.restaurant.RestaurantMapper">
-    <resultMap id="restaurantResultMap" type="com.delivery.restaurant.Restaurant">
+    <resultMap id="restaurantResultMap" type="Restaurant">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="name" property="introduce" jdbcType="VARCHAR"/>
         <result column="introduce" property="introduce" jdbcType="VARCHAR"/>
@@ -12,19 +12,19 @@
         <result column="delivery_area_guide" property="deliveryAreaGuide" jdbcType="VARCHAR"/>
     </resultMap>
 
-    <resultMap id="businessHourResultMap" type="com.delivery.restaurant.businesshour.BusinessHour">
+    <resultMap id="businessHourResultMap" type="BusinessHour">
         <result column="OPEN" property="open"/>
         <result column="CLOSE" property="close"/>
     </resultMap>
 
-    <select id="findRestaurantById" resultMap="restaurantResultMap" parameterType="java.lang.Long">
-        select r.ID                  as id,
-               r.NAME                as name,
-               r.INTRODUCE           as introduce,
-               r.PHONE               as phone,
-               r.DELIVERY_AREA_GUIDE as delivery_area_guide
-        FROM RESTAURANTS r
-        WHERE r.ID = #{id}
+    <select id="findRestaurantById" resultMap="restaurantResultMap" parameterType="long">
+        select ID,
+               NAME,
+               INTRODUCE,
+               PHONE,
+               DELIVERY_AREA_GUIDE
+        FROM RESTAURANTS
+        WHERE ID = #{id}
     </select>
 
     <select id="selectBusinessHours">

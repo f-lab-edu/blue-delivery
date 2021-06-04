@@ -4,19 +4,19 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.delivery.restaurant.businesshour.BusinessHourMapper">
-    <resultMap id="customMap" type="java.util.LinkedHashMap">
-        <result property="days" javaType="java.time.DayOfWeek" column="DAY_OF_WEEK" typeHandler="com.delivery.utility.MyBatisDayOfWeekHandler"/>
+    <resultMap id="customMap" type="map">
+        <result property="days" javaType="java.time.DayOfWeek" column="DAY_OF_WEEK" typeHandler="MyBatisDayOfWeekHandler"/>
         <association property="businessHours" resultMap="businessHourResultMap"/>
     </resultMap>
 
-    <resultMap id="businessHourResultMap" type="com.delivery.restaurant.businesshour.BusinessHour">
-        <result column="OPEN" property="open" typeHandler="org.apache.ibatis.type.LocalTimeTypeHandler"/>
-        <result column="CLOSE" property="close" typeHandler="org.apache.ibatis.type.LocalTimeTypeHandler"/>
+    <resultMap id="businessHourResultMap" type="BusinessHour">
+        <result column="OPEN" property="open" typeHandler="LocalTimeTypeHandler"/>
+        <result column="CLOSE" property="close" typeHandler="LocalTimeTypeHandler"/>
     </resultMap>
 
     <select id="findHoursByRestaurantId"
             resultMap="customMap"
-            parameterType="java.lang.Long">
+            parameterType="long">
         select
             OPEN,
             CLOSE,
