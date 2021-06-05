@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.delivery.restaurant.menugroup.MenuGroupMapper">
+
+    <insert id="saveMenuGroup" parameterType="com.delivery.restaurant.menugroup.MenuGroupDto">
+        INSERT INTO MENU_GROUP(RESTAURANT_ID, NAME, CONTENT)
+        VALUES (#{restaurantId}, #{name}, #{content})
+    </insert>
+
+    <select id="groupNameCheck" resultType="integer">
+        SELECT COUNT(NAME)
+        FROM MENU_GROUP
+        WHERE NAME = #{name};
+    </select>
+
+</mapper>

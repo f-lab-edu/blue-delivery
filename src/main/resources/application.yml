@@ -12,4 +12,4 @@ spring:
 
 mybatis:
   type-aliases-package: com/deliver
-  mapper-locations: resources/mybatis/mapper/**/*.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml
