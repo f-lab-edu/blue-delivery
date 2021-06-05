@@ -1,6 +1,7 @@
 package com.delivery.restaurant.businesshour;
 
 
+import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.Objects;
 
@@ -8,6 +9,7 @@ public class BusinessHour {
     
     private LocalTime open;
     private LocalTime close;
+    private DayOfWeek dayOfWeek;
     
     public BusinessHour() {
     }
@@ -15,6 +17,20 @@ public class BusinessHour {
     public BusinessHour(LocalTime open, LocalTime close) {
         this.open = open;
         this.close = close;
+    }
+    
+    public BusinessHour(LocalTime open, LocalTime close, DayOfWeek dayOfWeek) {
+        this.open = open;
+        this.close = close;
+        this.dayOfWeek = dayOfWeek;
+    }
+    
+    public void updateDayOfWeek(DayOfWeek dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
+    }
+    
+    public DayOfWeek getDayOfWeek() {
+        return dayOfWeek;
     }
     
     public LocalTime getOpen() {
@@ -41,4 +57,5 @@ public class BusinessHour {
     public int hashCode() {
         return Objects.hash(open, close);
     }
+    
 }

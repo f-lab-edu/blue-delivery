@@ -1,16 +1,19 @@
 package com.delivery.restaurant.businesshour;
 
-import java.time.DayOfWeek;
+import java.util.List;
 
 public class BusinessHourResponse {
-    DayOfWeek day;
-    BusinessHour businessHour;
+    List<BusinessHour> businessHours;
     
-    public DayOfWeek getDay() {
-        return day;
+    public BusinessHourResponse(List<BusinessHour> businessHours) {
+        this.businessHours = businessHours;
     }
     
-    public BusinessHour getBusinessHour() {
-        return businessHour;
+    public List<BusinessHour> getBusinessHours() {
+        return businessHours;
+    }
+    
+    public void setBusinessHours(List<BusinessHour> businessHours) {
+        this.businessHours = businessHours;
     }
 }

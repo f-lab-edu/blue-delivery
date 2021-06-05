@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.delivery.restaurant.businesshour.BusinessHourConditions;
+import com.delivery.restaurant.businesshour.BusinessHourResponse;
 import com.delivery.restaurant.businesshour.UpdateBusinessHoursDto;
 
 @Service
@@ -16,11 +17,12 @@ public class RestaurantUpdateService {
     }
     
     @Transactional
-    public void updateBusinessHour(Long id, UpdateBusinessHoursDto dto) {
+    public BusinessHourResponse updateBusinessHour(Long id, UpdateBusinessHoursDto dto) {
         Restaurant restaurant = restaurantRepository.findRestaurantById(id);
         restaurant.updateBusinessHour(
-                BusinessHourConditions.makeBusinessHoursBy(dto.getBusinessHourType(), dto.getBusinessHours()));
+                BusinessHourConditions.makeBusinessHoursBy(dto.getBusinessHourType(), dto.getBusinessHoursDto()));
         restaurantRepository.updateBusinessHour(restaurant);
+        return restaurant.getBusinessHour();
     }
     
     public void editIntroduce(Long id, String introduce) {

@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class EverydayBusinessHourCondition implements BusinessHourCondition {
     @Override
-    public boolean isSatisfied(BusinessHourType type, Map<DayType, BusinessHour> bhs) {
+    public boolean isSatisfied(BusinessHourType type, Map<DayType, BusinessHourRequestParam> bhs) {
         if (type == BusinessHourType.EVERY_SAME_TIME && bhs.size() == 1) {
             return true;
         }
@@ -15,11 +15,11 @@ public class EverydayBusinessHourCondition implements BusinessHourCondition {
     }
     
     @Override
-    public BusinessHourPolicy returnBusinessHourPolicy(Map<DayType, BusinessHour> bhs) {
+    public BusinessHourPolicy returnBusinessHourPolicy(Map<DayType, BusinessHourRequestParam> bhs) {
         BusinessHourPolicy policy = new BusinessHourPolicy();
-        BusinessHour businessHour = bhs.get(DayType.EVERYDAY);
+        BusinessHourRequestParam businessHour = bhs.get(DayType.EVERYDAY);
         for (DayOfWeek day : DayOfWeek.values()) {
-            policy.update(day, businessHour);
+            policy.update(day, new BusinessHour(businessHour.getOpen(), businessHour.getClose()));
         }
         return policy;
     }

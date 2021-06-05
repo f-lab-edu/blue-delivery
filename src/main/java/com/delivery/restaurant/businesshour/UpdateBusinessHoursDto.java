@@ -18,14 +18,15 @@ public class UpdateBusinessHoursDto {
     @NotNull
     private BusinessHourType businessHourType;
     @Size(min = 1, max = 3)
-    private Map<DayType, BusinessHour> businessHours;
+    private Map<DayType, BusinessHourRequestParam> businessHoursDto;
     
     public UpdateBusinessHoursDto() {
     }
     
-    public UpdateBusinessHoursDto(BusinessHourType businessHourType, Map<DayType, BusinessHour> businessHours) {
+    public UpdateBusinessHoursDto(BusinessHourType businessHourType,
+                                  Map<DayType, BusinessHourRequestParam> businessHoursDto) {
         this.businessHourType = businessHourType;
-        this.businessHours = businessHours;
+        this.businessHoursDto = businessHoursDto;
     }
     
     public BusinessHourType getBusinessHourType() {
@@ -36,11 +37,11 @@ public class UpdateBusinessHoursDto {
         this.businessHourType = businessHourType;
     }
     
-    public Map<DayType, BusinessHour> getBusinessHours() {
-        return businessHours;
+    public Map<DayType, BusinessHourRequestParam> getBusinessHoursDto() {
+        return businessHoursDto;
     }
     
-    public void setBusinessHours(Map<DayType, BusinessHour> businessHours) {
-        this.businessHours = businessHours;
+    public void setBusinessHoursDto(Map<DayType, BusinessHourRequestParam> businessHoursDto) {
+        this.businessHoursDto = businessHoursDto;
     }
 }

@@ -16,7 +16,7 @@ public class BusinessHourConditions {
     }
     
     public static BusinessHourPolicy makeBusinessHoursBy(BusinessHourType type,
-                                                         Map<DayType, BusinessHour> bh) {
+                                                         Map<DayType, BusinessHourRequestParam> bh) {
         for (BusinessHourCondition condition : conditions) {
             if (condition.isSatisfied(type, bh)) {
                 return condition.returnBusinessHourPolicy(bh);

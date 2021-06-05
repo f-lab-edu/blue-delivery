@@ -5,12 +5,11 @@ import static java.time.DayOfWeek.*;
 
 import java.time.DayOfWeek;
 import java.util.Map;
-import java.util.function.Supplier;
 
 public class WeekdayWeekendBusinessHourCondition implements BusinessHourCondition {
     
     @Override
-    public boolean isSatisfied(BusinessHourType type, Map<DayType, BusinessHour> bh) {
+    public boolean isSatisfied(BusinessHourType type, Map<DayType, BusinessHourRequestParam> bh) {
         if (type == BusinessHourType.WEEKDAY_SAT_SUNDAY && bh.size() == 3) {
             return true;
         }
@@ -18,18 +17,24 @@ public class WeekdayWeekendBusinessHourCondition implements BusinessHourConditio
     }
     
     @Override
-    public BusinessHourPolicy returnBusinessHourPolicy(Map<DayType, BusinessHour> bhs) {
+    public BusinessHourPolicy returnBusinessHourPolicy(Map<DayType, BusinessHourRequestParam> bhs) {
         BusinessHourPolicy policy = new BusinessHourPolicy();
-        BusinessHour weekday = matchBusinessHour(bhs, DayType.WEEKDAY);
+        BusinessHourRequestParam weekday = matchBusinessHour(bhs, DayType.WEEKDAY);
+        BusinessHourRequestParam sat = matchBusinessHour(bhs, DayType.SATURDAY);
+        BusinessHourRequestParam sun = matchBusinessHour(bhs, DayType.SUNDAY);
+        
         for (DayOfWeek day : values()) {
-            policy.update(day, weekday);
+            if (day.compareTo(SATURDAY) >= 0) {
+                break;
+            }
+            policy.update(day, new BusinessHour(weekday.getOpen(), weekday.getClose()));
         }
-        policy.update(SATURDAY, matchBusinessHour(bhs, DayType.SATURDAY));
-        policy.update(SUNDAY, matchBusinessHour(bhs, DayType.SUNDAY));
+        policy.update(SATURDAY, new BusinessHour(sat.getOpen(), sat.getClose()));
+        policy.update(SUNDAY, new BusinessHour(sun.getOpen(), sun.getClose()));
         return policy;
     }
     
-    private BusinessHour matchBusinessHour(Map<DayType, BusinessHour> bhs, DayType dayType) {
+    private BusinessHourRequestParam matchBusinessHour(Map<DayType, BusinessHourRequestParam> bhs, DayType dayType) {
         for (DayType dt : bhs.keySet()) {
             if (dt == dayType) {
                 return bhs.get(dt);

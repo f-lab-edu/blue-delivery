@@ -1,6 +1,7 @@
 package com.delivery.restaurant;
 
 import com.delivery.restaurant.businesshour.BusinessHourPolicy;
+import com.delivery.restaurant.businesshour.BusinessHourResponse;
 
 public class Restaurant {
     private Long id;
@@ -50,8 +51,8 @@ public class Restaurant {
         return deliveryAreaGuide;
     }
     
-    public BusinessHourPolicy getBusinessHour() {
-        return businessHours;
+    public BusinessHourResponse getBusinessHour() {
+        return businessHours.toResponse();
     }
     
     public String getIntroduce() {

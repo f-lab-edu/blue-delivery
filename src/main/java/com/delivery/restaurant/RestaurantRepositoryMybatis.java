@@ -1,16 +1,9 @@
 package com.delivery.restaurant;
 
-import java.time.DayOfWeek;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.stereotype.Repository;
 
 import com.delivery.restaurant.businesshour.BusinessHour;
 import com.delivery.restaurant.businesshour.BusinessHourMapper;
-import com.delivery.restaurant.businesshour.BusinessHourPolicy;
 import com.delivery.restaurant.businesshour.BusinessHourResponse;
 
 @Repository
@@ -31,7 +24,6 @@ public class RestaurantRepositoryMybatis implements RestaurantRepository {
             throw new IllegalArgumentException("restaurant does not exist");
         }
     
-        injectBusinessHours(id, restaurant);
         return restaurant;
     }
     
@@ -61,33 +53,17 @@ public class RestaurantRepositoryMybatis implements RestaurantRepository {
         restaurantMapper.updateName(restaurant.getId(), restaurant.getName());
     }
     
-    private void insertBusinessHour(Restaurant restaurant) {
-        BusinessHourPolicy bhs = restaurant.getBusinessHour();
-        for (Map.Entry<DayOfWeek, BusinessHour> bh : bhs.getBusinessHours().entrySet()) {
+    private BusinessHourResponse insertBusinessHour(Restaurant restaurant) {
+        BusinessHourResponse bhResponse = restaurant.getBusinessHour();
+        for (BusinessHour bh : bhResponse.getBusinessHours()) {
             businessHourMapper.insert(
                     restaurant.getId(),
-                    bh.getValue().getOpen(),
-                    bh.getValue().getClose(),
-                    bh.getKey()
+                    bh.getOpen(),
+                    bh.getClose(),
+                    bh.getDayOfWeek()
             );
         }
+        return bhResponse;
     }
     
-    private void injectBusinessHours(Long id, Restaurant restaurant) {
-        Map<DayOfWeek, BusinessHour> bhs = selectBusinessHoursFromMapper(id);
-        BusinessHourPolicy policy = new BusinessHourPolicy();
-        if (bhs != null) {
-            policy.setup(bhs);
-        }
-        restaurant.updateBusinessHour(policy);
-    }
-    
-    private Map<DayOfWeek, BusinessHour> selectBusinessHoursFromMapper(Long id) {
-        LinkedHashMap<DayOfWeek, BusinessHour> bhs = new LinkedHashMap<>();
-        List<BusinessHourResponse> selected = businessHourMapper.findHoursByRestaurantId(id);
-        for (BusinessHourResponse each : selected) {
-            bhs.put(each.getDay(), each.getBusinessHour());
-        }
-        return bhs;
-    }
 }

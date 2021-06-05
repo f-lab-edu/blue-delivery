@@ -4,23 +4,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.delivery.restaurant.businesshour.BusinessHourMapper">
-    <resultMap id="responseResultMap" type="BusinessHourResponse">
-        <result property="day" javaType="java.time.DayOfWeek" column="DAY_OF_WEEK"
-                typeHandler="EnumTypeHandler"/>
-        <association property="businessHour" javaType="com.delivery.restaurant.businesshour.BusinessHour">
-            <result column="OPEN" property="open" typeHandler="LocalTimeTypeHandler"/>
-            <result column="CLOSE" property="close" typeHandler="LocalTimeTypeHandler" />
-        </association>
-    </resultMap>
 
-    <select id="findHoursByRestaurantId"
-            resultMap="responseResultMap"
-            parameterType="long">
-        select
-            DAY_OF_WEEK,
-               OPEN,
-               CLOSE
-        FROM BUSINESS_HOURS
-        WHERE REST_ID = #{id}
-    </select>
+    <insert id="insert" parameterType="map">
+        INSERT INTO BUSINESS_HOURS (REST_ID, OPEN, CLOSE, DAY_OF_WEEK)
+        VALUES (#{restId}, #{open}, #{close}, #{dayOfWeek})
+    </insert>
+
+    <delete id="deleteAllByRestaurantId" parameterType="long">
+        DELETE FROM BUSINESS_HOURS WHERE REST_ID=#{restId}
+    </delete>
 </mapper>

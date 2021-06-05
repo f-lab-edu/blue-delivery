@@ -10,24 +10,27 @@
         <result column="introduce" property="introduce" jdbcType="VARCHAR"/>
         <result column="phone" property="phone" jdbcType="VARCHAR"/>
         <result column="delivery_area_guide" property="deliveryAreaGuide" jdbcType="VARCHAR"/>
-    </resultMap>
-
-    <resultMap id="businessHourResultMap" type="BusinessHour">
-        <result column="OPEN" property="open"/>
-        <result column="CLOSE" property="close"/>
+        <association property="businessHours" javaType="BusinessHourPolicy" fetchType="lazy">
+            <collection property="businessHours" ofType="BusinessHour" column="businessHours" select="selectBusinessHours">
+                <result property="day" javaType="java.time.DayOfWeek" column="DAY_OF_WEEK"
+                        typeHandler="EnumTypeHandler"/>
+                <result column="OPEN" property="open"/>
+                <result column="CLOSE" property="close"/>
+            </collection>
+        </association>
     </resultMap>
 
     <select id="findRestaurantById" resultMap="restaurantResultMap" parameterType="long">
-        select ID,
-               NAME,
-               INTRODUCE,
-               PHONE,
-               DELIVERY_AREA_GUIDE
-        FROM RESTAURANTS
-        WHERE ID = #{id}
+        select r.ID,
+               r.NAME,
+               r.INTRODUCE,
+               r.PHONE,
+               r.DELIVERY_AREA_GUIDE
+        FROM RESTAURANTS r
+        WHERE r.ID = #{id}
     </select>
 
-    <select id="selectBusinessHours">
+    <select id="selectBusinessHours" resultType="BusinessHour">
         select
             OPEN,
             CLOSE,

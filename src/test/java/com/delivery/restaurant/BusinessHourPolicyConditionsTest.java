@@ -6,9 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.DisplayName;
@@ -17,11 +15,12 @@ import org.junit.jupiter.api.Test;
 import com.delivery.restaurant.businesshour.BusinessHour;
 import com.delivery.restaurant.businesshour.BusinessHourConditions;
 import com.delivery.restaurant.businesshour.BusinessHourPolicy;
+import com.delivery.restaurant.businesshour.BusinessHourRequestParam;
 
 class BusinessHourPolicyConditionsTest {
     
     BusinessHourConditions policies = new BusinessHourConditions();
-    Map<DayType, BusinessHour> map = new LinkedHashMap<>();
+    Map<DayType, BusinessHourRequestParam> map = new LinkedHashMap<>();
     
     
     @Test
@@ -31,7 +30,7 @@ class BusinessHourPolicyConditionsTest {
         LocalTime close = LocalTime.of(20, 0);
         map.put(
                 DayType.EVERYDAY,
-                new BusinessHour(open, close)
+                new BusinessHourRequestParam(open, close)
         );
         
         BusinessHourPolicy businessHourPolicy = policies.makeBusinessHoursBy(BusinessHourType.EVERY_SAME_TIME, map);
@@ -52,9 +51,9 @@ class BusinessHourPolicyConditionsTest {
         LocalTime satClose = LocalTime.of(21, 0);
         LocalTime sunOpen = LocalTime.of(19, 0);
         LocalTime sunClose = LocalTime.of(23, 58);
-        map.put(DayType.WEEKDAY, new BusinessHour(weekdayOpen, weekdayClose));
-        map.put(DayType.SATURDAY, new BusinessHour(satOpen, satClose));
-        map.put(DayType.SUNDAY, new BusinessHour(sunOpen, sunClose));
+        map.put(DayType.WEEKDAY, new BusinessHourRequestParam(weekdayOpen, weekdayClose));
+        map.put(DayType.SATURDAY, new BusinessHourRequestParam(satOpen, satClose));
+        map.put(DayType.SUNDAY, new BusinessHourRequestParam(sunOpen, sunClose));
 
         BusinessHourPolicy businessHourPolicy = policies.makeBusinessHoursBy(BusinessHourType.WEEKDAY_SAT_SUNDAY, map);
         for (DayOfWeek day : DayOfWeek.values()) {
@@ -81,9 +80,9 @@ class BusinessHourPolicyConditionsTest {
         LocalTime satClose = LocalTime.of(21, 0);
         LocalTime sunOpen = LocalTime.of(19, 0);
         LocalTime sunClose = LocalTime.of(23, 58);
-        map.put(DayType.EVERYDAY, new BusinessHour(everydayOpen, everydayClose));
-        map.put(DayType.SATURDAY, new BusinessHour(satOpen, satClose));
-        map.put(DayType.SUNDAY, new BusinessHour(sunOpen, sunClose));
+        map.put(DayType.EVERYDAY, new BusinessHourRequestParam(everydayOpen, everydayClose));
+        map.put(DayType.SATURDAY, new BusinessHourRequestParam(satOpen, satClose));
+        map.put(DayType.SUNDAY, new BusinessHourRequestParam(sunOpen, sunClose));
 
         assertThrows(IllegalArgumentException.class,
                 () -> policies.makeBusinessHoursBy(BusinessHourType.EVERY_SAME_TIME, map));

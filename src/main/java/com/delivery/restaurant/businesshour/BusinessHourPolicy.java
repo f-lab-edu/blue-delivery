@@ -1,30 +1,37 @@
 package com.delivery.restaurant.businesshour;
 
 import java.time.DayOfWeek;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BusinessHourPolicy {
-    protected Long id;
-    protected Map<DayOfWeek, BusinessHour> businessHours;
+    protected List<BusinessHour> businessHours;
     
     public BusinessHourPolicy() {
-        this.businessHours = new LinkedHashMap<>();
+        this.businessHours = new ArrayList<>();
     }
     
-    public void setup(Map<DayOfWeek, BusinessHour> bhs) {
+    public void setup(List<BusinessHour> bhs) {
         this.businessHours = bhs;
     }
     
     public void update(DayOfWeek day, BusinessHour businessHour) {
-        businessHours.put(day, businessHour);
+        businessHour.updateDayOfWeek(day);
+        businessHours.add(businessHour);
+    }
+    
+    public List<BusinessHour> getBusinessHours() {
+        return businessHours;
     }
     
     public BusinessHour getBusinessHourOf(DayOfWeek day) {
-        return this.businessHours.get(day);
+        return businessHours.stream()
+                .filter(x -> x.getDayOfWeek() == day)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("dayOfWeek does not exist"));
     }
     
-    public Map<DayOfWeek, BusinessHour> getBusinessHours() {
-        return businessHours;
+    public BusinessHourResponse toResponse() {
+        return new BusinessHourResponse(this.businessHours);
     }
 }
