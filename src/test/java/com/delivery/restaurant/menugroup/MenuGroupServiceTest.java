@@ -3,7 +3,6 @@ package com.delivery.restaurant.menugroup;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
-import org.apache.ibatis.javassist.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -20,11 +19,11 @@ class MenuGroupServiceTest {
     MenuGroupMapper menuGroupMapper;
 
     @Test
-    public void registerMenuGroupTest() throws NotFoundException {
+    public void registerMenuGroupTest() {
         MenuGroupDto menuGroup = new MenuGroupDto();
         menuGroup.setName("대표 메뉴");
         menuGroup.setContent("10000원");
-        menuGroup.setShopId(1);
+        menuGroup.setRestaurantId(1L);
         given(menuGroupMapper.saveMenuGroup(menuGroup))
                 .willReturn(1);
         service.registerMenuGroup(menuGroup);

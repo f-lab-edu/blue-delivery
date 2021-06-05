@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/testdb
+    url: jdbc:mysql://localhost:3306/delivery
     username: root
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -13,3 +13,4 @@ spring:
 
 mybatis:
   type-aliases-package: com/deliver
+  mapper-locations: classpath:mybatis/mapper/*.xml

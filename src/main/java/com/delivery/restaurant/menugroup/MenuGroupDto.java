@@ -11,9 +11,7 @@ public class MenuGroupDto {
     private Long id;
 
     @NotNull
-    private int shopId;
-
-    private int menuId;
+    private Long restaurantId;
 
     @NotNull
     private String name;
@@ -22,10 +20,9 @@ public class MenuGroupDto {
 
     private List<Menu> menus;
 
-    public MenuGroupDto(Long id, int shopId, int menuId, String name, String content, List<Menu> menus) {
+    public MenuGroupDto(Long id, Long restaurantId, String name, String content, List<Menu> menus) {
         this.id = id;
-        this.shopId = shopId;
-        this.menuId = menuId;
+        this.restaurantId = restaurantId;
         this.name = name;
         this.content = content;
         this.menus = menus;
@@ -42,20 +39,12 @@ public class MenuGroupDto {
         this.id = id;
     }
 
-    public int getShopId() {
-        return shopId;
+    public Long getRestaurantId() {
+        return restaurantId;
     }
 
-    public void setShopId(int shopId) {
-        this.shopId = shopId;
-    }
-
-    public int getMenuId() {
-        return menuId;
-    }
-
-    public void setMenuId(int menuId) {
-        this.menuId = menuId;
+    public void setRestaurantId(Long restaurantId) {
+        this.restaurantId = restaurantId;
     }
 
     public String getName() {
@@ -80,5 +69,9 @@ public class MenuGroupDto {
 
     public void setMenus(List<Menu> menus) {
         this.menus = menus;
+    }
+
+    public boolean checkRestaurantId(Long id) {
+        return this.restaurantId == id;
     }
 }

@@ -1,6 +1,5 @@
 package com.delivery.restaurant.menugroup;
 
-import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -8,6 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.delivery.exception.NotFoundIdException;
 
 @RestController
 public class MenuGroupController {
@@ -18,14 +19,13 @@ public class MenuGroupController {
         this.service = service;
     }
 
-    @PostMapping("shops/{shopId}/menuGroups")
+    @PostMapping("restaurants/{restaurantId}/menuGroups")
     public ResponseEntity<MenuGroup> registerMenuGroup(@Validated @RequestBody MenuGroupDto dto,
-                                                       @PathVariable Long shopId) throws NotFoundException {
-        if (service.shopIdCheck(dto.getShopId()) == shopId) {
-            service.registerMenuGroup(dto);
-        } else {
-            throw new NotFoundException("not found shopId");
+                                                       @PathVariable Long restaurantId) {
+        if (!dto.checkRestaurantId(restaurantId)) {
+            throw new NotFoundIdException("not found restaurantId");
         }
+        service.registerMenuGroup(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

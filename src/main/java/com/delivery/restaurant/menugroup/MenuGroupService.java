@@ -1,6 +1,5 @@
 package com.delivery.restaurant.menugroup;
 
-import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,7 @@ public class MenuGroupService {
         this.menuGroupMapper = menuGroupMapper;
     }
 
-    public void registerMenuGroup(MenuGroupDto dto) throws NotFoundException {
+    public void registerMenuGroup(MenuGroupDto dto) {
         if (this.groupNameCheck(dto.getName())) {
             throw new DuplicateKeyException("groupName already exists");
         } else {
@@ -27,8 +26,5 @@ public class MenuGroupService {
         return menuGroupMapper.groupNameCheck(name) == 1;
     }
 
-    public int shopIdCheck(int id) {
-        return menuGroupMapper.shopIdCheck(id);
-    }
-
 }
+
