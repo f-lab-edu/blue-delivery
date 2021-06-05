@@ -37,7 +37,7 @@ public class RestaurantUpdateController {
     
     @PatchMapping("/{id}/phone")
     public void editPhoneNumber(@PathVariable("id") Long id,
-                                @RequestBody @Valid EditPhoneDto dto) {
+                                @RequestBody @Valid EditPhoneRequest dto) {
         updateService.editPhoneNumber(id, dto.getPhone());
     }
     

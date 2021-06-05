@@ -15,11 +15,12 @@ public class BusinessHourConditions {
         conditions.add(new WeekdayWeekendBusinessHourCondition());
     }
     
-    public static BusinessHourPolicy makeBusinessHoursBy(BusinessHourType type,
-                                                         Map<DayType, BusinessHourRequestParam> bh) {
+    public static BusinessHourPolicy makeBusinessHoursBy(Long restId, UpdateBusinessHoursDto dto) {
+        BusinessHourType type = dto.getBusinessHourType();
+        Map<DayType, BusinessHourRequestParam> bhs = dto.getBusinessHours();
         for (BusinessHourCondition condition : conditions) {
-            if (condition.isSatisfied(type, bh)) {
-                return condition.returnBusinessHourPolicy(bh);
+            if (condition.isSatisfied(type, bhs)) {
+                return condition.returnBusinessHourPolicy(restId, bhs);
             }
         }
         throw new IllegalArgumentException("wrong values for business hour");

@@ -7,6 +7,7 @@ import java.util.Objects;
 
 public class BusinessHour {
     
+    private Long restId;
     private LocalTime open;
     private LocalTime close;
     private DayOfWeek dayOfWeek;
@@ -19,7 +20,14 @@ public class BusinessHour {
         this.close = close;
     }
     
-    public BusinessHour(LocalTime open, LocalTime close, DayOfWeek dayOfWeek) {
+    public BusinessHour(Long restId, LocalTime open, LocalTime close) {
+        this.restId = restId;
+        this.open = open;
+        this.close = close;
+    }
+    
+    public BusinessHour(Long restId, LocalTime open, LocalTime close, DayOfWeek dayOfWeek) {
+        this.restId = restId;
         this.open = open;
         this.close = close;
         this.dayOfWeek = dayOfWeek;

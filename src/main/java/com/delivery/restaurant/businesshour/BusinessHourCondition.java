@@ -7,5 +7,6 @@ public interface BusinessHourCondition {
     boolean isSatisfied(UpdateBusinessHoursDto.BusinessHourType type,
                         Map<UpdateBusinessHoursDto.DayType, BusinessHourRequestParam> bh);
     
-    BusinessHourPolicy returnBusinessHourPolicy(Map<UpdateBusinessHoursDto.DayType, BusinessHourRequestParam> bh);
+    BusinessHourPolicy returnBusinessHourPolicy(Long restId,
+                                                Map<UpdateBusinessHoursDto.DayType, BusinessHourRequestParam> bh);
 }

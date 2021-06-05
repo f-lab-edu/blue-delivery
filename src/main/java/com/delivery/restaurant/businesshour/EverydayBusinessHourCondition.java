@@ -15,11 +15,11 @@ public class EverydayBusinessHourCondition implements BusinessHourCondition {
     }
     
     @Override
-    public BusinessHourPolicy returnBusinessHourPolicy(Map<DayType, BusinessHourRequestParam> bhs) {
+    public BusinessHourPolicy returnBusinessHourPolicy(Long restId, Map<DayType, BusinessHourRequestParam> bhs) {
         BusinessHourPolicy policy = new BusinessHourPolicy();
         BusinessHourRequestParam businessHour = bhs.get(DayType.EVERYDAY);
         for (DayOfWeek day : DayOfWeek.values()) {
-            policy.update(day, new BusinessHour(businessHour.getOpen(), businessHour.getClose()));
+            policy.update(day, new BusinessHour(restId, businessHour.getOpen(), businessHour.getClose()));
         }
         return policy;
     }

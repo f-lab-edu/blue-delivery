@@ -17,7 +17,7 @@ public class WeekdayWeekendBusinessHourCondition implements BusinessHourConditio
     }
     
     @Override
-    public BusinessHourPolicy returnBusinessHourPolicy(Map<DayType, BusinessHourRequestParam> bhs) {
+    public BusinessHourPolicy returnBusinessHourPolicy(Long restId, Map<DayType, BusinessHourRequestParam> bhs) {
         BusinessHourPolicy policy = new BusinessHourPolicy();
         BusinessHourRequestParam weekday = matchBusinessHour(bhs, DayType.WEEKDAY);
         BusinessHourRequestParam sat = matchBusinessHour(bhs, DayType.SATURDAY);

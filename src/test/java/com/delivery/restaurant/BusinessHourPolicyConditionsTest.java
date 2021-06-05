@@ -16,6 +16,7 @@ import com.delivery.restaurant.businesshour.BusinessHour;
 import com.delivery.restaurant.businesshour.BusinessHourConditions;
 import com.delivery.restaurant.businesshour.BusinessHourPolicy;
 import com.delivery.restaurant.businesshour.BusinessHourRequestParam;
+import com.delivery.restaurant.businesshour.UpdateBusinessHoursDto;
 
 class BusinessHourPolicyConditionsTest {
     
@@ -33,7 +34,8 @@ class BusinessHourPolicyConditionsTest {
                 new BusinessHourRequestParam(open, close)
         );
         
-        BusinessHourPolicy businessHourPolicy = policies.makeBusinessHoursBy(BusinessHourType.EVERY_SAME_TIME, map);
+        BusinessHourPolicy businessHourPolicy = policies.makeBusinessHoursBy(1L,
+                new UpdateBusinessHoursDto(BusinessHourType.EVERY_SAME_TIME, map));
         for (DayOfWeek day : DayOfWeek.values()) {
             BusinessHour hour = businessHourPolicy.getBusinessHourOf(day);
             assertThat(hour.getOpen()).isEqualTo(open);
@@ -55,7 +57,8 @@ class BusinessHourPolicyConditionsTest {
         map.put(DayType.SATURDAY, new BusinessHourRequestParam(satOpen, satClose));
         map.put(DayType.SUNDAY, new BusinessHourRequestParam(sunOpen, sunClose));
 
-        BusinessHourPolicy businessHourPolicy = policies.makeBusinessHoursBy(BusinessHourType.WEEKDAY_SAT_SUNDAY, map);
+        BusinessHourPolicy businessHourPolicy = policies.makeBusinessHoursBy(1L,
+                new UpdateBusinessHoursDto(BusinessHourType.WEEKDAY_SAT_SUNDAY, map));
         for (DayOfWeek day : DayOfWeek.values()) {
             BusinessHour hour = businessHourPolicy.getBusinessHourOf(day);
             if (day.compareTo(DayOfWeek.FRIDAY) <= 0) {
@@ -85,7 +88,9 @@ class BusinessHourPolicyConditionsTest {
         map.put(DayType.SUNDAY, new BusinessHourRequestParam(sunOpen, sunClose));
 
         assertThrows(IllegalArgumentException.class,
-                () -> policies.makeBusinessHoursBy(BusinessHourType.EVERY_SAME_TIME, map));
+                () -> policies.makeBusinessHoursBy(1L,
+                        new UpdateBusinessHoursDto(BusinessHourType.EVERY_SAME_TIME, map))
+        );
     }
 
 }

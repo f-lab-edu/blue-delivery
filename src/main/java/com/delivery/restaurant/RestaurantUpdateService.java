@@ -20,7 +20,7 @@ public class RestaurantUpdateService {
     public BusinessHourResponse updateBusinessHour(Long id, UpdateBusinessHoursDto dto) {
         Restaurant restaurant = restaurantRepository.findRestaurantById(id);
         restaurant.updateBusinessHour(
-                BusinessHourConditions.makeBusinessHoursBy(dto.getBusinessHourType(), dto.getBusinessHoursDto()));
+                BusinessHourConditions.makeBusinessHoursBy(restaurant.getId(), dto));
         restaurantRepository.updateBusinessHour(restaurant);
         return restaurant.getBusinessHour();
     }
