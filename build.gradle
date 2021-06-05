@@ -1,5 +1,6 @@
 plugins {
-    id 'checkstyle'
+    id 'checkstyle' // linter
+    id "org.flywaydb.flyway" version "7.9.1" // flyway (db migration)
     id 'org.springframework.boot' version '2.4.5'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
@@ -26,11 +27,21 @@ checkstyle {
     reportsDir = file("${buildDir}/checkstyle-output") // report 파일 위치 지정
 }
 
+flyway {
+    baselineOnMigrate = true
+    user = 'root'
+    password = 'password'
+    url = 'jdbc:mysql://localhost:3306/testdb'
+    encoding = 'UTF-8'
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-aop'
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.4'
+    implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16' // log4jdbc (jdbc log)
+//    compile 'org.flywaydb:flyway-core' // flyway (db migration)
     compile 'mysql:mysql-connector-java'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

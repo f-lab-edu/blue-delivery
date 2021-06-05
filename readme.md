@@ -79,3 +79,11 @@ Github Flow는 main 브랜치를 가 곧 product가 되는 전략입니다.
 - 원격 저장소의 브랜치가 main 인지 확인 (main이면 push 불가능)
 - main 브랜치를 pull해서 최신 상태 유지
 
+## DB 형상관리
+[flyway](https://flywaydb.org/documentation/usage/gradle/)
+
+**migration**
+- ./gradlew flywayMigrate  
+  
+**clean**
+- ./gradlew flywayClean
