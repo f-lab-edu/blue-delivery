@@ -12,14 +12,12 @@ public class BusinessHourPolicy {
         this.businessHours = new LinkedHashMap<>();
     }
     
-    public void update(DayOfWeek day, BusinessHour businessHour) {
-        businessHours.put(day, businessHour);
+    public void setup(Map<DayOfWeek, BusinessHour> bhs) {
+        this.businessHours = bhs;
     }
     
-    public void updateAll(Map<DayOfWeek, BusinessHour> bhs) {
-        for (Map.Entry<DayOfWeek, BusinessHour> bh : bhs.entrySet()) {
-            this.businessHours.put(bh.getKey(), bh.getValue());
-        }
+    public void update(DayOfWeek day, BusinessHour businessHour) {
+        businessHours.put(day, businessHour);
     }
     
     public BusinessHour getBusinessHourOf(DayOfWeek day) {

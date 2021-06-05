@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.delivery.restaurant.businesshour.BusinessHour;
 import com.delivery.restaurant.businesshour.BusinessHourMapper;
 import com.delivery.restaurant.businesshour.BusinessHourPolicy;
+import com.delivery.restaurant.businesshour.BusinessHourResponse;
 
 @Repository
 public class RestaurantRepositoryMybatis implements RestaurantRepository {
@@ -74,31 +75,18 @@ public class RestaurantRepositoryMybatis implements RestaurantRepository {
     
     private void injectBusinessHours(Long id, Restaurant restaurant) {
         Map<DayOfWeek, BusinessHour> bhs = selectBusinessHoursFromMapper(id);
+        BusinessHourPolicy policy = new BusinessHourPolicy();
         if (bhs != null) {
-            BusinessHourPolicy policy = new BusinessHourPolicy();
-            policy.updateAll(bhs);
-            restaurant.updateBusinessHour(policy);
+            policy.setup(bhs);
         }
+        restaurant.updateBusinessHour(policy);
     }
     
-    // Mybatis에서 바로 Map 타입으로 받아오지 못하고, List<Map<>>로 받아오고 내부 Map의 value로 값들이 담겨오기 때문에
-    // 이것을 Map<DayOfWeek, BusinessHour>로 변환해주는 역할
     private Map<DayOfWeek, BusinessHour> selectBusinessHoursFromMapper(Long id) {
         LinkedHashMap<DayOfWeek, BusinessHour> bhs = new LinkedHashMap<>();
-        List<Map<DayOfWeek, BusinessHour>> list = businessHourMapper.findHoursByRestaurantId(id);
-        for (Map<DayOfWeek, BusinessHour> pair : list) {
-            Collection<BusinessHour> values = pair.values();
-            DayOfWeek dayOfWeek = null;
-            BusinessHour businessHour = null;
-            for (Object o : values) {
-                if (o instanceof DayOfWeek) {
-                    dayOfWeek = (DayOfWeek) o;
-                }
-                if (o instanceof BusinessHour) {
-                    businessHour = (BusinessHour) o;
-                }
-            }
-            bhs.put(dayOfWeek, businessHour);
+        List<BusinessHourResponse> selected = businessHourMapper.findHoursByRestaurantId(id);
+        for (BusinessHourResponse each : selected) {
+            bhs.put(each.getDay(), each.getBusinessHour());
         }
         return bhs;
     }

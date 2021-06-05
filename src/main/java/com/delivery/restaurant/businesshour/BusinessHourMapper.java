@@ -21,5 +21,5 @@ public interface BusinessHourMapper {
     @Delete("DELETE FROM BUSINESS_HOURS WHERE REST_ID=#{restId}")
     void deleteAllByRestaurantId(@Param("restId") Long restId);
     
-    List<Map<DayOfWeek, BusinessHour>> findHoursByRestaurantId(Long id);
+    List<BusinessHourResponse> findHoursByRestaurantId(Long id);
 }
