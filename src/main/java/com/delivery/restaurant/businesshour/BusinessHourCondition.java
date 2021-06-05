@@ -1,13 +1,11 @@
 package com.delivery.restaurant.businesshour;
 
-import java.util.List;
-
-import com.delivery.utility.BusinessHourType;
-
+import java.util.Map;
 
 public interface BusinessHourCondition {
     
-    boolean isSatisfied(BusinessHourType type, List<BusinessHour> bh);
+    boolean isSatisfied(UpdateBusinessHoursDto.BusinessHourType type,
+                        Map<UpdateBusinessHoursDto.DayType, BusinessHourRequestParam> bh);
     
-    BusinessHourPolicy returnBusinessHourPolicy(List<BusinessHour> bh);
+    BusinessHourPolicy returnBusinessHourPolicy(Map<UpdateBusinessHoursDto.DayType, BusinessHourRequestParam> bh);
 }

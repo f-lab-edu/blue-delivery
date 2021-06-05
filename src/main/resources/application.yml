@@ -11,5 +11,10 @@ spring:
       ddl-auto: none # ddl 자동 생성을 db migration 때 하기 위함
 
 mybatis:
-  type-aliases-package: com/deliver
-  mapper-locations: classpath:mybatis/mapper/*.xml
+  mapper-locations: mybatis/mapper/*.xml
+  type-aliases-package:
+    com.delivery.restaurant,
+    com.delivery.restaurant.businesshour,
+    com.delivery.restaurant.businesshour,
+    com.delivery.utility,
+    org.apache.ibatis.type

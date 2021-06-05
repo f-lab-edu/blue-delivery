@@ -1,43 +1,47 @@
 package com.delivery.restaurant.businesshour;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.Map;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.delivery.utility.BusinessHourType;
-
 public class UpdateBusinessHoursDto {
     
+    public enum DayType {
+        EVERYDAY, WEEKDAY, SATURDAY, SUNDAY;
+    }
+    
+    public enum BusinessHourType {
+        EVERY_SAME_TIME, WEEKDAY_SAT_SUNDAY
+    }
+    
     @NotNull
-    private BusinessHourType type;
+    private BusinessHourType businessHourType;
     @Size(min = 1, max = 3)
-    private List<BusinessHour> businessHours;
+    private Map<DayType, BusinessHourRequestParam> businessHoursDto;
     
     public UpdateBusinessHoursDto() {
     }
     
-    public UpdateBusinessHoursDto(BusinessHourType type, BusinessHour... businessHours) {
-        this.type = type;
-        this.businessHours = new ArrayList<>();
-        Collections.addAll(this.businessHours, businessHours);
+    public UpdateBusinessHoursDto(BusinessHourType businessHourType,
+                                  Map<DayType, BusinessHourRequestParam> businessHoursDto) {
+        this.businessHourType = businessHourType;
+        this.businessHoursDto = businessHoursDto;
     }
     
-    public BusinessHourType getType() {
-        return type;
+    public BusinessHourType getBusinessHourType() {
+        return businessHourType;
     }
     
-    public void setType(BusinessHourType type) {
-        this.type = type;
+    public void setBusinessHourType(BusinessHourType businessHourType) {
+        this.businessHourType = businessHourType;
     }
     
-    public List<BusinessHour> getBusinessHours() {
-        return businessHours;
+    public Map<DayType, BusinessHourRequestParam> getBusinessHoursDto() {
+        return businessHoursDto;
     }
     
-    public void setBusinessHours(List<BusinessHour> businessHours) {
-        this.businessHours = businessHours;
+    public void setBusinessHoursDto(Map<DayType, BusinessHourRequestParam> businessHoursDto) {
+        this.businessHoursDto = businessHoursDto;
     }
 }

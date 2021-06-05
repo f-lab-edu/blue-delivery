@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.delivery.restaurant.RestaurantMapper">
+    <resultMap id="restaurantResultMap" type="Restaurant">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="introduce" jdbcType="VARCHAR"/>
+        <result column="introduce" property="introduce" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="delivery_area_guide" property="deliveryAreaGuide" jdbcType="VARCHAR"/>
+        <association property="businessHours" javaType="BusinessHourPolicy" fetchType="lazy">
+            <collection property="businessHours" ofType="BusinessHour" column="businessHours" select="selectBusinessHours">
+                <result property="day" javaType="java.time.DayOfWeek" column="DAY_OF_WEEK"
+                        typeHandler="EnumTypeHandler"/>
+                <result column="OPEN" property="open"/>
+                <result column="CLOSE" property="close"/>
+            </collection>
+        </association>
+    </resultMap>
+
+    <select id="findRestaurantById" resultMap="restaurantResultMap" parameterType="long">
+        select r.ID,
+               r.NAME,
+               r.INTRODUCE,
+               r.PHONE,
+               r.DELIVERY_AREA_GUIDE
+        FROM RESTAURANT r
+        WHERE r.ID = #{id}
+    </select>
+
+    <select id="selectBusinessHours" resultType="BusinessHour">
+        select
+            OPEN,
+            CLOSE,
+            BUSINESS_HOUR_TYPE,
+            DAY_TYPE
+        from
+            BUSINESS_HOUR
+        where
+            REST_ID = #{ID}
+    </select>
+
+    <update id="updateIntroduce" parameterType="map">
+        UPDATE RESTAURANT
+        SET INTRODUCE = #{introduce}
+        WHERE id = #{id}
+    </update>
+
+    <update id="updatePhone" parameterType="map">
+        UPDATE RESTAURANT
+        SET PHONE = #{phone}
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateDeliveryAreaGuide" parameterType="map">
+        UPDATE RESTAURANT
+        SET DELIVERY_AREA_GUIDE = #{guide}
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateName" parameterType="map">
+        UPDATE RESTAURANT
+        SET DELIVERY_AREA_GUIDE = #{name}
+        WHERE id = #{id}
+    </update>
+</mapper>

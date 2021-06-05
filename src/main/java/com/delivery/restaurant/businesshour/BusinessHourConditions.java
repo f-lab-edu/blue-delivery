@@ -1,23 +1,22 @@
 package com.delivery.restaurant.businesshour;
 
+import static com.delivery.restaurant.businesshour.UpdateBusinessHoursDto.*;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import org.springframework.stereotype.Component;
-
-import com.delivery.utility.BusinessHourType;
-
-@Component
 public class BusinessHourConditions {
-    private List<BusinessHourCondition> conditions;
+    private static List<BusinessHourCondition> conditions;
     
-    public BusinessHourConditions() {
-        this.conditions = new ArrayList<>();
-        this.conditions.add(new EverydayBusinessHourCondition());
-        this.conditions.add(new WeekdayWeekendBusinessHourCondition());
+    static {
+        conditions = new ArrayList<>();
+        conditions.add(new EverydayBusinessHourCondition());
+        conditions.add(new WeekdayWeekendBusinessHourCondition());
     }
     
-    public BusinessHourPolicy makeBusinessHoursBy(BusinessHourType type, List<BusinessHour> bh) {
+    public static BusinessHourPolicy makeBusinessHoursBy(BusinessHourType type,
+                                                         Map<DayType, BusinessHourRequestParam> bh) {
         for (BusinessHourCondition condition : conditions) {
             if (condition.isSatisfied(type, bh)) {
                 return condition.returnBusinessHourPolicy(bh);

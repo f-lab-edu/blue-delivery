@@ -1,12 +1,10 @@
 package com.delivery.restaurant;
 
-import java.util.Set;
-
 import org.springframework.stereotype.Repository;
 
 import com.delivery.restaurant.businesshour.BusinessHour;
 import com.delivery.restaurant.businesshour.BusinessHourMapper;
-import com.delivery.restaurant.businesshour.BusinessHourPolicy;
+import com.delivery.restaurant.businesshour.BusinessHourResponse;
 
 @Repository
 public class RestaurantRepositoryMybatis implements RestaurantRepository {
@@ -21,7 +19,12 @@ public class RestaurantRepositoryMybatis implements RestaurantRepository {
     
     @Override
     public Restaurant findRestaurantById(Long id) {
-        return restaurantMapper.findRestaurantById(id);
+        Restaurant restaurant = restaurantMapper.findRestaurantById(id);
+        if (restaurant == null) {
+            throw new IllegalArgumentException("restaurant does not exist");
+        }
+    
+        return restaurant;
     }
     
     @Override
@@ -30,17 +33,37 @@ public class RestaurantRepositoryMybatis implements RestaurantRepository {
         insertBusinessHour(restaurant);
     }
     
-    private void insertBusinessHour(Restaurant restaurant) {
-        BusinessHourPolicy bhs = restaurant.getBusinessHour();
-        Set<BusinessHour> bhByType = bhs.getBusinessHoursByDayType();
-        
-        for (BusinessHour bh : bhByType) {
+    @Override
+    public void updateIntroduce(Restaurant restaurant) {
+        restaurantMapper.updateIntroduce(restaurant.getId(), restaurant.getIntroduce());
+    }
+    
+    @Override
+    public void updatePhone(Restaurant restaurant) {
+        restaurantMapper.updatePhone(restaurant.getId(), restaurant.getPhone());
+    }
+    
+    @Override
+    public void updateDeliveryAreaGuide(Restaurant restaurant) {
+        restaurantMapper.updateDeliveryAreaGuide(restaurant.getId(), restaurant.getDeliveryAreaGuide());
+    }
+    
+    @Override
+    public void updateName(Restaurant restaurant) {
+        restaurantMapper.updateName(restaurant.getId(), restaurant.getName());
+    }
+    
+    private BusinessHourResponse insertBusinessHour(Restaurant restaurant) {
+        BusinessHourResponse bhResponse = restaurant.getBusinessHour();
+        for (BusinessHour bh : bhResponse.getBusinessHours()) {
             businessHourMapper.insert(
                     restaurant.getId(),
                     bh.getOpen(),
                     bh.getClose(),
-                    bh.getDayType(),
-                    bhs.getBusinessHourType());
+                    bh.getDayOfWeek()
+            );
         }
+        return bhResponse;
     }
+    
 }

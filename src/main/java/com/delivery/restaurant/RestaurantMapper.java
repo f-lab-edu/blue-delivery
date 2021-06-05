@@ -1,20 +1,17 @@
 package com.delivery.restaurant;
 
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface RestaurantMapper {
     
-    @Select("SELECT * FROM RESTAURANTS WHERE ID = #{id}")
-    Restaurant findRestaurantById(@Param("id") Long id);
+    Restaurant findRestaurantById(Long id);
     
-    @Insert("INSERT INTO RESTAURANTS (NAME) VALUES( #{NAME} )")
-    void save(@Param("name") String name);
+    void updateIntroduce(Long id, String introduce);
     
-    @Update("UPDATE RESTAURANTS SET NAME=#{name} WHERE ID = #{id}")
-    void update(@Param("id") Long id, @Param("name") String name);
+    void updatePhone(Long id, String phone);
+    
+    void updateDeliveryAreaGuide(Long id, String guide);
+    
+    void updateName(Long id, String name);
 }
