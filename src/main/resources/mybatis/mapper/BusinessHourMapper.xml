@@ -6,11 +6,11 @@
 <mapper namespace="com.delivery.restaurant.businesshour.BusinessHourMapper">
 
     <insert id="insert" parameterType="map">
-        INSERT INTO BUSINESS_HOURS (REST_ID, OPEN, CLOSE, DAY_OF_WEEK)
+        INSERT INTO BUSINESS_HOUR (REST_ID, OPEN, CLOSE, DAY_OF_WEEK)
         VALUES (#{restId}, #{open}, #{close}, #{dayOfWeek})
     </insert>
 
     <delete id="deleteAllByRestaurantId" parameterType="long">
-        DELETE FROM BUSINESS_HOURS WHERE REST_ID=#{restId}
+        DELETE FROM BUSINESS_HOUR WHERE REST_ID=#{restId}
     </delete>
 </mapper>

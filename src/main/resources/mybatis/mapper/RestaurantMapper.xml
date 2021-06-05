@@ -26,7 +26,7 @@
                r.INTRODUCE,
                r.PHONE,
                r.DELIVERY_AREA_GUIDE
-        FROM RESTAURANTS r
+        FROM RESTAURANT r
         WHERE r.ID = #{id}
     </select>
 
@@ -37,31 +37,31 @@
             BUSINESS_HOUR_TYPE,
             DAY_TYPE
         from
-            BUSINESS_HOURS
+            BUSINESS_HOUR
         where
             REST_ID = #{ID}
     </select>
 
     <update id="updateIntroduce" parameterType="map">
-        UPDATE RESTAURANTS
+        UPDATE RESTAURANT
         SET INTRODUCE = #{introduce}
         WHERE id = #{id}
     </update>
 
     <update id="updatePhone" parameterType="map">
-        UPDATE RESTAURANTS
+        UPDATE RESTAURANT
         SET PHONE = #{phone}
         WHERE id = #{id}
     </update>
 
     <update id="updateDeliveryAreaGuide" parameterType="map">
-        UPDATE RESTAURANTS
+        UPDATE RESTAURANT
         SET DELIVERY_AREA_GUIDE = #{guide}
         WHERE id = #{id}
     </update>
 
     <update id="updateName" parameterType="map">
-        UPDATE RESTAURANTS
+        UPDATE RESTAURANT
         SET DELIVERY_AREA_GUIDE = #{name}
         WHERE id = #{id}
     </update>
