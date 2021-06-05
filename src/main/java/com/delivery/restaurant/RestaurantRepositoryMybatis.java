@@ -23,7 +23,6 @@ public class RestaurantRepositoryMybatis implements RestaurantRepository {
         if (restaurant == null) {
             throw new IllegalArgumentException("restaurant does not exist");
         }
-        
         return restaurant;
     }
     
