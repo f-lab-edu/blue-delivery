@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BusinessHourConditions {
-    private static List<BusinessHourCondition> conditions;
+    private static final List<BusinessHourCondition> conditions;
     
     static {
         conditions = new ArrayList<>();

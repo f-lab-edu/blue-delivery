@@ -4,40 +4,38 @@ import static com.delivery.restaurant.businesshour.UpdateBusinessHoursDto.*;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class BusinessHourRequestParams {
-    private List<BusinessHourRequestParam> params;
+    private Map<DayType, BusinessHourRequestParam> params;
     
     public BusinessHourRequestParams() {
     }
     
-    public BusinessHourRequestParams(List<BusinessHourRequestParam> params) {
+    public BusinessHourRequestParams(Map<DayType, BusinessHourRequestParam> params) {
         this.params = params;
     }
     
     public boolean isEveryDayHours(BusinessHourType type) {
         return type == BusinessHourType.EVERY_SAME_TIME
                 && params.size() == 1
-                && params.stream().anyMatch(x -> x.is(DayType.EVERYDAY));
+                && params.containsKey(DayType.EVERYDAY);
     }
     
     public boolean isWeekdaySatSunday(BusinessHourType type) {
         return type == BusinessHourType.WEEKDAY_SAT_SUNDAY
                 && params.size() == 3
-                && params.stream().anyMatch(x -> x.is(DayType.WEEKDAY))
-                && params.stream().anyMatch(x -> x.is(DayType.SATURDAY))
-                && params.stream().anyMatch(x -> x.is(DayType.SUNDAY));
+                && params.containsKey(DayType.WEEKDAY)
+                && params.containsKey(DayType.SATURDAY)
+                && params.containsKey(DayType.SUNDAY);
     }
     
     public BusinessHourRequestParam getParamByDayType(DayType dayType) {
-        return params.stream()
-                .filter(x -> x.getDayType() == dayType)
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("business hours parameter does not exist"));
+        return params.get(dayType);
     }
     
-    public List<BusinessHourRequestParam> getParams() {
-        return Collections.unmodifiableList(params);
+    public Map<DayType, BusinessHourRequestParam> getParams() {
+        return Collections.unmodifiableMap(params);
     }
     
 }
