@@ -15,13 +15,8 @@ public class BusinessHour {
     public BusinessHour() {
     }
     
-    public BusinessHour(LocalTime open, LocalTime close) {
-        this.open = open;
-        this.close = close;
-    }
-    
-    public BusinessHour(Long restId, LocalTime open, LocalTime close) {
-        this.restId = restId;
+    public BusinessHour(DayOfWeek dayOfWeek, LocalTime open, LocalTime close) {
+        this.dayOfWeek = dayOfWeek;
         this.open = open;
         this.close = close;
     }
@@ -30,10 +25,6 @@ public class BusinessHour {
         this.restId = restId;
         this.open = open;
         this.close = close;
-        this.dayOfWeek = dayOfWeek;
-    }
-    
-    public void updateDayOfWeek(DayOfWeek dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
     }
     

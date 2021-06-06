@@ -11,12 +11,7 @@ public class BusinessHourPolicy {
         this.businessHours = new ArrayList<>();
     }
     
-    public void setup(List<BusinessHour> bhs) {
-        this.businessHours = bhs;
-    }
-    
-    public void update(DayOfWeek day, BusinessHour businessHour) {
-        businessHour.updateDayOfWeek(day);
+    public void update(BusinessHour businessHour) {
         businessHours.add(businessHour);
     }
     

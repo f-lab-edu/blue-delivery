@@ -1,7 +1,5 @@
 package com.delivery.restaurant.businesshour;
 
-import java.util.Map;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -17,14 +15,14 @@ public class UpdateBusinessHoursDto {
     
     @NotNull
     private BusinessHourType businessHourType;
-    @Size(min = 1, max = 3)
-    private Map<DayType, BusinessHourRequestParam> businessHours;
+    @NotNull
+    private BusinessHourRequestParams businessHours;
     
     public UpdateBusinessHoursDto() {
     }
     
     public UpdateBusinessHoursDto(BusinessHourType businessHourType,
-                                  Map<DayType, BusinessHourRequestParam> businessHours) {
+                                  BusinessHourRequestParams businessHours) {
         this.businessHourType = businessHourType;
         this.businessHours = businessHours;
     }
@@ -37,11 +35,11 @@ public class UpdateBusinessHoursDto {
         this.businessHourType = businessHourType;
     }
     
-    public Map<DayType, BusinessHourRequestParam> getBusinessHours() {
+    public BusinessHourRequestParams getBusinessHours() {
         return businessHours;
     }
     
-    public void setBusinessHours(Map<DayType, BusinessHourRequestParam> businessHours) {
+    public void setBusinessHours(BusinessHourRequestParams businessHours) {
         this.businessHours = businessHours;
     }
 }
