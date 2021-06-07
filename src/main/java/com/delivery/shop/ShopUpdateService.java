@@ -8,11 +8,11 @@ import com.delivery.shop.businesshour.BusinessHourResponse;
 import com.delivery.shop.businesshour.UpdateBusinessHoursDto;
 
 @Service
-public class RestaurantUpdateService {
+public class ShopUpdateService {
     
     private final ShopRepository shopRepository;
     
-    public RestaurantUpdateService(ShopRepository shopRepository) {
+    public ShopUpdateService(ShopRepository shopRepository) {
         this.shopRepository = shopRepository;
     }
     

@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.delivery.shop.businesshour.UpdateBusinessHoursDto;
 
 @RestController
-@RequestMapping("/restaurants")
-public class RestaurantUpdateController {
+@RequestMapping("/shops")
+public class ShopUpdateController {
     
-    private RestaurantUpdateService updateService;
+    private ShopUpdateService updateService;
     
-    public RestaurantUpdateController(RestaurantUpdateService updateService) {
+    public ShopUpdateController(ShopUpdateService updateService) {
         this.updateService = updateService;
     }
     
