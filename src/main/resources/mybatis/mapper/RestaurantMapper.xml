@@ -3,65 +3,60 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.delivery.restaurant.RestaurantMapper">
-    <resultMap id="restaurantResultMap" type="Restaurant">
+<mapper namespace="com.delivery.shop.ShopMapper">
+    <resultMap id="shopResultMap" type="Shop">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="name" property="introduce" jdbcType="VARCHAR"/>
         <result column="introduce" property="introduce" jdbcType="VARCHAR"/>
         <result column="phone" property="phone" jdbcType="VARCHAR"/>
         <result column="delivery_area_guide" property="deliveryAreaGuide" jdbcType="VARCHAR"/>
-        <association property="businessHours" javaType="BusinessHourPolicy" fetchType="lazy">
-            <collection property="businessHours" ofType="BusinessHour" column="businessHours" select="selectBusinessHours">
-                <result property="day" javaType="java.time.DayOfWeek" column="DAY_OF_WEEK"
-                        typeHandler="EnumTypeHandler"/>
-                <result column="OPEN" property="open"/>
-                <result column="CLOSE" property="close"/>
-            </collection>
+        <association property="businessHours" javaType="BusinessHourPolicy">
+            <collection property="businessHours" ofType="BusinessHour" column="id" select="selectBusinessHours" fetchType="lazy"/>
         </association>
     </resultMap>
 
-    <select id="findRestaurantById" resultMap="restaurantResultMap" parameterType="long">
+    <select id="findShopById" resultMap="shopResultMap" parameterType="long">
         select r.ID,
                r.NAME,
                r.INTRODUCE,
                r.PHONE,
                r.DELIVERY_AREA_GUIDE
-        FROM RESTAURANT r
+        FROM SHOP r
         WHERE r.ID = #{id}
     </select>
 
     <select id="selectBusinessHours" resultType="BusinessHour">
         select
+            SHOP_ID as shopId,
             OPEN,
             CLOSE,
-            BUSINESS_HOUR_TYPE,
-            DAY_TYPE
+            DAY_OF_WEEK as dayOfWeek
         from
             BUSINESS_HOUR
         where
-            REST_ID = #{ID}
+            SHOP_ID = #{ID}
     </select>
 
     <update id="updateIntroduce" parameterType="map">
-        UPDATE RESTAURANT
+        UPDATE SHOP
         SET INTRODUCE = #{introduce}
         WHERE id = #{id}
     </update>
 
     <update id="updatePhone" parameterType="map">
-        UPDATE RESTAURANT
+        UPDATE SHOP
         SET PHONE = #{phone}
         WHERE id = #{id}
     </update>
 
     <update id="updateDeliveryAreaGuide" parameterType="map">
-        UPDATE RESTAURANT
+        UPDATE SHOP
         SET DELIVERY_AREA_GUIDE = #{guide}
         WHERE id = #{id}
     </update>
 
     <update id="updateName" parameterType="map">
-        UPDATE RESTAURANT
+        UPDATE SHOP
         SET DELIVERY_AREA_GUIDE = #{name}
         WHERE id = #{id}
     </update>

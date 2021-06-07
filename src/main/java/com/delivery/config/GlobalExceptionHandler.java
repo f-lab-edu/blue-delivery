@@ -3,7 +3,6 @@ package com.delivery.config;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;

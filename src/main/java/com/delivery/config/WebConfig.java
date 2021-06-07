@@ -5,10 +5,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import com.delivery.restaurant.RestaurantMapper;
-import com.delivery.restaurant.RestaurantRepository;
-import com.delivery.restaurant.RestaurantRepositoryMybatis;
-import com.delivery.restaurant.businesshour.BusinessHourMapper;
+import com.delivery.shop.ShopMapper;
+import com.delivery.shop.ShopRepository;
+import com.delivery.shop.ShopRepositoryMybatis;
+import com.delivery.shop.businesshour.BusinessHourMapper;
 import com.delivery.user.UserRepository;
 import com.delivery.user.UserRepositoryHashMap;
 
@@ -19,7 +19,7 @@ public class WebConfig {
     @Profile("dev")
     static class DevConfig {
         @Autowired
-        private RestaurantMapper restaurantMapper;
+        private ShopMapper shopMapper;
         @Autowired
         private BusinessHourMapper businessHourMapper;
         
@@ -29,8 +29,8 @@ public class WebConfig {
         }
         
         @Bean
-        public RestaurantRepository restaurantRepository() {
-            return new RestaurantRepositoryMybatis(restaurantMapper, businessHourMapper);
+        public ShopRepository shopRepository() {
+            return new ShopRepositoryMybatis(shopMapper, businessHourMapper);
         }
     }
     

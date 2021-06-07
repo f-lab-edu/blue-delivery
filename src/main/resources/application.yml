@@ -13,8 +13,7 @@ spring:
 mybatis:
   mapper-locations: mybatis/mapper/*.xml
   type-aliases-package:
-    com.delivery.restaurant,
-    com.delivery.restaurant.businesshour,
-    com.delivery.restaurant.businesshour,
+    com.delivery.shop,
+    com.delivery.shop.businesshour,
     com.delivery.utility,
     org.apache.ibatis.type
