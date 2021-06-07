@@ -1,19 +1,19 @@
-package com.delivery.shop;
+package com.delivery.shop.shop;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 import com.delivery.utility.RegexConstants;
 
-public class EditPhoneDto {
+public class EditPhoneRequest {
     @Pattern(regexp = RegexConstants.SHOP_PHONE, message = "잘못된 번호 형식")
     @NotBlank
     private String phone;
     
-    public EditPhoneDto() {
+    public EditPhoneRequest() {
     }
     
-    public EditPhoneDto(String phone) {
+    public EditPhoneRequest(String phone) {
         this.phone = phone.replaceAll("-", "");
     }
     

@@ -1,4 +1,4 @@
-package com.delivery.shop;
+package com.delivery.shop.shop;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

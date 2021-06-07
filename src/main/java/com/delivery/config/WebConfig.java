@@ -5,10 +5,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import com.delivery.shop.ShopMapper;
-import com.delivery.shop.ShopRepository;
-import com.delivery.shop.ShopRepositoryMybatis;
 import com.delivery.shop.businesshour.BusinessHourMapper;
+import com.delivery.shop.shop.ShopMapper;
+import com.delivery.shop.shop.ShopRepository;
+import com.delivery.shop.shop.ShopRepositoryMybatis;
 import com.delivery.user.UserRepository;
 import com.delivery.user.UserRepositoryHashMap;
 

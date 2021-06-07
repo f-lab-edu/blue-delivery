@@ -1,4 +1,4 @@
-package com.delivery.shop.menugroup;
+package com.delivery.shop.menu;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package com.delivery.shop.menugroup;
+package com.delivery.shop.menu;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;

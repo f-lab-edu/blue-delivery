@@ -1,4 +1,4 @@
-package com.delivery.shop;
+package com.delivery.shop.shop;
 
 import com.delivery.shop.businesshour.BusinessHourPolicy;
 import com.delivery.shop.businesshour.BusinessHourResponse;

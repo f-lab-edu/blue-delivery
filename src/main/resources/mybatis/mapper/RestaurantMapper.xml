@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.delivery.shop.ShopMapper">
+<mapper namespace="com.delivery.shop.shop.ShopMapper">
     <resultMap id="shopResultMap" type="Shop">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="name" property="introduce" jdbcType="VARCHAR"/>

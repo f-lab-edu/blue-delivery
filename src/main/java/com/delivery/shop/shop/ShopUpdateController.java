@@ -1,4 +1,4 @@
-package com.delivery.shop;
+package com.delivery.shop.shop;
 
 import javax.validation.Valid;
 
