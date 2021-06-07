@@ -3,8 +3,8 @@
 <mapper namespace="com.delivery.restaurant.menugroup.MenuGroupMapper">
 
     <insert id="saveMenuGroup" parameterType="com.delivery.restaurant.menugroup.MenuGroupDto">
-        INSERT INTO MENU_GROUP(RESTAURANT_ID, NAME, CONTENT)
-        VALUES (#{restaurantId}, #{name}, #{content})
+        INSERT INTO MENU_GROUP(SHOP_ID, NAME, CONTENT)
+        VALUES (#{shopId}, #{name}, #{content})
     </insert>
 
     <select id="groupNameCheck" resultType="integer">

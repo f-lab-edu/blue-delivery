@@ -23,7 +23,7 @@ class MenuGroupServiceTest {
         MenuGroupDto menuGroup = new MenuGroupDto();
         menuGroup.setName("대표 메뉴");
         menuGroup.setContent("10000원");
-        menuGroup.setRestaurantId(1L);
+        menuGroup.setShopId(1L);
         given(menuGroupMapper.saveMenuGroup(menuGroup))
                 .willReturn(1);
         service.registerMenuGroup(menuGroup);

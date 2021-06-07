@@ -19,11 +19,11 @@ public class MenuGroupController {
         this.service = service;
     }
 
-    @PostMapping("restaurants/{restaurantId}/menuGroups")
+    @PostMapping("shop/{shopId}/menuGroups")
     public ResponseEntity<MenuGroup> registerMenuGroup(@Validated @RequestBody MenuGroupDto dto,
-                                                       @PathVariable Long restaurantId) {
-        if (!dto.checkRestaurantId(restaurantId)) {
-            throw new NotFoundIdException("not found restaurantId");
+                                                       @PathVariable Long shopId) {
+        if (!dto.checkShopId(shopId)) {
+            throw new NotFoundIdException("not found shopId");
         }
         service.registerMenuGroup(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
