@@ -23,7 +23,6 @@ public class RestaurantRepositoryMybatis implements RestaurantRepository {
         if (restaurant == null) {
             throw new IllegalArgumentException("restaurant does not exist");
         }
-    
         return restaurant;
     }
     
@@ -57,10 +56,11 @@ public class RestaurantRepositoryMybatis implements RestaurantRepository {
         BusinessHourResponse bhResponse = restaurant.getBusinessHour();
         for (BusinessHour bh : bhResponse.getBusinessHours()) {
             businessHourMapper.insert(
-                    restaurant.getId(),
-                    bh.getOpen(),
-                    bh.getClose(),
-                    bh.getDayOfWeek()
+                    new BusinessHour(
+                            restaurant.getId(),
+                            bh.getOpen(),
+                            bh.getClose(),
+                            bh.getDayOfWeek())
             );
         }
         return bhResponse;

@@ -4,10 +4,9 @@ import static com.delivery.restaurant.businesshour.UpdateBusinessHoursDto.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class BusinessHourConditions {
-    private static List<BusinessHourCondition> conditions;
+    private static final List<BusinessHourCondition> conditions;
     
     static {
         conditions = new ArrayList<>();
@@ -15,11 +14,12 @@ public class BusinessHourConditions {
         conditions.add(new WeekdayWeekendBusinessHourCondition());
     }
     
-    public static BusinessHourPolicy makeBusinessHoursBy(BusinessHourType type,
-                                                         Map<DayType, BusinessHourRequestParam> bh) {
+    public static BusinessHourPolicy makeBusinessHoursBy(Long restId, UpdateBusinessHoursDto dto) {
+        BusinessHourType type = dto.getBusinessHourType();
+        BusinessHourRequestParams params = dto.getBusinessHours();
         for (BusinessHourCondition condition : conditions) {
-            if (condition.isSatisfied(type, bh)) {
-                return condition.returnBusinessHourPolicy(bh);
+            if (condition.isSatisfied(type, params)) {
+                return condition.returnBusinessHourPolicy(restId, params);
             }
         }
         throw new IllegalArgumentException("wrong values for business hour");
