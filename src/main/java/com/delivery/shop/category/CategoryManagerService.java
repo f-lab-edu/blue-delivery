@@ -1,10 +1,9 @@
 package com.delivery.shop.category;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-
-import com.delivery.exception.NotFoundIdException;
 
 @Service
 public class CategoryManagerService {
@@ -15,25 +14,12 @@ public class CategoryManagerService {
         this.categoryRepository = categoryRepository;
     }
     
-    public List<Category> getAllCategories() {
-        return categoryRepository.findAll();
+    public CategoryResponses getAllCategories() {
+        List<Category> all = categoryRepository.findAll();
+        return new CategoryResponses(all);
     }
     
-    public void addCategory(String name) {
-        categoryRepository.save(name);
-    }
-    
-    public void renameCategory(RenameCategoryParam param) {
-        int count = categoryRepository.updateName(param);
-        if (count == 0) {
-            throw new IllegalArgumentException("category to rename is not found");
-        }
-    }
-    
-    public void deleteCategory(String name) {
-        int count = categoryRepository.deleteByName(name);
-        if (count == 0) {
-            throw new IllegalArgumentException("category to delete is not found");
-        }
+    public void updateCategory() {
+        categoryRepository.update(Arrays.asList(Category.values()));
     }
 }

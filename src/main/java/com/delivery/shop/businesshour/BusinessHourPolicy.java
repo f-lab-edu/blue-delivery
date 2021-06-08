@@ -15,10 +15,6 @@ public class BusinessHourPolicy {
         businessHours.add(businessHour);
     }
     
-    public List<BusinessHour> getBusinessHours() {
-        return businessHours;
-    }
-    
     public BusinessHour getBusinessHourOf(DayOfWeek day) {
         return businessHours.stream()
                 .filter(x -> x.getDayOfWeek() == day)

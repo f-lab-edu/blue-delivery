@@ -5,23 +5,19 @@
 
 <mapper namespace="com.delivery.shop.category.CategoryMapper">
     <resultMap id="categoryResultMap" type="Category">
-        <id column="ID" property="id" />
-        <result column="NAME" property="name" />
+        <result column="ENUM_NAME" property="category" javaType="Category" typeHandler="EnumTypeHandler"/>
     </resultMap>
     <select id="findAll" resultMap="categoryResultMap">
-        SELECT ID, NAME FROM CATEGORY;
+        SELECT ID, NAME, ENUM_NAME
+        FROM CATEGORY;
     </select>
 
-    <insert id="save" parameterType="string">
-        INSERT INTO CATEGORY (NAME)
-        VALUES (#{name})
+    <insert id="update" parameterType="list">
+        INSERT INTO CATEGORY (ID, NAME, ENUM_NAME) VALUES
+        <foreach collection="list" item="category" index="index" separator="," open="" close="">
+            (#{category.id}, #{category.name}, #{category.enumName})
+        </foreach>
+        ON DUPLICATE KEY UPDATE NAME = values(name), ENUM_NAME = values(ENUM_NAME)
     </insert>
 
-    <update id="updateName" parameterType="map">
-        UPDATE CATEGORY SET NAME = #{to} WHERE NAME = #{from}
-    </update>
-
-    <delete id="deleteByName" parameterType="string">
-        DELETE FROM category WHERE NAME=#{name}
-    </delete>
 </mapper>

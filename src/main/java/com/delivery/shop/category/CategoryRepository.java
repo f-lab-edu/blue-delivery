@@ -8,9 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface CategoryRepository {
     List<Category> findAll();
     
-    void save(String name);
-    
-    int updateName(RenameCategoryParam renameCategoryParam);
-    
-    int deleteByName(String name);
+    void update(List<Category> categories);
 }
