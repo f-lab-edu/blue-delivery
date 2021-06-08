@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.delivery.shop.category.CategoryMapper">
+    <resultMap id="categoryResultMap" type="Category">
+        <id column="ID" property="id" />
+        <result column="NAME" property="name" />
+    </resultMap>
+    <select id="findAll" resultMap="categoryResultMap">
+        SELECT ID, NAME FROM CATEGORY;
+    </select>
+
+    <insert id="save" parameterType="string">
+        INSERT INTO CATEGORY (NAME)
+        VALUES (#{name})
+    </insert>
+
+    <update id="updateName" parameterType="map">
+        UPDATE CATEGORY SET NAME = #{to} WHERE NAME = #{from}
+    </update>
+
+    <delete id="deleteByName" parameterType="string">
+        DELETE FROM category WHERE NAME=#{name}
+    </delete>
+</mapper>
