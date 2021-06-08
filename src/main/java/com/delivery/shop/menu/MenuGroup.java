@@ -2,17 +2,15 @@ package com.delivery.shop.menu;
 
 import java.util.List;
 
-import com.delivery.shop.menu.Menu;
-
 public class MenuGroup {
 
     private Long id;
     private String groupName;
     private String content;
     private Long shopId;
-    private List<Menu> menuList;
+    private List<MenuDto> menuList;
 
-    public MenuGroup(Long id, String groupName, String content, Long shopId, List<Menu> menuList) {
+    public MenuGroup(Long id, String groupName, String content, Long shopId, List<MenuDto> menuList) {
         this.id = id;
         this.groupName = groupName;
         this.content = content;
@@ -36,7 +34,7 @@ public class MenuGroup {
         return shopId;
     }
 
-    public List<Menu> getMenuList() {
+    public List<MenuDto> getMenuList() {
         return menuList;
     }
 }

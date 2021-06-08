@@ -4,8 +4,6 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
-import com.delivery.shop.menu.Menu;
-
 public class MenuGroupDto {
 
     private Long id;
@@ -18,9 +16,9 @@ public class MenuGroupDto {
 
     private String content;
 
-    private List<Menu> menus;
+    private List<MenuDto> menus;
 
-    public MenuGroupDto(Long id, Long shopId, String name, String content, List<Menu> menus) {
+    public MenuGroupDto(Long id, Long shopId, String name, String content, List<MenuDto> menus) {
         this.id = id;
         this.shopId = shopId;
         this.name = name;
@@ -63,11 +61,11 @@ public class MenuGroupDto {
         this.content = content;
     }
 
-    public List<Menu> getMenus() {
+    public List<MenuDto> getMenus() {
         return menus;
     }
 
-    public void setMenus(List<Menu> menus) {
+    public void setMenus(List<MenuDto> menus) {
         this.menus = menus;
     }
 

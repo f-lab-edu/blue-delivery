@@ -2,9 +2,12 @@ package com.delivery.shop.menu;
 
 import javax.validation.constraints.NotNull;
 
-public class Menu {
+public class MenuDto {
 
     private Long id;
+
+    @NotNull
+    private Long groupId;
 
     @NotNull
     private String name;
@@ -12,24 +15,29 @@ public class Menu {
     @NotNull
     private int price;
 
-    public Menu(Long id, String name, int price) {
+    public MenuDto(Long id, Long groupId, @NotNull String name, @NotNull int price) {
         this.id = id;
+        this.groupId = groupId;
         this.name = name;
         this.price = price;
     }
 
-    public Menu() {
+    public MenuDto() {
     }
 
     public Long getId() {
         return id;
     }
 
-    public String name() {
+    public String getName() {
         return name;
     }
 
     public int getPrice() {
         return price;
+    }
+
+    public Long getGroupId() {
+        return groupId;
     }
 }
