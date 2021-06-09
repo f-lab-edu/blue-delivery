@@ -1,6 +1,5 @@
 package com.delivery.shop.businesshour;
 
-
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
@@ -17,8 +16,8 @@ public class BusinessHourRequestParam {
         this.close = close;
     }
     
-    public BusinessHour toEntity(DayOfWeek dayOfWeek) {
-        return new BusinessHour(dayOfWeek, open, close);
+    public BusinessHour toEntity(Long shopId, DayOfWeek dayOfWeek) {
+        return new BusinessHour(shopId, open, close, dayOfWeek);
     }
     
     public LocalTime getOpen() {

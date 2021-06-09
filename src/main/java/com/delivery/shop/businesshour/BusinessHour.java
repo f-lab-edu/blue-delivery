@@ -28,6 +28,10 @@ public class BusinessHour {
         this.dayOfWeek = dayOfWeek;
     }
     
+    public Long getShopId() {
+        return shopId;
+    }
+    
     public DayOfWeek getDayOfWeek() {
         return dayOfWeek;
     }

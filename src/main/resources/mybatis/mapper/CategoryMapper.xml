@@ -47,7 +47,8 @@
         ON DUPLICATE KEY UPDATE NAME = values(name), ENUM_NAME = values(ENUM_NAME)
     </insert>
 
-    <!-- 가게별 영업시간 조회-->
+    <!-- 가게별 영업시간 조회(nested select용)-->
+    <!-- AS camelCase는 자동으로 자바객체(BusinessHour)와 매핑시키기 위함-->
     <select id="findBusinessHoursByShop" resultType="BusinessHour">
         select SHOP_ID as shopId,
             OPEN,
