@@ -42,7 +42,7 @@
     <insert id="update" parameterType="list">
         INSERT INTO CATEGORY (ID, NAME, ENUM_NAME) VALUES
         <foreach collection="list" item="category" index="index" separator="," open="" close="">
-            (#{category.id}, #{category.name}, #{category.enumName})
+            (#{category.id}, #{category.name}, #{category})
         </foreach>
         ON DUPLICATE KEY UPDATE NAME = values(name), ENUM_NAME = values(ENUM_NAME)
     </insert>

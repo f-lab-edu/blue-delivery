@@ -22,7 +22,7 @@ public enum Category {
     
     public static List<Category> from(List<String> dto) {
         return dto.stream()
-                .map(x -> Category.valueOf(x))
+                .map(Category::valueOf)
                 .collect(Collectors.toUnmodifiableList());
     }
     
@@ -32,13 +32,5 @@ public enum Category {
     
     public String getName() {
         return name;
-    }
-    
-    public String getEnumName() {
-        return this.toString();
-    }
-    
-    public CategoryData toResponse() {
-        return new CategoryData(id, name, getEnumName());
     }
 }
