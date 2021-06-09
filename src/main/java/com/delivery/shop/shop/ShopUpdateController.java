@@ -50,4 +50,10 @@ public class ShopUpdateController {
     public void rename(@PathVariable("id") Long id, @RequestBody String name) {
         updateService.rename(id, name);
     }
+    
+    @PutMapping("/{id}/categories")
+    public void updateCategory(@PathVariable("id") Long shopId,
+                               @RequestBody @Valid UpdateCategoryRequest dto) {
+        updateService.updateCategory(shopId, dto);
+    }
 }

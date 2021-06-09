@@ -52,6 +52,12 @@ public class ShopRepositoryMybatis implements ShopRepository {
         shopMapper.updateName(shop.getId(), shop.getName());
     }
     
+    @Override
+    public void updateCategory(Shop shop) {
+        shopMapper.deleteCategory(shop.getId());
+        shopMapper.updateCategory(shop.getId(), shop.getCategories());
+    }
+    
     private BusinessHourResponse insertBusinessHour(Shop shop) {
         BusinessHourResponse bhResponse = shop.getBusinessHour();
         for (BusinessHour bh : bhResponse.getBusinessHours()) {

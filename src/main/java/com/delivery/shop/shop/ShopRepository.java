@@ -15,4 +15,6 @@ public interface ShopRepository {
     void updateDeliveryAreaGuide(Shop shop);
     
     void updateName(Shop shop);
+    
+    void updateCategory(Shop shop);
 }

@@ -1,22 +1,22 @@
 package com.delivery.shop.category;
 
 public class CategoryResponse {
-    private Long id;
     private String name;
+    private String enumName;
     
     public CategoryResponse() {
     }
     
-    public CategoryResponse(Long id, String name) {
-        this.id = id;
+    public CategoryResponse(String name, String enumName) {
         this.name = name;
-    }
-    
-    public Long getId() {
-        return id;
+        this.enumName = enumName;
     }
     
     public String getName() {
         return name;
+    }
+    
+    public String getEnumName() {
+        return enumName;
     }
 }

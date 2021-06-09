@@ -12,6 +12,14 @@
         FROM CATEGORY;
     </select>
 
+    <select id="findCategoriesByShopId" resultMap="categoryResultMap"> -- 주어진 가게가 가진 모든 카테고리를 리턴
+    SELECT ID, NAME, ENUM_NAME
+    FROM CATEGORY c
+             LEFT JOIN CATEGORY_SHOP cs
+                       ON c.ID = cs.CATEGORY_ID
+    where cs.SHOP_ID = 1;
+    </select>
+
     <insert id="update" parameterType="list">
         INSERT INTO CATEGORY (ID, NAME, ENUM_NAME) VALUES
         <foreach collection="list" item="category" index="index" separator="," open="" close="">

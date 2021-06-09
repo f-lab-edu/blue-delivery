@@ -12,7 +12,7 @@ public class CategoryResponses {
     
     public CategoryResponses(List<Category> categories) {
         this.categories = categories.stream()
-                .map(x -> new CategoryResponse(x.getId(), x.getName()))
+                .map(Category::toResponse)
                 .collect(Collectors.toList());
     }
     

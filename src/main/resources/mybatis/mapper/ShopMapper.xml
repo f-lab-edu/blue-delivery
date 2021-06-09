@@ -11,7 +11,8 @@
         <result column="phone" property="phone" jdbcType="VARCHAR"/>
         <result column="delivery_area_guide" property="deliveryAreaGuide" jdbcType="VARCHAR"/>
         <association property="businessHours" javaType="BusinessHourPolicy">
-            <collection property="businessHours" ofType="BusinessHour" column="id" select="selectBusinessHours" fetchType="lazy"/>
+            <collection property="businessHours" ofType="BusinessHour" column="id" select="selectBusinessHours"
+                        fetchType="lazy"/>
         </association>
     </resultMap>
 
@@ -26,8 +27,7 @@
     </select>
 
     <select id="selectBusinessHours" resultType="BusinessHour">
-        select
-            SHOP_ID as shopId,
+        select SHOP_ID as shopId,
             OPEN,
             CLOSE,
             DAY_OF_WEEK as dayOfWeek
@@ -59,5 +59,18 @@
         UPDATE SHOP
         SET DELIVERY_AREA_GUIDE = #{name}
         WHERE id = #{id}
+    </update>
+
+    <delete id="deleteCategory" parameterType="long">
+        DELETE
+        FROM CATEGORY_SHOP
+        WHERE SHOP_ID = #{shopId}
+    </delete>
+
+    <update id="updateCategory" parameterType="map">
+        INSERT INTO CATEGORY_SHOP (CATEGORY_ID, SHOP_ID) VALUES
+        <foreach collection="categories" item="cat" separator=",">
+            (#{cat.id}, #{shopId})
+        </foreach>
     </update>
 </mapper>

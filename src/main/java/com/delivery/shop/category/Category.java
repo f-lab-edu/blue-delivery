@@ -1,5 +1,8 @@
 package com.delivery.shop.category;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public enum Category {
     
     KOREAN(1L, "한식"),
@@ -16,7 +19,12 @@ public enum Category {
     
     private Long id;
     private String name;
-    private String enumName;
+    
+    public static List<Category> from(List<String> dto) {
+        return dto.stream()
+                .map(x -> Category.valueOf(x))
+                .collect(Collectors.toUnmodifiableList());
+    }
     
     public Long getId() {
         return id;
@@ -26,7 +34,11 @@ public enum Category {
         return name;
     }
     
-    public Category getEnumName() {
-        return this;
+    public String getEnumName() {
+        return this.toString();
+    }
+    
+    public CategoryResponse toResponse() {
+        return new CategoryResponse(name, getEnumName());
     }
 }

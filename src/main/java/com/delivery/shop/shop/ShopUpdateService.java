@@ -1,11 +1,14 @@
 package com.delivery.shop.shop;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.delivery.shop.businesshour.BusinessHourConditions;
 import com.delivery.shop.businesshour.BusinessHourResponse;
 import com.delivery.shop.businesshour.UpdateBusinessHoursDto;
+import com.delivery.shop.category.Category;
 
 @Service
 public class ShopUpdateService {
@@ -47,5 +50,13 @@ public class ShopUpdateService {
         Shop shop = shopRepository.findShopById(id);
         shop.rename(name);
         shopRepository.updateName(shop);
+    }
+    
+    @Transactional
+    public void updateCategory(Long id, UpdateCategoryRequest dto) {
+        Shop shop = shopRepository.findShopById(id);
+        List<Category> categories = Category.from(dto.getTypeName());
+        shop.updateCategory(categories);
+        shopRepository.updateCategory(shop);
     }
 }
