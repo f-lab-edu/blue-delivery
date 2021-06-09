@@ -7,7 +7,7 @@
         <result property="shopId" column="SHOP_ID"></result>
         <result property="name" column="NAME"></result>
         <result property="content" column="CONTENT"></result>
-        <collection property="menus" column="ID" javaType="java.util.ArrayList" ofType="com.delivery.shop.menu.MenuGroupDto" select="findMenuByGroupId"></collection>
+        <collection property="menus" column="ID" javaType="arraylist" ofType="com.delivery.shop.menu.MenuGroupDto" select="findMenuByGroupId"></collection>
     </resultMap>
     
     <resultMap id="menuResult" type="com.delivery.shop.menu.MenuDto">

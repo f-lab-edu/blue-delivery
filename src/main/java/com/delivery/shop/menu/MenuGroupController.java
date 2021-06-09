@@ -22,7 +22,7 @@ public class MenuGroupController {
         this.service = service;
     }
 
-    @PostMapping("shop/{shopId}/menuGroup")
+    @PostMapping("shops/{shopId}/menuGroups")
     public ResponseEntity<MenuGroup> registerMenuGroup(@Validated @RequestBody MenuGroupDto dto,
                                                        @PathVariable Long shopId) {
         if (!dto.checkShopId(shopId)) {
@@ -32,13 +32,13 @@ public class MenuGroupController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("shop/{shopId}/menuGroups")
+    @GetMapping("shops/{shopId}/menuGroups")
     public ResponseEntity<List<MenuGroupDto>> getMenuGroups(@PathVariable Long shopId) {
 
         List<MenuGroupDto> menuGroups = service.getMenuGroup(shopId);
 
         if (menuGroups == null) {
-            ResponseEntity.status(HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return new ResponseEntity<List<MenuGroupDto>>(menuGroups, HttpStatus.OK);
     }

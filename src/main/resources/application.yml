@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:log4jdbc:mysql://localhost:3306/delivery
+    url: jdbc:log4jdbc:mysql://localhost:3306/testdb
     username: root
     password: password
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
@@ -17,4 +17,3 @@ mybatis:
     com.delivery.shop.businesshour,
     com.delivery.utility,
     org.apache.ibatis.type
-
