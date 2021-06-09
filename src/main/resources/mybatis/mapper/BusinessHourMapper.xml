@@ -11,6 +11,8 @@
     </insert>
 
     <delete id="deleteAllByShopId" parameterType="long">
-        DELETE FROM BUSINESS_HOUR WHERE SHOP_ID=#{shopId}
+        DELETE
+        FROM BUSINESS_HOUR
+        WHERE SHOP_ID = #{shopId}
     </delete>
 </mapper>

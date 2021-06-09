@@ -38,7 +38,7 @@ public enum Category {
         return this.toString();
     }
     
-    public CategoryResponse toResponse() {
-        return new CategoryResponse(name, getEnumName());
+    public CategoryData toResponse() {
+        return new CategoryData(id, name, getEnumName());
     }
 }

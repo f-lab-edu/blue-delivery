@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 public class CategoryResponses {
     
-    private List<CategoryResponse> categories;
+    private List<CategoryData> categories;
     
     public CategoryResponses() {
     }
@@ -16,7 +16,7 @@ public class CategoryResponses {
                 .collect(Collectors.toList());
     }
     
-    public List<CategoryResponse> getCategories() {
+    public List<CategoryData> getCategories() {
         return categories;
     }
 }

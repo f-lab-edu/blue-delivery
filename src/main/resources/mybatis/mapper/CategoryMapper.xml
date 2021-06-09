@@ -4,22 +4,41 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.delivery.shop.category.CategoryMapper">
-    <resultMap id="categoryResultMap" type="Category">
-        <result column="ENUM_NAME" property="category" javaType="Category" typeHandler="EnumTypeHandler"/>
+    <resultMap id="categoryResultMap" type="CategoryData">
+        <result column="SHOP_ID" property="id"/>
+        <result column="SHOP_NAME" property="name"/>
+        <result column="ENUM_NAME" property="enumName"/>
     </resultMap>
+
+    <resultMap id="shopResultMap" type="SearchedShopData">
+        <id column="SHOP_ID" property="id" jdbcType="BIGINT"/>
+        <result column="SHOP_NAME" property="name" jdbcType="VARCHAR"/>
+        <association property="businessHourPolicy" javaType="BusinessHourPolicy">
+            <collection property="businessHours" ofType="BusinessHour" column="SHOP_ID"
+                        select="findBusinessHoursByShop" fetchType="eager"/>
+        </association>
+    </resultMap>
+
+    <!-- 카테고리별 가게 조회-->
+    <select id="findShopsByCategoryId" resultMap="shopResultMap">
+        SELECT s.ID   SHOP_ID,
+               s.NAME SHOP_NAME
+        FROM SHOP s
+                 JOIN CATEGORY_SHOP cs
+                      ON s.ID = cs.SHOP_ID
+        WHERE cs.CATEGORY_ID = #{id} LIMIT 20
+        OFFSET #{offset}
+    </select>
+
+    <!-- 전체 카테고리 목록 조회-->
     <select id="findAll" resultMap="categoryResultMap">
-        SELECT ID, NAME, ENUM_NAME
+        SELECT ID   SHOP_ID,
+               NAME SHOP_NAME,
+               ENUM_NAME
         FROM CATEGORY;
     </select>
 
-    <select id="findCategoriesByShopId" resultMap="categoryResultMap"> -- 주어진 가게가 가진 모든 카테고리를 리턴
-    SELECT ID, NAME, ENUM_NAME
-    FROM CATEGORY c
-             LEFT JOIN CATEGORY_SHOP cs
-                       ON c.ID = cs.CATEGORY_ID
-    where cs.SHOP_ID = 1;
-    </select>
-
+    <!-- 자바코드에 정의된 카테고리를 DB에 삽입 -->
     <insert id="update" parameterType="list">
         INSERT INTO CATEGORY (ID, NAME, ENUM_NAME) VALUES
         <foreach collection="list" item="category" index="index" separator="," open="" close="">
@@ -27,5 +46,18 @@
         </foreach>
         ON DUPLICATE KEY UPDATE NAME = values(name), ENUM_NAME = values(ENUM_NAME)
     </insert>
+
+    <!-- 가게별 영업시간 조회-->
+    <select id="findBusinessHoursByShop" resultType="BusinessHour">
+        select SHOP_ID as shopId,
+            OPEN,
+            CLOSE,
+            DAY_OF_WEEK as dayOfWeek
+        from
+            BUSINESS_HOUR
+        where
+            SHOP_ID = #{ID}
+    </select>
+
 
 </mapper>

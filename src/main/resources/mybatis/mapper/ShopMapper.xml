@@ -5,25 +5,25 @@
 
 <mapper namespace="com.delivery.shop.shop.ShopMapper">
     <resultMap id="shopResultMap" type="Shop">
-        <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="name" property="introduce" jdbcType="VARCHAR"/>
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="introduce" property="introduce" jdbcType="VARCHAR"/>
         <result column="phone" property="phone" jdbcType="VARCHAR"/>
         <result column="delivery_area_guide" property="deliveryAreaGuide" jdbcType="VARCHAR"/>
-        <association property="businessHours" javaType="BusinessHourPolicy">
+        <association property="businessHourPolicy" javaType="BusinessHourPolicy">
             <collection property="businessHours" ofType="BusinessHour" column="id" select="selectBusinessHours"
                         fetchType="lazy"/>
         </association>
     </resultMap>
 
     <select id="findShopById" resultMap="shopResultMap" parameterType="long">
-        select r.ID,
-               r.NAME,
-               r.INTRODUCE,
-               r.PHONE,
-               r.DELIVERY_AREA_GUIDE
-        FROM SHOP r
-        WHERE r.ID = #{id}
+        select ID,
+               NAME,
+               INTRODUCE,
+               PHONE,
+               DELIVERY_AREA_GUIDE
+        FROM SHOP
+        WHERE ID = #{id}
     </select>
 
     <select id="selectBusinessHours" resultType="BusinessHour">
@@ -57,7 +57,7 @@
 
     <update id="updateName" parameterType="map">
         UPDATE SHOP
-        SET DELIVERY_AREA_GUIDE = #{name}
+        SET NAME = #{name}
         WHERE id = #{id}
     </update>
 

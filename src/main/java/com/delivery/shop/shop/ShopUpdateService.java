@@ -5,8 +5,9 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.delivery.shop.businesshour.BusinessHour;
 import com.delivery.shop.businesshour.BusinessHourConditions;
-import com.delivery.shop.businesshour.BusinessHourResponse;
+import com.delivery.shop.businesshour.BusinessHourPolicy;
 import com.delivery.shop.businesshour.UpdateBusinessHoursDto;
 import com.delivery.shop.category.Category;
 
@@ -20,12 +21,12 @@ public class ShopUpdateService {
     }
     
     @Transactional
-    public BusinessHourResponse updateBusinessHour(Long id, UpdateBusinessHoursDto dto) {
+    public List<BusinessHour> updateBusinessHour(Long id, UpdateBusinessHoursDto dto) {
         Shop shop = shopRepository.findShopById(id);
-        shop.updateBusinessHour(
-                BusinessHourConditions.makeBusinessHoursBy(shop.getId(), dto));
+        BusinessHourPolicy policy = BusinessHourConditions.makeBusinessHoursBy(shop.getId(), dto);
+        shop.updateBusinessHour(policy);
         shopRepository.updateBusinessHour(shop);
-        return shop.getBusinessHour();
+        return policy.getBusinessHours();
     }
     
     public void editIntroduce(Long id, String introduce) {
@@ -55,7 +56,7 @@ public class ShopUpdateService {
     @Transactional
     public void updateCategory(Long id, UpdateCategoryRequest dto) {
         Shop shop = shopRepository.findShopById(id);
-        List<Category> categories = Category.from(dto.getTypeName());
+        List<Category> categories = Category.from(dto.getTypeNames());
         shop.updateCategory(categories);
         shopRepository.updateCategory(shop);
     }

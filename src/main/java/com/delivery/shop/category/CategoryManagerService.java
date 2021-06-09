@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.delivery.shop.shop.SearchedShopData;
+
 @Service
 public class CategoryManagerService {
     
@@ -14,12 +16,15 @@ public class CategoryManagerService {
         this.categoryRepository = categoryRepository;
     }
     
-    public CategoryResponses getAllCategories() {
-        List<Category> all = categoryRepository.findAll();
-        return new CategoryResponses(all);
+    public List<CategoryData> getAllCategories() {
+        return categoryRepository.findAll();
     }
     
-    public void updateCategory() {
+    public void updateCategories() {
         categoryRepository.update(Arrays.asList(Category.values()));
+    }
+    
+    public List<SearchedShopData> getShopsByCategory(Long id, Integer offset) {
+        return categoryRepository.findShopsByCategoryId(id, offset);
     }
 }

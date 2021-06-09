@@ -2,6 +2,7 @@ package com.delivery.shop.businesshour;
 
 import java.time.DayOfWeek;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class BusinessHourPolicy {
@@ -22,7 +23,8 @@ public class BusinessHourPolicy {
                 .orElseThrow(() -> new IllegalArgumentException("dayOfWeek does not exist"));
     }
     
-    public BusinessHourResponse toResponse() {
-        return new BusinessHourResponse(this.businessHours);
+    public List<BusinessHour> getBusinessHours() {
+        return Collections.unmodifiableList(businessHours);
     }
+    
 }

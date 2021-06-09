@@ -15,7 +15,7 @@ public class UpdateCategoryRequest {
         this.typeName = typeName;
     }
     
-    public List<String> getTypeName() {
+    public List<String> getTypeNames() {
         return typeName;
     }
     

@@ -3,13 +3,12 @@ package com.delivery.shop.shop;
 import java.util.List;
 
 import com.delivery.shop.businesshour.BusinessHourPolicy;
-import com.delivery.shop.businesshour.BusinessHourResponse;
 import com.delivery.shop.category.Category;
 
 public class Shop {
     private Long id;
     private String name;
-    private BusinessHourPolicy businessHours;
+    private BusinessHourPolicy businessHourPolicy;
     private String introduce;
     private String phone;
     private String deliveryAreaGuide;
@@ -20,7 +19,7 @@ public class Shop {
     }
     
     public void updateBusinessHour(BusinessHourPolicy bh) {
-        this.businessHours = bh;
+        this.businessHourPolicy = bh;
     }
     
     public void editIntroduce(String introduce) {
@@ -59,8 +58,8 @@ public class Shop {
         return deliveryAreaGuide;
     }
     
-    public BusinessHourResponse getBusinessHour() {
-        return businessHours.toResponse();
+    public BusinessHourPolicy getBusinessHourPolicy() {
+        return businessHourPolicy;
     }
     
     public String getIntroduce() {

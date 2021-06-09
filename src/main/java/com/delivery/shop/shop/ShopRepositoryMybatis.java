@@ -1,10 +1,12 @@
 package com.delivery.shop.shop;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.delivery.shop.businesshour.BusinessHour;
 import com.delivery.shop.businesshour.BusinessHourMapper;
-import com.delivery.shop.businesshour.BusinessHourResponse;
+import com.delivery.shop.businesshour.BusinessHourPolicy;
 
 @Repository
 public class ShopRepositoryMybatis implements ShopRepository {
@@ -58,9 +60,10 @@ public class ShopRepositoryMybatis implements ShopRepository {
         shopMapper.updateCategory(shop.getId(), shop.getCategories());
     }
     
-    private BusinessHourResponse insertBusinessHour(Shop shop) {
-        BusinessHourResponse bhResponse = shop.getBusinessHour();
-        for (BusinessHour bh : bhResponse.getBusinessHours()) {
+    private List<BusinessHour> insertBusinessHour(Shop shop) {
+        BusinessHourPolicy policy = shop.getBusinessHourPolicy();
+        List<BusinessHour> businessHours = policy.getBusinessHours();
+        for (BusinessHour bh : businessHours) {
             businessHourMapper.insert(
                     new BusinessHour(
                             shop.getId(),
@@ -69,7 +72,7 @@ public class ShopRepositoryMybatis implements ShopRepository {
                             bh.getDayOfWeek())
             );
         }
-        return bhResponse;
+        return businessHours;
     }
     
 }
