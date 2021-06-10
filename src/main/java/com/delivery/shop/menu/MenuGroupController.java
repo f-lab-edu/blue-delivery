@@ -38,7 +38,7 @@ public class MenuGroupController {
         List<MenuGroupDto> menuGroups = service.getMenuGroup(shopId);
 
         if (menuGroups == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.notFound().build();
         }
         return new ResponseEntity<List<MenuGroupDto>>(menuGroups, HttpStatus.OK);
     }

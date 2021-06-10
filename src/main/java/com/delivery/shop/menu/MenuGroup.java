@@ -8,9 +8,9 @@ public class MenuGroup {
     private String groupName;
     private String content;
     private Long shopId;
-    private List<MenuDto> menuList;
+    private List<Menu> menuList;
 
-    public MenuGroup(Long id, String groupName, String content, Long shopId, List<MenuDto> menuList) {
+    public MenuGroup(Long id, String groupName, String content, Long shopId, List<Menu> menuList) {
         this.id = id;
         this.groupName = groupName;
         this.content = content;
@@ -34,7 +34,7 @@ public class MenuGroup {
         return shopId;
     }
 
-    public List<MenuDto> getMenuList() {
+    public List<Menu> getMenuList() {
         return menuList;
     }
 }
