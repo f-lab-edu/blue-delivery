@@ -48,6 +48,11 @@ public class ShopUpdateController {
         updateService.rename(id, name);
     }
     
+    /**
+     * 해당 가게의 카테고리를 입력받은 대로 업데이트
+     * @param shopId 가게 id
+     * @param dto 추가할 카테고리 enum name을 담은 dto
+     */
     @PutMapping("/{id}/categories")
     public void updateCategory(@PathVariable("id") Long shopId,
                                @RequestBody @Valid UpdateCategoryRequest dto) {
