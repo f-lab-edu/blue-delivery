@@ -1,5 +1,7 @@
 package com.delivery.shop.menu;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -22,9 +24,12 @@ public class MenuGroupService {
         }
     }
 
+    public List<MenuGroupDto> getMenuGroup(Long id)  {
+        return menuGroupMapper.findMenuGroup(id);
+    }
+
     public boolean groupNameCheck(String name) {
         return menuGroupMapper.groupNameCheck(name) == 1;
     }
 
 }
-

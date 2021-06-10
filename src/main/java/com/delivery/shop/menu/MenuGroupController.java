@@ -1,8 +1,11 @@
 package com.delivery.shop.menu;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +22,7 @@ public class MenuGroupController {
         this.service = service;
     }
 
-    @PostMapping("shop/{shopId}/menuGroups")
+    @PostMapping("shops/{shopId}/menuGroups")
     public ResponseEntity<MenuGroup> registerMenuGroup(@Validated @RequestBody MenuGroupDto dto,
                                                        @PathVariable Long shopId) {
         if (!dto.checkShopId(shopId)) {
@@ -27,6 +30,17 @@ public class MenuGroupController {
         }
         service.registerMenuGroup(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @GetMapping("shops/{shopId}/menuGroups")
+    public ResponseEntity<List<MenuGroupDto>> getMenuGroups(@PathVariable Long shopId) {
+
+        List<MenuGroupDto> menuGroups = service.getMenuGroup(shopId);
+
+        if (menuGroups == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return new ResponseEntity<List<MenuGroupDto>>(menuGroups, HttpStatus.OK);
     }
 
 }
