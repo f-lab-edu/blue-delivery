@@ -18,18 +18,18 @@ public class WeekdayWeekendBusinessHourCondition implements BusinessHourConditio
     @Override
     public BusinessHourPolicy returnBusinessHourPolicy(Long shopId, BusinessHourRequestParams params) {
         BusinessHourPolicy policy = new BusinessHourPolicy();
-        BusinessHourRequestParam weekday = params.getParamByDayType(DayType.WEEKDAY);
-        BusinessHourRequestParam sat = params.getParamByDayType(DayType.SATURDAY);
-        BusinessHourRequestParam sun = params.getParamByDayType(DayType.SUNDAY);
+        BusinessHourRequestParam weekday = params.retreiveParamByDayType(DayType.WEEKDAY);
+        BusinessHourRequestParam sat = params.retreiveParamByDayType(DayType.SATURDAY);
+        BusinessHourRequestParam sun = params.retreiveParamByDayType(DayType.SUNDAY);
         
         for (DayOfWeek day : values()) {
             if (day.compareTo(SATURDAY) >= 0) {
                 break;
             }
-            policy.update(weekday.toEntity(day));
+            policy.update(weekday.toEntity(shopId, day));
         }
-        policy.update(sat.toEntity(SATURDAY));
-        policy.update(sun.toEntity(SUNDAY));
+        policy.update(sat.toEntity(shopId, SATURDAY));
+        policy.update(sun.toEntity(shopId, SUNDAY));
         return policy;
     }
 }

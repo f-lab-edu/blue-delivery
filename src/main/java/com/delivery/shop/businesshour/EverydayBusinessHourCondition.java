@@ -16,9 +16,9 @@ public class EverydayBusinessHourCondition implements BusinessHourCondition {
     @Override
     public BusinessHourPolicy returnBusinessHourPolicy(Long shopId, BusinessHourRequestParams params) {
         BusinessHourPolicy policy = new BusinessHourPolicy();
-        BusinessHourRequestParam bh = params.getParamByDayType(DayType.EVERYDAY);
+        BusinessHourRequestParam bh = params.retreiveParamByDayType(DayType.EVERYDAY);
         for (DayOfWeek day : DayOfWeek.values()) {
-            policy.update(bh.toEntity(day));
+            policy.update(bh.toEntity(shopId, day));
         }
         return policy;
     }
