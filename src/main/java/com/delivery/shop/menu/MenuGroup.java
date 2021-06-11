@@ -2,8 +2,6 @@ package com.delivery.shop.menu;
 
 import java.util.List;
 
-import com.delivery.shop.menu.Menu;
-
 public class MenuGroup {
 
     private Long id;
