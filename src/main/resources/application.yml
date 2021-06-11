@@ -1,14 +1,13 @@
 spring:
-  datasource:
-    url: jdbc:log4jdbc:mysql://localhost:3306/testdb
-    username: root
-    password: password
-    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
   profiles:
     active: dev
   jpa:
     hibernate:
       ddl-auto: none # ddl 자동 생성을 db migration 때 하기 위함
+  flyway:
+    baseline-on-migrate: true
+    encoding: UTF-8
+    ignore-ignored-migrations: true
 
 mybatis:
   mapper-locations: mybatis/mapper/*.xml
