@@ -80,10 +80,7 @@ Github Flow는 main 브랜치를 가 곧 product가 되는 전략입니다.
 - main 브랜치를 pull해서 최신 상태 유지
 
 ## DB 형상관리
-[flyway](https://flywaydb.org/documentation/usage/gradle/)
+[flyway](https://flywaydb.org/documentation/usage/gradle/) 사용하여 런타임에 마이그레이션함.
 
-**migration**
-- ./gradlew flywayMigrate  
-  
-**clean**
-- ./gradlew flywayClean
+- `@ActiveProfiles("test")`를 추가하면 테스트시에 h2 인메모리 db를 사용하여 테스트함
+- `application-dev.yml`에 ${db_username} 등 placeholder는 시스템 환경변수에 자기의 db 이름, username 등에 맞춰 설정하면 됌
