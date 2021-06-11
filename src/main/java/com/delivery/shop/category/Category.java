@@ -5,20 +5,18 @@ import java.util.stream.Collectors;
 
 public enum Category {
     
-    KOREAN(1L, "한식"),
-    CHINESE(2L, "중식"),
-    JAPANESE(3L, "일식"),
-    CHICKEN(4L, "치킨"),
-    PIZZA(5L, "피자"),
-    FAST_FOOD(6L, "패스트푸드");
+    KOREAN(1L),
+    CHINESE(2L),
+    JAPANESE(3L),
+    CHICKEN(4L),
+    PIZZA(5L),
+    FAST_FOOD(6L);
     
-    Category(Long id, String name) {
+    Category(Long id) {
         this.id = id;
-        this.name = name;
     }
     
     private Long id;
-    private String name;
     
     public static List<Category> from(List<String> dto) {
         return dto.stream()
@@ -30,7 +28,7 @@ public enum Category {
         return id;
     }
     
-    public String getName() {
-        return name;
+    public static CategoryData toResponse(Category category) {
+        return new CategoryData(category.id, category.toString());
     }
 }

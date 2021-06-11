@@ -4,10 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.delivery.shop.category.CategoryMapper">
-    <resultMap id="categoryResultMap" type="CategoryData">
-        <result column="SHOP_ID" property="id"/>
-        <result column="SHOP_NAME" property="name"/>
-        <result column="ENUM_NAME" property="enumName"/>
+    <resultMap id="categoryResultMap" type="Category">
+        <result column="CATEGORY_NAME" typeHandler="EnumTypeHandler"/>
     </resultMap>
 
     <resultMap id="shopResultMap" type="SearchedShopData">
@@ -32,19 +30,17 @@
 
     <!-- 전체 카테고리 목록 조회-->
     <select id="findAll" resultMap="categoryResultMap">
-        SELECT ID   SHOP_ID,
-               NAME SHOP_NAME,
-               ENUM_NAME
+        SELECT NAME AS CATEGORY_NAME
         FROM CATEGORY;
     </select>
 
     <!-- 자바코드에 정의된 카테고리를 DB에 삽입 -->
     <insert id="update" parameterType="list">
-        INSERT INTO CATEGORY (ID, NAME, ENUM_NAME) VALUES
+        INSERT INTO CATEGORY (ID, NAME) VALUES
         <foreach collection="list" item="category" index="index" separator="," open="" close="">
-            (#{category.id}, #{category.name}, #{category})
+            (#{category.id}, #{category})
         </foreach>
-        ON DUPLICATE KEY UPDATE NAME = values(name), ENUM_NAME = values(ENUM_NAME)
+        ON DUPLICATE KEY UPDATE NAME = values(name)
     </insert>
 
     <!-- 가게별 영업시간 조회(nested select용)-->

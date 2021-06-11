@@ -8,7 +8,7 @@ import com.delivery.shop.shop.SearchedShopData;
 
 @Repository
 public interface CategoryRepository {
-    List<CategoryData> findAll();
+    List<Category> findAll();
     
     void update(List<Category> categories);
     

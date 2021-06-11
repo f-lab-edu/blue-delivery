@@ -2,6 +2,7 @@ package com.delivery.shop.category;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,10 @@ public class CategoryManagerService {
     }
     
     public List<CategoryData> getAllCategories() {
-        return categoryRepository.findAll();
+        // TODO 카테고리 이름의 다국어처리 i18n
+        return categoryRepository.findAll().stream()
+                .map(Category::toResponse)
+                .collect(Collectors.toList());
     }
     
     public void updateCategories() {
