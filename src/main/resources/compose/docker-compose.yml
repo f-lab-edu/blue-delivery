@@ -1,0 +1,16 @@
+version: '3'
+
+services: # 실행 할 컨테이너 정의
+  db: # docker run --name db와 같음(컨테이너)
+    image: mysql # 사용할 이미지
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+    - db_data:/usr/local/mysql/data
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: root
+      MYSQL_PASSWORD: password
+
+volumes:
+  db_data: {}
