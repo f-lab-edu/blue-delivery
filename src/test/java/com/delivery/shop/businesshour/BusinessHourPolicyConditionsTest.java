@@ -1,4 +1,4 @@
-package com.delivery.shop;
+package com.delivery.shop.businesshour;
 
 import static com.delivery.shop.businesshour.UpdateBusinessHoursDto.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -10,13 +10,6 @@ import java.util.HashMap;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import com.delivery.shop.businesshour.BusinessHour;
-import com.delivery.shop.businesshour.BusinessHourConditions;
-import com.delivery.shop.businesshour.BusinessHourPolicy;
-import com.delivery.shop.businesshour.BusinessHourRequestParam;
-import com.delivery.shop.businesshour.BusinessHourRequestParams;
-import com.delivery.shop.businesshour.UpdateBusinessHoursDto;
 
 class BusinessHourPolicyConditionsTest {
     

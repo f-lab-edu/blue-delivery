@@ -12,7 +12,8 @@ spring:
 mybatis:
   mapper-locations: mybatis/mapper/*.xml
   type-aliases-package:
-    com.delivery.shop,
+    com.delivery.shop.shop,
+    com.delivery.shop.category,
     com.delivery.shop.businesshour,
     com.delivery.utility,
     org.apache.ibatis.type

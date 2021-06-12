@@ -6,8 +6,6 @@ import org.springframework.stereotype.Repository;
 public interface ShopRepository {
     Shop findShopById(Long id);
     
-    void updateBusinessHour(Shop shop);
-    
     void updateIntroduce(Shop shop);
     
     void updatePhone(Shop shop);
@@ -15,4 +13,10 @@ public interface ShopRepository {
     void updateDeliveryAreaGuide(Shop shop);
     
     void updateName(Shop shop);
+    
+    void updateCategory(Shop shop);
+    
+    void deleteCategory(Shop shop);
+    
+    void updateBusinessHours(Shop shop);
 }

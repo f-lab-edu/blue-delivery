@@ -5,29 +5,29 @@
 
 <mapper namespace="com.delivery.shop.shop.ShopMapper">
     <resultMap id="shopResultMap" type="Shop">
-        <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="name" property="introduce" jdbcType="VARCHAR"/>
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="introduce" property="introduce" jdbcType="VARCHAR"/>
         <result column="phone" property="phone" jdbcType="VARCHAR"/>
         <result column="delivery_area_guide" property="deliveryAreaGuide" jdbcType="VARCHAR"/>
-        <association property="businessHours" javaType="BusinessHourPolicy">
-            <collection property="businessHours" ofType="BusinessHour" column="id" select="selectBusinessHours" fetchType="lazy"/>
+        <association property="businessHourPolicy" javaType="BusinessHourPolicy">
+            <collection property="businessHours" ofType="BusinessHour" column="id" select="selectBusinessHours"
+                        fetchType="lazy"/>
         </association>
     </resultMap>
 
     <select id="findShopById" resultMap="shopResultMap" parameterType="long">
-        select r.ID,
-               r.NAME,
-               r.INTRODUCE,
-               r.PHONE,
-               r.DELIVERY_AREA_GUIDE
-        FROM SHOP r
-        WHERE r.ID = #{id}
+        select ID,
+               NAME,
+               INTRODUCE,
+               PHONE,
+               DELIVERY_AREA_GUIDE
+        FROM SHOP
+        WHERE ID = #{id}
     </select>
 
     <select id="selectBusinessHours" resultType="BusinessHour">
-        select
-            SHOP_ID as shopId,
+        select SHOP_ID as shopId,
             OPEN,
             CLOSE,
             DAY_OF_WEEK as dayOfWeek
@@ -57,7 +57,29 @@
 
     <update id="updateName" parameterType="map">
         UPDATE SHOP
-        SET DELIVERY_AREA_GUIDE = #{name}
+        SET NAME = #{name}
         WHERE id = #{id}
     </update>
+
+    <delete id="deleteCategory" parameterType="long">
+        DELETE
+        FROM CATEGORY_SHOP
+        WHERE SHOP_ID = #{id}
+    </delete>
+
+    <update id="updateCategory" parameterType="map">
+        INSERT INTO CATEGORY_SHOP (CATEGORY_ID, SHOP_ID) VALUES
+        <foreach collection="categories" item="cat" separator=",">
+            (#{cat.id}, #{id})
+        </foreach>
+    </update>
+
+    <insert id="updateBusinessHours" parameterType="map">
+        INSERT INTO BUSINESS_HOUR (SHOP_ID, OPEN, CLOSE, DAY_OF_WEEK)
+        VALUES
+        <foreach collection="businessHourPolicy.businessHours" item="hour" separator=",">
+            (#{hour.shopId}, #{hour.open}, #{hour.close}, #{hour.dayOfWeek})
+        </foreach>
+        ON DUPLICATE KEY UPDATE OPEN = values(OPEN), CLOSE = values(CLOSE)
+    </insert>
 </mapper>

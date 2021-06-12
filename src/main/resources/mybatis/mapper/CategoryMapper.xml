@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.delivery.shop.category.CategoryMapper">
+    <resultMap id="categoryResultMap" type="Category">
+        <result column="CATEGORY_NAME" typeHandler="EnumTypeHandler"/>
+    </resultMap>
+
+    <resultMap id="shopResultMap" type="SearchedShopData">
+        <id column="SHOP_ID" property="id" jdbcType="BIGINT"/>
+        <result column="SHOP_NAME" property="name" jdbcType="VARCHAR"/>
+        <association property="businessHourPolicy" javaType="BusinessHourPolicy">
+            <collection property="businessHours" ofType="BusinessHour" column="SHOP_ID"
+                        select="findBusinessHoursByShop" fetchType="eager"/>
+        </association>
+    </resultMap>
+
+    <!-- 카테고리별 가게 조회-->
+    <select id="findShopsByCategoryId" resultMap="shopResultMap">
+        SELECT s.ID   SHOP_ID,
+               s.NAME SHOP_NAME
+        FROM SHOP s
+                 JOIN CATEGORY_SHOP cs
+                      ON s.ID = cs.SHOP_ID
+        WHERE cs.CATEGORY_ID = #{id} LIMIT 20
+        OFFSET #{offset}
+    </select>
+
+    <!-- 전체 카테고리 목록 조회-->
+    <select id="findAll" resultMap="categoryResultMap">
+        SELECT NAME AS CATEGORY_NAME
+        FROM CATEGORY;
+    </select>
+
+    <!-- 자바코드에 정의된 카테고리를 DB에 삽입 -->
+    <insert id="update" parameterType="list">
+        INSERT INTO CATEGORY (ID, NAME) VALUES
+        <foreach collection="list" item="category" index="index" separator="," open="" close="">
+            (#{category.id}, #{category})
+        </foreach>
+        ON DUPLICATE KEY UPDATE NAME = values(name)
+    </insert>
+
+    <!-- 가게별 영업시간 조회(nested select용)-->
+    <!-- AS camelCase는 자동으로 자바객체(BusinessHour)와 매핑시키기 위함-->
+    <select id="findBusinessHoursByShop" resultType="BusinessHour">
+        select SHOP_ID as shopId,
+            OPEN,
+            CLOSE,
+            DAY_OF_WEEK as dayOfWeek
+        from
+            BUSINESS_HOUR
+        where
+            SHOP_ID = #{ID}
+    </select>
+
+
+</mapper>

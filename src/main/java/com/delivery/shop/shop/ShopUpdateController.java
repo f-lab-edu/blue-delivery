@@ -2,8 +2,6 @@ package com.delivery.shop.shop;
 
 import javax.validation.Valid;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -24,10 +22,9 @@ public class ShopUpdateController {
     }
     
     @PutMapping("/{id}/business-hours")
-    public ResponseEntity<UpdateBusinessHoursDto> updateBusinessHours(
+    public void updateBusinessHours(
             @PathVariable("id") Long id, @RequestBody @Valid UpdateBusinessHoursDto dto) {
         updateService.updateBusinessHour(id, dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
     
     @PatchMapping("/{id}/introduce")
@@ -49,5 +46,16 @@ public class ShopUpdateController {
     @PatchMapping("/{id}/name")
     public void rename(@PathVariable("id") Long id, @RequestBody String name) {
         updateService.rename(id, name);
+    }
+    
+    /**
+     * 해당 가게의 카테고리를 입력받은 대로 업데이트
+     * @param shopId 가게 id
+     * @param dto 추가할 카테고리 enum name을 담은 dto
+     */
+    @PutMapping("/{id}/categories")
+    public void updateCategory(@PathVariable("id") Long shopId,
+                               @RequestBody @Valid UpdateCategoryRequest dto) {
+        updateService.updateCategory(shopId, dto);
     }
 }
