@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import com.delivery.shop.menu.MenuGroupDto;
 import com.delivery.shop.menu.MenuGroupMapper;
@@ -14,6 +15,7 @@ import com.delivery.shop.menu.MenuGroupService;
 
 
 @SpringBootTest
+@ActiveProfiles("test")
 class MenuGroupServiceTest {
 
     @InjectMocks
