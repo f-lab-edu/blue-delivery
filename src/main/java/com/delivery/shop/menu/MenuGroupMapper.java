@@ -17,4 +17,6 @@ public interface MenuGroupMapper {
 
     List<MenuDto> findMenuByGroupId(Long groupId);
 
+    int updateMenuGroup(MenuGroupDto dto);
+
 }

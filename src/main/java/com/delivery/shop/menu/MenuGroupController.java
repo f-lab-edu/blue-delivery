@@ -6,8 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,6 +43,16 @@ public class MenuGroupController {
             return ResponseEntity.notFound().build();
         }
         return new ResponseEntity<List<MenuGroupDto>>(menuGroups, HttpStatus.OK);
+    }
+
+    @PutMapping("shops/{shopId}/menuGroups")
+    public ResponseEntity<MenuGroupDto> updateGroups(@PathVariable Long shopId,
+                                                     @RequestBody MenuGroupDto dto) {
+        if (dto.getName() == null || dto.getName() == "") {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        service.updateMenuGroup(dto);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 }
