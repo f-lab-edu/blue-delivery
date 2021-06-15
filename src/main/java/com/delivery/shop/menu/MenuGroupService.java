@@ -28,6 +28,10 @@ public class MenuGroupService {
         return menuGroupMapper.findMenuGroup(id);
     }
 
+    int updateMenuGroup(MenuGroupDto dto) {
+        return menuGroupMapper.updateMenuGroup(dto);
+    }
+
     public boolean groupNameCheck(String name) {
         return menuGroupMapper.groupNameCheck(name) == 1;
     }

@@ -29,11 +29,15 @@
     </select>
 
     <select id="findMenuGroup" resultMap="menuGroupResult">
-        SELECT * FROM MENU_GROUP WHERE SHOP_ID = ${shopId};
+        SELECT * FROM MENU_GROUP WHERE SHOP_ID = #{shopId};
     </select>
 
     <select id="findMenuByGroupId" resultMap="menuResult">
-        SELECT * FROM MENU WHERE GROUP_ID = ${groupId};
+        SELECT * FROM MENU WHERE GROUP_ID = #{groupId};
     </select>
+
+    <update id="updateMenuGroup">
+        UPDATE MENU_GROUP SET NAME = #{name}, CONTENT = #{content} WHERE ID = #{id};
+    </update>
 
 </mapper>
