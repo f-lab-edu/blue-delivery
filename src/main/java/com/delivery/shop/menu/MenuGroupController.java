@@ -8,12 +8,15 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.delivery.exception.NotFoundIdException;
 
 @RestController
+@RequestMapping("/shops")
 public class MenuGroupController {
 
     private MenuGroupService service;
@@ -22,7 +25,7 @@ public class MenuGroupController {
         this.service = service;
     }
 
-    @PostMapping("shops/{shopId}/menuGroups")
+    @PostMapping("/{shopId}/menu-groups")
     public ResponseEntity<MenuGroup> registerMenuGroup(@Validated @RequestBody MenuGroupDto dto,
                                                        @PathVariable Long shopId) {
         if (!dto.checkShopId(shopId)) {
@@ -32,7 +35,7 @@ public class MenuGroupController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("shops/{shopId}/menuGroups")
+    @GetMapping("/{shopId}/menu-groups")
     public ResponseEntity<List<MenuGroupDto>> getMenuGroups(@PathVariable Long shopId) {
 
         List<MenuGroupDto> menuGroups = service.getMenuGroup(shopId);
@@ -41,6 +44,16 @@ public class MenuGroupController {
             return ResponseEntity.notFound().build();
         }
         return new ResponseEntity<List<MenuGroupDto>>(menuGroups, HttpStatus.OK);
+    }
+
+    @PutMapping("/{shopId}/menu-groups")
+    public ResponseEntity<MenuGroupDto> updateGroups(@PathVariable Long shopId,
+                                                     @RequestBody MenuGroupDto dto) {
+        if (dto.getName() == null || dto.getName() == "") {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        service.updateMenuGroup(dto);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 }

@@ -84,3 +84,8 @@ Github Flow는 main 브랜치를 가 곧 product가 되는 전략입니다.
 
 - `@ActiveProfiles("test")`를 추가하면 테스트시에 h2 인메모리 db를 사용하여 테스트함
 - `application-dev.yml`에 ${db_username} 등 placeholder는 시스템 환경변수에 자기의 db 이름, username 등에 맞춰 설정하면 됌
+
+## docker compose 적용
+[docker-compose](https://docs.docker.com/compose/)
+
+- `docker compose up` 명령어 실행으로 필요한 이미지 다운로드 및 컨테이너 실행

@@ -1,19 +1,17 @@
-package com.delivery.shop.menugroup;
+package com.delivery.shop.menu;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import com.delivery.shop.menu.MenuGroupDto;
-import com.delivery.shop.menu.MenuGroupMapper;
-import com.delivery.shop.menu.MenuGroupService;
-
-
+@ExtendWith(MockitoExtension.class)
 @SpringBootTest
 @ActiveProfiles("test")
 class MenuGroupServiceTest {
@@ -44,5 +42,17 @@ class MenuGroupServiceTest {
 
         assertThat(service.groupNameCheck("대표 메뉴")).isEqualTo(true);
         assertThat(service.groupNameCheck("사이드 메뉴")).isEqualTo(false);
+    }
+
+    @Test
+    public void menuGroupUpdateTest() {
+        MenuGroupDto dto = new MenuGroupDto();
+        dto.setName("대표 메뉴");
+        dto.setContent("10000원");
+        dto.setShopId(1L);
+
+        given(menuGroupMapper.updateMenuGroup(dto))
+                .willReturn(1);
+        service.updateMenuGroup(dto);
     }
 }
