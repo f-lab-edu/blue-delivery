@@ -1,10 +1,8 @@
 package com.delivery.shop.category;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -45,13 +43,13 @@ public class CategoryManagerController {
      * url에 주어진 카테고리 id로 카테고리에 해당하고 영업중인 가게들을 조회 (휴무인 가게는 제외)
      * @see mybatis/mapper/CategoryMapper.xml $findShopsByCategoryId
      * @param id 카테고리 id
-     * @param offset 레코드 조회 시작점 (페이징)
+     * @param now 조회하는 시점의 시간 (영업중인 가게만 조회하기 위해 필요함)
      * @return 카테고리에 해당되는 가게의 정보 list
      */
     @GetMapping("/{id}/shops")
     public List<SearchedShopData> getShopsByCategory(
-            @PathVariable("id") Long id, @Param("offset") Integer offset) {
-        SearchShopByCategoryParam param = new SearchShopByCategoryParam(id, offset, LocalDateTime.now());
+            @PathVariable("id") Long id, LocalDateTime now) {
+        SearchShopByCategoryParam param = new SearchShopByCategoryParam(id, now);
         return categoryManagerService.getShopsByCategory(param);
     }
     
