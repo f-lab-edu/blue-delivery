@@ -1,4 +1,4 @@
-package com.delivery.shop.shop;
+package com.delivery.shop.closingday;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

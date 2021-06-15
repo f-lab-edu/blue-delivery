@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.delivery.shop.businesshour.BusinessHourPolicy;
 import com.delivery.shop.category.Category;
+import com.delivery.shop.closingday.ClosingDayPolicies;
 import com.delivery.shop.closingday.ClosingDayPolicy;
 
 public class Shop {
