@@ -16,6 +16,12 @@ public class LegalHolidayClosing implements ClosingDay {
         yearly = new HashMap<>();
     }
     
+    /**
+     * 법정공휴일에 해당하는지 확인한다. 법정공휴일에서 일요일은 제외하도록 한다.
+     * @see LegalHoliday
+     * @param date 확인하고 싶은 날짜
+     * @return 법정공휴일에 해당된다면 true
+     */
     @Override
     public boolean isClosedAt(LocalDate date) {
         Year year = Year.of(date.getYear());

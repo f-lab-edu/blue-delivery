@@ -38,6 +38,12 @@ public enum LegalHoliday {
         this.day = day;
     }
     
+    /**
+     * 주어진 날짜를 양력으로 변환한다.
+     * @param year 연도
+     * @param holiday [음력,양력] 타입과 월/일 정보
+     * @return 양력으로 계산된 LocalDate 타입
+     */
     public static LocalDate transformToSolar(Year year, LegalHoliday holiday) {
         if (holiday.calendarType == LUNAR) {
             ChineseCalendar chineseCalendar = ChineseCalendar.ofNewYear(year.getValue());
@@ -45,7 +51,6 @@ public enum LegalHoliday {
                     .plus(holiday.month.getValue() - 1, ChineseCalendar.Unit.MONTHS)
                     .plus(holiday.day - 1, ChineseCalendar.Unit.DAYS);
             PlainDate lunar = chineseCalendar.transform(PlainDate.axis());
-            System.out.println("lunar = " + lunar);
             return LocalDate.of(lunar.getYear(),
                     lunar.getMonth(),
                     lunar.getDayOfMonth());

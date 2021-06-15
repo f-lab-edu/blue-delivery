@@ -6,8 +6,8 @@ import java.time.DayOfWeek;
 
 public class EverydayBusinessHourCondition implements BusinessHourCondition {
     @Override
-    public boolean isSatisfied(BusinessHourType calendarType, BusinessHourRequestParams params) {
-        if (params.isEveryDayHours(calendarType)) {
+    public boolean isSatisfied(BusinessHourType type, BusinessHourRequestParams params) {
+        if (params.isEveryDayHours(type)) {
             return true;
         }
         return false;
