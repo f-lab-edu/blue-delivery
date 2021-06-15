@@ -19,4 +19,6 @@ public interface MenuGroupMapper {
 
     int updateMenuGroup(MenuGroupDto dto);
 
+    int deleteMenuGroup(Long id);
+
 }

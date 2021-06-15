@@ -32,6 +32,10 @@ public class MenuGroupService {
         return menuGroupMapper.updateMenuGroup(dto);
     }
 
+    int deleteMenuGroup(Long id) {
+        return menuGroupMapper.deleteMenuGroup(id);
+    }
+
     public boolean groupNameCheck(String name) {
         return menuGroupMapper.groupNameCheck(name) == 1;
     }
