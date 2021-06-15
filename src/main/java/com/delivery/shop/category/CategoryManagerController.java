@@ -1,5 +1,7 @@
 package com.delivery.shop.category;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -40,7 +42,7 @@ public class CategoryManagerController {
     }
     
     /**
-     * url에 주어진 카테고리 id로 카테고리에 해당하는 가게들을 조회
+     * url에 주어진 카테고리 id로 카테고리에 해당하고 영업중인 가게들을 조회 (휴무인 가게는 제외)
      * @see mybatis/mapper/CategoryMapper.xml $findShopsByCategoryId
      * @param id 카테고리 id
      * @param offset 레코드 조회 시작점 (페이징)
@@ -49,7 +51,8 @@ public class CategoryManagerController {
     @GetMapping("/{id}/shops")
     public List<SearchedShopData> getShopsByCategory(
             @PathVariable("id") Long id, @Param("offset") Integer offset) {
-        return categoryManagerService.getShopsByCategory(id, offset);
+        SearchShopByCategoryParam param = new SearchShopByCategoryParam(id, offset, LocalDateTime.now());
+        return categoryManagerService.getShopsByCategory(param);
     }
     
 }

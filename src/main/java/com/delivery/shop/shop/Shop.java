@@ -1,7 +1,6 @@
 package com.delivery.shop.shop;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.delivery.shop.businesshour.BusinessHourPolicy;
@@ -16,10 +15,10 @@ public class Shop {
     private String phone;
     private String deliveryAreaGuide;
     private List<Category> categories;
-    private List<ClosingDayPolicy> closingDays;
+    private ClosingDayPolicies closingDayPolicies;
     
     public Shop() {
-    
+        closingDayPolicies = new ClosingDayPolicies();
     }
     
     public void updateBusinessHour(BusinessHourPolicy bh) {
@@ -75,17 +74,14 @@ public class Shop {
     }
     
     public void addClosingDayPolicy(ClosingDayPolicy instance) {
-        if (closingDays == null) {
-            closingDays = new ArrayList<>();
-        }
-        closingDays.add(instance);
+        closingDayPolicies.addClosingDayPolicy(instance);
     }
     
-    public List<ClosingDayPolicy> getClosingDays() {
-        return closingDays;
+    public ClosingDayPolicies getClosingDayPolicies() {
+        return closingDayPolicies;
     }
     
     public boolean isClosingAt(LocalDate date) {
-        return closingDays.stream().anyMatch(x -> x.isClosedAt(date));
+        return closingDayPolicies.isClosingAt(date);
     }
 }

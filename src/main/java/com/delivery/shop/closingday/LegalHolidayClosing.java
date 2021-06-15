@@ -9,27 +9,25 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class LegalHolidayClosing implements ClosingDayPolicy {
     
     private static final String CLOSING_TYPE = "LEGAL_HOLIDAY";
+    @JsonIgnore
     private static final Map<Year, Set<LocalDate>> yearly; // key의 Year은 음력년도, value는 변환된 양력 set
-    private static final LegalHolidayClosing legalHolidayClosing;
     
     static {
         yearly = new HashMap<>();
-        legalHolidayClosing = new LegalHolidayClosing();
         updateHolidays(Year.of(LocalDate.now().getYear()));
     }
     
-    private LegalHolidayClosing() {
-    
+    public LegalHolidayClosing() {
     }
     
-    public static LegalHolidayClosing getInstance() {
-        return legalHolidayClosing;
+    // mybatis의 resultMap을 사용할때 매개변수 없는 생성자로 초기화하는 방법을 모르겠어서 임시로 사용함
+    public LegalHolidayClosing(Long nothing) {
     }
-    
-    private Long closingDaysId;
     
     /**
      * 법정공휴일에 해당하는지 확인한다. 법정공휴일에서 일요일은 제외하도록 한다.
@@ -53,6 +51,10 @@ public class LegalHolidayClosing implements ClosingDayPolicy {
                 .map(holiday -> LegalHoliday.transformToSolar(year, holiday))
                 .collect(Collectors.toSet());
         yearly.put(year, holidays);
+    }
+    
+    public String getClosingType() {
+        return CLOSING_TYPE;
     }
     
     public static Map<Year, Set<LocalDate>> getYearly() {

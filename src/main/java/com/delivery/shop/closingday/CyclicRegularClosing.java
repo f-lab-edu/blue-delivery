@@ -6,6 +6,8 @@ import java.time.YearMonth;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class CyclicRegularClosing extends RegularClosingDay {
     
     public enum Cycle {
@@ -23,9 +25,9 @@ public class CyclicRegularClosing extends RegularClosingDay {
     }
     
     private static final String CLOSING_TYPE = "CYCLIC_REGULAR";
-    private Long closingDaysId;
     private Cycle cycle;
     private DayOfWeek dayOfWeek;
+    @JsonIgnore
     private TemporalField weekFields; // 외부에서 입력받는 LocalDate 의 주(첫째주, 둘째주, ...)를 계산하기 위한 기준
     
     public CyclicRegularClosing(Cycle cycle, DayOfWeek dayOfWeek) {
@@ -79,6 +81,22 @@ public class CyclicRegularClosing extends RegularClosingDay {
     // 주어진 날짜가 해당 월의 몇번째 주인지 리턴한다.
     private int getNumberOfWeek(LocalDate date) {
         return date.get(weekFields);
+    }
+    
+    public String getClosingType() {
+        return CLOSING_TYPE;
+    }
+    
+    public Cycle getCycle() {
+        return cycle;
+    }
+    
+    public DayOfWeek getDayOfWeek() {
+        return dayOfWeek;
+    }
+    
+    public TemporalField getWeekFields() {
+        return weekFields;
     }
     
     @Override

@@ -67,7 +67,7 @@ public class ShopUpdateService {
         Shop shop = getShop(shopId);
         
         if (closingOnLegalHolidays) {
-            shop.addClosingDayPolicy(LegalHolidayClosing.getInstance());
+            shop.addClosingDayPolicy(new LegalHolidayClosing());
         }
         temporaries.stream().forEach(
                 temporary -> shop.addClosingDayPolicy(temporary.toEntity()));
@@ -75,8 +75,6 @@ public class ShopUpdateService {
                 regular -> shop.addClosingDayPolicy(regular.toEntity()));
         shopRepository.deleteClosingDays(shop);
         shopRepository.updateClosingDays(shop);
-//        shopRepository.updateTemporaryClosing(shop);
-//        shopRepository.updateRegularClosing(shop);
     }
     
     private Shop getShop(Long id) {

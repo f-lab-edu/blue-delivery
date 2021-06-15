@@ -6,7 +6,6 @@ public class TemporaryClosing implements ClosingDayPolicy {
     
     private static final String CLOSING_TYPE = "TEMPORARY";
     
-    private Long closingDaysId;
     private LocalDate from;
     private LocalDate to;
     
@@ -34,6 +33,18 @@ public class TemporaryClosing implements ClosingDayPolicy {
     @Override
     public boolean isClosedAt(LocalDate date) {
         return from.compareTo(date) <= 0 && to.compareTo(date) >= 0;
+    }
+    
+    public String getClosingType() {
+        return CLOSING_TYPE;
+    }
+    
+    public LocalDate getFrom() {
+        return from;
+    }
+    
+    public LocalDate getTo() {
+        return to;
     }
     
     @Override

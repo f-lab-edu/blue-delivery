@@ -7,7 +7,6 @@ public class WeeklyRegularClosing extends RegularClosingDay {
     
     private static final String CLOSING_TYPE = "WEEKLY_REGULAR";
     
-    private Long closingDaysId;
     private DayOfWeek dayOfWeek;
     
     public WeeklyRegularClosing(DayOfWeek dayOfWeek) {
@@ -22,6 +21,14 @@ public class WeeklyRegularClosing extends RegularClosingDay {
     @Override
     public boolean isClosedAt(LocalDate date) {
         return this.dayOfWeek == date.getDayOfWeek();
+    }
+    
+    public String getClosingType() {
+        return CLOSING_TYPE;
+    }
+    
+    public DayOfWeek getDayOfWeek() {
+        return dayOfWeek;
     }
     
     @Override
