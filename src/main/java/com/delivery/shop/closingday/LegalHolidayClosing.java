@@ -28,13 +28,15 @@ public class LegalHolidayClosing implements ClosingDayPolicy {
     public static LegalHolidayClosing getInstance() {
         return legalHolidayClosing;
     }
+    
     private Long closingDaysId;
     
     /**
      * 법정공휴일에 해당하는지 확인한다. 법정공휴일에서 일요일은 제외하도록 한다.
-     * @see LegalHoliday
+     *
      * @param date 확인하고 싶은 날짜
      * @return 법정공휴일에 해당된다면 true
+     * @see LegalHoliday
      */
     @Override
     public boolean isClosedAt(LocalDate date) {
@@ -59,8 +61,8 @@ public class LegalHolidayClosing implements ClosingDayPolicy {
     
     @Override
     public String toString() {
-        return "LegalHolidayClosing{" +
-                LegalHolidayClosing.yearly.get(Year.of(LocalDate.now().getYear())) +
-                "}";
+        return "LegalHolidayClosing{"
+                + LegalHolidayClosing.yearly.get(Year.of(LocalDate.now().getYear()))
+                + "}";
     }
 }

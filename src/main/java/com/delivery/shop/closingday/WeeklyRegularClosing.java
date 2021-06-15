@@ -26,8 +26,8 @@ public class WeeklyRegularClosing extends RegularClosingDay {
     
     @Override
     public String toString() {
-        return "WeeklyRegularClosing{" +
-                "dayOfWeek=" + dayOfWeek +
-                '}';
+        return "WeeklyRegularClosing{"
+                + "dayOfWeek=" + dayOfWeek
+                + '}';
     }
 }

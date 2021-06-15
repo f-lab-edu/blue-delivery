@@ -61,7 +61,7 @@ public class ShopUpdateController {
     
     /**
      * 해당 가게의 휴무일을 입력받고 업데이트한다.
-     * @param shopId 가게 d
+     * @param shopId 가게 id
      * @param closingDays 휴무일 정보
      */
     @PutMapping("/{id}/closing-days")

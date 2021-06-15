@@ -37,9 +37,9 @@ public class RegularClosingParam {
     
     @Override
     public String toString() {
-        return "RegularClosingParam{" +
-                "cycle=" + cycle +
-                ", dayOfWeek=" + dayOfWeek +
-                '}';
+        return "RegularClosingParam{"
+                + "cycle=" + cycle
+                + ", dayOfWeek=" + dayOfWeek
+                + '}';
     }
 }

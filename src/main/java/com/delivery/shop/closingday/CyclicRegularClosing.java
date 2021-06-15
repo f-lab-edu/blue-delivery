@@ -83,10 +83,10 @@ public class CyclicRegularClosing extends RegularClosingDay {
     
     @Override
     public String toString() {
-        return "CyclicRegularClosing{" +
-                "cycle=" + cycle +
-                ", dayOfWeek=" + dayOfWeek +
-                ", weekFields=" + weekFields +
-                '}';
+        return "CyclicRegularClosing{"
+                + "cycle=" + cycle
+                + ", dayOfWeek=" + dayOfWeek
+                + ", weekFields=" + weekFields
+                + '}';
     }
 }

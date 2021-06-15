@@ -51,17 +51,15 @@ class ShopUpdateServiceTest {
         shopUpdateService.updateClosingDays(1L, request);
         
         // 법정공휴일 테스트
-        LegalHolidayClosing.getYearly().get(Year.of(2021)).stream()
-                .forEach(
-                        x -> assertThat(shop.isClosingAt(x)).isTrue()
-                );
+        LegalHolidayClosing.getYearly().get(Year.of(2021)).stream().forEach(
+                x -> assertThat(shop.isClosingAt(x)).isTrue()
+        );
         // 정기휴무일 테스트
         assertThat(shop.isClosingAt(lastMondayOnJune)).isTrue();
         assertThat(shop.isClosingAt(sunday)).isTrue();
         // 임시휴무일 테스트
-        june18.datesUntil(june23.plusDays(1))
-                .forEach(
-                        x -> assertThat(shop.isClosingAt(x)).isTrue()
-                );
+        june18.datesUntil(june23.plusDays(1)).forEach(
+                x -> assertThat(shop.isClosingAt(x)).isTrue()
+        );
     }
 }

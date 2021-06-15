@@ -38,9 +38,9 @@ public class TemporaryClosing implements ClosingDayPolicy {
     
     @Override
     public String toString() {
-        return "TemporaryClosing{" +
-                "from=" + from +
-                ", to=" + to +
-                '}';
+        return "TemporaryClosing{"
+                + "from=" + from
+                + ", to=" + to
+                + '}';
     }
 }
