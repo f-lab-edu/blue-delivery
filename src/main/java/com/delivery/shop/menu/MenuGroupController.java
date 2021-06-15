@@ -25,7 +25,7 @@ public class MenuGroupController {
         this.service = service;
     }
 
-    @PostMapping("/{shopId}/menugroups")
+    @PostMapping("/{shopId}/menu-groups")
     public ResponseEntity<MenuGroup> registerMenuGroup(@Validated @RequestBody MenuGroupDto dto,
                                                        @PathVariable Long shopId) {
         if (!dto.checkShopId(shopId)) {
@@ -35,7 +35,7 @@ public class MenuGroupController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/{shopId}/menugroups")
+    @GetMapping("/{shopId}/menu-groups")
     public ResponseEntity<List<MenuGroupDto>> getMenuGroups(@PathVariable Long shopId) {
 
         List<MenuGroupDto> menuGroups = service.getMenuGroup(shopId);
@@ -46,7 +46,7 @@ public class MenuGroupController {
         return new ResponseEntity<List<MenuGroupDto>>(menuGroups, HttpStatus.OK);
     }
 
-    @PutMapping("/{shopId}/menugroups")
+    @PutMapping("/{shopId}/menu-groups")
     public ResponseEntity<MenuGroupDto> updateGroups(@PathVariable Long shopId,
                                                      @RequestBody MenuGroupDto dto) {
         if (dto.getName() == null || dto.getName() == "") {
