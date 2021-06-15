@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -26,7 +25,7 @@ public class MenuGroupController {
         this.service = service;
     }
 
-    @PostMapping("/{shopId}/menuGroups")
+    @PostMapping("/{shopId}/menugroups")
     public ResponseEntity<MenuGroup> registerMenuGroup(@Validated @RequestBody MenuGroupDto dto,
                                                        @PathVariable Long shopId) {
         if (!dto.checkShopId(shopId)) {
@@ -36,7 +35,7 @@ public class MenuGroupController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/{shopId}/menuGroups")
+    @GetMapping("/{shopId}/menugroups")
     public ResponseEntity<List<MenuGroupDto>> getMenuGroups(@PathVariable Long shopId) {
 
         List<MenuGroupDto> menuGroups = service.getMenuGroup(shopId);
@@ -47,7 +46,7 @@ public class MenuGroupController {
         return new ResponseEntity<List<MenuGroupDto>>(menuGroups, HttpStatus.OK);
     }
 
-    @PutMapping("/{shopId}/menuGroups")
+    @PutMapping("/{shopId}/menugroups")
     public ResponseEntity<MenuGroupDto> updateGroups(@PathVariable Long shopId,
                                                      @RequestBody MenuGroupDto dto) {
         if (dto.getName() == null || dto.getName() == "") {
