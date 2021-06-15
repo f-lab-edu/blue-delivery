@@ -8,8 +8,8 @@ import java.time.DayOfWeek;
 public class WeekdayWeekendBusinessHourCondition implements BusinessHourCondition {
     
     @Override
-    public boolean isSatisfied(BusinessHourType type, BusinessHourRequestParams params) {
-        if (params.isWeekdaySatSunday(type)) {
+    public boolean isSatisfied(BusinessHourType calendarType, BusinessHourRequestParams params) {
+        if (params.isWeekdaySatSunday(calendarType)) {
             return true;
         }
         return false;

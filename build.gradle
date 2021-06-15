@@ -34,6 +34,7 @@ dependencies {
     implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16' // log4jdbc (jdbc log)
     implementation 'mysql:mysql-connector-java'
     implementation 'com.h2database:h2:1.4.200'
+    implementation group: 'net.time4j', name: 'time4j-base', version: '5.7' // time4j 음력->양력 변환을 위해 사용
     runtimeOnly group: 'org.flywaydb', name: 'flyway-gradle-plugin', version: '7.9.1'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

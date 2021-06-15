@@ -32,13 +32,13 @@ public class CyclicRegularClosing extends RegularClosingDay {
         this.weekFields = WeekFields.ISO.weekOfMonth();
     }
     
+    // TODO 코드 다시 확인
     @Override
     public boolean isClosedAt(LocalDate localDate) {
         // 요일 확인
         if (localDate.getDayOfWeek() != this.dayOfWeek) {
             return false;
         }
-        
         // 주기 확인
         if (this.cycle == Cycle.LAST) {
             if (isLastWeek(localDate)) {
@@ -46,7 +46,6 @@ public class CyclicRegularClosing extends RegularClosingDay {
             }
             return false;
         }
-        
         if (getNumberOfWeek(localDate) == this.cycle.getCycleAsInt()) {
             return true;
         }
