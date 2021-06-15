@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-class RegularClosingDayTest {
+class RegularClosingDayPolicyTest {
     
     @ParameterizedTest
     @ValueSource(ints = {13, 14, 15, 16, 17, 18, 19})

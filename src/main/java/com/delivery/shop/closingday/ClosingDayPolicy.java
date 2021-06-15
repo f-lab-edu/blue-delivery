@@ -2,7 +2,7 @@ package com.delivery.shop.closingday;
 
 import java.time.LocalDate;
 
-public interface ClosingDay {
+public interface ClosingDayPolicy {
     /**
      * 주어진 날짜가 지정한 휴무일과 일치하는지 확인한다.
      * @param date 확인하고 싶은 날짜

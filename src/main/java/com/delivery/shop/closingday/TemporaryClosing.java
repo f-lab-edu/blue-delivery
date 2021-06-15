@@ -2,8 +2,11 @@ package com.delivery.shop.closingday;
 
 import java.time.LocalDate;
 
-public class TemporaryClosing implements ClosingDay {
+public class TemporaryClosing implements ClosingDayPolicy {
     
+    private static final String CLOSING_TYPE = "TEMPORARY";
+    
+    private Long closingDaysId;
     private LocalDate from;
     private LocalDate to;
     
@@ -21,7 +24,6 @@ public class TemporaryClosing implements ClosingDay {
         
         this.from = from;
         this.to = to;
-        
     }
     
     /**
@@ -32,5 +34,13 @@ public class TemporaryClosing implements ClosingDay {
     @Override
     public boolean isClosedAt(LocalDate date) {
         return from.compareTo(date) <= 0 && to.compareTo(date) >= 0;
+    }
+    
+    @Override
+    public String toString() {
+        return "TemporaryClosing{" +
+                "from=" + from +
+                ", to=" + to +
+                '}';
     }
 }

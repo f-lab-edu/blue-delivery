@@ -14,7 +14,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class LegalHolidayClosingTest {
     
-    LegalHolidayClosing holiday = new LegalHolidayClosing();
+    LegalHolidayClosing holiday = LegalHolidayClosing.getInstance();
     
     @Test
     void holidayTest() {

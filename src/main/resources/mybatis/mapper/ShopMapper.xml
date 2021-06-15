@@ -82,4 +82,30 @@
         </foreach>
         ON DUPLICATE KEY UPDATE OPEN = values(OPEN), CLOSE = values(CLOSE)
     </insert>
+
+    <!-- 가게의 휴무일 삭제   -->
+    <delete id="deleteClosingDays" parameterType="long">
+        DELETE
+        FROM CLOSING_DAYS
+        WHERE SHOP_ID = #{id}
+    </delete>
+
+    <!-- 가게의 휴무일 추가 -->
+    <insert id="updateClosingDays" parameterType="map">
+        INSERT INTO CLOSING_DAYS (SHOP_ID, CLOSING_TYPE, CYCLE_TYPE, DAY_OF_WEEK, FROM_DATE, TO_DATE) VALUES
+        <foreach collection="closingDays" item="closing" separator=",">
+            <if test="closing instanceof com.delivery.shop.closingday.LegalHolidayClosing">
+                (#{id}, #{closing.CLOSING_TYPE}, null, null, null, null)
+            </if>
+            <if test="closing instanceof com.delivery.shop.closingday.WeeklyRegularClosing">
+                (#{id}, #{closing.CLOSING_TYPE}, null, #{closing.dayOfWeek}, null, null)
+            </if>
+            <if test="closing instanceof com.delivery.shop.closingday.CyclicRegularClosing">
+                (#{id}, #{closing.CLOSING_TYPE}, #{closing.cycle}, #{closing.dayOfWeek}, null, null)
+            </if>
+            <if test="closing instanceof com.delivery.shop.closingday.TemporaryClosing">
+                (#{id}, #{closing.CLOSING_TYPE}, null, null, #{closing.from}, #{closing.to})
+            </if>
+        </foreach>
+    </insert>
 </mapper>

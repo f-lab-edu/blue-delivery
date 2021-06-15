@@ -9,6 +9,7 @@ import com.delivery.shop.businesshour.BusinessHourConditions;
 import com.delivery.shop.businesshour.BusinessHourPolicy;
 import com.delivery.shop.businesshour.UpdateBusinessHoursDto;
 import com.delivery.shop.category.Category;
+import com.delivery.shop.closingday.LegalHolidayClosing;
 
 @Service
 @Transactional
@@ -57,6 +58,25 @@ public class ShopUpdateService {
         shop.updateCategory(categories);
         shopRepository.deleteCategory(shop);
         shopRepository.updateCategory(shop);
+    }
+    
+    public void updateClosingDays(Long shopId, UpdateClosingDaysRequest closingDays) {
+        Boolean closingOnLegalHolidays = closingDays.getLegalHolidays();
+        List<TemporaryClosingParam> temporaries = closingDays.getTemporaryClosing();
+        List<RegularClosingParam> regulars = closingDays.getRegularClosing();
+        Shop shop = getShop(shopId);
+        
+        if (closingOnLegalHolidays) {
+            shop.addClosingDayPolicy(LegalHolidayClosing.getInstance());
+        }
+        temporaries.stream().forEach(
+                temporary -> shop.addClosingDayPolicy(temporary.toEntity()));
+        regulars.stream().forEach(
+                regular -> shop.addClosingDayPolicy(regular.toEntity()));
+        shopRepository.deleteClosingDays(shop);
+        shopRepository.updateClosingDays(shop);
+//        shopRepository.updateTemporaryClosing(shop);
+//        shopRepository.updateRegularClosing(shop);
     }
     
     private Shop getShop(Long id) {
