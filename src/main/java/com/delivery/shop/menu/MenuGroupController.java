@@ -84,19 +84,17 @@ public class MenuGroupController {
      * 메뉴 그룹 삭제
      *
      *
-     * @param dto 삭제할 메뉴 그룹
+     * @param menuGroupId 삭제할 메뉴 그룹
      * @return
      */
 
-    @DeleteMapping("/{shopId}/menu-groups")
+    @DeleteMapping("/{shopId}/menu-groups/{menuGroupId}")
     public ResponseEntity<MenuGroupDto> deleteGroups(@PathVariable Long shopId,
-                                                     @RequestBody MenuGroupDto dto) {
-        if (dto.getId() == null) {
-            System.out.println(dto.getId());
+                                                     @PathVariable Long menuGroupId) {
+        if (menuGroupId == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        System.out.println(dto.getId());
-        service.deleteMenuGroup(dto.getId());
+        service.deleteMenuGroup(menuGroupId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
