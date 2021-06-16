@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.Month;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -24,11 +25,11 @@ class LegalHolidayClosingTest {
     
     @ParameterizedTest
     @ValueSource(ints = {3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 24, 26, 27})
-    @DisplayName("2021년 구정은 양력으로 2월 11~13일이다. (2020-01-24~26, 2019-02-04~06)")
+    @DisplayName("2021년 구정은 양력으로 2월 11~13 +15일. (2020-01-24~26 +27, 2019-02-04~06)")
     void lunarHolidayTesT(int day) {
         // 2021년
         boolean closed = holiday.isClosedAt(LocalDate.of(2021, Month.FEBRUARY, day));
-        if (day >= 11 && day <= 13) {
+        if (day >= 11 && day <= 13 || day == 15) {
             assertThat(closed).isTrue();
         } else {
             assertThat(closed).isFalse();
@@ -36,7 +37,7 @@ class LegalHolidayClosingTest {
         
         // 2020년
         closed = holiday.isClosedAt(LocalDate.of(2020, Month.JANUARY, day));
-        if (day >= 24 && day <= 26) {
+        if (day >= 24 && day <= 26 || day == 27) {
             assertThat(closed).isTrue();
         } else {
             assertThat(closed).isFalse();
@@ -48,6 +49,16 @@ class LegalHolidayClosingTest {
             assertThat(closed).isTrue();
         } else {
             assertThat(closed).isFalse();
+        }
+    }
+    
+    @Disabled
+    @Test
+    @DisplayName("법정공휴일 업데이트는 1년에 한번만 일어나야 한다.")
+    void multiThread() {
+        for (int i = 0; i < 10000; i++) {
+            // isClosedAt()이 사용하는 updateHolidaysIfNotExist()에 System.out 찍어서 확인
+            new Thread(() -> holiday.isClosedAt(LocalDate.now().plusYears(1))).start();
         }
     }
 }

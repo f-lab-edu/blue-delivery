@@ -2,12 +2,10 @@ package com.delivery.shop.closingday;
 
 import java.time.LocalDate;
 import java.time.Year;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -19,7 +17,7 @@ public class LegalHolidayClosing implements ClosingDayPolicy {
     
     static {
         yearly = new HashMap<>();
-        updateHolidays(Year.of(LocalDate.now().getYear()));
+        updateHolidaysIfNotExist(Year.of(LocalDate.now().getYear()));
     }
     
     public LegalHolidayClosing() {
@@ -39,18 +37,16 @@ public class LegalHolidayClosing implements ClosingDayPolicy {
     @Override
     public boolean isClosedAt(LocalDate date) {
         Year year = Year.of(date.getYear());
-        if (!yearly.containsKey(year)) {
-            updateHolidays(year);
-        }
-        Set<LocalDate> holidays = yearly.get(year);
-        return holidays.contains(date);
+        updateHolidaysIfNotExist(year);
+        Set<LocalDate> holidaysOfAYear = yearly.get(year);
+        return holidaysOfAYear.contains(date);
     }
     
-    private static void updateHolidays(Year year) {
-        Set<LocalDate> holidays = Arrays.stream(LegalHoliday.values())
-                .map(holiday -> LegalHoliday.transformToSolar(year, holiday))
-                .collect(Collectors.toSet());
-        yearly.put(year, holidays);
+    private static synchronized void updateHolidaysIfNotExist(Year year) {
+        if (yearly.containsKey(year)) {
+            return;
+        }
+        yearly.put(year, LegalHoliday.getSolarDays(year));
     }
     
     public String getClosingType() {
