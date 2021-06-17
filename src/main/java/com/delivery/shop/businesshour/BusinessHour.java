@@ -2,6 +2,7 @@ package com.delivery.shop.businesshour;
 
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
 
@@ -61,4 +62,8 @@ public class BusinessHour {
         return Objects.hash(open, close);
     }
     
+    public boolean isBetween(LocalTime date) {
+        return open.compareTo(date) <= 0
+                && close.compareTo(date) >= 0;
+    }
 }

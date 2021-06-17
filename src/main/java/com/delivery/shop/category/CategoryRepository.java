@@ -12,5 +12,5 @@ public interface CategoryRepository {
     
     void update(List<Category> categories);
     
-    List<SearchedShopData> findShopsByCategoryId(Long id, Integer offset);
+    List<SearchedShopData> findShopsByCategoryId(SearchShopByCategoryParam param);
 }
