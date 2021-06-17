@@ -40,4 +40,8 @@
         UPDATE MENU_GROUP SET NAME = #{name}, CONTENT = #{content} WHERE ID = #{id};
     </update>
 
+    <delete id="deleteMenuGroup">
+        DELETE FROM MENU_GROUP WHERE ID = #{id};
+    </delete>
+
 </mapper>
