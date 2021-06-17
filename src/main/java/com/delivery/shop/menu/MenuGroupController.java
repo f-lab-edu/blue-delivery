@@ -91,9 +91,6 @@ public class MenuGroupController {
     @DeleteMapping("/{shopId}/menu-groups/{menuGroupId}")
     public ResponseEntity<MenuGroupDto> deleteGroups(@PathVariable Long shopId,
                                                      @PathVariable Long menuGroupId) {
-        if (menuGroupId == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
         service.deleteMenuGroup(menuGroupId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
