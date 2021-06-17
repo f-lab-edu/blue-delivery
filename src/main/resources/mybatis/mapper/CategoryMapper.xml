@@ -15,17 +15,67 @@
             <collection property="businessHours" ofType="BusinessHour" column="SHOP_ID"
                         select="findBusinessHoursByShop" fetchType="eager"/>
         </association>
+        <association property="closingDayPolicies" javaType="ClosingDayPolicies">
+            <collection property="closingDays" column="SHOP_ID"
+                        select="findClosingDaysByShop" fetchType="eager"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="test" type="com.delivery.shop.closingday.ClosingDayPolicy">
+        <discriminator javaType="string" column="CLOSING_TYPE">
+            <case value="CYCLIC_REGULAR" resultMap="cyclicRegularResultMap"/>
+            <case value="WEEKLY_REGULAR" resultMap="weeklyRegularResultMap"/>
+            <case value="TEMPORARY" resultMap="temporaryResultMap"/>
+            <case value="LEGAL_HOLIDAY" resultMap="legalHolidayResultMap"/>
+        </discriminator>
+    </resultMap>
+
+    <resultMap id="cyclicRegularResultMap" type="CyclicRegularClosing">
+        <constructor>
+            <arg column="CYCLE_TYPE" javaType="com.delivery.shop.closingday.CyclicRegularClosing$Cycle"/>
+            <arg column="DAY_OF_WEEK" javaType="java.time.DayOfWeek"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="weeklyRegularResultMap" type="WeeklyRegularClosing">
+        <constructor>
+            <arg column="DAY_OF_WEEK" javaType="java.time.DayOfWeek"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="temporaryResultMap" type="TemporaryClosing">
+        <constructor>
+            <arg column="FROM_DATE" javaType="java.time.LocalDate"/>
+            <arg column="TO_DATE" javaType="java.time.LocalDate"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="legalHolidayResultMap" type="LegalHolidayClosing">
+        <constructor>
+            <arg column="SHOP_ID" javaType="long"/>
+        </constructor>
     </resultMap>
 
     <!-- 카테고리별 가게 조회-->
     <select id="findShopsByCategoryId" resultMap="shopResultMap">
         SELECT s.ID   SHOP_ID,
                s.NAME SHOP_NAME
-        FROM SHOP s
+        FROM SHOP S
                  JOIN CATEGORY_SHOP cs
                       ON s.ID = cs.SHOP_ID
-        WHERE cs.CATEGORY_ID = #{id} LIMIT 20
-        OFFSET #{offset}
+        WHERE cs.CATEGORY_ID = #{id}
+          AND S.ID NOT IN (SELECT SHOP_ID FROM CLOSING_DAY WHERE DAY_OF_WEEK = #{dayOfWeek} AND CYCLE_TYPE IS NULL)
+          AND S.ID IN (SELECT SHOP_ID FROM BUSINESS_HOUR WHERE DAY_OF_WEEK = #{dayOfWeek})
+
+    </select>
+
+    <!-- 가게별 휴무일 조회(nested select용)-->
+    <select id="findClosingDaysByShop" resultMap="test">
+        SELECT SHOP_ID,
+               CLOSING_TYPE,
+               CYCLE_TYPE,
+               DAY_OF_WEEK,
+               FROM_DATE,
+               TO_DATE
+        FROM CLOSING_DAY
+        WHERE SHOP_ID = #{ID}
     </select>
 
     <!-- 전체 카테고리 목록 조회-->
@@ -55,6 +105,5 @@
         where
             SHOP_ID = #{ID}
     </select>
-
 
 </mapper>

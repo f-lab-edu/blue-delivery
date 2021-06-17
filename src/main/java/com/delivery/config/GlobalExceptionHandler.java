@@ -34,7 +34,7 @@ public class GlobalExceptionHandler {
     
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> illegalArgumentExceptionHandler(IllegalArgumentException ex) {
-        return ResponseEntity.badRequest().body("invalid : " + ex.getMessage());
+        return ResponseEntity.badRequest().body("invalid : " + ex.toString());
     }
     
     @ExceptionHandler(InvalidAuthenticationException.class)

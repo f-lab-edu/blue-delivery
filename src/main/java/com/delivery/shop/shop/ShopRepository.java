@@ -19,4 +19,9 @@ public interface ShopRepository {
     void deleteCategory(Shop shop);
     
     void updateBusinessHours(Shop shop);
+    
+    void deleteClosingDays(Shop shop);
+    
+    void updateClosingDays(Shop shop);
+    
 }

@@ -1,9 +1,12 @@
 package com.delivery.shop.shop;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.delivery.shop.businesshour.BusinessHourPolicy;
 import com.delivery.shop.category.Category;
+import com.delivery.shop.closingday.ClosingDayPolicies;
+import com.delivery.shop.closingday.ClosingDayPolicy;
 
 public class Shop {
     private Long id;
@@ -13,9 +16,10 @@ public class Shop {
     private String phone;
     private String deliveryAreaGuide;
     private List<Category> categories;
+    private ClosingDayPolicies closingDayPolicies;
     
     public Shop() {
-    
+        closingDayPolicies = new ClosingDayPolicies();
     }
     
     public void updateBusinessHour(BusinessHourPolicy bh) {
@@ -68,5 +72,17 @@ public class Shop {
     
     public List<Category> getCategories() {
         return categories;
+    }
+    
+    public void addClosingDayPolicy(ClosingDayPolicy instance) {
+        closingDayPolicies.addClosingDayPolicy(instance);
+    }
+    
+    public ClosingDayPolicies getClosingDayPolicies() {
+        return closingDayPolicies;
+    }
+    
+    public boolean isClosingAt(LocalDate date) {
+        return closingDayPolicies.isClosingAt(date);
     }
 }

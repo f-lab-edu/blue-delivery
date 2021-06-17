@@ -1,5 +1,6 @@
 package com.delivery.shop.category;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,7 +29,9 @@ public class CategoryManagerService {
         categoryRepository.update(Arrays.asList(Category.values()));
     }
     
-    public List<SearchedShopData> getShopsByCategory(Long id, Integer offset) {
-        return categoryRepository.findShopsByCategoryId(id, offset);
+    public List<SearchedShopData> getShopsByCategory(SearchShopByCategoryParam param) {
+        return categoryRepository.findShopsByCategoryId(param).stream()
+                .filter(data -> data.isOpening(LocalDateTime.now()))
+                .collect(Collectors.toList());
     }
 }
