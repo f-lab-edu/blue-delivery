@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.delivery.shop.closingday.ClosingDayPolicy;
-
 public class ClosingDayPolicies {
     private List<ClosingDayPolicy> closingDays;
     

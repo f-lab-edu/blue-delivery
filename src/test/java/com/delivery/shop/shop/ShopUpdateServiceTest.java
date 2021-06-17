@@ -51,7 +51,7 @@ class ShopUpdateServiceTest {
         shopUpdateService.updateClosingDays(1L, request);
         
         // 법정공휴일 테스트
-        LegalHolidayClosing.getYearly().get(Year.of(2021)).stream().forEach(
+        LegalHolidayClosing.getYearOf(Year.of(2021)).stream().forEach(
                 x -> assertThat(shop.isClosingAt(x)).isTrue()
         );
         // 정기휴무일 테스트
