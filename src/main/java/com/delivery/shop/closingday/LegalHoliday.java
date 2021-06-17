@@ -1,6 +1,7 @@
 package com.delivery.shop.closingday;
 
-import static com.delivery.shop.closingday.CalendarType.*;
+import static com.delivery.shop.closingday.LegalHoliday.CalendarType.LUNAR;
+import static com.delivery.shop.closingday.LegalHoliday.CalendarType.SOLAR;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -33,8 +34,10 @@ public enum LegalHoliday {
     HANGUL_PROCLAMATION_DAY(SOLAR, Month.OCTOBER, 9),
     CHRISTMAS(SOLAR, Month.DECEMBER, 25);
     
+    
     private CalendarType calendarType;
     private Month month;
+    
     private int day;
     
     LegalHoliday(CalendarType calendarType, Month month, int day) {
@@ -125,5 +128,9 @@ public enum LegalHoliday {
             }
             holidays.add(lunar);
         }
+    }
+    
+    enum CalendarType {
+        LUNAR, SOLAR;
     }
 }

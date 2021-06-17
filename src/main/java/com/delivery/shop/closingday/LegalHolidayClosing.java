@@ -10,7 +10,7 @@ public class LegalHolidayClosing implements ClosingDayPolicy {
     
     private static final String CLOSING_TYPE = "LEGAL_HOLIDAY";
     @JsonIgnore
-    private static final YearlyLegalHolidays YEARLY = new YearlyLegalHolidays();;
+    private static final YearlyLegalHolidays YEARLY = new YearlyLegalHolidays();
     
     public LegalHolidayClosing() {
     }
