@@ -10,6 +10,8 @@ import java.util.HashMap;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class BusinessHourPolicyConditionsTest {
     
@@ -88,23 +90,19 @@ class BusinessHourPolicyConditionsTest {
         );
     }
     
-    @Test
-    @DisplayName("영업 종료 시간이 자정 이후인 경우")
-    void afterMidnight() {
-        LocalTime now = LocalTime.of(01, 00);
+    @ParameterizedTest
+    @ValueSource(ints = {13, 14, 15, 21, 23, 0, 1, 2, 10, 11, 12})
+    @DisplayName("영업 종료 시간이 전일 오후 1시 ~ 새벽 3시까지인 경우, 현재 시간이 그 안에 포함되면 테스트가 성공한다.")
+    void beforeAndAfterMidnight(int hour) {
+        LocalTime now = LocalTime.of(hour, 00);
         BusinessHour businessHour = new BusinessHour(DayOfWeek.FRIDAY,
                 LocalTime.of(13, 0), LocalTime.of(03, 0));
-        assertThat(businessHour.isBetween(now)).isTrue();
-    }
-    
-    @Test
-    @DisplayName("영업 종료 시간이 자정 이전인 경우")
-    void beforeMidnight() {
-        LocalTime now = LocalTime.of(01, 00);
-        LocalTime beforeMidnight = now.minusHours(2);
-        BusinessHour businessHour = new BusinessHour(DayOfWeek.FRIDAY,
-                LocalTime.of(13, 0), LocalTime.of(03, 0));
-        assertThat(businessHour.isBetween(beforeMidnight)).isTrue();
+        
+        if ((13 <= hour && hour <= 23) || (0 <= hour && hour <= 3)) {
+            assertThat(businessHour.isBetween(now)).isTrue();
+        } else {
+            assertThat(businessHour.isBetween(now)).isFalse();
+        }
     }
     
 }

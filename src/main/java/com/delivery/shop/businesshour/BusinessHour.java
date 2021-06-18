@@ -62,18 +62,19 @@ public class BusinessHour {
         return Objects.hash(open, close);
     }
     
-    
+    // plusNanos(1L), minusNanos(1L) : isAfter()/isBefore()이 경계값을 포함하지 않아서 포함시키기 위해 사용
+    // midnight.minusNanos(1L) : 자정을 24시 00분으로 표현할 수가 없어서 1 nano 를 깎아 23시 59분 59초 ... 로 최대치를 만들기 위함
     public boolean isBetween(LocalTime now) {
         LocalTime midnight = LocalTime.of(00, 00);
+        
         if (close.isBefore(open)) { // 영업종료시간이 익일인 경우
-            // midnight.minusNanos(1L) : 자정을 24시 00분으로 표현할 수가 없어서 1 nano 를 깎아 23시 59분 59초 ... 로 최대치를 만들기 위함
-            if ((open.isBefore(now) && now.isBefore(midnight.minusNanos(1L)))
-                    || midnight.isBefore(now) && now.isBefore(close)) { // 오픈후~자정전 이나 자정후~마감전 이면 true
+            if ((open.minusNanos(1L).isBefore(now) && now.isBefore(midnight.minusNanos(1L)))
+                    || (midnight.isBefore(now.plusNanos(1L)) && now.isBefore(close.plusNanos(1L)))) {
                 return true;
             }
             return false;
         }
-        return open.isBefore(now) && now.isBefore(close);
+        return open.minusNanos(1L).isBefore(now) && now.plusNanos(1L).isBefore(close);
         
     }
     
