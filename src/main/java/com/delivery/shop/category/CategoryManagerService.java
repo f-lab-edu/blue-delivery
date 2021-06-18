@@ -1,9 +1,11 @@
 package com.delivery.shop.category;
 
-import java.time.LocalDateTime;
+import static java.util.Comparator.comparing;
+import static java.util.function.Predicate.not;
+import static java.util.stream.Collectors.toList;
+
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -22,7 +24,7 @@ public class CategoryManagerService {
         // TODO 카테고리 이름의 다국어처리 i18n
         return categoryRepository.findAll().stream()
                 .map(Category::toResponse)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
     
     public void updateCategories() {
@@ -31,7 +33,9 @@ public class CategoryManagerService {
     
     public List<SearchedShopData> getShopsByCategory(SearchShopByCategoryParam param) {
         return categoryRepository.findShopsByCategoryId(param).stream()
-                .filter(data -> data.isOpening(LocalDateTime.now()))
-                .collect(Collectors.toList());
+                .map(data -> data.setNow(param.getNow())) // 가져온 객체에 조회시점의 시간 설정
+                .filter(not(SearchedShopData::isClosingDay)) // 휴무가 아닌 가게
+                .sorted(comparing(SearchedShopData::isOpening).reversed()) // 영업시간인 가게가 앞으로
+                .collect(toList());
     }
 }

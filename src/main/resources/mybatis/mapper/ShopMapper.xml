@@ -108,4 +108,12 @@
             </if>
         </foreach>
     </insert>
+
+    <!-- 가게 노출 여부 변경 -->
+    <update id="updateExposeStatus" parameterType="map">
+        UPDATE SHOP
+        SET EXPOSED = #{exposed}
+        WHERE id = #{id}
+    </update>
+
 </mapper>

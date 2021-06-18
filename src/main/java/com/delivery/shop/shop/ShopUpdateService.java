@@ -77,6 +77,12 @@ public class ShopUpdateService {
         shopRepository.updateClosingDays(shop);
     }
     
+    public void expose(Long shopId, Boolean status) {
+        Shop shop = getShop(shopId);
+        shop.updateExposeStatus(status);
+        shopRepository.updateExposeStatus(shop);
+    }
+    
     private Shop getShop(Long id) {
         Shop shop = shopRepository.findShopById(id);
         if (shop == null) {

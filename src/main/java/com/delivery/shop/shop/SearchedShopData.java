@@ -2,29 +2,32 @@ package com.delivery.shop.shop;
 
 import java.time.LocalDateTime;
 
-import com.delivery.shop.businesshour.BusinessHourPolicy;
+import com.delivery.shop.businesshour.BusinessHour;
 import com.delivery.shop.closingday.ClosingDayPolicies;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 // TODO 나중에 대표메뉴 조회결과, 평점, 배달소요시간, 최소주문, 배달팁 정보 등등 추가되어야 함
 public class SearchedShopData {
     private Long id;
     private String name;
-    private BusinessHourPolicy businessHourPolicy;
+    private BusinessHour todayHours;
+    @JsonIgnore
     private ClosingDayPolicies closingDayPolicies;
+    private LocalDateTime now;
+    
     
     public SearchedShopData() {
     }
     
-    public SearchedShopData(Long id, String name, BusinessHourPolicy bh, ClosingDayPolicies cd) {
+    public SearchedShopData(Long id, String name, BusinessHour todayHours, ClosingDayPolicies cd) {
         this.id = id;
         this.name = name;
-        this.businessHourPolicy = bh;
+        this.todayHours = todayHours;
         this.closingDayPolicies = cd;
     }
     
-    public boolean isOpening(LocalDateTime datetime) {
-        return !closingDayPolicies.isClosingAt(datetime.toLocalDate())
-                && businessHourPolicy.isBusinessHour(datetime);
+    public boolean isClosingDay() {
+        return closingDayPolicies.isClosingAt(this.now.toLocalDate());
     }
     
     public Long getId() {
@@ -35,11 +38,16 @@ public class SearchedShopData {
         return name;
     }
     
-    public BusinessHourPolicy getBusinessHourPolicy() {
-        return businessHourPolicy;
+    public BusinessHour getTodayHours() {
+        return todayHours;
     }
     
-    public ClosingDayPolicies getClosingDayPolicies() {
-        return closingDayPolicies;
+    public boolean isOpening() {
+        return todayHours.isBetween(this.now.toLocalTime());
+    }
+    
+    public SearchedShopData setNow(LocalDateTime now) {
+        this.now = now;
+        return this;
     }
 }

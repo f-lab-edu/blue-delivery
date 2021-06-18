@@ -66,4 +66,11 @@ public class BusinessHour {
         return open.compareTo(date) <= 0
                 && close.compareTo(date) >= 0;
     }
+    
+    @Override
+    public String toString() {
+        return "BusinessHour{"
+                + "shopId=" + shopId + ", open=" + open + ", close=" + close
+                + ", dayOfWeek=" + dayOfWeek + '}';
+    }
 }

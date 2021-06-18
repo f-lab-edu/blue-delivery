@@ -13,4 +13,8 @@ public class SearchShopByCategoryParam {
         this.now = now;
         this.dayOfWeek = now.getDayOfWeek();
     }
+    
+    public LocalDateTime getNow() {
+        return now;
+    }
 }
