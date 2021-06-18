@@ -88,4 +88,23 @@ class BusinessHourPolicyConditionsTest {
         );
     }
     
+    @Test
+    @DisplayName("영업 종료 시간이 자정 이후인 경우")
+    void afterMidnight() {
+        LocalTime now = LocalTime.of(01, 00);
+        BusinessHour businessHour = new BusinessHour(DayOfWeek.FRIDAY,
+                LocalTime.of(13, 0), LocalTime.of(03, 0));
+        assertThat(businessHour.isBetween(now)).isTrue();
+    }
+    
+    @Test
+    @DisplayName("영업 종료 시간이 자정 이전인 경우")
+    void beforeMidnight() {
+        LocalTime now = LocalTime.of(01, 00);
+        LocalTime beforeMidnight = now.minusHours(2);
+        BusinessHour businessHour = new BusinessHour(DayOfWeek.FRIDAY,
+                LocalTime.of(13, 0), LocalTime.of(03, 0));
+        assertThat(businessHour.isBetween(beforeMidnight)).isTrue();
+    }
+    
 }
