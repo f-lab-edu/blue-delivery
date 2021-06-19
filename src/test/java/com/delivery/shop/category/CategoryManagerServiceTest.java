@@ -45,7 +45,7 @@ class CategoryManagerServiceTest {
         
         List<SearchedShopData> result = categoryManagerService.getShopsByCategory(param);
         assertThat(result.size()).isEqualTo(2);
-        assertThat(result.get(0).getTodayHours().isBetween(now.toLocalTime())).isEqualTo(true);
-        assertThat(result.get(1).getTodayHours().isBetween(now.toLocalTime())).isEqualTo(false);
+        assertThat(result.get(0).getTodayHours().isOpening(now.toLocalTime())).isEqualTo(true);
+        assertThat(result.get(1).getTodayHours().isOpening(now.toLocalTime())).isEqualTo(false);
     }
 }

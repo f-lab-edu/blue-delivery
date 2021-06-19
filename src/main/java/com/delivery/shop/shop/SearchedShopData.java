@@ -43,7 +43,7 @@ public class SearchedShopData {
     }
     
     public boolean isOpening() {
-        return todayHours.isBetween(this.now.toLocalTime());
+        return todayHours.isOpening(this.now.toLocalTime());
     }
     
     public SearchedShopData setNow(LocalDateTime now) {

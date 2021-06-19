@@ -30,6 +30,6 @@ public class BusinessHourPolicy {
     
     public boolean isBusinessHour(LocalDateTime date) {
         return getBusinessHourOf(date.getDayOfWeek())
-                .isBetween(date.toLocalTime());
+                .isOpening(date.toLocalTime());
     }
 }

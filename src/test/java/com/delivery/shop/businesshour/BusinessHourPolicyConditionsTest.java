@@ -94,14 +94,14 @@ class BusinessHourPolicyConditionsTest {
     @ValueSource(ints = {13, 14, 15, 21, 23, 0, 1, 2, 10, 11, 12})
     @DisplayName("영업 종료 시간이 전일 오후 1시 ~ 새벽 3시까지인 경우, 현재 시간이 그 안에 포함되면 테스트가 성공한다.")
     void beforeAndAfterMidnight(int hour) {
-        LocalTime now = LocalTime.of(hour, 00);
+        LocalTime now = LocalTime.of(hour, 00).plusNanos(1L);
         BusinessHour businessHour = new BusinessHour(DayOfWeek.FRIDAY,
                 LocalTime.of(13, 0), LocalTime.of(03, 0));
         
         if ((13 <= hour && hour <= 23) || (0 <= hour && hour <= 3)) {
-            assertThat(businessHour.isBetween(now)).isTrue();
+            assertThat(businessHour.isOpening(now)).isTrue();
         } else {
-            assertThat(businessHour.isBetween(now)).isFalse();
+            assertThat(businessHour.isOpening(now)).isFalse();
         }
     }
     
