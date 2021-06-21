@@ -79,10 +79,13 @@ public class ShopUpdateController {
      * @param expose 가게 노출 여부
      */
     @PostMapping("/{id}/expose")
-    public void updateClosingDays(@PathVariable("id") Long shopId,
-                                  @RequestBody @JsonProperty("expose") Boolean expose) {
+    public void updateClosingDays(@PathVariable("id") Long shopId, @RequestBody Boolean expose) {
         updateService.expose(shopId, expose);
     }
     
+//    @PostMapping("/{id}/suspension")
+//    public void suspendShop(@PathVariable("id") Long shopId,
+//                            @RequestBody )
+//
     
 }
