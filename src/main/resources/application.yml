@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: test
+    active: dev
   jpa:
     hibernate:
       ddl-auto: none # ddl 자동 생성을 db migration 때 하기 위함
@@ -20,5 +20,6 @@ mybatis:
     com.delivery.shop.category,
     com.delivery.shop.businesshour,
     com.delivery.shop.closingday,
+    com.delivery.shop.suspension,
     com.delivery.utility,
     org.apache.ibatis.type

@@ -21,6 +21,10 @@
             <collection property="closingDays" column="SHOP_ID"
                         select="findClosingDaysByShop" fetchType="lazy"/>
         </association>
+        <association property="suspension" javaType="com.delivery.shop.suspension.Suspension">
+            <result column="SUSPENSION_FROM" property="from" typeHandler="LocalDateTimeTypeHandler"/>
+            <result column="SUSPENSION_TO" property="to" typeHandler="LocalDateTimeTypeHandler"/>
+        </association>
     </resultMap>
 
     <resultMap id="test" type="com.delivery.shop.closingday.ClosingDayPolicy">
@@ -57,21 +61,22 @@
 
     <!-- 카테고리별 가게 조회-->
     <select id="findShopsByCategoryId" resultMap="shopResultMap">
-        SELECT s.ID   SHOP_ID,
-               s.NAME SHOP_NAME,
-            OPEN,
-            CLOSE,
-            DAY_OF_WEEK
-        FROM SHOP S
-            JOIN CATEGORY_SHOP cs
-        ON s.ID = cs.SHOP_ID
-            JOIN BUSINESS_HOUR bh
-            ON s.ID = bh.SHOP_ID
+        SELECT  s.ID   SHOP_ID,
+                s.NAME SHOP_NAME,
+                OPEN,
+                CLOSE,
+                DAY_OF_WEEK,
+                IFNULL(ss.FROM_DATETIME, NOW()) SUSPENSION_FROM,
+                IFNULL(ss.TO_DATETIME, NOW()) SUSPENSION_TO
+        FROM SHOP s
+            JOIN CATEGORY_SHOP cs ON s.ID = cs.SHOP_ID
+            JOIN BUSINESS_HOUR bh ON s.ID = bh.SHOP_ID
+            LEFT JOIN SHOP_SUSPENSION ss ON s.ID = ss.SHOP_ID
         WHERE cs.CATEGORY_ID = #{id}
-          AND S.ID NOT IN (SELECT SHOP_ID FROM CLOSING_DAY WHERE DAY_OF_WEEK = #{dayOfWeek}
+          AND s.ID NOT IN (SELECT SHOP_ID FROM CLOSING_DAY WHERE DAY_OF_WEEK = #{dayOfWeek}
           AND CYCLE_TYPE IS NULL)
           AND bh.DAY_OF_WEEK = #{dayOfWeek}
-          AND S.EXPOSED = TRUE
+          AND s.EXPOSED = TRUE
     </select>
 
     <!-- 가게별 휴무일 조회(nested select용)-->
