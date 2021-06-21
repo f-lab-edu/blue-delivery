@@ -1,9 +1,10 @@
 package com.delivery.shop.menu;
 
-import javax.validation.constraints.NotNull;
-
 import java.time.LocalDateTime;
 import java.util.List;
+
+import javax.validation.constraints.NotNull;
+
 
 public class MenuDto {
 

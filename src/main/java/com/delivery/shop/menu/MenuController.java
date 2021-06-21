@@ -20,6 +20,13 @@ public class MenuController {
         this.menuService = menuService;
     }
 
+
+    /**
+     *
+     * @param menuGroupId 메뉴 그룹 ID
+     * @param dto 추가할 메뉴 정보
+     * @return
+     */
     @PostMapping("/{menuGroupId}/menu")
     public ResponseEntity<MenuDto> registerMenu(@PathVariable Long menuGroupId,
                                        @RequestBody @Valid MenuDto dto) {
