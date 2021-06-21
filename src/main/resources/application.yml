@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active: test
   jpa:
     hibernate:
       ddl-auto: none # ddl 자동 생성을 db migration 때 하기 위함
@@ -9,6 +9,9 @@ spring:
     encoding: UTF-8
     ignore-ignored-migrations: true
     clean-on-validation-error: true
+  h2:
+    console:
+      enabled: true
 
 mybatis:
   mapper-locations: mybatis/mapper/*.xml

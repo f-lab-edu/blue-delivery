@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.delivery.shop.businesshour.UpdateBusinessHoursDto;
+import com.delivery.shop.suspension.SuspensionRequest;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @RestController
@@ -83,9 +84,16 @@ public class ShopUpdateController {
         updateService.expose(shopId, expose);
     }
     
-//    @PostMapping("/{id}/suspension")
-//    public void suspendShop(@PathVariable("id") Long shopId,
-//                            @RequestBody )
-//
+    /**
+     *
+     * @param shopId
+     * @param suspension
+     */
+    @PutMapping("/{id}/suspend")
+    public void suspendShop(@PathVariable("id") Long shopId,
+                            @RequestBody SuspensionRequest suspension) {
+        updateService.suspend(shopId, suspension.toEntity());
+    }
+    
     
 }
