@@ -73,3 +73,4 @@ public class MenuGroupDto {
         return this.shopId == id;
     }
 }
+

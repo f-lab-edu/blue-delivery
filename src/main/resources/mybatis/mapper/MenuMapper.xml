@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.delivery.shop.menu.MenuMapper">
+
+    <resultMap id="menuResult" type="com.delivery.shop.menu.MenuDto">
+        <result property="id" column="ID"/>
+        <result property="menuGroupId" column="GROUP_ID"/>
+        <result property="name" column="NAME"/>
+        <result property="price" column="PRICE"/>
+        <result property="composition" column="COMPOSITION"/>
+        <result property="content" column="CONTENT"/>
+        <result property="createdAt" column="CREATE_AT"/>
+        <result property="modifiedAt" column="MODIFIED_AT"/>
+        <result property="status" column="STATUS"></result>
+        <collection property="menuOptionGroup" column="id" javaType="arrayList" ofType="com.delivery.shop.menu.MenuOptionGroup" select=""></collection>
+    </resultMap>
+
+    <insert id="saveMenu" parameterType="com.delivery.shop.menu.MenuDto">
+        INSERT INTO MENU(GROUP_ID, NAME, PRICE, COMPOSITION, CONTENT, CREATE_AT, STATUS)
+        VALUES (#{menuGroupId}, #{name}, #{price}, #{composition}, #{content}, #{createdAt}, #{status});
+    </insert>
+
+    <select id="menuNameCheck" resultType="integer">
+        SELECT COUNT(NAME) FROM MENU WHERE NAME = #{name};
+    </select>
+</mapper>
