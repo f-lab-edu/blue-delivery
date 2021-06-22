@@ -125,7 +125,7 @@ public class MenuDto {
         this.status = status;
     }
 
-    public List getMenuOptionGroup() {
+    public List<MenuOptionGroup> getMenuOptionGroup() {
         return menuOptionGroup;
     }
 

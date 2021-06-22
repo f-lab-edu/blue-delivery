@@ -65,7 +65,7 @@ public class Menu {
         return status;
     }
 
-    public List getMenuOptionGroup() {
+    public List<MenuOptionGroup> getMenuOptionGroup() {
         return menuOptionGroup;
     }
 
