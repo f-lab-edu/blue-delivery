@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MenuMapper {
 
-    int saveMenu(MenuDto dto);
+    int saveMenu(Menu menu);
 
     int menuNameCheck(String name);
 

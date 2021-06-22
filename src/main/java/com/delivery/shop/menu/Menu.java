@@ -1,31 +1,32 @@
 package com.delivery.shop.menu;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Menu {
 
-    public enum Status {
-        DEFAULT, SOLDOUT, HIDDEN
-    }
-
     private Long id;
-    private Long groupId;
+    private Long menuGroupId;
     private String name;
     private int price;
     private String composition;
     private String content;
-    private Status status = Status.DEFAULT;
-    private MenuOptionGroup menuOptionGroup;
+    private Status status;
+    private List<MenuOptionGroup> menuOptionGroup;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+
+    public enum Status {
+        DEFAULT, SOLDOUT, HIDDEN;
+    }
 
     public Menu() {
     }
 
-    public Menu(Long id, Long groupId, String name, int price, String composition, String content, Status status,
-                MenuOptionGroup menuOptionGroup, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+    public Menu(Long id, Long menuGroupId, String name, int price, String composition, String content, Status status,
+                List<MenuOptionGroup> menuOptionGroup, LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.id = id;
-        this.groupId = groupId;
+        this.menuGroupId = menuGroupId;
         this.name = name;
         this.price = price;
         this.composition = composition;
@@ -40,8 +41,8 @@ public class Menu {
         return id;
     }
 
-    public Long getGroupId() {
-        return groupId;
+    public Long getMenuGroupId() {
+        return menuGroupId;
     }
 
     public String getName() {
@@ -64,7 +65,7 @@ public class Menu {
         return status;
     }
 
-    public MenuOptionGroup getMenuOptionGroup() {
+    public List getMenuOptionGroup() {
         return menuOptionGroup;
     }
 
@@ -75,6 +76,5 @@ public class Menu {
     public LocalDateTime getModifiedAt() {
         return modifiedAt;
     }
-
 
 }

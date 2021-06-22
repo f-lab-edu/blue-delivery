@@ -2,6 +2,9 @@ package com.delivery.shop.menu;
 
 import static org.mockito.BDDMockito.*;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,9 +29,10 @@ class MenuServiceTest {
     @Test
     @DisplayName("메뉴 생성 테스트")
     public void saveMenuTest() {
-        MenuDto dto = new MenuDto(1L, "부리또", 3500);
+        MenuDto dto = new MenuDto(1L, 1L, "부리또", 3500,
+                "1인분", "부리또+피클",
+                Menu.Status.DEFAULT, new ArrayList(), LocalDateTime.now(), LocalDateTime.now());
 
-        given(menuMapper.saveMenu(dto)).willReturn(1);
         service.registerMenu(dto);
     }
 
@@ -44,4 +48,3 @@ class MenuServiceTest {
     }
 
 }
-

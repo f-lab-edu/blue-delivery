@@ -8,10 +8,6 @@ import javax.validation.constraints.NotNull;
 
 public class MenuDto {
 
-    public enum Status {
-        DEFAULT, SOLDOUT, HIDDEN;
-    }
-
     private Long id;
 
     @NotNull
@@ -27,11 +23,11 @@ public class MenuDto {
 
     private String content; // 설명
 
-    private Status status = Status.DEFAULT; // 메뉴 상태(기본 값 - default)
+    private Menu.Status status; // 메뉴 상태
 
-    private List menuOptionGroup;
+    private List<MenuOptionGroup> menuOptionGroup;
 
-    private LocalDateTime createdAt = LocalDateTime.now(); // 등록일
+    private LocalDateTime createdAt; // 등록일
 
     private LocalDateTime modifiedAt; // 수정일
 
@@ -44,9 +40,8 @@ public class MenuDto {
         this.price = price;
     }
 
-    public MenuDto(Long id, Long menuGroupId, String name, int price,
-                   String composition, String content, Status status,
-                   List menuOptionGroup,
+    public MenuDto(Long id, Long menuGroupId, String name, int price, String composition,
+                   String content, Menu.Status status, List<MenuOptionGroup> menuOptionGroup,
                    LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.id = id;
         this.menuGroupId = menuGroupId;
@@ -58,6 +53,20 @@ public class MenuDto {
         this.menuOptionGroup = menuOptionGroup;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
+    }
+
+    Menu toEntity(MenuDto dto) {
+        return new Menu(
+                dto.getId(),
+                dto.getMenuGroupId(),
+                dto.getName(),
+                dto.getPrice(),
+                dto.getComposition(),
+                dto.getContent(),
+                Menu.Status.DEFAULT,
+                dto.getMenuOptionGroup(),
+                dto.getCreatedAt(),
+                dto.getModifiedAt());
     }
 
     public Long getId() {
@@ -108,11 +117,11 @@ public class MenuDto {
         this.content = content;
     }
 
-    public Status getStatus() {
+    public Menu.Status getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(Menu.Status status) {
         this.status = status;
     }
 
@@ -120,7 +129,7 @@ public class MenuDto {
         return menuOptionGroup;
     }
 
-    public void setMenuOptionGroup(List menuOptionGroup) {
+    public void setMenuOptionGroup(List<MenuOptionGroup> menuOptionGroup) {
         this.menuOptionGroup = menuOptionGroup;
     }
 

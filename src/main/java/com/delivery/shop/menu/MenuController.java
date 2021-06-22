@@ -20,7 +20,6 @@ public class MenuController {
         this.menuService = menuService;
     }
 
-
     /**
      *
      * @param menuGroupId 메뉴 그룹 ID
@@ -30,9 +29,6 @@ public class MenuController {
     @PostMapping("/{menuGroupId}/menu")
     public ResponseEntity<MenuDto> registerMenu(@PathVariable Long menuGroupId,
                                        @RequestBody @Valid MenuDto dto) {
-        if (menuGroupId != dto.getMenuGroupId()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
         menuService.registerMenu(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

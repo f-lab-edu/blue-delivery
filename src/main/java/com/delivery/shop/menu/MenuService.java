@@ -16,7 +16,8 @@ public class MenuService {
         if (menuNameCheck(dto.getName())) {
             throw new DuplicateKeyException("menuName already exists");
         }
-        return menuMapper.saveMenu(dto);
+        Menu menu = dto.toEntity(dto);
+        return menuMapper.saveMenu(menu);
     }
 
     public boolean menuNameCheck(String name) {
