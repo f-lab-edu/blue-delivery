@@ -6,9 +6,11 @@ public class Suspension {
     private LocalDateTime from;
     private LocalDateTime to;
     
+    // 정지기간을 정하지 않으면 from=to=현재시간 으로 만들어서 사실상 정지기간이 없도록 만듦
     public Suspension() {
-        this.from = LocalDateTime.now();
-        this.to = from.plusNanos(0);
+        LocalDateTime now = LocalDateTime.now();
+        this.from = now;
+        this.to = now;
     }
     
     public Suspension(LocalDateTime from, LocalDateTime to) {
