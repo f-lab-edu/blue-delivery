@@ -2,7 +2,6 @@ package com.delivery.shop.shop;
 
 import javax.validation.Valid;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.delivery.shop.businesshour.UpdateBusinessHoursDto;
 import com.delivery.shop.suspension.SuspensionRequest;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 @RestController
 @RequestMapping("/shops")
@@ -78,7 +76,10 @@ public class ShopUpdateController {
     
     /**
      * 해당 가게의 노출여부를 변경한다.
+<<<<<<< HEAD
      *
+=======
+>>>>>>> a71c0558a50f8da1dd12180c36173c0b48903d5b
      * @param shopId 가게 id
      * @param expose 가게 노출 여부
      */
@@ -100,6 +101,5 @@ public class ShopUpdateController {
                             @RequestBody SuspensionRequest suspension) {
         updateService.suspend(shopId, suspension.toEntity());
     }
-    
     
 }
