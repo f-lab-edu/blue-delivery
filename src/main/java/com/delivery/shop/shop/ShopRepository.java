@@ -25,4 +25,6 @@ public interface ShopRepository {
     void updateClosingDays(Shop shop);
     
     void updateExposeStatus(Shop shop);
+    
+    void updateSuspension(Shop shop);
 }

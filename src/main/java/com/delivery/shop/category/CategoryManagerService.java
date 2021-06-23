@@ -33,9 +33,9 @@ public class CategoryManagerService {
     
     public List<SearchedShopData> getShopsByCategory(SearchShopByCategoryParam param) {
         return categoryRepository.findShopsByCategoryId(param).stream()
-                .map(data -> data.setNow(param.getNow())) // 가져온 객체에 조회시점의 시간 설정
-                .filter(not(SearchedShopData::isClosingDay)) // 휴무가 아닌 가게
-                .sorted(comparing(SearchedShopData::isOpening).reversed()) // 영업시간인 가게가 앞으로
+                .map(data -> data.setNow(param.getNow())) // 가져온 객체(data)에다가 조회시점의 시간을 주입
+                .filter(not(SearchedShopData::isClosingDay)) // 휴무가 아닌 가게만 선택
+                .sorted(comparing(SearchedShopData::isOpening).reversed()) // 영업시간인 가게가 앞으로 가게 정렬
                 .collect(toList());
     }
 }
