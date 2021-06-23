@@ -17,6 +17,7 @@ public class Shop {
     private String deliveryAreaGuide;
     private List<Category> categories;
     private ClosingDayPolicies closingDayPolicies;
+    private boolean exposed;
     
     public Shop() {
         closingDayPolicies = new ClosingDayPolicies();
@@ -84,5 +85,13 @@ public class Shop {
     
     public boolean isClosingAt(LocalDate date) {
         return closingDayPolicies.isClosingAt(date);
+    }
+    
+    public boolean isExposed() {
+        return exposed;
+    }
+    
+    public void updateExposeStatus(Boolean expose) {
+        this.exposed = expose;
     }
 }

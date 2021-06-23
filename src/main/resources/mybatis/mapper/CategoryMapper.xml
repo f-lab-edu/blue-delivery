@@ -11,13 +11,15 @@
     <resultMap id="shopResultMap" type="SearchedShopData">
         <id column="SHOP_ID" property="id" jdbcType="BIGINT"/>
         <result column="SHOP_NAME" property="name" jdbcType="VARCHAR"/>
-        <association property="businessHourPolicy" javaType="BusinessHourPolicy">
-            <collection property="businessHours" ofType="BusinessHour" column="SHOP_ID"
-                        select="findBusinessHoursByShop" fetchType="eager"/>
+        <association property="todayHours" javaType="BusinessHour">
+            <id column="SHOP_ID" property="shopId" javaType="long"/>
+            <result column="OPEN" property="open" typeHandler="LocalTimeTypeHandler"/>
+            <result column="CLOSE" property="close" typeHandler="LocalTimeTypeHandler"/>
+            <result column="DAY_OF_WEEK" property="dayOfWeek" typeHandler="EnumTypeHandler"/>
         </association>
         <association property="closingDayPolicies" javaType="ClosingDayPolicies">
             <collection property="closingDays" column="SHOP_ID"
-                        select="findClosingDaysByShop" fetchType="eager"/>
+                        select="findClosingDaysByShop" fetchType="lazy"/>
         </association>
     </resultMap>
 
@@ -56,14 +58,20 @@
     <!-- 카테고리별 가게 조회-->
     <select id="findShopsByCategoryId" resultMap="shopResultMap">
         SELECT s.ID   SHOP_ID,
-               s.NAME SHOP_NAME
+               s.NAME SHOP_NAME,
+            OPEN,
+            CLOSE,
+            DAY_OF_WEEK
         FROM SHOP S
-                 JOIN CATEGORY_SHOP cs
-                      ON s.ID = cs.SHOP_ID
+            JOIN CATEGORY_SHOP cs
+        ON s.ID = cs.SHOP_ID
+            JOIN BUSINESS_HOUR bh
+            ON s.ID = bh.SHOP_ID
         WHERE cs.CATEGORY_ID = #{id}
-          AND S.ID NOT IN (SELECT SHOP_ID FROM CLOSING_DAY WHERE DAY_OF_WEEK = #{dayOfWeek} AND CYCLE_TYPE IS NULL)
-          AND S.ID IN (SELECT SHOP_ID FROM BUSINESS_HOUR WHERE DAY_OF_WEEK = #{dayOfWeek})
-
+          AND S.ID NOT IN (SELECT SHOP_ID FROM CLOSING_DAY WHERE DAY_OF_WEEK = #{dayOfWeek}
+          AND CYCLE_TYPE IS NULL)
+          AND bh.DAY_OF_WEEK = #{dayOfWeek}
+          AND S.EXPOSED = TRUE
     </select>
 
     <!-- 가게별 휴무일 조회(nested select용)-->

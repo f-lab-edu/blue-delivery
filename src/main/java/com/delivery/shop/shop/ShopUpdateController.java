@@ -2,14 +2,17 @@ package com.delivery.shop.shop;
 
 import javax.validation.Valid;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.delivery.shop.businesshour.UpdateBusinessHoursDto;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @RestController
 @RequestMapping("/shops")
@@ -69,4 +72,20 @@ public class ShopUpdateController {
                                   @RequestBody @Valid UpdateClosingDaysRequest closingDays) {
         updateService.updateClosingDays(shopId, closingDays);
     }
+    
+    /**
+     * 해당 가게의 노출여부를 변경한다.
+     * @param shopId 가게 id
+     * @param expose 가게 노출 여부
+     */
+    @PostMapping("/{id}/expose")
+    public void updateClosingDays(@PathVariable("id") Long shopId, @RequestBody Boolean expose) {
+        updateService.expose(shopId, expose);
+    }
+    
+//    @PostMapping("/{id}/suspension")
+//    public void suspendShop(@PathVariable("id") Long shopId,
+//                            @RequestBody )
+//
+    
 }
