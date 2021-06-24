@@ -9,6 +9,9 @@ spring:
     encoding: UTF-8
     ignore-ignored-migrations: true
     clean-on-validation-error: true
+  h2:
+    console:
+      enabled: true
 
 mybatis:
   mapper-locations: mybatis/mapper/*.xml
@@ -17,5 +20,6 @@ mybatis:
     com.delivery.shop.category,
     com.delivery.shop.businesshour,
     com.delivery.shop.closingday,
+    com.delivery.shop.suspension,
     com.delivery.utility,
     org.apache.ibatis.type

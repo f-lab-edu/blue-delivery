@@ -10,6 +10,7 @@ import com.delivery.shop.businesshour.BusinessHourPolicy;
 import com.delivery.shop.businesshour.UpdateBusinessHoursDto;
 import com.delivery.shop.category.Category;
 import com.delivery.shop.closingday.LegalHolidayClosing;
+import com.delivery.shop.suspension.Suspension;
 
 @Service
 @Transactional
@@ -81,6 +82,12 @@ public class ShopUpdateService {
         Shop shop = getShop(shopId);
         shop.updateExposeStatus(status);
         shopRepository.updateExposeStatus(shop);
+    }
+    
+    public void suspend(Long shopId, Suspension suspension) {
+        Shop shop = getShop(shopId);
+        shop.suspend(suspension);
+        shopRepository.updateSuspension(shop);
     }
     
     private Shop getShop(Long id) {

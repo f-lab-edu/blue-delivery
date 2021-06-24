@@ -2,7 +2,6 @@ package com.delivery.shop.shop;
 
 import javax.validation.Valid;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.delivery.shop.businesshour.UpdateBusinessHoursDto;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.delivery.shop.suspension.SuspensionRequest;
 
 @RestController
 @RequestMapping("/shops")
@@ -53,8 +52,9 @@ public class ShopUpdateController {
     
     /**
      * 해당 가게의 카테고리를 입력받은 대로 업데이트
+     *
      * @param shopId 가게 id
-     * @param dto 추가할 카테고리 enum name을 담은 dto
+     * @param dto    추가할 카테고리 enum name을 담은 dto
      */
     @PutMapping("/{id}/categories")
     public void updateCategory(@PathVariable("id") Long shopId,
@@ -64,7 +64,8 @@ public class ShopUpdateController {
     
     /**
      * 해당 가게의 휴무일을 입력받고 업데이트한다.
-     * @param shopId 가게 id
+     *
+     * @param shopId      가게 id
      * @param closingDays 휴무일 정보
      */
     @PutMapping("/{id}/closing-days")
@@ -75,6 +76,10 @@ public class ShopUpdateController {
     
     /**
      * 해당 가게의 노출여부를 변경한다.
+<<<<<<< HEAD
+     *
+=======
+>>>>>>> a71c0558a50f8da1dd12180c36173c0b48903d5b
      * @param shopId 가게 id
      * @param expose 가게 노출 여부
      */
@@ -83,9 +88,18 @@ public class ShopUpdateController {
         updateService.expose(shopId, expose);
     }
     
-//    @PostMapping("/{id}/suspension")
-//    public void suspendShop(@PathVariable("id") Long shopId,
-//                            @RequestBody )
-//
+    /**
+     * 영업을 일시 정지시킨다.
+     * 정지 기간이 NONE 인 경우, toUntil() 메소드는 from, to 가 모두 현재 시간인 엔티티를 리턴한다.
+     * 즉 정지 기간이 아니게 된다.
+     *
+     * @param shopId 가게 ID
+     * @param suspension 정지 시작 시간, 정지 기간 정보를 담고 있는 DTO
+     */
+    @PutMapping("/{id}/suspend")
+    public void suspendShop(@PathVariable("id") Long shopId,
+                            @RequestBody SuspensionRequest suspension) {
+        updateService.suspend(shopId, suspension.toEntity());
+    }
     
 }
