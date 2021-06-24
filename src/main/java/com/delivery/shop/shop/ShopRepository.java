@@ -1,7 +1,5 @@
 package com.delivery.shop.shop;
 
-import java.util.List;
-
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -30,5 +28,4 @@ public interface ShopRepository {
     
     void updateSuspension(Shop shop);
     
-    List<Shop> findShops(); //temp
 }
