@@ -120,5 +120,4 @@ public class Shop {
     public Suspension getSuspension() {
         return suspension;
     }
-    
 }
