@@ -23,12 +23,6 @@ public class Category {
         this.name = name;
     }
     
-    public static List<Category> from(List<String> dto) {
-        return dto.stream()
-                .map(Category::new)
-                .collect(Collectors.toUnmodifiableList());
-    }
-    
     public String getName() {
         return name;
     }
