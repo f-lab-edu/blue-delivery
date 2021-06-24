@@ -20,6 +20,10 @@ public class MenuService {
         return menuMapper.saveMenu(menu);
     }
 
+    public void menuStatusUpdate(MenuDto dto) {
+        menuMapper.menuStatusUpdate(dto.getId(), dto.getStatus());
+    }
+
     public boolean menuNameCheck(String name) {
         return menuMapper.menuNameCheck(name) == 1;
     }

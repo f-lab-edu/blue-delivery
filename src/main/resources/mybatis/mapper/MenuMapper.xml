@@ -22,4 +22,8 @@
     <select id="menuNameCheck" resultType="integer">
         SELECT COUNT(NAME) FROM MENU WHERE NAME = #{name};
     </select>
+
+    <update id="menuStatusUpdate">
+        UPDATE MENU SET STATUS = #{status} WHERE ID = #{id};
+    </update>
 </mapper>

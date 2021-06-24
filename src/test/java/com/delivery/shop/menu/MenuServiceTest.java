@@ -1,5 +1,6 @@
 package com.delivery.shop.menu;
 
+import static com.delivery.shop.menu.Menu.*;
 import static org.mockito.BDDMockito.*;
 
 import java.time.LocalDateTime;
@@ -31,7 +32,7 @@ class MenuServiceTest {
     public void saveMenuTest() {
         MenuDto dto = new MenuDto(1L, 1L, "부리또", 3500,
                 "1인분", "부리또+피클",
-                Menu.Status.DEFAULT, new ArrayList(), LocalDateTime.now(), LocalDateTime.now());
+                Status.DEFAULT, new ArrayList(), LocalDateTime.now(), LocalDateTime.now());
 
         service.registerMenu(dto);
     }
@@ -45,6 +46,19 @@ class MenuServiceTest {
         Assertions.assertThat(service.menuNameCheck("부리또")).isEqualTo(true);
         Assertions.assertThat(service.menuNameCheck("퀘사디아")).isEqualTo(false);
 
+    }
+
+    @Test
+    @DisplayName("메뉴 상태 변경 테스트")
+    public void menuStatusUpdateTest() {
+        MenuDto dto = new MenuDto();
+        dto.setId(1L);
+        dto.setMenuGroupId(1L);
+        dto.setName("부리또");
+        dto.setStatus(Status.SOLDOUT);
+        given(menuMapper.menuStatusUpdate(dto.getId(), dto.getStatus())).willReturn(1);
+
+        service.menuStatusUpdate(dto);
     }
 
 }
