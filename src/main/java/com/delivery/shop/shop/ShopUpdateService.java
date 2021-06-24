@@ -64,6 +64,7 @@ public class ShopUpdateService {
                 .filter(category -> inputs.contains(category.getId())) // 전체 카테고리 중 입력받은 카테고리만 선택
                 .collect(Collectors.toList())
         );
+        shop.getCategories().toString();
         shopRepository.deleteCategory(shop);
         shopRepository.updateCategory(shop);
     }

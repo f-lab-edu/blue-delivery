@@ -10,19 +10,17 @@
         <result column="introduce" property="introduce" jdbcType="VARCHAR"/>
         <result column="phone" property="phone" jdbcType="VARCHAR"/>
         <result column="delivery_area_guide" property="deliveryAreaGuide" jdbcType="VARCHAR"/>
-        <association property="businessHourPolicy" javaType="BusinessHourPolicy">
+        <association property="businessHourPolicy" javaType="BusinessHourPolicy" fetchType="lazy">
             <collection property="businessHours" ofType="BusinessHour"
-                        select="findBusinessHoursByShopId" column="id"
-                        fetchType="lazy"/>
+                        select="findBusinessHoursByShopId" column="id"/>
         </association>
-        <association property="closingDayPolicies" javaType="ClosingDayPolicies">
+        <association property="closingDayPolicies" javaType="ClosingDayPolicies" fetchType="lazy">
             <collection property="closingDays"
-                        select="findClosingDaysByShopId" column="id"
-                        fetchType="lazy"/>
+                        select="findClosingDaysByShopId" column="id" />
         </association>
-        <association property="categories" javaType="Categories">
+        <association property="categories" javaType="Categories" fetchType="lazy">
             <collection property="categories" select="findCategoriesByShopId"
-                        column="id" fetchType="lazy"/>
+                        column="id"/>
         </association>
         <association property="suspension" javaType="Suspension">
             <result column="SUSPENSION_FROM" property="from" typeHandler="LocalDateTimeTypeHandler"/>

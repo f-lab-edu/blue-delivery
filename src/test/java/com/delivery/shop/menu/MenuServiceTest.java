@@ -31,7 +31,7 @@ class MenuServiceTest {
     public void saveMenuTest() {
         MenuDto dto = new MenuDto(1L, 1L, "부리또", 3500,
                 "1인분", "부리또+피클",
-                Menu.Status.DEFAULT, new ArrayList(), LocalDateTime.now(), LocalDateTime.now());
+                Menu.Status.DEFAULT, new ArrayList<>(), LocalDateTime.now(), LocalDateTime.now());
 
         service.registerMenu(dto);
     }

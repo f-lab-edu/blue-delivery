@@ -13,19 +13,20 @@
 
     <!-- 카테고리별 가게 조회-->
     <select id="findShopsByCategoryId" resultMap="com.delivery.shop.shop.ShopMapper.shopResultMap">
-        select  ID,
+        SELECT  DISTINCT
+                S.ID AS ID,
                 NAME,
                 INTRODUCE,
                 PHONE,
-                DELIVERY_AREA_GUIDE
-                IFNULL(ss.FROM_DATETIME, NOW()) SUSPENSION_FROM,
-                IFNULL(ss.TO_DATETIME, NOW()) SUSPENSION_TO
+                DELIVERY_AREA_GUIDE,
+                IFNULL(SS.FROM_DATETIME, NOW()) SUSPENSION_FROM,
+                IFNULL(SS.TO_DATETIME, NOW()) SUSPENSION_TO
         FROM SHOP S
                  JOIN CATEGORY_SHOP CS ON CS.CATEGORY_ID = ${id}
                  JOIN BUSINESS_HOUR BH ON S.ID = BH.SHOP_ID
                  LEFT JOIN SHOP_SUSPENSION SS ON S.ID = SS.SHOP_ID
         WHERE S.ID = CS.SHOP_ID
-          AND S.ID NOT IN (SELECT SHOP_IDFROM CLOSING_DAY WHERE DAY_OF_WEEK = #{dayOfWeek})
+          AND S.ID NOT IN (SELECT SHOP_ID FROM CLOSING_DAY WHERE DAY_OF_WEEK = #{dayOfWeek})
           AND S.EXPOSED = TRUE
     </select>
 
