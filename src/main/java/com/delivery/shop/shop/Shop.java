@@ -1,12 +1,14 @@
 package com.delivery.shop.shop;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.delivery.shop.businesshour.BusinessHourPolicy;
 import com.delivery.shop.category.Category;
 import com.delivery.shop.closingday.ClosingDayPolicies;
 import com.delivery.shop.closingday.ClosingDayPolicy;
+import com.delivery.shop.suspension.Suspension;
 
 public class Shop {
     private Long id;
@@ -18,6 +20,7 @@ public class Shop {
     private List<Category> categories;
     private ClosingDayPolicies closingDayPolicies;
     private boolean exposed;
+    private Suspension suspension;
     
     public Shop() {
         closingDayPolicies = new ClosingDayPolicies();
@@ -93,5 +96,13 @@ public class Shop {
     
     public void updateExposeStatus(Boolean expose) {
         this.exposed = expose;
+    }
+    
+    public void suspend(Suspension suspension) {
+        this.suspension = suspension;
+    }
+    
+    public Suspension getSuspension() {
+        return suspension;
     }
 }

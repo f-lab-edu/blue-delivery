@@ -116,4 +116,11 @@
         WHERE id = #{id}
     </update>
 
+    <!-- 영업일시중단 정보 업데이트 -->
+    <update id="updateSuspension" parameterType="map">
+        INSERT INTO SHOP_SUSPENSION (SHOP_ID, FROM_DATETIME, TO_DATETIME)
+        VALUES (#{id}, #{suspension.from}, #{suspension.to})
+        ON DUPLICATE KEY UPDATE FROM_DATETIME = VALUES(FROM_DATETIME), TO_DATETIME = VALUES(TO_DATETIME)
+    </update>
+
 </mapper>
