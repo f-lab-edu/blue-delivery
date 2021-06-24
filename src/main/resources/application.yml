@@ -23,3 +23,5 @@ mybatis:
     com.delivery.shop.suspension,
     com.delivery.utility,
     org.apache.ibatis.type
+  configuration:
+    aggressive-lazy-loading: true

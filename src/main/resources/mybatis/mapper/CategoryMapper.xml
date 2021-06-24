@@ -5,118 +5,36 @@
 
 <mapper namespace="com.delivery.shop.category.CategoryMapper">
     <resultMap id="categoryResultMap" type="Category">
-        <result column="CATEGORY_NAME" typeHandler="EnumTypeHandler"/>
-    </resultMap>
-
-    <resultMap id="shopResultMap" type="SearchedShopData">
-        <id column="SHOP_ID" property="id" jdbcType="BIGINT"/>
-        <result column="SHOP_NAME" property="name" jdbcType="VARCHAR"/>
-        <association property="todayHours" javaType="BusinessHour">
-            <id column="SHOP_ID" property="shopId" javaType="long"/>
-            <result column="OPEN" property="open" typeHandler="LocalTimeTypeHandler"/>
-            <result column="CLOSE" property="close" typeHandler="LocalTimeTypeHandler"/>
-            <result column="DAY_OF_WEEK" property="dayOfWeek" typeHandler="EnumTypeHandler"/>
-        </association>
-        <association property="closingDayPolicies" javaType="ClosingDayPolicies">
-            <collection property="closingDays" column="SHOP_ID"
-                        select="findClosingDaysByShop" fetchType="lazy"/>
-        </association>
-        <association property="suspension" javaType="com.delivery.shop.suspension.Suspension">
-            <result column="SUSPENSION_FROM" property="from" typeHandler="LocalDateTimeTypeHandler"/>
-            <result column="SUSPENSION_TO" property="to" typeHandler="LocalDateTimeTypeHandler"/>
-        </association>
-    </resultMap>
-
-    <resultMap id="test" type="com.delivery.shop.closingday.ClosingDayPolicy">
-        <discriminator javaType="string" column="CLOSING_TYPE">
-            <case value="CYCLIC_REGULAR" resultMap="cyclicRegularResultMap"/>
-            <case value="WEEKLY_REGULAR" resultMap="weeklyRegularResultMap"/>
-            <case value="TEMPORARY" resultMap="temporaryResultMap"/>
-            <case value="LEGAL_HOLIDAY" resultMap="legalHolidayResultMap"/>
-        </discriminator>
-    </resultMap>
-
-    <resultMap id="cyclicRegularResultMap" type="CyclicRegularClosing">
-        <constructor>
-            <arg column="CYCLE_TYPE" javaType="com.delivery.shop.closingday.CyclicRegularClosing$Cycle"/>
-            <arg column="DAY_OF_WEEK" javaType="java.time.DayOfWeek"/>
-        </constructor>
-    </resultMap>
-    <resultMap id="weeklyRegularResultMap" type="WeeklyRegularClosing">
-        <constructor>
-            <arg column="DAY_OF_WEEK" javaType="java.time.DayOfWeek"/>
-        </constructor>
-    </resultMap>
-    <resultMap id="temporaryResultMap" type="TemporaryClosing">
-        <constructor>
-            <arg column="FROM_DATE" javaType="java.time.LocalDate"/>
-            <arg column="TO_DATE" javaType="java.time.LocalDate"/>
-        </constructor>
-    </resultMap>
-    <resultMap id="legalHolidayResultMap" type="LegalHolidayClosing">
-        <constructor>
-            <arg column="SHOP_ID" javaType="long"/>
-        </constructor>
+        <id column="CATEGORY_ID" property="id" javaType="long"/>
+        <result column="CATEGORY_NAME" property="name" javaType="string"/>
+        <collection column="CATEGORY_ID" property="shops" select="findShopsByCategoryId"
+                    fetchType="lazy" ofType="Shop"/>
     </resultMap>
 
     <!-- 카테고리별 가게 조회-->
-    <select id="findShopsByCategoryId" resultMap="shopResultMap">
-        SELECT  s.ID   SHOP_ID,
-                s.NAME SHOP_NAME,
-                OPEN,
-                CLOSE,
-                DAY_OF_WEEK,
+    <select id="findShopsByCategoryId" resultMap="com.delivery.shop.shop.ShopMapper.shopResultMap">
+        select  ID,
+                NAME,
+                INTRODUCE,
+                PHONE,
+                DELIVERY_AREA_GUIDE
                 IFNULL(ss.FROM_DATETIME, NOW()) SUSPENSION_FROM,
                 IFNULL(ss.TO_DATETIME, NOW()) SUSPENSION_TO
-        FROM SHOP s
-            JOIN CATEGORY_SHOP cs ON s.ID = cs.SHOP_ID
-            JOIN BUSINESS_HOUR bh ON s.ID = bh.SHOP_ID
-            LEFT JOIN SHOP_SUSPENSION ss ON s.ID = ss.SHOP_ID
-        WHERE cs.CATEGORY_ID = #{id}
-          AND s.ID NOT IN (SELECT SHOP_ID FROM CLOSING_DAY WHERE DAY_OF_WEEK = #{dayOfWeek}
-          AND CYCLE_TYPE IS NULL)
-          AND bh.DAY_OF_WEEK = #{dayOfWeek}
-          AND s.EXPOSED = TRUE
-    </select>
-
-    <!-- 가게별 휴무일 조회(nested select용)-->
-    <select id="findClosingDaysByShop" resultMap="test">
-        SELECT SHOP_ID,
-               CLOSING_TYPE,
-               CYCLE_TYPE,
-               DAY_OF_WEEK,
-               FROM_DATE,
-               TO_DATE
-        FROM CLOSING_DAY
-        WHERE SHOP_ID = #{ID}
+        FROM SHOP S
+                 JOIN CATEGORY_SHOP CS ON CS.CATEGORY_ID = ${id}
+                 JOIN BUSINESS_HOUR BH ON S.ID = BH.SHOP_ID
+                 LEFT JOIN SHOP_SUSPENSION SS ON S.ID = SS.SHOP_ID
+        WHERE S.ID = CS.SHOP_ID
+          AND S.ID NOT IN (SELECT SHOP_IDFROM CLOSING_DAY WHERE DAY_OF_WEEK = #{dayOfWeek})
+          AND S.EXPOSED = TRUE
     </select>
 
     <!-- 전체 카테고리 목록 조회-->
-    <select id="findAll" resultMap="categoryResultMap">
-        SELECT NAME AS CATEGORY_NAME
+    <select id="findAllCategories" resultMap="categoryResultMap">
+        SELECT ID   AS CATEGORY_ID,
+               NAME AS CATEGORY_NAME
         FROM CATEGORY;
     </select>
 
-    <!-- 자바코드에 정의된 카테고리를 DB에 삽입 -->
-    <insert id="update" parameterType="list">
-        INSERT INTO CATEGORY (ID, NAME) VALUES
-        <foreach collection="list" item="category" index="index" separator="," open="" close="">
-            (#{category.id}, #{category})
-        </foreach>
-        ON DUPLICATE KEY UPDATE NAME = values(name)
-    </insert>
-
-    <!-- 가게별 영업시간 조회(nested select용)-->
-    <!-- AS camelCase는 자동으로 자바객체(BusinessHour)와 매핑시키기 위함-->
-    <select id="findBusinessHoursByShop" resultType="BusinessHour">
-        select SHOP_ID as shopId,
-            OPEN,
-            CLOSE,
-            DAY_OF_WEEK as dayOfWeek
-        from
-            BUSINESS_HOUR
-        where
-            SHOP_ID = #{ID}
-    </select>
 
 </mapper>

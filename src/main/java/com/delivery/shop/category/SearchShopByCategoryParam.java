@@ -17,4 +17,5 @@ public class SearchShopByCategoryParam {
     public LocalDateTime getNow() {
         return now;
     }
+    
 }

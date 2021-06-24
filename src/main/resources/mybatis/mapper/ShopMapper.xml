@@ -11,11 +11,26 @@
         <result column="phone" property="phone" jdbcType="VARCHAR"/>
         <result column="delivery_area_guide" property="deliveryAreaGuide" jdbcType="VARCHAR"/>
         <association property="businessHourPolicy" javaType="BusinessHourPolicy">
-            <collection property="businessHours" ofType="BusinessHour" column="id" select="selectBusinessHours"
+            <collection property="businessHours" ofType="BusinessHour"
+                        select="findBusinessHoursByShopId" column="id"
                         fetchType="lazy"/>
+        </association>
+        <association property="closingDayPolicies" javaType="ClosingDayPolicies">
+            <collection property="closingDays"
+                        select="findClosingDaysByShopId" column="id"
+                        fetchType="lazy"/>
+        </association>
+        <association property="categories" javaType="Categories">
+            <collection property="categories" select="findCategoriesByShopId"
+                        column="id" fetchType="lazy"/>
+        </association>
+        <association property="suspension" javaType="Suspension">
+            <result column="SUSPENSION_FROM" property="from" typeHandler="LocalDateTimeTypeHandler"/>
+            <result column="SUSPENSION_TO" property="to" typeHandler="LocalDateTimeTypeHandler"/>
         </association>
     </resultMap>
 
+    <!-- 가게 id로 조회-->
     <select id="findShopById" resultMap="shopResultMap" parameterType="long">
         select ID,
                NAME,
@@ -26,7 +41,30 @@
         WHERE ID = #{id}
     </select>
 
-    <select id="selectBusinessHours" resultType="BusinessHour">
+    <!-- 가게 id로 카테고리들 조회 (nested Select용) -->
+    <select id="findCategoriesByShopId" resultMap="com.delivery.shop.category.CategoryMapper.categoryResultMap">
+        SELECT ID AS CATEGORY_ID,
+               NAME AS CATEGORY_NAME
+        FROM CATEGORY C
+        JOIN CATEGORY_SHOP CS
+        ON C.ID = CS.CATEGORY_ID
+        WHERE CS.SHOP_ID = ${id}
+    </select>
+
+    <!-- 가게별 휴무일 조회(nested select용)-->
+    <select id="findClosingDaysByShopId" resultMap="com.delivery.shop.category.ClosingMapper.closingDayResultMap">
+        SELECT SHOP_ID,
+               CLOSING_TYPE,
+               CYCLE_TYPE,
+               DAY_OF_WEEK,
+               FROM_DATE,
+               TO_DATE
+        FROM CLOSING_DAY
+        WHERE SHOP_ID = #{ID}
+    </select>
+
+    <!-- 가게 id로 영업시간 조회 (nested Select용) -->
+    <select id="findBusinessHoursByShopId" resultType="BusinessHour">
         select SHOP_ID as shopId,
             OPEN,
             CLOSE,
@@ -37,43 +75,50 @@
             SHOP_ID = #{ID}
     </select>
 
+    <!-- 가게의 소개문 업데이트  -->
     <update id="updateIntroduce" parameterType="map">
         UPDATE SHOP
         SET INTRODUCE = #{introduce}
         WHERE id = #{id}
     </update>
 
+    <!-- 가게의 전화번호 업데이트  -->
     <update id="updatePhone" parameterType="map">
         UPDATE SHOP
         SET PHONE = #{phone}
         WHERE id = #{id}
     </update>
 
+    <!-- 가게의 배달지역안내문 업데이트  -->
     <update id="updateDeliveryAreaGuide" parameterType="map">
         UPDATE SHOP
         SET DELIVERY_AREA_GUIDE = #{guide}
         WHERE id = #{id}
     </update>
 
+    <!-- 가게의 이름 변경 -->
     <update id="updateName" parameterType="map">
         UPDATE SHOP
         SET NAME = #{name}
         WHERE id = #{id}
     </update>
 
+    <!-- 가게의 카테고리 삭제(업데이트 전에 사용됌) -->
     <delete id="deleteCategory" parameterType="long">
         DELETE
         FROM CATEGORY_SHOP
         WHERE SHOP_ID = #{id}
     </delete>
 
+    <!-- 가게의 카테고리 업데이트 -->
     <update id="updateCategory" parameterType="map">
         INSERT INTO CATEGORY_SHOP (CATEGORY_ID, SHOP_ID) VALUES
-        <foreach collection="categories" item="cat" separator=",">
+        <foreach collection="categories.categories" item="cat" separator=",">
             (#{cat.id}, #{id})
         </foreach>
     </update>
 
+    <!-- 가게의 영업시간 업데이트 -->
     <insert id="updateBusinessHours" parameterType="map">
         INSERT INTO BUSINESS_HOUR (SHOP_ID, OPEN, CLOSE, DAY_OF_WEEK)
         VALUES
@@ -119,8 +164,10 @@
     <!-- 영업일시중단 정보 업데이트 -->
     <update id="updateSuspension" parameterType="map">
         INSERT INTO SHOP_SUSPENSION (SHOP_ID, FROM_DATETIME, TO_DATETIME)
-        VALUES (#{id}, #{suspension.from}, #{suspension.to})
-        ON DUPLICATE KEY UPDATE FROM_DATETIME = VALUES(FROM_DATETIME), TO_DATETIME = VALUES(TO_DATETIME)
+        VALUES (#{id}, #{suspension.from}, #{suspension.to}) ON DUPLICATE KEY
+        UPDATE FROM_DATETIME =
+        VALUES (FROM_DATETIME), TO_DATETIME =
+        VALUES (TO_DATETIME)
     </update>
 
 </mapper>

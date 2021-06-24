@@ -2,12 +2,12 @@ package com.delivery.shop.category;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,24 +24,18 @@ public class CategoryManagerController {
     }
     
     /**
-     * DB에 있는 모든 카테고리 조회
+     * 모든 카테고리 조회
      *
      * @return 카테고리 정보가 담긴 list
      */
     @GetMapping
-    public ResponseEntity<GetAllCategories> getAllCategories() {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(new GetAllCategories(categoryManagerService.getAllCategories()));
-    }
-    
-    /**
-     * enum으로 된 카테고리를 DB에 업데이트
-     *
-     * @see Category
-     */
-    @PutMapping
-    public void updateCategories() {
-        categoryManagerService.updateCategories();
+    public ResponseEntity<GetAllCategoriesResponse> getAllCategories() {
+        GetAllCategoriesResponse body = new GetAllCategoriesResponse(
+                categoryManagerService.getAllCategories().stream()
+                        .map(Category::toResponse)
+                        .collect(Collectors.toList())
+        );
+        return ResponseEntity.status(HttpStatus.OK).body(body);
     }
     
     /**
@@ -53,10 +47,13 @@ public class CategoryManagerController {
      */
     @GetMapping("/{id}/shops")
     public ResponseEntity<GetShopsByCategoryResponse> getShopsByCategory(@PathVariable("id") Long id) {
-        List<SearchedShopData> shopsByCategory =
-                categoryManagerService.getShopsByCategory(new SearchShopByCategoryParam(id, LocalDateTime.now()));
+        LocalDateTime when = LocalDateTime.now();
+        List<SearchedShopData> shops =
+                categoryManagerService.getShopsByCategory(new SearchShopByCategoryParam(id, when)).stream()
+                        .map(shop -> new SearchedShopData(shop.getId(), shop.getName(), shop.isOpeningAt(when)))
+                        .collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new GetShopsByCategoryResponse(shopsByCategory));
+                .body(new GetShopsByCategoryResponse(shops));
     }
     
 }
