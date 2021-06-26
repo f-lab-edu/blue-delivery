@@ -12,8 +12,6 @@ spring:
   h2:
     console:
       enabled: true
-  cache:
-    type: redis
 
 mybatis:
   mapper-locations: mybatis/mapper/*.xml

@@ -8,10 +8,6 @@ import org.springframework.cache.annotation.EnableCaching;
 @EnableCaching
 public class DeliveryApplication {
     public static void main(String[] args) {
-        try {
-            SpringApplication.run(DeliveryApplication.class, args);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        SpringApplication.run(DeliveryApplication.class, args);
     }
 }

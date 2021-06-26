@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.delivery.shop.category.EditCategoryParam.EditCategoryRequest;
 
-@RestController
 public interface CategoryManagerController {
     
     /**
