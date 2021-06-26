@@ -6,20 +6,20 @@ import javax.validation.constraints.Size;
 
 public class UpdateCategoryRequest {
     @Size(min = 1, max = 4)
-    private List<String> typeName;
+    private List<Long> categoryIds;
     
     public UpdateCategoryRequest() {
     }
     
-    public UpdateCategoryRequest(List<String> typeName) {
-        this.typeName = typeName;
+    public UpdateCategoryRequest(List<Long> categoryIds) {
+        this.categoryIds = categoryIds;
     }
     
-    public List<String> getTypeNames() {
-        return typeName;
+    public List<Long> getCategoryIds() {
+        return categoryIds;
     }
     
-    public void setCategoryIds(List<String> typeName) {
-        this.typeName = typeName;
+    public void setCategoryIds(List<Long> typeName) {
+        this.categoryIds = typeName;
     }
 }

@@ -1,15 +1,13 @@
 package com.delivery.shop.category;
 
-import static java.util.Comparator.comparing;
-import static java.util.function.Predicate.not;
 import static java.util.stream.Collectors.toList;
 
-import java.util.Arrays;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.delivery.shop.shop.SearchedShopData;
+import com.delivery.shop.shop.Shop;
 
 @Service
 public class CategoryManagerService {
@@ -20,22 +18,17 @@ public class CategoryManagerService {
         this.categoryRepository = categoryRepository;
     }
     
-    public List<CategoryData> getAllCategories() {
+    public List<Category> getAllCategories() {
         // TODO 카테고리 이름의 다국어처리 i18n
-        return categoryRepository.findAll().stream()
-                .map(Category::toResponse)
-                .collect(toList());
+        return categoryRepository.findAllCategories();
     }
     
-    public void updateCategories() {
-        categoryRepository.update(Arrays.asList(Category.values()));
-    }
-    
-    public List<SearchedShopData> getShopsByCategory(SearchShopByCategoryParam param) {
+    public List<Shop> getShopsByCategory(SearchShopByCategoryParam param) {
+        LocalDateTime when = param.getNow();
         return categoryRepository.findShopsByCategoryId(param).stream()
-                .map(data -> data.setNow(param.getNow())) // 가져온 객체(data)에다가 조회시점의 시간을 주입
-                .filter(not(SearchedShopData::isClosingDay)) // 휴무가 아닌 가게만 선택
-                .sorted(comparing(SearchedShopData::isOpening).reversed()) // 영업시간인 가게가 앞으로 가게 정렬
+                .filter(shop -> !shop.isClosingAt(when.toLocalDate())) // 휴무가 아닌 가게만 선택
+                .sorted((o1, o2) -> Boolean.compare(o2.isOpeningAt(when), o1.isOpeningAt(when))) // 영업중 가게(true) 순 정렬
                 .collect(toList());
     }
+    
 }

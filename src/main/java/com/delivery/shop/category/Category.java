@@ -3,32 +3,40 @@ package com.delivery.shop.category;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public enum Category {
-    
-    KOREAN(1L),
-    CHINESE(2L),
-    JAPANESE(3L),
-    CHICKEN(4L),
-    PIZZA(5L),
-    FAST_FOOD(6L);
-    
-    Category(Long id) {
-        this.id = id;
-    }
+import com.delivery.shop.shop.Shop;
+
+/*
+    KOREAN(1),
+    CHINESE(2),
+    JAPANESE(3),
+    CHICKEN(4),
+    PIZZA(5),
+    FAST_FOOD(6);
+*/
+public class Category {
     
     private Long id;
+    private String name;
+    private List<Shop> shops;
     
-    public static List<Category> from(List<String> dto) {
-        return dto.stream()
-                .map(Category::valueOf)
-                .collect(Collectors.toUnmodifiableList());
+    public Category(String name) {
+        this.name = name;
+    }
+    
+    public String getName() {
+        return name;
     }
     
     public Long getId() {
         return id;
     }
     
-    public static CategoryData toResponse(Category category) {
-        return new CategoryData(category.id, category.toString());
+    public List<Shop> getShops() {
+        return shops;
     }
+    
+    public CategoryData toResponse() {
+        return new CategoryData(this.id, this.name);
+    }
+    
 }

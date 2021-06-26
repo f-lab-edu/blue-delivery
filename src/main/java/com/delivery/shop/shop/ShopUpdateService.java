@@ -1,6 +1,7 @@
 package com.delivery.shop.shop;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.delivery.shop.businesshour.BusinessHourConditions;
 import com.delivery.shop.businesshour.BusinessHourPolicy;
 import com.delivery.shop.businesshour.UpdateBusinessHoursDto;
-import com.delivery.shop.category.Category;
+import com.delivery.shop.category.CategoryManagerService;
 import com.delivery.shop.closingday.LegalHolidayClosing;
 import com.delivery.shop.suspension.Suspension;
 
@@ -17,9 +18,11 @@ import com.delivery.shop.suspension.Suspension;
 public class ShopUpdateService {
     
     private final ShopRepository shopRepository;
+    private final CategoryManagerService categoryManagerService;
     
-    public ShopUpdateService(ShopRepository shopRepository) {
+    public ShopUpdateService(ShopRepository shopRepository, CategoryManagerService categoryManagerService) {
         this.shopRepository = shopRepository;
+        this.categoryManagerService = categoryManagerService;
     }
     
     public void updateBusinessHour(Long id, UpdateBusinessHoursDto dto) {
@@ -55,8 +58,13 @@ public class ShopUpdateService {
     
     public void updateCategory(Long id, UpdateCategoryRequest dto) {
         Shop shop = getShop(id);
-        List<Category> categories = Category.from(dto.getTypeNames());
-        shop.updateCategory(categories);
+        List<Long> inputs = dto.getCategoryIds();
+        shop.getCategories().updateAll(
+                categoryManagerService.getAllCategories().stream()
+                .filter(category -> inputs.contains(category.getId())) // 전체 카테고리 중 입력받은 카테고리만 선택
+                .collect(Collectors.toList())
+        );
+        shop.getCategories().toString();
         shopRepository.deleteCategory(shop);
         shopRepository.updateCategory(shop);
     }

@@ -76,10 +76,7 @@ public class ShopUpdateController {
     
     /**
      * 해당 가게의 노출여부를 변경한다.
-<<<<<<< HEAD
      *
-=======
->>>>>>> a71c0558a50f8da1dd12180c36173c0b48903d5b
      * @param shopId 가게 id
      * @param expose 가게 노출 여부
      */
@@ -93,7 +90,7 @@ public class ShopUpdateController {
      * 정지 기간이 NONE 인 경우, toUntil() 메소드는 from, to 가 모두 현재 시간인 엔티티를 리턴한다.
      * 즉 정지 기간이 아니게 된다.
      *
-     * @param shopId 가게 ID
+     * @param shopId     가게 ID
      * @param suspension 정지 시작 시간, 정지 기간 정보를 담고 있는 DTO
      */
     @PutMapping("/{id}/suspend")

@@ -2,10 +2,10 @@ package com.delivery.shop.category;
 
 import java.util.List;
 
-public class GetAllCategories {
+public class GetAllCategoriesResponse {
     private List<CategoryData> allCategories;
     
-    public GetAllCategories(List<CategoryData> allCategories) {
+    public GetAllCategoriesResponse(List<CategoryData> allCategories) {
         this.allCategories = allCategories;
     }
     
