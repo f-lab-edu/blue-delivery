@@ -15,7 +15,7 @@ public interface MenuGroupMapper {
 
     List<MenuGroupDto> findMenuGroup(Long shopId);
 
-    List<MenuDto> findMenuByGroupId(Long groupId);
+    List<RegisterMenuDto> findMenuByGroupId(Long groupId);
 
     int updateMenuGroup(MenuGroupDto dto);
 

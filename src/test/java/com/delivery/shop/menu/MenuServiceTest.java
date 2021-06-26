@@ -1,10 +1,6 @@
 package com.delivery.shop.menu;
 
-import static com.delivery.shop.menu.Menu.*;
 import static org.mockito.BDDMockito.*;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -13,11 +9,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
+@MockitoSettings(strictness = Strictness.LENIENT)
 @ActiveProfiles("test")
 class MenuServiceTest {
 
@@ -30,12 +29,17 @@ class MenuServiceTest {
     @Test
     @DisplayName("메뉴 생성 테스트")
     public void saveMenuTest() {
-        MenuDto dto = new MenuDto(1L, 1L, "부리또", 3500,
-                "1인분", "부리또+피클",
-                Status.DEFAULT, new ArrayList(), LocalDateTime.now(), LocalDateTime.now());
-
+        RegisterMenuDto dto = new RegisterMenuDto(1L,
+                1L,
+                "부리또",
+                3500,
+                "1인분",
+                "부리또+피클");
+        Menu menu = dto.toEntity(dto);
+        given(menuMapper.saveMenu(menu)).willReturn(1);
         service.registerMenu(dto);
     }
+
 
     @Test
     @DisplayName("메뉴 이름 중복 테스트")
@@ -51,14 +55,12 @@ class MenuServiceTest {
     @Test
     @DisplayName("메뉴 상태 변경 테스트")
     public void menuStatusUpdateTest() {
-        MenuDto dto = new MenuDto();
-        dto.setId(1L);
-        dto.setMenuGroupId(1L);
-        dto.setName("부리또");
-        dto.setStatus(Status.SOLDOUT);
-        given(menuMapper.menuStatusUpdate(dto.getId(), dto.getStatus())).willReturn(1);
+        UpdateMenuDto dto = new UpdateMenuDto();
+        Long id = 1L;
+        dto.setStatus(MenuStatus.SOLDOUT);
+        given(menuMapper.menuStatusUpdate(id, dto.getStatus())).willReturn(1);
 
-        service.menuStatusUpdate(dto);
+        service.menuStatusUpdate(id, dto);
     }
 
 }

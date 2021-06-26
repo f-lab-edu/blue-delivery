@@ -5,8 +5,7 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
-
-public class MenuDto {
+public class RegisterMenuDto {
 
     private Long id;
 
@@ -23,39 +22,27 @@ public class MenuDto {
 
     private String content; // 설명
 
-    private Menu.Status status; // 메뉴 상태
+    private MenuStatus status = MenuStatus.DEFAULT; // 메뉴 상태
 
     private List<MenuOptionGroup> menuOptionGroup;
 
-    private LocalDateTime createdAt; // 등록일
+    private LocalDateTime createdAt = LocalDateTime.now(); // 등록일
 
     private LocalDateTime modifiedAt; // 수정일
 
-    public MenuDto() {
+    public RegisterMenuDto() {
     }
 
-    public MenuDto(Long menuGroupId, String name, int price) {
-        this.menuGroupId = menuGroupId;
-        this.name = name;
-        this.price = price;
-    }
-
-    public MenuDto(Long id, Long menuGroupId, String name, int price, String composition,
-                   String content, Menu.Status status, List<MenuOptionGroup> menuOptionGroup,
-                   LocalDateTime createdAt, LocalDateTime modifiedAt) {
+    public RegisterMenuDto(Long id, Long menuGroupId, String name, int price, String composition, String content) {
         this.id = id;
         this.menuGroupId = menuGroupId;
         this.name = name;
         this.price = price;
         this.composition = composition;
         this.content = content;
-        this.status = status;
-        this.menuOptionGroup = menuOptionGroup;
-        this.createdAt = createdAt;
-        this.modifiedAt = modifiedAt;
     }
 
-    Menu toEntity(MenuDto dto) {
+    Menu toEntity(RegisterMenuDto dto) {
         return new Menu(
                 dto.getId(),
                 dto.getMenuGroupId(),
@@ -63,7 +50,7 @@ public class MenuDto {
                 dto.getPrice(),
                 dto.getComposition(),
                 dto.getContent(),
-                Menu.Status.DEFAULT,
+                dto.getStatus(),
                 dto.getMenuOptionGroup(),
                 dto.getCreatedAt(),
                 dto.getModifiedAt());
@@ -117,11 +104,11 @@ public class MenuDto {
         this.content = content;
     }
 
-    public Menu.Status getStatus() {
+    public MenuStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Menu.Status status) {
+    public void setStatus(MenuStatus status) {
         this.status = status;
     }
 
@@ -148,5 +135,4 @@ public class MenuDto {
     public void setModifiedAt(LocalDateTime modifiedAt) {
         this.modifiedAt = modifiedAt;
     }
-
 }

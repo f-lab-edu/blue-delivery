@@ -11,20 +11,17 @@ public class Menu {
     private int price;
     private String composition;
     private String content;
-    private Status status;
+    private MenuStatus status;
     private List<MenuOptionGroup> menuOptionGroup;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-    public enum Status {
-        DEFAULT, SOLDOUT, HIDDEN;
-    }
-
     public Menu() {
     }
 
-    public Menu(Long id, Long menuGroupId, String name, int price, String composition, String content, Status status,
-                List<MenuOptionGroup> menuOptionGroup, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+    public Menu(Long id, Long menuGroupId, String name, int price, String composition,
+                String content, MenuStatus status, List<MenuOptionGroup> menuOptionGroup,
+                LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.id = id;
         this.menuGroupId = menuGroupId;
         this.name = name;
@@ -61,7 +58,7 @@ public class Menu {
         return content;
     }
 
-    public Status getStatus() {
+    public MenuStatus getStatus() {
         return status;
     }
 

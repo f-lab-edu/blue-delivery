@@ -2,16 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.delivery.shop.menu.MenuMapper">
 
-    <resultMap id="menuResult" type="com.delivery.shop.menu.Menu">
+    <resultMap id="menuResultMap" type="com.delivery.shop.menu.RegisterMenuDto">
         <result property="id" column="ID"/>
         <result property="menuGroupId" column="GROUP_ID"/>
         <result property="name" column="NAME"/>
         <result property="price" column="PRICE"/>
         <result property="composition" column="COMPOSITION"/>
         <result property="content" column="CONTENT"/>
-        <result property="status" column="STATUS" />
-        <result property="createdAt" column="CREATE_AT"/>
-        <result property="modifiedAt" column="MODIFIED_AT"/>
+        <result property="status" column="STATUS" javaType="com.delivery.shop.menu.MenuStatus" ></result>
+        <result property="createdAt" column="CREATE_AT" />
+        <result property="modifiedAt" column="MODIFIED_AT" />
     </resultMap>
 
     <insert id="saveMenu" parameterType="com.delivery.shop.menu.Menu">
@@ -26,4 +26,9 @@
     <update id="menuStatusUpdate">
         UPDATE MENU SET STATUS = #{status} WHERE ID = #{id};
     </update>
+
+    <select id="findAllMenusByMenuGroup" resultMap="menuResultMap">
+        SELECT * FROM MENU WHERE GROUP_ID = #{menuGroupId};
+    </select>
+
 </mapper>

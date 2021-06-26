@@ -16,9 +16,9 @@ public class MenuGroupDto {
 
     private String content;
 
-    private List<MenuDto> menus;
+    private List<RegisterMenuDto> menus;
 
-    public MenuGroupDto(Long id, Long shopId, String name, String content, List<MenuDto> menus) {
+    public MenuGroupDto(Long id, Long shopId, String name, String content, List<RegisterMenuDto> menus) {
         this.id = id;
         this.shopId = shopId;
         this.name = name;
@@ -61,11 +61,11 @@ public class MenuGroupDto {
         this.content = content;
     }
 
-    public List<MenuDto> getMenus() {
+    public List<RegisterMenuDto> getMenus() {
         return menus;
     }
 
-    public void setMenus(List<MenuDto> menus) {
+    public void setMenus(List<RegisterMenuDto> menus) {
         this.menus = menus;
     }
 
@@ -73,4 +73,3 @@ public class MenuGroupDto {
         return this.shopId == id;
     }
 }
-

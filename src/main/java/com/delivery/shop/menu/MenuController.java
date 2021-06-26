@@ -29,8 +29,8 @@ public class MenuController {
      * @return
      */
     @PostMapping("/{menuGroupId}/menus")
-    public ResponseEntity<MenuDto> registerMenu(@PathVariable Long menuGroupId,
-                                       @RequestBody @Valid MenuDto dto) {
+    public ResponseEntity<RegisterMenuDto> registerMenu(@PathVariable Long menuGroupId,
+                                                        @RequestBody @Valid RegisterMenuDto dto) {
         menuService.registerMenu(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -39,14 +39,19 @@ public class MenuController {
      * 메뉴 상태 변경
      *
      * @param menuGroupId 메뉴 그룹 ID
+     * @param menuId 변경할 메뉴 ID
      * @param dto 변경할 Status 정보
      *
      */
     // ToDo 메뉴 조회시에 메뉴 상태가 HIDDEN인 메뉴는 조회되지 않음
-    @PatchMapping("/{menuGroupId}/menus")
-    public ResponseEntity<MenuDto> menuStatusUpdate(@PathVariable Long menuGroupId, @RequestBody MenuDto dto) {
-        menuService.menuStatusUpdate(dto);
+    @PatchMapping("/{menuGroupId}/menus/{menuId}")
+    public ResponseEntity<RegisterMenuDto> menuStatusUpdate(@PathVariable Long menuGroupId,
+                                                            @PathVariable Long menuId,
+                                                            @RequestBody UpdateMenuDto dto) {
+        if (dto.getStatus() == null) {
+            throw new NullPointerException("status is null");
+        }
+        menuService.menuStatusUpdate(menuId, dto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
-
 }
