@@ -12,5 +12,11 @@ public interface CategoryRepository {
     
     void update(List<Category> categories);
     
-    List<Shop> findShopsByCategoryId(SearchShopByCategoryParam param);
+    List<Shop> findShopsByCategoryId(SearchShopByCategoryRequest param);
+    
+    void addCategory(CreateCategoryParam.CreateCategoryRequest name);
+    
+    void deleteCategoryById(Long id);
+    
+    void updateCategoryById(EditCategoryParam param);
 }

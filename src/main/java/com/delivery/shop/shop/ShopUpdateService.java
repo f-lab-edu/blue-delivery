@@ -1,11 +1,15 @@
 package com.delivery.shop.shop;
 
+import static com.delivery.exception.ExceptionEnum.*;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.delivery.exception.ApiException;
 import com.delivery.shop.businesshour.BusinessHourConditions;
 import com.delivery.shop.businesshour.BusinessHourPolicy;
 import com.delivery.shop.businesshour.UpdateBusinessHoursDto;
@@ -18,13 +22,14 @@ import com.delivery.shop.suspension.Suspension;
 public class ShopUpdateService {
     
     private final ShopRepository shopRepository;
-    private final CategoryManagerService categoryManagerService;
+    private final CategoryManagerService categoryManagerServiceImpl;
     
-    public ShopUpdateService(ShopRepository shopRepository, CategoryManagerService categoryManagerService) {
+    public ShopUpdateService(ShopRepository shopRepository, CategoryManagerService categoryManagerServiceImpl) {
         this.shopRepository = shopRepository;
-        this.categoryManagerService = categoryManagerService;
+        this.categoryManagerServiceImpl = categoryManagerServiceImpl;
     }
     
+    @CachePut(value = "shops", key = "#id")
     public void updateBusinessHour(Long id, UpdateBusinessHoursDto dto) {
         Shop shop = getShop(id);
         BusinessHourPolicy policy = BusinessHourConditions.makeBusinessHoursBy(shop.getId(), dto);
@@ -32,35 +37,40 @@ public class ShopUpdateService {
         shopRepository.updateBusinessHours(shop);
     }
     
+    @CachePut(value = "shops", key = "#id")
     public void editIntroduce(Long id, String introduce) {
         Shop shop = getShop(id);
         shop.editIntroduce(introduce);
         shopRepository.updateIntroduce(shop);
     }
     
+    @CachePut(value = "shops", key = "#id")
     public void editPhoneNumber(Long id, String phone) {
         Shop shop = getShop(id);
         shop.editPhoneNumber(phone);
         shopRepository.updatePhone(shop);
     }
     
+    @CachePut(value = "shops", key = "#id")
     public void editDeliveryAreaGuide(Long id, String guide) {
         Shop shop = getShop(id);
         shop.editDeliveryAreaGuide(guide);
         shopRepository.updateDeliveryAreaGuide(shop);
     }
     
+    @CachePut(value = "shops", key = "#id")
     public void rename(Long id, String name) {
         Shop shop = getShop(id);
         shop.rename(name);
         shopRepository.updateName(shop);
     }
     
+    @CachePut(value = "shops", key = "#id")
     public void updateCategory(Long id, UpdateCategoryRequest dto) {
         Shop shop = getShop(id);
         List<Long> inputs = dto.getCategoryIds();
         shop.getCategories().updateAll(
-                categoryManagerService.getAllCategories().stream()
+                categoryManagerServiceImpl.getAllCategories().stream()
                 .filter(category -> inputs.contains(category.getId())) // 전체 카테고리 중 입력받은 카테고리만 선택
                 .collect(Collectors.toList())
         );
@@ -69,11 +79,12 @@ public class ShopUpdateService {
         shopRepository.updateCategory(shop);
     }
     
-    public void updateClosingDays(Long shopId, UpdateClosingDaysRequest closingDays) {
+    @CachePut(value = "shops", key = "#id")
+    public void updateClosingDays(Long id, UpdateClosingDaysRequest closingDays) {
         Boolean closingOnLegalHolidays = closingDays.getLegalHolidays();
         List<TemporaryClosingParam> temporaries = closingDays.getTemporaryClosing();
         List<RegularClosingParam> regulars = closingDays.getRegularClosing();
-        Shop shop = getShop(shopId);
+        Shop shop = getShop(id);
         
         if (closingOnLegalHolidays) {
             shop.addClosingDayPolicy(new LegalHolidayClosing());
@@ -86,12 +97,14 @@ public class ShopUpdateService {
         shopRepository.updateClosingDays(shop);
     }
     
+    @CachePut(value = "shops", key = "#id")
     public void expose(Long shopId, Boolean status) {
         Shop shop = getShop(shopId);
         shop.updateExposeStatus(status);
         shopRepository.updateExposeStatus(shop);
     }
     
+    @CachePut(value = "shops", key = "#id")
     public void suspend(Long shopId, Suspension suspension) {
         Shop shop = getShop(shopId);
         shop.suspend(suspension);
@@ -101,7 +114,7 @@ public class ShopUpdateService {
     private Shop getShop(Long id) {
         Shop shop = shopRepository.findShopById(id);
         if (shop == null) {
-            throw new IllegalArgumentException("shop does not exist");
+            throw new ApiException(SHOP_DOES_NOT_EXIST);
         }
         return shop;
     }

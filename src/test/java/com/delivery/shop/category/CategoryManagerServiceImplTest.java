@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.delivery.shop.businesshour.BusinessHour;
 import com.delivery.shop.businesshour.BusinessHourPolicy;
@@ -21,18 +22,18 @@ import com.delivery.shop.closingday.ClosingDayPolicies;
 import com.delivery.shop.closingday.WeeklyRegularClosing;
 import com.delivery.shop.shop.Shop;
 
-@ExtendWith(MockitoExtension.class)
-class CategoryManagerServiceTest {
+@ExtendWith({MockitoExtension.class, SpringExtension.class})
+class CategoryManagerServiceImplTest {
     
-    CategoryManagerService categoryManagerService;
+    CategoryManagerServiceImpl categoryManagerServiceImpl;
     LocalDateTime now = LocalDateTime.of(2021, Month.JUNE, 18, 14, 0);
-    SearchShopByCategoryParam param = new SearchShopByCategoryParam(1L, now);
+    SearchShopByCategoryRequest param = new SearchShopByCategoryRequest(1L, now);
     
     // TODO 수정
     @Test
     @DisplayName("조회하는 시점은 18일 금요일이므로, 주어진 가게들 중 금요일 휴무인 가게는 조회되지 않는다. 그리고 영업중인 가게가 앞에온다.")
     void getShopsByCategory(@Mock CategoryRepository categoryRepository) {
-        categoryManagerService = new CategoryManagerService(categoryRepository);
+        categoryManagerServiceImpl = new CategoryManagerServiceImpl(categoryRepository);
         ClosingDayPolicies closingFriday = new ClosingDayPolicies();
         closingFriday.addClosingDayPolicy(new WeeklyRegularClosing(DayOfWeek.FRIDAY));
         BusinessHour open1PM = new BusinessHour(DayOfWeek.FRIDAY, LocalTime.of(13, 0), LocalTime.of(23, 59));
@@ -49,7 +50,7 @@ class CategoryManagerServiceTest {
                 )
         );
         
-        List<Shop> result = categoryManagerService.getShopsByCategory(param);
+        List<Shop> result = categoryManagerServiceImpl.getShopsByCategory(param);
         assertThat(result.size()).isEqualTo(2);
         assertThat(result.get(0).isOpeningAt(this.now)).isEqualTo(true);
         assertThat(result.get(1).isOpeningAt(this.now)).isEqualTo(false);
