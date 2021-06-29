@@ -106,4 +106,5 @@ public class Menu {
         return Objects.hash(id, menuGroupId, name, price, composition,
                 content, status, menuOptionGroup, createdAt, modifiedAt);
     }
+
 }

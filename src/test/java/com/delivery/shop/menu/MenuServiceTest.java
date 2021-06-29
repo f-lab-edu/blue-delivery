@@ -1,6 +1,7 @@
 package com.delivery.shop.menu;
 
 import static com.delivery.shop.menu.Menu.*;
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
 import org.assertj.core.api.Assertions;
@@ -22,6 +23,7 @@ class MenuServiceTest {
     @Mock
     MenuMapper menuMapper;
 
+
     @Test
     @DisplayName("메뉴 생성 테스트")
     public void saveMenuTest() {
@@ -32,13 +34,15 @@ class MenuServiceTest {
         dto.setPrice(3500);
 
         //given
-        when(menuMapper.saveMenu(dto.toEntity(dto))).thenReturn(1);
+        when(menuMapper.saveMenu(dto.toEntity(dto))).thenReturn(dto.toEntity(dto));
 
         //when
         service.registerMenu(dto);
 
         //then
         verify(menuMapper).saveMenu(dto.toEntity(dto));
+        assertThat(menuMapper.saveMenu(dto.toEntity(dto)).getName()).isEqualTo("부리또");
+        assertThat(menuMapper.saveMenu(dto.toEntity(dto)).getPrice()).isEqualTo(3500);
     }
 
 
@@ -51,8 +55,8 @@ class MenuServiceTest {
         given(menuMapper.menuNameCheck("퀘사디아")).willReturn(0);
 
         //then
-        Assertions.assertThat(service.menuNameCheck("부리또")).isEqualTo(true);
-        Assertions.assertThat(service.menuNameCheck("퀘사디아")).isEqualTo(false);
+        assertThat(service.menuNameCheck("부리또")).isEqualTo(true);
+        assertThat(service.menuNameCheck("퀘사디아")).isEqualTo(false);
 
     }
 
@@ -71,6 +75,7 @@ class MenuServiceTest {
 
         //then
         verify(menuMapper).menuStatusUpdate(dto.getId(), dto.getStatus());
+
     }
 
 }

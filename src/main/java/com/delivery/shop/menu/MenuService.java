@@ -13,7 +13,7 @@ public class MenuService {
     }
 
 
-    public int registerMenu(RegisterMenuDto dto) {
+    public Menu registerMenu(RegisterMenuDto dto) {
         if (menuNameCheck(dto.getName())) {
             throw new DuplicateKeyException("menuName already exists");
         }
