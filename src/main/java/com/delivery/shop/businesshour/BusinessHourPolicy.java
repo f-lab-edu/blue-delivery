@@ -18,10 +18,11 @@ public class BusinessHourPolicy {
     }
     
     public BusinessHour getBusinessHourOf(DayOfWeek day) {
+        
         return businessHours.stream()
                 .filter(x -> x.getDayOfWeek() == day)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("dayOfWeek does not exist"));
+                .orElseThrow(() -> new IllegalArgumentException("dayOfWeek does not exist for this shop"));
     }
     
     public List<BusinessHour> getBusinessHours() {

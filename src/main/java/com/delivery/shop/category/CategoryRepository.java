@@ -4,13 +4,13 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.delivery.shop.shop.SearchedShopData;
+import com.delivery.shop.shop.Shop;
 
 @Repository
 public interface CategoryRepository {
-    List<Category> findAll();
+    List<Category> findAllCategories();
     
     void update(List<Category> categories);
     
-    List<SearchedShopData> findShopsByCategoryId(SearchShopByCategoryParam param);
+    List<Shop> findShopsByCategoryId(SearchShopByCategoryParam param);
 }

@@ -29,15 +29,20 @@ class MenuServiceTest {
     @Test
     @DisplayName("메뉴 생성 테스트")
     public void saveMenuTest() {
-        RegisterMenuDto dto = new RegisterMenuDto(1L,
-                1L,
-                "부리또",
-                3500,
-                "1인분",
-                "부리또+피클");
-        Menu menu = dto.toEntity(dto);
-        given(menuMapper.saveMenu(menu)).willReturn(1);
+        RegisterMenuDto dto = new RegisterMenuDto();
+        dto.setId(1L);
+        dto.setMenuGroupId(1L);
+        dto.setName("부리또");
+        dto.setPrice(3500);
+
+        //given
+        when(menuMapper.saveMenu(dto.toEntity(dto))).thenReturn(1);
+
+        //when
         service.registerMenu(dto);
+
+        //then
+        verify(menuMapper).saveMenu(dto.toEntity(dto));
     }
 
 

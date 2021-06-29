@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.delivery.shop.category.ClosingMapper">
+
+    <resultMap id="closingDayResultMap" type="com.delivery.shop.closingday.ClosingDayPolicy">
+        <discriminator javaType="string" column="CLOSING_TYPE">
+            <case value="CYCLIC_REGULAR" resultMap="cyclicRegularResultMap"/>
+            <case value="WEEKLY_REGULAR" resultMap="weeklyRegularResultMap"/>
+            <case value="TEMPORARY" resultMap="temporaryResultMap"/>
+            <case value="LEGAL_HOLIDAY" resultMap="legalHolidayResultMap"/>
+        </discriminator>
+    </resultMap>
+
+    <resultMap id="cyclicRegularResultMap" type="CyclicRegularClosing">
+        <constructor>
+            <arg column="CYCLE_TYPE" javaType="com.delivery.shop.closingday.CyclicRegularClosing$Cycle"/>
+            <arg column="DAY_OF_WEEK" javaType="java.time.DayOfWeek"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="weeklyRegularResultMap" type="WeeklyRegularClosing">
+        <constructor>
+            <arg column="DAY_OF_WEEK" javaType="java.time.DayOfWeek"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="temporaryResultMap" type="TemporaryClosing">
+        <constructor>
+            <arg column="FROM_DATE" javaType="java.time.LocalDate"/>
+            <arg column="TO_DATE" javaType="java.time.LocalDate"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="legalHolidayResultMap" type="LegalHolidayClosing">
+        <constructor>
+            <arg column="SHOP_ID" javaType="long"/>
+        </constructor>
+    </resultMap>
+
+</mapper>

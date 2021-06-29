@@ -16,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.delivery.shop.category.CategoryManagerService;
 import com.delivery.shop.closingday.CyclicRegularClosing;
 import com.delivery.shop.closingday.LegalHolidayClosing;
 
@@ -24,6 +25,8 @@ class ShopUpdateServiceTest {
     
     @Mock
     private ShopRepository shopRepository;
+    @Mock
+    private CategoryManagerService categoryManagerService;
     @InjectMocks
     ShopUpdateService shopUpdateService;
     Shop shop;
@@ -32,7 +35,7 @@ class ShopUpdateServiceTest {
     void setup() {
         shop = new Shop();
         when(shopRepository.findShopById(1L)).thenReturn(shop);
-        shopUpdateService = new ShopUpdateService(shopRepository);
+        shopUpdateService = new ShopUpdateService(shopRepository, categoryManagerService);
     }
     
     @Test

@@ -27,4 +27,5 @@ public interface ShopRepository {
     void updateExposeStatus(Shop shop);
     
     void updateSuspension(Shop shop);
+    
 }
