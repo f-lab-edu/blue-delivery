@@ -5,7 +5,6 @@ import static com.delivery.exception.ExceptionEnum.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,49 +28,38 @@ public class ShopUpdateService {
         this.categoryManagerServiceImpl = categoryManagerServiceImpl;
     }
     
-    @CachePut(value = "shops", key = "#id")
-    public Shop updateBusinessHour(Long id, UpdateBusinessHoursDto dto) {
+    public void updateBusinessHour(Long id, UpdateBusinessHoursDto dto) {
         Shop shop = getShop(id);
         BusinessHourPolicy policy = BusinessHourConditions.makeBusinessHoursBy(shop.getId(), dto);
         shop.updateBusinessHour(policy);
         shopRepository.updateBusinessHours(shop);
-        return shop;
     }
     
-    @CachePut(value = "shops", key = "#id")
-    public Shop editIntroduce(Long id, String introduce) {
+    public void editIntroduce(Long id, String introduce) {
         Shop shop = getShop(id);
         shop.editIntroduce(introduce);
         shopRepository.updateIntroduce(shop);
-        return shop;
     }
     
-    @CachePut(value = "shops", key = "#id")
-    public Shop editPhoneNumber(Long id, String phone) {
+    public void editPhoneNumber(Long id, String phone) {
         Shop shop = getShop(id);
         shop.editPhoneNumber(phone);
         shopRepository.updatePhone(shop);
-        return shop;
     }
     
-    @CachePut(value = "shops", key = "#id")
-    public Shop editDeliveryAreaGuide(Long id, String guide) {
+    public void editDeliveryAreaGuide(Long id, String guide) {
         Shop shop = getShop(id);
         shop.editDeliveryAreaGuide(guide);
         shopRepository.updateDeliveryAreaGuide(shop);
-        return shop;
     }
     
-    @CachePut(value = "shops", key = "#id")
-    public Shop rename(Long id, String name) {
+    public void rename(Long id, String name) {
         Shop shop = getShop(id);
         shop.rename(name);
         shopRepository.updateName(shop);
-        return shop;
     }
     
-    @CachePut(value = "shops", key = "#id")
-    public Shop updateCategory(Long id, UpdateCategoryRequest dto) {
+    public void updateCategory(Long id, UpdateCategoryRequest dto) {
         Shop shop = getShop(id);
         List<Long> inputs = dto.getCategoryIds();
         shop.getCategories().updateAll(
@@ -82,11 +70,9 @@ public class ShopUpdateService {
         shop.getCategories().toString();
         shopRepository.deleteCategory(shop);
         shopRepository.updateCategory(shop);
-        return shop;
     }
     
-    @CachePut(value = "shops", key = "#id")
-    public Shop updateClosingDays(Long id, UpdateClosingDaysRequest closingDays) {
+    public void updateClosingDays(Long id, UpdateClosingDaysRequest closingDays) {
         Boolean closingOnLegalHolidays = closingDays.getLegalHolidays();
         List<TemporaryClosingParam> temporaries = closingDays.getTemporaryClosing();
         List<RegularClosingParam> regulars = closingDays.getRegularClosing();
@@ -101,23 +87,18 @@ public class ShopUpdateService {
                 regular -> shop.addClosingDayPolicy(regular.toEntity()));
         shopRepository.deleteClosingDays(shop);
         shopRepository.updateClosingDays(shop);
-        return shop;
     }
     
-    @CachePut(value = "shops", key = "#id")
-    public Shop expose(Long shopId, Boolean status) {
+    public void expose(Long shopId, Boolean status) {
         Shop shop = getShop(shopId);
         shop.updateExposeStatus(status);
         shopRepository.updateExposeStatus(shop);
-        return shop;
     }
     
-    @CachePut(value = "shops", key = "#id")
-    public Shop suspend(Long shopId, Suspension suspension) {
+    public void suspend(Long shopId, Suspension suspension) {
         Shop shop = getShop(shopId);
         shop.suspend(suspension);
         shopRepository.updateSuspension(shop);
-        return shop;
     }
     
     private Shop getShop(Long id) {

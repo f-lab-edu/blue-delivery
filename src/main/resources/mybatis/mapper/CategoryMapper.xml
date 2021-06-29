@@ -16,13 +16,13 @@
 
     <!-- 카테고리별 가게 조회-->
     <select id="findShopsByCategoryId" resultMap="com.delivery.shop.shop.ShopMapper.shopResultMap">
-        SELECT DISTINCT S.ID AS SHOP_ID,
-                        NAME,
-                        INTRODUCE,
-                        PHONE,
-                        DELIVERY_AREA_GUIDE,
-                        IFNULL(SS.FROM_DATETIME, NOW()) SUSPENSION_FROM,
-                        IFNULL(SS.TO_DATETIME, NOW())   SUSPENSION_TO
+        SELECT S.ID                            SHOP_ID,
+               NAME,
+               INTRODUCE,
+               PHONE,
+               DELIVERY_AREA_GUIDE,
+               IFNULL(SS.FROM_DATETIME, NOW()) SUSPENSION_FROM,
+               IFNULL(SS.TO_DATETIME, NOW())   SUSPENSION_TO
         FROM SHOP S
                  JOIN CATEGORY_SHOP CS ON CS.CATEGORY_ID = ${id}
                  JOIN BUSINESS_HOUR BH ON S.ID = BH.SHOP_ID
@@ -39,33 +39,28 @@
                         CS.SHOP_ID AS SHOP_ID
         FROM CATEGORY C
                  LEFT JOIN CATEGORY_SHOP CS
-                      ON ID = CS.CATEGORY_ID
+                           ON ID = CS.CATEGORY_ID
         ORDER BY ID;
     </select>
 
     <!-- 카테고리 추가 -->
     <insert id="addCategory">
-        INSERT INTO CATEGORY (NAME) VALUES (#{name});
+        INSERT INTO CATEGORY (NAME)
+        VALUES (#{name});
     </insert>
 
     <!-- 카테고리 삭제 -->
     <delete id="deleteCategoryById">
-        DELETE FROM CATEGORY WHERE ID = #{id};
+        DELETE
+        FROM CATEGORY
+        WHERE ID = #{id};
     </delete>
 
     <!-- 카테고리 수정 -->
     <update id="updateCategoryById">
-        UPDATE CATEGORY SET NAME = #{name} WHERE ID = #{id};
+        UPDATE CATEGORY
+        SET NAME = #{name}
+        WHERE ID = #{id};
     </update>
-
-    <select id="findCategoryByName" resultMap="categoryResultMap">
-        SELECT DISTINCT C.ID       AS CATEGORY_ID,
-                        C.NAME     AS CATEGORY_NAME,
-                        CS.SHOP_ID AS SHOP_ID
-        FROM CATEGORY C
-                 LEFT JOIN CATEGORY_SHOP CS
-                      ON ID = CS.CATEGORY_ID
-        WHERE C.NAME = #{name}
-    </select>
 
 </mapper>

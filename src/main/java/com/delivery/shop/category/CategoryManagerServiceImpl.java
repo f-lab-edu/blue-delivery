@@ -23,7 +23,7 @@ public class CategoryManagerServiceImpl implements CategoryManagerService {
         this.categoryRepository = categoryRepository;
     }
     
-    @Cacheable(value = "categories", cacheManager = "concurrentMapCacheManager")
+    @Cacheable(value = "categories", cacheManager = "caffeineCacheManager")
     public List<Category> getAllCategories() {
         // TODO 카테고리 이름의 다국어처리 i18n
         List<Category> allCategories = categoryRepository.findAllCategories();
