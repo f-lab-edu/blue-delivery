@@ -1,5 +1,7 @@
 package com.delivery.shop.menu;
 
+import static com.delivery.shop.menu.Menu.*;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -33,13 +35,19 @@ public class RegisterMenuDto {
     public RegisterMenuDto() {
     }
 
-    public RegisterMenuDto(Long id, Long menuGroupId, String name, int price, String composition, String content) {
+    public RegisterMenuDto(Long id, Long menuGroupId, String name, int price,
+                           String composition, String content, MenuStatus status,
+                           List<MenuOptionGroup> menuOptionGroup, LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.id = id;
         this.menuGroupId = menuGroupId;
         this.name = name;
         this.price = price;
         this.composition = composition;
         this.content = content;
+        this.status = status;
+        this.menuOptionGroup = menuOptionGroup;
+        this.createdAt = createdAt;
+        this.modifiedAt = modifiedAt;
     }
 
     Menu toEntity(RegisterMenuDto dto) {

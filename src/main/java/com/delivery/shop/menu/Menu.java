@@ -2,6 +2,7 @@ package com.delivery.shop.menu;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 public class Menu {
 
@@ -16,12 +17,16 @@ public class Menu {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
+    public enum MenuStatus {
+        DEFAULT, SOLDOUT, HIDDEN;
+    }
+
     public Menu() {
     }
 
-    public Menu(Long id, Long menuGroupId, String name, int price, String composition,
-                String content, MenuStatus status, List<MenuOptionGroup> menuOptionGroup,
-                LocalDateTime createdAt, LocalDateTime modifiedAt) {
+    public Menu(Long id, Long menuGroupId, String name, int price, String composition, String content,
+                MenuStatus status, List<MenuOptionGroup> menuOptionGroup, LocalDateTime createdAt,
+                LocalDateTime modifiedAt) {
         this.id = id;
         this.menuGroupId = menuGroupId;
         this.name = name;
@@ -74,4 +79,31 @@ public class Menu {
         return modifiedAt;
     }
 
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Menu menu = (Menu) obj;
+        return price == menu.price
+                && Objects.equals(id, menu.id)
+                && Objects.equals(menuGroupId, menu.menuGroupId)
+                && Objects.equals(name, menu.name)
+                && Objects.equals(composition, menu.composition)
+                && Objects.equals(content, menu.content)
+                && status == menu.status
+                && Objects.equals(menuOptionGroup, menu.menuOptionGroup)
+                && Objects.equals(createdAt, menu.createdAt)
+                && Objects.equals(modifiedAt, menu.modifiedAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, menuGroupId, name, price, composition,
+                content, status, menuOptionGroup, createdAt, modifiedAt);
+    }
 }

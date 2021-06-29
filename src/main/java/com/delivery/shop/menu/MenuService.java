@@ -12,6 +12,7 @@ public class MenuService {
         this.menuMapper = menuMapper;
     }
 
+
     public int registerMenu(RegisterMenuDto dto) {
         if (menuNameCheck(dto.getName())) {
             throw new DuplicateKeyException("menuName already exists");
@@ -27,4 +28,5 @@ public class MenuService {
     public boolean menuNameCheck(String name) {
         return menuMapper.menuNameCheck(name) == 1;
     }
+
 }

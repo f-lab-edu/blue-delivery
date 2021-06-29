@@ -13,9 +13,9 @@ public interface MenuGroupMapper {
 
     int groupNameCheck(String name);
 
-    List<MenuGroupDto> findMenuGroup(Long shopId);
+    List<MenuGroup> findMenuGroup(Long shopId);
 
-    List<RegisterMenuDto> findMenuByGroupId(Long groupId);
+    List<MenuGroup> findMenuByGroupId(Long groupId);
 
     int updateMenuGroup(MenuGroupDto dto);
 
