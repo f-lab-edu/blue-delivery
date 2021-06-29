@@ -22,12 +22,13 @@ public class CategoryManagerControllerImpl implements CategoryManagerController 
     }
     
     public ResponseEntity<GetAllCategoriesResponse> getAllCategories() {
-        GetAllCategoriesResponse body = new GetAllCategoriesResponse(
-                categoryManagerService.getAllCategories().stream()
-                        .map(Category::toResponse)
-                        .collect(Collectors.toList())
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new GetAllCategoriesResponse(
+                        categoryManagerService.getAllCategories().stream()
+                                .map(Category::toResponse)
+                                .collect(Collectors.toList())
+                )
         );
-        return ResponseEntity.status(HttpStatus.OK).body(body);
     }
     
     public ResponseEntity<?> createCategory(@RequestBody CreateCategoryRequest dto) {

@@ -26,6 +26,10 @@ public class CreateCategoryParam {
         public CreateCategoryRequest() {
         }
     
+        public CreateCategoryRequest(String name) {
+            this.name = name;
+        }
+    
         public CreateCategoryParam toParam() {
             return new CreateCategoryParam(name);
         }

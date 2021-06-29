@@ -2,7 +2,7 @@ package com.delivery.shop.category;
 
 import java.util.List;
 
-import com.delivery.shop.shop.SearchedShopData;
+import com.delivery.shop.search.SearchedShopData;
 
 public class GetShopsByCategoryResponse {
     
