@@ -28,10 +28,6 @@ public class EditCategoryParam {
         public EditCategoryRequest() {
         }
     
-        public EditCategoryRequest(String name) {
-            this.name = name;
-        }
-        
         public EditCategoryParam toParam(Long id) {
             return new EditCategoryParam(id, this.name);
         }
