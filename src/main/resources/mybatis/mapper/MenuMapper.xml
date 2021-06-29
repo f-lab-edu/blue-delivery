@@ -26,4 +26,8 @@
     <update id="menuStatusUpdate" parameterType="com.delivery.shop.menu.UpdateMenuDto">
         UPDATE MENU SET STATUS = #{status} WHERE ID = #{id};
     </update>
+    
+    <select id="findMenuById" resultMap="menuResult">
+        SELECT ID, NAME, PRICE, GROUP_ID, COMPOSITION, CONTENT, STATUS FROM MENU WHERE ID = #{id};
+    </select>
 </mapper>

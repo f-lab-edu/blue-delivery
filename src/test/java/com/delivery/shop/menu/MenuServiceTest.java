@@ -4,7 +4,6 @@ import static com.delivery.shop.menu.Menu.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,7 +22,6 @@ class MenuServiceTest {
     @Mock
     MenuMapper menuMapper;
 
-
     @Test
     @DisplayName("메뉴 생성 테스트")
     public void saveMenuTest() {
@@ -34,15 +32,14 @@ class MenuServiceTest {
         dto.setPrice(3500);
 
         //given
-        when(menuMapper.saveMenu(dto.toEntity(dto))).thenReturn(dto.toEntity(dto));
+        when(service.getMenuById(1L)).thenReturn(dto.toEntity(dto));
 
         //when
         service.registerMenu(dto);
 
         //then
-        verify(menuMapper).saveMenu(dto.toEntity(dto));
-        assertThat(menuMapper.saveMenu(dto.toEntity(dto)).getName()).isEqualTo("부리또");
-        assertThat(menuMapper.saveMenu(dto.toEntity(dto)).getPrice()).isEqualTo(3500);
+        assertThat(service.getMenuById(1L).getName()).isEqualTo("부리또");
+        assertThat(service.getMenuById(1L).getPrice()).isEqualTo(3500);
     }
 
 
@@ -63,19 +60,22 @@ class MenuServiceTest {
     @Test
     @DisplayName("메뉴 상태 변경 테스트")
     public void menuStatusUpdateTest() {
-        UpdateMenuDto dto = new UpdateMenuDto();
+        RegisterMenuDto dto = new RegisterMenuDto();
+        dto.setId(1L);
+        dto.setStatus(MenuStatus.DEFAULT);
+
+        UpdateMenuDto updateDto = new UpdateMenuDto();
         dto.setId(1L);
         dto.setStatus(MenuStatus.SOLDOUT);
 
         //given
-        when(menuMapper.menuStatusUpdate(dto.getId(), dto.getStatus())).thenReturn(1);
+        when(service.getMenuById(1L)).thenReturn(dto.toEntity(dto));
 
         //when
-        service.menuStatusUpdate(dto.getId(), dto);
+        service.menuStatusUpdate(updateDto.getId(), updateDto);
 
         //then
-        verify(menuMapper).menuStatusUpdate(dto.getId(), dto.getStatus());
-
+        assertThat(service.getMenuById(1L).getStatus()).isEqualTo(MenuStatus.SOLDOUT);
     }
 
 }

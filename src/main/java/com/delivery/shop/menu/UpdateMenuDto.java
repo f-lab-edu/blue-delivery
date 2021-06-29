@@ -1,5 +1,7 @@
 package com.delivery.shop.menu;
 
+import javax.validation.constraints.NotNull;
+
 import com.delivery.shop.menu.Menu.MenuStatus;
 
 public class UpdateMenuDto {
@@ -14,6 +16,7 @@ public class UpdateMenuDto {
 
     private String content;
 
+    @NotNull
     private MenuStatus status;
 
     public UpdateMenuDto() {
@@ -26,10 +29,6 @@ public class UpdateMenuDto {
         this.composition = composition;
         this.content = content;
         this.status = status;
-    }
-
-    public boolean statusNullCheck(MenuStatus status) {
-        return status == null;
     }
 
     public Long getId() {

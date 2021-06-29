@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,12 +45,22 @@ public class MenuController {
     @PatchMapping("/{menuGroupId}/menus/{menuId}")
     public ResponseEntity<UpdateMenuDto> menuStatusUpdate(@PathVariable Long menuGroupId,
                                                           @PathVariable Long menuId,
-                                                          @RequestBody UpdateMenuDto dto) {
-        if (dto.statusNullCheck(dto.getStatus())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+                                                          @RequestBody @Valid UpdateMenuDto dto) {
         menuService.menuStatusUpdate(menuId, dto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    /**
+     * ID에 해당하는 메뉴 조회
+     *
+     * @param menuGroupId 메뉴 그룹 ID
+     * @param menuId      조회할 메뉴 ID
+     **/
+    // ToDo 옵션 그룹 구현 시 옵션 그룹을 포함하여 조회
+    @GetMapping("/{menuGroupId}/menus/{menuId}")
+    public ResponseEntity<Menu> getMenuById(@PathVariable Long menuGroupId,
+                                                 @PathVariable Long menuId) {
+        Menu menu = menuService.getMenuById(menuId);
+        return new ResponseEntity(menu, HttpStatus.OK);
+    }
 }

@@ -9,10 +9,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MenuMapper {
 
-    Menu saveMenu(Menu menu);
+    int saveMenu(Menu menu);
 
     int menuNameCheck(String name);
 
     int menuStatusUpdate(Long id, MenuStatus status);
+
+    Menu findMenuById(Long id);
 
 }
