@@ -22,24 +22,23 @@ class MenuServiceTest {
     @Mock
     MenuMapper menuMapper;
 
+    @Mock
+    RegisterMenuDto saveDto;
+
     @Test
-    @DisplayName("메뉴 생성 테스트")
+    @DisplayName("메뉴 저장 기능 테스트")
     public void saveMenuTest() {
-        RegisterMenuDto dto = new RegisterMenuDto();
-        dto.setId(1L);
-        dto.setMenuGroupId(1L);
-        dto.setName("부리또");
-        dto.setPrice(3500);
+        Menu menu = saveDto.toEntity();
 
         //given
-        when(service.getMenuById(1L)).thenReturn(dto.toEntity(dto));
+        when(saveDto.toEntity()).thenReturn(menu);
 
         //when
-        service.registerMenu(dto);
+        service.registerMenu(saveDto);
 
         //then
-        assertThat(service.getMenuById(1L).getName()).isEqualTo("부리또");
-        assertThat(service.getMenuById(1L).getPrice()).isEqualTo(3500);
+        verify(menuMapper, times(1)).saveMenu(menu);
+
     }
 
 
@@ -55,27 +54,19 @@ class MenuServiceTest {
         assertThat(service.menuNameCheck("부리또")).isEqualTo(true);
         assertThat(service.menuNameCheck("퀘사디아")).isEqualTo(false);
 
+
     }
 
     @Test
     @DisplayName("메뉴 상태 변경 테스트")
     public void menuStatusUpdateTest() {
-        RegisterMenuDto dto = new RegisterMenuDto();
-        dto.setId(1L);
-        dto.setStatus(MenuStatus.DEFAULT);
-
-        UpdateMenuDto updateDto = new UpdateMenuDto();
-        dto.setId(1L);
-        dto.setStatus(MenuStatus.SOLDOUT);
-
-        //given
-        when(service.getMenuById(1L)).thenReturn(dto.toEntity(dto));
 
         //when
-        service.menuStatusUpdate(updateDto.getId(), updateDto);
+        service.menuStatusUpdate(1L, MenuStatus.SOLDOUT);
 
         //then
-        assertThat(service.getMenuById(1L).getStatus()).isEqualTo(MenuStatus.SOLDOUT);
+        verify(menuMapper, times(1)).menuStatusUpdate(1L, MenuStatus.SOLDOUT);
+
     }
 
 }

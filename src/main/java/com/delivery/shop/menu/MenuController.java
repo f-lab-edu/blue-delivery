@@ -46,7 +46,7 @@ public class MenuController {
     public ResponseEntity<UpdateMenuDto> menuStatusUpdate(@PathVariable Long menuGroupId,
                                                           @PathVariable Long menuId,
                                                           @RequestBody @Valid UpdateMenuDto dto) {
-        menuService.menuStatusUpdate(menuId, dto);
+        menuService.menuStatusUpdate(menuId, dto.getStatus());
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

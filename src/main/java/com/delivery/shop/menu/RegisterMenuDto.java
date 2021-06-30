@@ -50,18 +50,18 @@ public class RegisterMenuDto {
         this.modifiedAt = modifiedAt;
     }
 
-    Menu toEntity(RegisterMenuDto dto) {
+    Menu toEntity() {
         return new Menu(
-                dto.getId(),
-                dto.getMenuGroupId(),
-                dto.getName(),
-                dto.getPrice(),
-                dto.getComposition(),
-                dto.getContent(),
-                dto.getStatus(),
-                dto.getMenuOptionGroup(),
-                dto.getCreatedAt(),
-                dto.getModifiedAt());
+                this.getId(),
+                this.getMenuGroupId(),
+                this.getName(),
+                this.getPrice(),
+                this.getComposition(),
+                this.getContent(),
+                this.getStatus(),
+                this.getMenuOptionGroup(),
+                this.getCreatedAt(),
+                this.getModifiedAt());
     }
 
     public Long getId() {
