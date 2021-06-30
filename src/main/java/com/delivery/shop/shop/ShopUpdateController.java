@@ -81,7 +81,7 @@ public class ShopUpdateController {
      * @param expose 가게 노출 여부
      */
     @PostMapping("/{id}/expose")
-    public void updateClosingDays(@PathVariable("id") Long shopId, @RequestBody Boolean expose) {
+    public void setExpose(@PathVariable("id") Long shopId, @RequestBody Boolean expose) {
         updateService.expose(shopId, expose);
     }
     

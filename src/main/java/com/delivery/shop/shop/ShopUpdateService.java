@@ -1,11 +1,14 @@
 package com.delivery.shop.shop;
 
+import static com.delivery.exception.ExceptionEnum.*;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.delivery.exception.ApiException;
 import com.delivery.shop.businesshour.BusinessHourConditions;
 import com.delivery.shop.businesshour.BusinessHourPolicy;
 import com.delivery.shop.businesshour.UpdateBusinessHoursDto;
@@ -18,11 +21,11 @@ import com.delivery.shop.suspension.Suspension;
 public class ShopUpdateService {
     
     private final ShopRepository shopRepository;
-    private final CategoryManagerService categoryManagerService;
+    private final CategoryManagerService categoryManagerServiceImpl;
     
-    public ShopUpdateService(ShopRepository shopRepository, CategoryManagerService categoryManagerService) {
+    public ShopUpdateService(ShopRepository shopRepository, CategoryManagerService categoryManagerServiceImpl) {
         this.shopRepository = shopRepository;
-        this.categoryManagerService = categoryManagerService;
+        this.categoryManagerServiceImpl = categoryManagerServiceImpl;
     }
     
     public void updateBusinessHour(Long id, UpdateBusinessHoursDto dto) {
@@ -60,7 +63,7 @@ public class ShopUpdateService {
         Shop shop = getShop(id);
         List<Long> inputs = dto.getCategoryIds();
         shop.getCategories().updateAll(
-                categoryManagerService.getAllCategories().stream()
+                categoryManagerServiceImpl.getAllCategories().stream()
                 .filter(category -> inputs.contains(category.getId())) // 전체 카테고리 중 입력받은 카테고리만 선택
                 .collect(Collectors.toList())
         );
@@ -69,11 +72,11 @@ public class ShopUpdateService {
         shopRepository.updateCategory(shop);
     }
     
-    public void updateClosingDays(Long shopId, UpdateClosingDaysRequest closingDays) {
+    public void updateClosingDays(Long id, UpdateClosingDaysRequest closingDays) {
         Boolean closingOnLegalHolidays = closingDays.getLegalHolidays();
         List<TemporaryClosingParam> temporaries = closingDays.getTemporaryClosing();
         List<RegularClosingParam> regulars = closingDays.getRegularClosing();
-        Shop shop = getShop(shopId);
+        Shop shop = getShop(id);
         
         if (closingOnLegalHolidays) {
             shop.addClosingDayPolicy(new LegalHolidayClosing());
@@ -101,7 +104,7 @@ public class ShopUpdateService {
     private Shop getShop(Long id) {
         Shop shop = shopRepository.findShopById(id);
         if (shop == null) {
-            throw new IllegalArgumentException("shop does not exist");
+            throw new ApiException(SHOP_DOES_NOT_EXIST);
         }
         return shop;
     }

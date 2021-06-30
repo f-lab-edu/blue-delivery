@@ -7,3 +7,6 @@ spring:
   flyway:
     url: jdbc:h2:mem://localhost:3306/test;MODE=MYSQL;DB_CLOSE_DELAY=-1
     user: sa
+
+  cache:
+    type: simple

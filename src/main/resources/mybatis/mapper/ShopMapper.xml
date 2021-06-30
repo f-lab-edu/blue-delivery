@@ -5,22 +5,22 @@
 
 <mapper namespace="com.delivery.shop.shop.ShopMapper">
     <resultMap id="shopResultMap" type="Shop">
-        <id column="id" property="id" jdbcType="BIGINT"/>
+        <id column="SHOP_ID" property="id" jdbcType="BIGINT"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="introduce" property="introduce" jdbcType="VARCHAR"/>
         <result column="phone" property="phone" jdbcType="VARCHAR"/>
         <result column="delivery_area_guide" property="deliveryAreaGuide" jdbcType="VARCHAR"/>
         <association property="businessHourPolicy" javaType="BusinessHourPolicy" fetchType="lazy">
             <collection property="businessHours" ofType="BusinessHour"
-                        select="findBusinessHoursByShopId" column="id"/>
+                        select="findBusinessHoursByShopId" column="SHOP_ID"/>
         </association>
         <association property="closingDayPolicies" javaType="ClosingDayPolicies" fetchType="lazy">
             <collection property="closingDays"
-                        select="findClosingDaysByShopId" column="id" />
+                        select="findClosingDaysByShopId" column="SHOP_ID" />
         </association>
         <association property="categories" javaType="Categories" fetchType="lazy">
             <collection property="categories" select="findCategoriesByShopId"
-                        column="id"/>
+                        column="SHOP_ID"/>
         </association>
         <association property="suspension" javaType="Suspension">
             <result column="SUSPENSION_FROM" property="from" typeHandler="LocalDateTimeTypeHandler"/>
@@ -30,7 +30,7 @@
 
     <!-- 가게 id로 조회-->
     <select id="findShopById" resultMap="shopResultMap" parameterType="long">
-        select ID,
+        select ID AS SHOP_ID,
                NAME,
                INTRODUCE,
                PHONE,
@@ -42,7 +42,8 @@
     <!-- 가게 id로 카테고리들 조회 (nested Select용) -->
     <select id="findCategoriesByShopId" resultMap="com.delivery.shop.category.CategoryMapper.categoryResultMap">
         SELECT ID AS CATEGORY_ID,
-               NAME AS CATEGORY_NAME
+               NAME AS CATEGORY_NAME,
+               CS.SHOP_ID AS SHOP_ID
         FROM CATEGORY C
         JOIN CATEGORY_SHOP CS
         ON C.ID = CS.CATEGORY_ID

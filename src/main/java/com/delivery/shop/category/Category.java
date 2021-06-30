@@ -1,9 +1,6 @@
 package com.delivery.shop.category;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
-import com.delivery.shop.shop.Shop;
 
 /*
     KOREAN(1),
@@ -17,10 +14,19 @@ public class Category {
     
     private Long id;
     private String name;
-    private List<Shop> shops;
+    private List<Long> shops;
+    
+    public Category() {
+    }
     
     public Category(String name) {
         this.name = name;
+    }
+    
+    public Category(Long id, String name, List<Long> shops) {
+        this.id = id;
+        this.name = name;
+        this.shops = shops;
     }
     
     public String getName() {
@@ -31,7 +37,7 @@ public class Category {
         return id;
     }
     
-    public List<Shop> getShops() {
+    public List<Long> getShops() {
         return shops;
     }
     
