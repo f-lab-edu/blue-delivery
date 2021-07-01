@@ -38,6 +38,11 @@ public class UserRegisterDto {
     @Past(message = "올바르지 않은 생년월일 입니다.")
     private LocalDate dateOfBirth;
     
+    private String address; // TODO
+    
+    public UserRegisterDto() {
+    }
+    
     public UserRegisterDto(String email, String nickname, String phone,
                            String password, String confirmedPassword, LocalDate dateOfBirth) {
         this.email = email;
@@ -48,13 +53,25 @@ public class UserRegisterDto {
         this.dateOfBirth = dateOfBirth;
     }
     
+    public UserRegisterDto(String email, String nickname, String phone, String password, String confirmedPassword,
+                           LocalDate dateOfBirth, String address) {
+        this.email = email;
+        this.nickname = nickname;
+        this.phone = phone;
+        this.password = password;
+        this.confirmedPassword = confirmedPassword;
+        this.dateOfBirth = dateOfBirth;
+        this.address = address;
+    }
+    
     public User toEntity() {
         return new User(
                 this.email,
                 this.nickname,
                 this.phone,
                 this.password,
-                this.dateOfBirth
+                this.dateOfBirth,
+                this.address
         );
     }
     
@@ -80,5 +97,9 @@ public class UserRegisterDto {
     
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
+    }
+    
+    public String getAddress() {
+        return address;
     }
 }

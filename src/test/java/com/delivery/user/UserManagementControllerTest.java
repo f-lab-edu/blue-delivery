@@ -39,11 +39,11 @@ class UserManagementControllerTest {
     @Autowired
     ObjectMapper objectMapper;
     
-    String registerUrl = "/members/register";
+    String registerUrl = "/users/register";
     
-    String deleteAccountUrl = "/members/";
+    String deleteAccountUrl = "/users/";
     
-    String userUpdateUrl = "/members/update";
+    String userUpdateUrl = "/users/update";
     
     @Test
     public void userUpdateTest() throws Exception {

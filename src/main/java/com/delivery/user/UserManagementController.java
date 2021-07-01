@@ -18,14 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/members")
+@RequestMapping("/users")
 public class UserManagementController {
     
     private UserManagementService userManagementService;
     
     private UserRegisterPasswordValidator userRegisterPasswordValidator;
-    
-    private Logger log = LoggerFactory.getLogger(getClass());
     
     public UserManagementController(UserManagementService userManagementService,
                                     UserRegisterPasswordValidator userRegisterPasswordValidator) {
@@ -40,7 +38,6 @@ public class UserManagementController {
     
     @PostMapping("/register")
     public ResponseEntity<User> register(@Valid @RequestBody UserRegisterDto dto) {
-        User user = dto.toEntity();
         userManagementService.register(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -52,7 +49,6 @@ public class UserManagementController {
         HttpSession httpSession = request.getSession();
         
         if (user.checkPasswordEquality(loginDto.getUserPassword())) {
-            log.info("login success");
             Authentication auth = new Authentication(
                     user.getEmail(),
                     user.getNickname(),

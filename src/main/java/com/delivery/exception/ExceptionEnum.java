@@ -6,7 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 public enum ExceptionEnum {
-    SHOP_DOES_NOT_EXIST(HttpStatus.BAD_REQUEST, "001", "Shop does not exist.", APPLICATION_JSON);
+    SHOP_DOES_NOT_EXIST(HttpStatus.BAD_REQUEST, "S01", "Shop does not exist.", APPLICATION_JSON),
+    DUPLICATE_EMAIL(HttpStatus.BAD_REQUEST, "U01", "User email duplicate.", APPLICATION_JSON),
+    DUPLICATE_NICKNAME(HttpStatus.BAD_REQUEST, "U02", "User nickname duplicate.", APPLICATION_JSON),
+    DUPLICATE_PHONE(HttpStatus.BAD_REQUEST, "U03", "User phone number duplicate.", APPLICATION_JSON);
     
     private final HttpStatus status;
     private final String code;

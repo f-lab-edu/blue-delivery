@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.delivery.user.UserMapper">
+
+    <!-- 고객 추가 -->
+    <insert id="save">
+        INSERT INTO USER (EMAIL, NICKNAME, PHONE, PASSWORD, DATE_OF_BIRTH, ADDRESS)
+        VALUES (#{email}, #{nickname}, #{phone}, #{password}, #{dateOfBirth}, #{address});
+    </insert>
+
+</mapper>
