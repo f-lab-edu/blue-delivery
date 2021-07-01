@@ -1,78 +1,30 @@
 package com.delivery.user;
 
-import java.util.Locale;
-
-import org.springframework.dao.DuplicateKeyException;
-import org.springframework.stereotype.Service;
-
-import com.delivery.exception.ApiException;
-import com.delivery.exception.ExceptionEnum;
-
-@Service
-public class UserManagementService {
+public interface UserManagementService {
     
-    private UserRepository userRepository;
+    /**
+     * 회원 가입
+     * @param param
+     */
+    void register(UserRegisterParam param);
     
-    public UserManagementService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    /**
+     * 고객 로그인
+     * @param param
+     * @return 성공시 인증 객체를 반환
+     */
+    Authentication login(UserLoginParam param);
     
-    public void register(UserRegisterParam dto) {
-        try {
-            userRepository.save(dto.toEntity());
-        } catch (DuplicateKeyException ex) {
-            throwDuplicateInfoException(ex);
-        }
-    }
+    /**
+     * 고객 정보 수정
+     * @param param
+     */
+    void updateAccount(UpdateAccountParam param);
     
-    public Authentication login(UserLoginParam param) {
-        User found = findUserByEmailAndCheckNotNull(param.getEmail());
-        found.validate(param.getEmail(), param.getPassword());
-        return new Authentication(found.getEmail(), found.getNickname(), found.getPhone());
-    }
+    /**
+     * 고객 회원 탈퇴
+     * @param param
+     */
+    void deleteAccount(DeleteAccountParam param);
     
-    public void updateAccount(UpdateAccountParam param) {
-        User findUser = findUserByIdAndCheckNotNull(param.getId());
-        findUser.validate(param.getEmail(), param.getPassword());
-        findUser.changePhone(param.getPhone());
-        findUser.changeAddress(param.getAddress());
-        findUser.changeNickname(param.getNickname());
-        userRepository.update(findUser);
-    }
-    
-    public void deleteAccount(DeleteAccountParam param) {
-        User user = findUserByIdAndCheckNotNull(param.getId());
-        user.validate(param.getEmail(), param.getPassword());
-        userRepository.delete(user);
-    }
-    
-    private User findUserByIdAndCheckNotNull(Long id) {
-        User user = userRepository.findUserById(id);
-        if (user == null) {
-            throw new ApiException(ExceptionEnum.USER_NOT_FOUND);
-        }
-        return user;
-    }
-    
-    private User findUserByEmailAndCheckNotNull(String email) {
-        User user = userRepository.findUserByEmail(email);
-        if (user == null) {
-            throw new ApiException(ExceptionEnum.USER_NOT_FOUND);
-        }
-        return user;
-    }
-    
-    private void throwDuplicateInfoException(DuplicateKeyException ex) {
-        String message = ex.getMessage();
-        String msg = message.substring(message.lastIndexOf("for key")).toLowerCase(Locale.ROOT);
-        if (msg.contains("email")) {
-            throw new ApiException(ExceptionEnum.DUPLICATE_EMAIL);
-        }
-        if (msg.contains("nickname")) {
-            throw new ApiException(ExceptionEnum.DUPLICATE_NICKNAME);
-        }
-        if (msg.contains("phone")) {
-            throw new ApiException(ExceptionEnum.DUPLICATE_PHONE);
-        }
-    }
 }

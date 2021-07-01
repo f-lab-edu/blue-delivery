@@ -13,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 
 import com.delivery.exception.ApiException;
@@ -24,7 +25,7 @@ class UserManagementServiceTest {
     @Mock
     UserRepository userRepository;
     @InjectMocks
-    UserManagementService service;
+    UserManagementService service = new UserManagementServiceHttp(userRepository);
     
     String email;
     String password;

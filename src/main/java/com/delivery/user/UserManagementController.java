@@ -1,70 +1,62 @@
 package com.delivery.user;
 
-import static com.delivery.user.UpdateAccountParam.*;
-import static com.delivery.user.UserLoginParam.*;
+import static com.delivery.user.UpdateAccountParam.UpdateAccountRequest;
+import static com.delivery.user.UserLoginParam.UserLoginRequest;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.delivery.user.DeleteAccountParam.DeleteAccountRequest;
 import com.delivery.user.UserRegisterParam.UserRegisterRequest;
 
 
-@RestController
 @RequestMapping("/users")
-public class UserManagementController {
+public interface UserManagementController {
     
-    private UserManagementService userManagementService;
-    
-    private PasswordValidator passwordValidator;
-    
-    public UserManagementController(UserManagementService userManagementService,
-                                    PasswordValidator passwordValidator) {
-        this.userManagementService = userManagementService;
-        this.passwordValidator = passwordValidator;
-    }
-    
-    @InitBinder("userRegisterRequest")
-    void initRegisterPasswordValidator(WebDataBinder binder) {
-        binder.addValidators(passwordValidator);
-    }
-    
+    /**
+     * 고객 회원가입
+     *
+     * @param registerRequest 회원가입정보
+     * @return 가입 성공시 201 CREATED
+     */
     @PostMapping
-    public ResponseEntity<?> register(@Valid @RequestBody UserRegisterRequest dto) {
-        userManagementService.register(dto.toParam());
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
+    ResponseEntity<?> register(@Valid @RequestBody UserRegisterRequest registerRequest);
     
+    /**
+     * 고객 로그인
+     *
+     * @param loginRequest 로그인 정보
+     * @param session      http session
+     */
     @PostMapping("/login")
-    public void login(@RequestBody UserLoginRequest loginDto, HttpSession session) {
-        Authentication auth = userManagementService.login(loginDto.toParam());
-        session.setAttribute(Authentication.KEY, auth);
-    }
+    void login(@RequestBody UserLoginRequest loginRequest, HttpSession session);
     
+    /**
+     * 고객 회원 탈퇴
+     *
+     * @param id            고객의 id
+     * @param deleteRequest 탈퇴시 확인할 정보
+     * @param session       http session
+     * @return 요청 성공시 204 NO_CONTENT
+     */
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteAccount(@PathVariable("id") Long id,
-                                           @Valid @RequestBody DeleteAccountRequest dto, HttpSession session) {
-        userManagementService.deleteAccount(dto.toParam(id));
-        session.invalidate();
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
+    ResponseEntity<?> deleteAccount(@PathVariable("id") Long id,
+                                    @Valid @RequestBody DeleteAccountRequest deleteRequest, HttpSession session);
     
+    /**
+     * 고객 정보 수정
+     *
+     * @param id            고객의 id
+     * @param updateRequest 업데이트할 정보
+     */
     @PutMapping("/{id}")
-    public void updateAccount(@PathVariable("id") Long id,
-                                           @Valid @RequestBody UpdateAccountRequest dto) {
-        userManagementService.updateAccount(dto.toParam(id));
-    }
-    
+    void updateAccount(@PathVariable("id") Long id, @Valid @RequestBody UpdateAccountRequest updateRequest);
 }
