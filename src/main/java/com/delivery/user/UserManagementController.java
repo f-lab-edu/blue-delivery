@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.delivery.user.DeleteAccountParam.DeleteAccountRequest;
+import com.delivery.user.UserRegisterParam.UserRegisterRequest;
 
 
 @RestController
@@ -35,14 +36,14 @@ public class UserManagementController {
         this.userRegisterPasswordValidator = userRegisterPasswordValidator;
     }
     
-    @InitBinder("userRegisterDto")
+    @InitBinder("userRegisterRequest")
     void initRegisterPasswordValidator(WebDataBinder binder) {
         binder.addValidators(userRegisterPasswordValidator);
     }
     
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody UserRegisterDto dto) {
-        userManagementService.register(dto);
+    @PostMapping
+    public ResponseEntity<?> register(@Valid @RequestBody UserRegisterRequest dto) {
+        userManagementService.register(dto.toParam());
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
     

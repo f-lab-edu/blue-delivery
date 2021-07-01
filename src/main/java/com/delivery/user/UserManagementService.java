@@ -17,7 +17,7 @@ public class UserManagementService {
         this.userRepository = userRepository;
     }
     
-    public void register(UserRegisterDto dto) {
+    public void register(UserRegisterParam dto) {
         try {
             userRepository.save(dto.toEntity());
         } catch (DuplicateKeyException ex) {

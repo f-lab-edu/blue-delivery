@@ -1,6 +1,7 @@
 package com.delivery.user;
 
 import static com.delivery.user.UpdateAccountParam.*;
+import static com.delivery.user.UserRegisterParam.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -40,7 +41,7 @@ class UserManagementControllerTest {
     @Autowired
     ObjectMapper objectMapper;
     
-    String registerUrl = "/users/register";
+    String registerUrl = "/users";
     
     String deleteAccountUrl = "/users/1";
     
@@ -50,20 +51,22 @@ class UserManagementControllerTest {
     public void userUpdateTest() throws Exception {
         String email = "email@email.com";
         String password = "P@ssw0rd";
-        UserRegisterDto user = new UserRegisterDto(
+        UserRegisterRequest user = new UserRegisterRequest(
                 email,
                 "testName1",
                 "010-1111-1111",
                 password,
                 password,
-                LocalDate.of(2000, Month.APRIL, 1)
+                LocalDate.of(2000, Month.APRIL, 1),
+                "address"
         );
-        service.register(user);
+        service.register(user.toParam());
         UpdateAccountRequest dto = new UpdateAccountRequest(
                 email,
                 "testName2",
                 "010-2222-2222",
-                password
+                password,
+                "address"
         );
         
         String body;
@@ -98,66 +101,22 @@ class UserManagementControllerTest {
     }
     
     @Test
-    void validationTest() throws Exception {
-        UserRegisterDto dto = new UserRegisterDto(
-                "blue@gmail.com",
-                "chicken",
-                "010-1234-4321",
-                "myP@ssw0rd",
-                "myP@ssw0rd",
-                LocalDate.of(2000, Month.APRIL, 1)
-        );
-        sendRegisterRequest(dto, status().isCreated());
-    }
-    
-    @Test
     void registerPasswordValidatorTest() throws Exception {
-        UserRegisterDto wrongPassword = new UserRegisterDto(
+        UserRegisterRequest wrongPassword = new UserRegisterRequest(
                 "blue@email.com",
                 "hello",
                 "010-1234-4311",
                 "P@ssw0rd!",
                 "P@ssw0rd#",
-                LocalDate.of(2000, Month.APRIL, 1)
+                LocalDate.of(2000, Month.APRIL, 1),
+                "address"
         );
         MvcResult mvcResult = sendRegisterRequest(wrongPassword, status().isBadRequest());
         String responseBody = mvcResult.getResponse().getContentAsString();
         assertThat(responseBody).contains("errorLength=" + 1);
     }
     
-    @Test
-    void validationFailTest() throws Exception {
-        UserRegisterDto wrongEmail = new UserRegisterDto(
-                "blue",
-                "",
-                "020-1234-4321",
-                "mypassword",
-                "mypassword2",
-                LocalDate.of(2030, Month.APRIL, 1)
-        );
-        MvcResult mvcResult = sendRegisterRequest(wrongEmail, status().isBadRequest());
-        String responseBody = mvcResult.getResponse().getContentAsString();
-        assertThat(responseBody).contains("errorLength=" + 7);
-        
-    }
-    
-    @Test
-    void notNullTest() throws Exception {
-        UserRegisterDto wrongEmail = new UserRegisterDto(
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
-        MvcResult mvcResult = sendRegisterRequest(wrongEmail, status().isBadRequest());
-        String responseBody = mvcResult.getResponse().getContentAsString();
-        assertThat(responseBody).contains("errorLength=" + 6);
-        
-    }
-    
-    private MvcResult sendRegisterRequest(UserRegisterDto dto, ResultMatcher status) throws Exception {
+    private MvcResult sendRegisterRequest(UserRegisterRequest dto, ResultMatcher status) throws Exception {
         String body;
         body = objectMapper.writeValueAsString(dto);
         return mockMvc.perform(post(registerUrl)

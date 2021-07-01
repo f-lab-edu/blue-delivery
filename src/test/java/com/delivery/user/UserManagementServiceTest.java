@@ -1,5 +1,6 @@
 package com.delivery.user;
 
+import static com.delivery.user.UserRegisterParam.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doThrow;
@@ -27,13 +28,13 @@ class UserManagementServiceTest {
     
     String email = "myEmail@email.com";
     String password = "P@ssw0rd!";
-    UserRegisterDto dto = new UserRegisterDto(
+    UserRegisterParam dto = new UserRegisterParam(
             email,
             "nickname",
             "010-1234-5676",
             password,
-            password,
-            LocalDate.now().minusDays(1)
+            LocalDate.now().minusDays(1),
+            "address"
     );
     
     
@@ -60,32 +61,5 @@ class UserManagementServiceTest {
         ExceptionEnum error = assertThrows(ApiException.class, () -> service.register(dto)).getError();
         assertThat(error).isEqualTo(ExceptionEnum.DUPLICATE_PHONE);
     }
-    
-    @Test
-    @Disabled
-    void userUpdateTest() {
-        UserRegisterDto user = new UserRegisterDto(
-                "test1",
-                "testName1",
-                "010-1111-1111",
-                "1234",
-                "1234",
-                LocalDate.of(2030, Month.APRIL, 1));
-        service.register(user);
-        
-//        UpdateAccountRequest dto = new UpdateAccountRequest(
-//                "test1",
-//                "testName2",
-//                "010-2222-2222",
-//                "1234",
-//                LocalDate.of(2030, Month.APRIL, 1)
-//        );
-//        service.updateAccount(dto);
-        
-//        User findUser = service.getAccount(user.getEmail());
-//
-//        assertThat(user.getNickname()).isNotEqualTo(findUser.getNickname());
-    }
-    
     
 }
