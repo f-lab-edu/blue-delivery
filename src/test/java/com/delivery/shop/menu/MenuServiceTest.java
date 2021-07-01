@@ -4,6 +4,8 @@ import static com.delivery.shop.menu.Menu.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,7 +30,8 @@ class MenuServiceTest {
     @Test
     @DisplayName("메뉴 저장 기능 테스트")
     public void saveMenuTest() {
-        Menu menu = saveDto.toEntity();
+        Menu menu = new Menu(1L, 1L, "부리또", 3500, "1인분", "부리또 + 피클",
+                MenuStatus.DEFAULT, LocalDateTime.now());
 
         //given
         when(saveDto.toEntity()).thenReturn(menu);
@@ -51,8 +54,8 @@ class MenuServiceTest {
         given(menuMapper.menuNameCheck("퀘사디아")).willReturn(0);
 
         //then
-        assertThat(service.menuNameCheck("부리또")).isEqualTo(true);
-        assertThat(service.menuNameCheck("퀘사디아")).isEqualTo(false);
+        assertThat(service.menuNameCheck("부리또")).isTrue();
+        assertThat(service.menuNameCheck("퀘사디아")).isFalse();
 
 
     }

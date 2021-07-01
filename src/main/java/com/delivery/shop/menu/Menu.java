@@ -1,5 +1,6 @@
 package com.delivery.shop.menu;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,6 +22,19 @@ public class  Menu {
     }
 
     public Menu() {
+    }
+
+    //테스트용 생성자 Lombok Builder 패턴 추가 예정
+    public Menu(Long id, Long menuGroupId, String name, int price, String composition, String content,
+                MenuStatus status, LocalDateTime createdAt) {
+        this.id = id;
+        this.menuGroupId = menuGroupId;
+        this.name = name;
+        this.price = price;
+        this.composition = composition;
+        this.content = content;
+        this.status = status;
+        this.createdAt = createdAt;
     }
 
     public Menu(Long id, Long menuGroupId, String name, int price, String composition, String content,
@@ -79,3 +93,4 @@ public class  Menu {
     }
 
 }
+
