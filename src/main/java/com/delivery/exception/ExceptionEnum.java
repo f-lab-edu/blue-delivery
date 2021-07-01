@@ -1,26 +1,23 @@
 package com.delivery.exception;
 
-import static org.springframework.http.MediaType.*;
-
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 
 public enum ExceptionEnum {
-    SHOP_DOES_NOT_EXIST(HttpStatus.BAD_REQUEST, "S01", "Shop does not exist.", APPLICATION_JSON),
-    DUPLICATE_EMAIL(HttpStatus.BAD_REQUEST, "U01", "User email duplicate.", APPLICATION_JSON),
-    DUPLICATE_NICKNAME(HttpStatus.BAD_REQUEST, "U02", "User nickname duplicate.", APPLICATION_JSON),
-    DUPLICATE_PHONE(HttpStatus.BAD_REQUEST, "U03", "User phone number duplicate.", APPLICATION_JSON);
+    SHOP_DOES_NOT_EXIST(HttpStatus.BAD_REQUEST, "S01", "Shop does not exist."),
+    DUPLICATE_EMAIL(HttpStatus.BAD_REQUEST, "U01", "User email duplicate."),
+    DUPLICATE_NICKNAME(HttpStatus.BAD_REQUEST, "U02", "User nickname duplicate."),
+    DUPLICATE_PHONE(HttpStatus.BAD_REQUEST, "U03", "User phone number duplicate."),
+    USER_NOT_VALIDATED(HttpStatus.BAD_REQUEST, "U04", "User is not validated."),
+    USER_NOT_FOUND(HttpStatus.BAD_REQUEST, "U05", "User is not found.");
     
     private final HttpStatus status;
     private final String code;
     private String message;
-    private final MediaType mediaType;
     
-    ExceptionEnum(HttpStatus status, String code, String message, MediaType mediaType) {
+    ExceptionEnum(HttpStatus status, String code, String message) {
         this.status = status;
         this.code = code;
         this.message = message;
-        this.mediaType = mediaType;
     }
     
     public HttpStatus getStatus() {
@@ -33,9 +30,5 @@ public enum ExceptionEnum {
     
     public String getMessage() {
         return message;
-    }
-    
-    public MediaType getMediaType() {
-        return mediaType;
     }
 }

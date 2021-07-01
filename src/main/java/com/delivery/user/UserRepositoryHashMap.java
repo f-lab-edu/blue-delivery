@@ -45,6 +45,11 @@ public class UserRepositoryHashMap implements UserRepository {
         }
     }
     
+    @Override
+    public User findUserById(Long id) {
+        throw new UnsupportedOperationException();
+    }
+    
 }
 
 

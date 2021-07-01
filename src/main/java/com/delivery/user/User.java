@@ -3,6 +3,9 @@ package com.delivery.user;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import com.delivery.exception.ApiException;
+import com.delivery.exception.ExceptionEnum;
+
 public class User {
     
     private Long id;
@@ -12,6 +15,9 @@ public class User {
     private String password;
     private LocalDate dateOfBirth;
     private String address; // TODO 가게 조회시에 사용하기 위해 String 말고 다른 클래스 객체가 필요할 것 같음
+    
+    public User() {
+    }
     
     public User(String email, String nickname, String phone, String password, LocalDate dateOfBirth) {
         this.email = email;
@@ -28,6 +34,12 @@ public class User {
         this.password = password;
         this.dateOfBirth = dateOfBirth;
         this.address = address;
+    }
+    
+    public void validate(String email, String password) {
+        if (!this.email.equals(email) || !this.password.equals(password)) {
+            throw new ApiException(ExceptionEnum.USER_NOT_VALIDATED);
+        }
     }
     
     public boolean checkPasswordEquality(String password) {

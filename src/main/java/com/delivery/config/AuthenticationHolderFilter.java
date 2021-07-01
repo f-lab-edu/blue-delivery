@@ -16,8 +16,6 @@ import com.delivery.exception.InvalidAuthenticationException;
 import com.delivery.user.Authentication;
 import com.delivery.user.AuthenticationHolder;
 
-
-
 @Component
 public class AuthenticationHolderFilter implements Filter {
     @Override

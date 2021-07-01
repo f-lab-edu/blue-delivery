@@ -45,15 +45,18 @@ public class UserManagementService {
         }
     }
     
-    public void deleteAccount(DeleteAccountDto dto) {
-        User user = userRepository.findByEmail(dto.getEmail());
-        if (user.checkPasswordEquality(dto.getPassword())) {
-            userRepository.delete(user);
-        }
+    public void deleteAccount(DeleteAccountParam param) {
+        User user = findUserById(param.getId());
+        user.validate(param.getEmail(), param.getPassword());
+        userRepository.delete(user);
     }
     
-    public User getAccount(String email) {
-        return userRepository.findByEmail(email);
+    public User findUserById(Long id) {
+        User user = userRepository.findUserById(id);
+        if (user == null) {
+            throw new ApiException(ExceptionEnum.USER_NOT_FOUND);
+        }
+        return user;
     }
     
     private void throwDuplicateInfoException(DuplicateKeyException ex) {

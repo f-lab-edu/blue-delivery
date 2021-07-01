@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultMatcher;
 
+import com.delivery.user.DeleteAccountParam.DeleteAccountRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @ExtendWith(SpringExtension.class)
@@ -41,7 +42,7 @@ class UserManagementControllerTest {
     
     String registerUrl = "/users/register";
     
-    String deleteAccountUrl = "/users/";
+    String deleteAccountUrl = "/users/1";
     
     String userUpdateUrl = "/users/update";
     
@@ -78,20 +79,17 @@ class UserManagementControllerTest {
     
     @Test
     void deletingAccountInvalidateSessionTest() throws Exception {
-        DeleteAccountDto dto = new DeleteAccountDto("nothing@email.com", "P@ssw0rd!");
+        DeleteAccountRequest dto = new DeleteAccountRequest("nothing@email.com", "P@ssw0rd!");
         MvcResult mvcResult = sendDeleteAccountRequest(dto, status().isNoContent());
         
         HttpSession session = mvcResult.getRequest().getSession();
-        assertThat(session.getAttribute("login")).isNull();
-        
-        String responseBody = mvcResult.getResponse().getContentAsString();
-        assertThat(responseBody).contains("User account deleted.");
+        assertThat(session.getAttribute("auth")).isNull();
     }
     
-    private MvcResult sendDeleteAccountRequest(DeleteAccountDto dto, ResultMatcher status) throws Exception {
+    private MvcResult sendDeleteAccountRequest(DeleteAccountRequest dto, ResultMatcher status) throws Exception {
         String body = objectMapper.writeValueAsString(dto);
         return mockMvc.perform(delete(deleteAccountUrl)
-                .sessionAttr("login", new UserLoginDto(dto.getEmail(), dto.getPassword()))
+                .sessionAttr("auth", new Authentication("email", "nickname", "phone"))
                 .content(body)
                 .contentType(MediaType.APPLICATION_JSON)
         )

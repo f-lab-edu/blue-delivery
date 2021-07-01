@@ -4,17 +4,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.delivery.user.DeleteAccountParam.DeleteAccountRequest;
 
 
 @RestController
@@ -37,7 +38,7 @@ public class UserManagementController {
     }
     
     @PostMapping("/register")
-    public ResponseEntity<User> register(@Valid @RequestBody UserRegisterDto dto) {
+    public ResponseEntity<?> register(@Valid @RequestBody UserRegisterDto dto) {
         userManagementService.register(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -58,11 +59,12 @@ public class UserManagementController {
         }
     }
     
-    @DeleteMapping("/")
-    public ResponseEntity<String> deleteAccount(@Valid @RequestBody DeleteAccountDto dto, HttpSession session) {
-        userManagementService.deleteAccount(dto);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteAccount(@PathVariable("id") Long id,
+                                                @Valid @RequestBody DeleteAccountRequest dto, HttpSession session) {
+        userManagementService.deleteAccount(dto.toParam(id));
         session.invalidate();
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("User account deleted.");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
     
     @PostMapping("/update")
