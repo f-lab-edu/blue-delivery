@@ -5,7 +5,8 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
-import com.delivery.exception.InvalidAuthenticationException;
+import com.delivery.exception.ApiException;
+import com.delivery.exception.ExceptionEnum;
 import com.delivery.user.AuthenticationHolder;
 
 
@@ -20,7 +21,7 @@ public class AuthenticationAop {
     @Before("pointcut()")
     public void authenticate() {
         if (!AuthenticationHolder.hasAuthentication()) {
-            throw new InvalidAuthenticationException();
+            throw new ApiException(ExceptionEnum.NOT_AUTHORIZED_ACCESS);
         }
     }
     

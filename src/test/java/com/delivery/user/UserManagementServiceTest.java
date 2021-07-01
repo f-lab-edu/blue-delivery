@@ -62,13 +62,6 @@ class UserManagementServiceTest {
     }
     
     @Test
-    @DisplayName("id에 해당하는 고객정보가 없으면 예외 발생")
-    void throwExceptionIfUserIdIsNotExist() {
-        ExceptionEnum error = assertThrows(ApiException.class, () -> service.findUserById(1L)).getError();
-        assertThat(error).isEqualTo(ExceptionEnum.USER_NOT_FOUND);
-    }
-    
-    @Test
     @Disabled
     void userUpdateTest() {
         UserRegisterDto user = new UserRegisterDto(
@@ -80,14 +73,14 @@ class UserManagementServiceTest {
                 LocalDate.of(2030, Month.APRIL, 1));
         service.register(user);
         
-        UserUpdateAccountDto dto = new UserUpdateAccountDto(
-                "test1",
-                "testName2",
-                "010-2222-2222",
-                "1234",
-                LocalDate.of(2030, Month.APRIL, 1)
-        );
-        service.updateAccount(dto);
+//        UpdateAccountRequest dto = new UpdateAccountRequest(
+//                "test1",
+//                "testName2",
+//                "010-2222-2222",
+//                "1234",
+//                LocalDate.of(2030, Month.APRIL, 1)
+//        );
+//        service.updateAccount(dto);
         
 //        User findUser = service.getAccount(user.getEmail());
 //

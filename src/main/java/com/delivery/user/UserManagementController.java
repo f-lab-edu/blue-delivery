@@ -1,5 +1,7 @@
 package com.delivery.user;
 
+import static com.delivery.user.UpdateAccountParam.*;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -61,16 +64,17 @@ public class UserManagementController {
     
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteAccount(@PathVariable("id") Long id,
-                                                @Valid @RequestBody DeleteAccountRequest dto, HttpSession session) {
+                                           @Valid @RequestBody DeleteAccountRequest dto, HttpSession session) {
         userManagementService.deleteAccount(dto.toParam(id));
         session.invalidate();
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
     
-    @PostMapping("/update")
-    public ResponseEntity<String> updateAccount(@Valid @RequestBody UserUpdateAccountDto dto) {
-        userManagementService.updateAccount(dto);
-        return ResponseEntity.status(HttpStatus.OK).body("User account update.");
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateAccount(@PathVariable("id") Long id,
+                                           @Valid @RequestBody UpdateAccountRequest dto) {
+        userManagementService.updateAccount(dto.toParam(id));
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
     
 }

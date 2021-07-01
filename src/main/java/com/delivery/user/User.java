@@ -36,6 +36,17 @@ public class User {
         this.address = address;
     }
     
+    public User(Long id, String email, String nickname, String phone, String password,
+                LocalDate dateOfBirth, String address) {
+        this.id = id;
+        this.email = email;
+        this.nickname = nickname;
+        this.phone = phone;
+        this.password = password;
+        this.dateOfBirth = dateOfBirth;
+        this.address = address;
+    }
+    
     public void validate(String email, String password) {
         if (!this.email.equals(email) || !this.password.equals(password)) {
             throw new ApiException(ExceptionEnum.USER_NOT_VALIDATED);
@@ -74,6 +85,18 @@ public class User {
         return address;
     }
     
+    public void changeNickname(String nickname) {
+        this.nickname = nickname;
+    }
+    
+    public void changePhone(String phone) {
+        this.phone = phone;
+    }
+    
+    public void changeAddress(String address) {
+        this.address = address;
+    }
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -96,4 +119,5 @@ public class User {
     public int hashCode() {
         return Objects.hash(id, email, nickname, phone, password, dateOfBirth, address);
     }
+    
 }

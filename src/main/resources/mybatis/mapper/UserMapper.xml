@@ -27,6 +27,13 @@
         WHERE ID = #{id};
     </delete>
 
+    <!-- 고객 정보 수정 -->
+    <update id="update">
+        UPDATE USER
+        SET EMAIL = #{email}, PHONE = #{phone}, NICKNAME = #{nickname}, ADDRESS = #{address}
+        WHERE ID = #{id};
+    </update>
+
     <!-- id로 고객 조회 -->
     <select id="findUserById" resultMap="userResultMap">
         SELECT ID USER_ID, EMAIL, NICKNAME, PHONE, PASSWORD, DATE_OF_BIRTH, ADDRESS

@@ -1,8 +1,8 @@
 package com.delivery.user;
 
+import static com.delivery.user.UpdateAccountParam.*;
 import static org.assertj.core.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -44,7 +44,7 @@ class UserManagementControllerTest {
     
     String deleteAccountUrl = "/users/1";
     
-    String userUpdateUrl = "/users/update";
+    String userUpdateUrl = "/users/1";
     
     @Test
     public void userUpdateTest() throws Exception {
@@ -59,18 +59,17 @@ class UserManagementControllerTest {
                 LocalDate.of(2000, Month.APRIL, 1)
         );
         service.register(user);
-        UserUpdateAccountDto dto = new UserUpdateAccountDto(
+        UpdateAccountRequest dto = new UpdateAccountRequest(
                 email,
                 "testName2",
                 "010-2222-2222",
-                password,
-                LocalDate.of(2000, Month.APRIL, 1)
+                password
         );
         
         String body;
         body = objectMapper.writeValueAsString(dto);
         
-        mockMvc.perform(post(userUpdateUrl)
+        mockMvc.perform(put(userUpdateUrl)
                 .content(body).contentType(MediaType.APPLICATION_JSON)
         )
                 .andExpect(status().isOk())
