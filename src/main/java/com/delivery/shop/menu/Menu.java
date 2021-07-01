@@ -1,8 +1,8 @@
 package com.delivery.shop.menu;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 public class  Menu {
 
@@ -22,19 +22,6 @@ public class  Menu {
     }
 
     public Menu() {
-    }
-
-    //테스트용 생성자 Lombok Builder 패턴 추가 예정
-    public Menu(Long id, Long menuGroupId, String name, int price, String composition, String content,
-                MenuStatus status, LocalDateTime createdAt) {
-        this.id = id;
-        this.menuGroupId = menuGroupId;
-        this.name = name;
-        this.price = price;
-        this.composition = composition;
-        this.content = content;
-        this.status = status;
-        this.createdAt = createdAt;
     }
 
     public Menu(Long id, Long menuGroupId, String name, int price, String composition, String content,
@@ -92,5 +79,25 @@ public class  Menu {
         return modifiedAt;
     }
 
-}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Menu menu = (Menu) o;
+        return price == menu.price &&
+                Objects.equals(id, menu.id) &&
+                Objects.equals(menuGroupId, menu.menuGroupId) &&
+                Objects.equals(name, menu.name) &&
+                Objects.equals(composition, menu.composition) &&
+                Objects.equals(content, menu.content) &&
+                status == menu.status &&
+                Objects.equals(menuOptionGroup, menu.menuOptionGroup) &&
+                Objects.equals(createdAt, menu.createdAt) &&
+                Objects.equals(modifiedAt, menu.modifiedAt);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, menuGroupId, name, price, composition, content, status, menuOptionGroup, createdAt, modifiedAt);
+    }
+}

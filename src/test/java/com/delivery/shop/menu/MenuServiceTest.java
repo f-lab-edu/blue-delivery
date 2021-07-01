@@ -4,7 +4,6 @@ import static com.delivery.shop.menu.Menu.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,23 +23,25 @@ class MenuServiceTest {
     @Mock
     MenuMapper menuMapper;
 
-    @Mock
-    RegisterMenuDto saveDto;
 
     @Test
     @DisplayName("메뉴 저장 기능 테스트")
     public void saveMenuTest() {
-        Menu menu = new Menu(1L, 1L, "부리또", 3500, "1인분", "부리또 + 피클",
-                MenuStatus.DEFAULT, LocalDateTime.now());
-
-        //given
-        when(saveDto.toEntity()).thenReturn(menu);
+        RegisterMenuDto dto = new RegisterMenuDto();
+        dto.setId(1L);
+        dto.setMenuGroupId(1L);
+        dto.setName("부리또");
+        dto.setPrice(3500);
+        dto.setComposition("1인분");
+        dto.setContent("부리또 + 피클");
+        dto.setStatus(MenuStatus.DEFAULT);
+        dto.setCreatedAt(LocalDateTime.now());
 
         //when
-        service.registerMenu(saveDto);
+        service.registerMenu(dto);
 
         //then
-        verify(menuMapper, times(1)).saveMenu(menu);
+        verify(menuMapper, times(1)).saveMenu(dto.toEntity());
 
     }
 
