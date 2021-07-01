@@ -41,4 +41,11 @@
         WHERE ID = #{id};
     </select>
 
+    <!-- email로 고객 조회 -->
+    <select id="findUserByEmail" resultMap="userResultMap">
+        SELECT ID USER_ID, EMAIL, NICKNAME, PHONE, PASSWORD, DATE_OF_BIRTH, ADDRESS
+        FROM USER
+        WHERE EMAIL = #{email};
+    </select>
+
 </mapper>

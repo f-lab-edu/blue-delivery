@@ -18,7 +18,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.delivery.exception.ApiException;
 import com.delivery.exception.ExceptionEnum;
-import com.delivery.exception.InvalidAuthenticationException;
 import com.delivery.user.Authentication;
 import com.delivery.user.AuthenticationHolder;
 
@@ -34,7 +33,7 @@ class AuthenticationAopTest {
     TestService service;
     
     @Test
-    @DisplayName("인증 정보가 없으면 InvalidAuthenticationException 발생")
+    @DisplayName("@AuthenticationRequired 메소드 실행시 인증 정보가 없으면 Exception 발생")
     void throwInvalidAuthenticationExceptionTest() {
         AuthenticationHolder.setAuthentication(null);
         ExceptionEnum error = assertThrows(ApiException.class, () -> service.orderFood()).getError();

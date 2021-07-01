@@ -9,7 +9,7 @@ import org.springframework.validation.Validator;
 import com.delivery.user.UserRegisterParam.UserRegisterRequest;
 
 @Component
-public class UserRegisterPasswordValidator implements Validator {
+public class PasswordValidator implements Validator {
     
     @Override
     public boolean supports(Class<?> clazz) {

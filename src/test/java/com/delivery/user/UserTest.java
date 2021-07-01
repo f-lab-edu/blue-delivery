@@ -21,18 +21,18 @@ class UserTest {
     void setup() {
         email = "my@gmail.com";
         password = "P@ssw0rd";
-        user = new User(email, "nickname", "", password, LocalDate.now());
+        user = new User(email, "nickname", "", password, LocalDate.now(), "seoul");
     }
     
     @Test
-    void throwIfEmailIsNotEqual() {
-        ExceptionEnum ex1 = assertThrows(ApiException.class, () -> user.validate("wrong", password)).getError();
+    void throwExceptionIfEmailIsNotEqual() {
+        ExceptionEnum ex1 = assertThrows(ApiException.class, () -> user.validate("Wrong Email", password)).getError();
         assertThat(ex1).isEqualTo(ExceptionEnum.USER_NOT_VALIDATED);
     }
     
     @Test
-    void throwIfPasswordIsNotEqual() {
-        ExceptionEnum ex1 = assertThrows(ApiException.class, () -> user.validate(email, "wrong")).getError();
+    void throwExceptionIfPasswordIsNotEqual() {
+        ExceptionEnum ex1 = assertThrows(ApiException.class, () -> user.validate(email, "Wrong Password")).getError();
         assertThat(ex1).isEqualTo(ExceptionEnum.USER_NOT_VALIDATED);
     }
 }

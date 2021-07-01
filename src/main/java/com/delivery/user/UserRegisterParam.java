@@ -24,14 +24,7 @@ public class UserRegisterParam {
     private final String address;
     
     public User toEntity() {
-        return new User(
-                this.email,
-                this.nickname,
-                this.phone,
-                this.password,
-                this.dateOfBirth,
-                this.address
-        );
+        return new User(email, nickname, phone, password, dateOfBirth, address);
     }
     
     @Getter
@@ -39,25 +32,22 @@ public class UserRegisterParam {
     static class UserRegisterRequest {
         
         @NotBlank
-        @Email(message = "이메일 형식이어야 합니다.")
+        @Email
         private final String email;
         
         @NotBlank
         private final String nickname;
         
         @NotBlank
-        @Pattern(regexp = RegexConstants.PHONE,
-                message = "01로 시작하는 10-11자리 숫자여야 합니다.")
+        @Pattern(regexp = RegexConstants.PHONE, message = "01로 시작하는 10-11자리 숫자여야 합니다.")
         private final String phone;
         
         @NotBlank
-        @Pattern(regexp = RegexConstants.PASSWORD,
-                message = "알파벳, 숫자, 특수문자가 각 1개이상 포함된 8~20 글자여야 합니다.")
+        @Pattern(regexp = RegexConstants.PASSWORD, message = "알파벳, 숫자, 특수문자가 각 1개이상 포함된 8~20 글자여야 합니다.")
         private final String password;
-    
+        
         @NotBlank
-        @Pattern(regexp = RegexConstants.PASSWORD,
-                message = "알파벳, 숫자, 특수문자가 각 1개이상 포함된 8~20 글자여야 합니다.")
+        @Pattern(regexp = RegexConstants.PASSWORD, message = "알파벳, 숫자, 특수문자가 각 1개이상 포함된 8~20 글자여야 합니다.")
         private final String confirmedPassword;
         
         @NotNull
@@ -68,14 +58,7 @@ public class UserRegisterParam {
         private final String address; // TODO
         
         public UserRegisterParam toParam() {
-            return new UserRegisterParam(
-                    this.email,
-                    this.nickname,
-                    this.phone,
-                    this.password,
-                    this.dateOfBirth,
-                    this.address
-            );
+            return new UserRegisterParam(email, nickname, phone, password, dateOfBirth, address);
         }
     }
 }

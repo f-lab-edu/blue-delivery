@@ -19,14 +19,6 @@ public class User {
     public User() {
     }
     
-    public User(String email, String nickname, String phone, String password, LocalDate dateOfBirth) {
-        this.email = email;
-        this.nickname = nickname;
-        this.phone = phone.replaceAll("-", "");
-        this.password = password;
-        this.dateOfBirth = dateOfBirth;
-    }
-    
     public User(String email, String nickname, String phone, String password, LocalDate dateOfBirth, String address) {
         this.email = email;
         this.nickname = nickname;
@@ -51,10 +43,6 @@ public class User {
         if (!this.email.equals(email) || !this.password.equals(password)) {
             throw new ApiException(ExceptionEnum.USER_NOT_VALIDATED);
         }
-    }
-    
-    public boolean checkPasswordEquality(String password) {
-        return this.password.equals(password);
     }
     
     public Long getId() {

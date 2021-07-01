@@ -25,8 +25,10 @@ public class UserManagementService {
         }
     }
     
-    public User login(UserLoginDto loginDto) {
-        return userRepository.findByEmail(loginDto.getEmail());
+    public Authentication login(UserLoginParam param) {
+        User found = findUserByEmailAndCheckNotNull(param.getEmail());
+        found.validate(param.getEmail(), param.getPassword());
+        return new Authentication(found.getEmail(), found.getNickname(), found.getPhone());
     }
     
     public void updateAccount(UpdateAccountParam param) {
@@ -46,6 +48,14 @@ public class UserManagementService {
     
     private User findUserByIdAndCheckNotNull(Long id) {
         User user = userRepository.findUserById(id);
+        if (user == null) {
+            throw new ApiException(ExceptionEnum.USER_NOT_FOUND);
+        }
+        return user;
+    }
+    
+    private User findUserByEmailAndCheckNotNull(String email) {
+        User user = userRepository.findUserByEmail(email);
         if (user == null) {
             throw new ApiException(ExceptionEnum.USER_NOT_FOUND);
         }

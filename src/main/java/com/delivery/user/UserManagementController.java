@@ -1,8 +1,8 @@
 package com.delivery.user;
 
 import static com.delivery.user.UpdateAccountParam.*;
+import static com.delivery.user.UserLoginParam.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -28,17 +28,17 @@ public class UserManagementController {
     
     private UserManagementService userManagementService;
     
-    private UserRegisterPasswordValidator userRegisterPasswordValidator;
+    private PasswordValidator passwordValidator;
     
     public UserManagementController(UserManagementService userManagementService,
-                                    UserRegisterPasswordValidator userRegisterPasswordValidator) {
+                                    PasswordValidator passwordValidator) {
         this.userManagementService = userManagementService;
-        this.userRegisterPasswordValidator = userRegisterPasswordValidator;
+        this.passwordValidator = passwordValidator;
     }
     
     @InitBinder("userRegisterRequest")
     void initRegisterPasswordValidator(WebDataBinder binder) {
-        binder.addValidators(userRegisterPasswordValidator);
+        binder.addValidators(passwordValidator);
     }
     
     @PostMapping
@@ -48,19 +48,9 @@ public class UserManagementController {
     }
     
     @PostMapping("/login")
-    public void login(@RequestBody UserLoginDto loginDto, HttpServletRequest request) {
-        
-        User user = userManagementService.login(loginDto);
-        HttpSession httpSession = request.getSession();
-        
-        if (user.checkPasswordEquality(loginDto.getUserPassword())) {
-            Authentication auth = new Authentication(
-                    user.getEmail(),
-                    user.getNickname(),
-                    user.getPhone()
-            );
-            httpSession.setAttribute("auth", auth);
-        }
+    public void login(@RequestBody UserLoginRequest loginDto, HttpSession session) {
+        Authentication auth = userManagementService.login(loginDto.toParam());
+        session.setAttribute(Authentication.KEY, auth);
     }
     
     @DeleteMapping("/{id}")
@@ -72,10 +62,9 @@ public class UserManagementController {
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateAccount(@PathVariable("id") Long id,
+    public void updateAccount(@PathVariable("id") Long id,
                                            @Valid @RequestBody UpdateAccountRequest dto) {
         userManagementService.updateAccount(dto.toParam(id));
-        return ResponseEntity.status(HttpStatus.OK).build();
     }
     
 }
