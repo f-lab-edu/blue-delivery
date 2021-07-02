@@ -6,8 +6,6 @@ import com.delivery.shop.menu.Menu.MenuStatus;
 
 public class UpdateMenuDto {
 
-    private Long id;
-
     private String name;
 
     private int price;
@@ -22,21 +20,12 @@ public class UpdateMenuDto {
     public UpdateMenuDto() {
     }
 
-    public UpdateMenuDto(Long id, String name, int price, String composition, String content, MenuStatus status) {
-        this.id = id;
+    public UpdateMenuDto(String name, int price, String composition, String content, MenuStatus status) {
         this.name = name;
         this.price = price;
         this.composition = composition;
         this.content = content;
         this.status = status;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {

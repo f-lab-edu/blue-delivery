@@ -24,6 +24,18 @@ public class  Menu {
     public Menu() {
     }
 
+    // ToDo RegisterDto용 Builder로 변경
+    public Menu(String name, int price, String composition, String content, MenuStatus status,
+                List<MenuOptionGroup> menuOptionGroup, LocalDateTime createdAt) {
+        this.name = name;
+        this.price = price;
+        this.composition = composition;
+        this.content = content;
+        this.status = status;
+        this.menuOptionGroup = menuOptionGroup;
+        this.createdAt = createdAt;
+    }
+
     public Menu(Long id, Long menuGroupId, String name, int price, String composition, String content,
                 MenuStatus status, List<MenuOptionGroup> menuOptionGroup, LocalDateTime createdAt,
                 LocalDateTime modifiedAt) {

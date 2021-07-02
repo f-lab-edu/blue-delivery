@@ -14,20 +14,20 @@
         <result property="modifiedAt" column="MODIFIED_AT"/>
     </resultMap>
 
-    <insert id="saveMenu" parameterType="com.delivery.shop.menu.RegisterMenuDto">
+    <insert id="saveMenu" parameterType="com.delivery.shop.menu.Menu">
         INSERT INTO MENU(GROUP_ID, NAME, PRICE, COMPOSITION, CONTENT, STATUS, CREATE_AT)
         VALUES (#{menuGroupId}, #{name}, #{price}, #{composition}, #{content}, #{status}, #{createdAt});
     </insert>
 
-    <select id="menuNameCheck" resultType="integer">
+    <select id="menuNameCheck" resultType="integer" parameterType="string">
         SELECT COUNT(NAME) FROM MENU WHERE NAME = #{name};
     </select>
 
-    <update id="menuStatusUpdate" parameterType="com.delivery.shop.menu.UpdateMenuDto">
+    <update id="menuStatusUpdate" parameterType="map">
         UPDATE MENU SET STATUS = #{status} WHERE ID = #{id};
     </update>
     
-    <select id="findMenuById" resultMap="menuResult">
+    <select id="findMenuById" resultMap="menuResult" parameterType="integer">
         SELECT ID, NAME, PRICE, GROUP_ID, COMPOSITION, CONTENT, STATUS FROM MENU WHERE ID = #{id};
     </select>
 </mapper>

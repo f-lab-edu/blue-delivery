@@ -28,8 +28,6 @@ class MenuServiceTest {
     @DisplayName("메뉴 저장 기능 테스트")
     public void saveMenuTest() {
         RegisterMenuDto dto = new RegisterMenuDto();
-        dto.setId(1L);
-        dto.setMenuGroupId(1L);
         dto.setName("부리또");
         dto.setPrice(3500);
         dto.setComposition("1인분");

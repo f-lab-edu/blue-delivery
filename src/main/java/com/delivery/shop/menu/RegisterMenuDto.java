@@ -9,11 +9,6 @@ import javax.validation.constraints.NotNull;
 
 public class RegisterMenuDto {
 
-    private Long id;
-
-    @NotNull
-    private Long menuGroupId;
-
     @NotNull
     private String name;
 
@@ -30,16 +25,12 @@ public class RegisterMenuDto {
 
     private LocalDateTime createdAt = LocalDateTime.now(); // 등록일
 
-    private LocalDateTime modifiedAt; // 수정일
-
     public RegisterMenuDto() {
     }
 
-    public RegisterMenuDto(Long id, Long menuGroupId, String name, int price,
-                           String composition, String content, MenuStatus status,
-                           List<MenuOptionGroup> menuOptionGroup, LocalDateTime createdAt, LocalDateTime modifiedAt) {
-        this.id = id;
-        this.menuGroupId = menuGroupId;
+    public RegisterMenuDto(String name, int price, String composition, String content,
+                           MenuStatus status, List<MenuOptionGroup> menuOptionGroup,
+                           LocalDateTime createdAt) {
         this.name = name;
         this.price = price;
         this.composition = composition;
@@ -47,37 +38,17 @@ public class RegisterMenuDto {
         this.status = status;
         this.menuOptionGroup = menuOptionGroup;
         this.createdAt = createdAt;
-        this.modifiedAt = modifiedAt;
     }
 
     Menu toEntity() {
         return new Menu(
-                this.getId(),
-                this.getMenuGroupId(),
                 this.getName(),
                 this.getPrice(),
                 this.getComposition(),
                 this.getContent(),
                 this.getStatus(),
                 this.getMenuOptionGroup(),
-                this.getCreatedAt(),
-                this.getModifiedAt());
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getMenuGroupId() {
-        return menuGroupId;
-    }
-
-    public void setMenuGroupId(Long menuGroupId) {
-        this.menuGroupId = menuGroupId;
+                this.getCreatedAt());
     }
 
     public String getName() {
@@ -136,11 +107,4 @@ public class RegisterMenuDto {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getModifiedAt() {
-        return modifiedAt;
-    }
-
-    public void setModifiedAt(LocalDateTime modifiedAt) {
-        this.modifiedAt = modifiedAt;
-    }
 }
