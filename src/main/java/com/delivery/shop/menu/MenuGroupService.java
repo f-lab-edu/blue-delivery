@@ -24,7 +24,7 @@ public class MenuGroupService {
         }
     }
 
-    public List<MenuGroupDto> getMenuGroup(Long id)  {
+    public List<MenuGroup> getMenuGroup(Long id)  {
         return menuGroupMapper.findMenuGroup(id);
     }
 

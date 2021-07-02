@@ -4,6 +4,8 @@ import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,15 +23,44 @@ public class MenuController {
     }
 
     /**
-     *
      * @param menuGroupId 메뉴 그룹 ID
-     * @param dto 추가할 메뉴 정보
+     * @param dto         추가할 메뉴 정보
      * @return
      */
-    @PostMapping("/{menuGroupId}/menu")
-    public ResponseEntity<MenuDto> registerMenu(@PathVariable Long menuGroupId,
-                                       @RequestBody @Valid MenuDto dto) {
+    @PostMapping("/{menuGroupId}/menus")
+    public ResponseEntity<RegisterMenuDto> registerMenu(@PathVariable Long menuGroupId,
+                                                        @RequestBody @Valid RegisterMenuDto dto) {
         menuService.registerMenu(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    /**
+     * 메뉴 상태 변경
+     *
+     * @param menuGroupId 메뉴 그룹 ID
+     * @param menuId      변경할 메뉴 ID
+     * @param dto         변경할 Status 정보
+     **/
+    // ToDo 메뉴 조회시에 메뉴 상태가 HIDDEN인 메뉴는 조회되지 않음
+    @PatchMapping("/{menuGroupId}/menus/{menuId}")
+    public ResponseEntity<UpdateMenuDto> menuStatusUpdate(@PathVariable Long menuGroupId,
+                                                          @PathVariable Long menuId,
+                                                          @RequestBody @Valid UpdateMenuDto dto) {
+        menuService.menuStatusUpdate(menuId, dto.getStatus());
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    /**
+     * ID에 해당하는 메뉴 조회
+     *
+     * @param menuGroupId 메뉴 그룹 ID
+     * @param menuId      조회할 메뉴 ID
+     **/
+    // ToDo 옵션 그룹 구현 시 옵션 그룹을 포함하여 조회
+    @GetMapping("/{menuGroupId}/menus/{menuId}")
+    public ResponseEntity<Menu> getMenuById(@PathVariable Long menuGroupId,
+                                                 @PathVariable Long menuId) {
+        Menu menu = menuService.getMenuById(menuId);
+        return new ResponseEntity(menu, HttpStatus.OK);
     }
 }

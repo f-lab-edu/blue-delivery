@@ -50,16 +50,15 @@ public class MenuGroupController {
      * @param shopId 매장 ID
      * @return
      */
-
     @GetMapping("/{shopId}/menu-groups")
-    public ResponseEntity<List<MenuGroupDto>> getMenuGroups(@PathVariable Long shopId) {
+    public ResponseEntity<List<MenuGroup>> getMenuGroups(@PathVariable Long shopId) {
 
-        List<MenuGroupDto> menuGroups = service.getMenuGroup(shopId);
+        List<MenuGroup> menuGroups = service.getMenuGroup(shopId);
 
         if (menuGroups == null) {
             return ResponseEntity.notFound().build();
         }
-        return new ResponseEntity<List<MenuGroupDto>>(menuGroups, HttpStatus.OK);
+        return new ResponseEntity<List<MenuGroup>>(menuGroups, HttpStatus.OK);
     }
 
     /**
@@ -69,7 +68,6 @@ public class MenuGroupController {
      * @param dto 수정할 메뉴 그룹
      * @return
      */
-
     @PutMapping("/{shopId}/menu-groups")
     public ResponseEntity<MenuGroupDto> updateGroups(@PathVariable Long shopId,
                                                      @RequestBody MenuGroupDto dto) {
@@ -87,7 +85,6 @@ public class MenuGroupController {
      * @param menuGroupId 삭제할 메뉴 그룹
      * @return
      */
-
     @DeleteMapping("/{shopId}/menu-groups/{menuGroupId}")
     public ResponseEntity<MenuGroupDto> deleteGroups(@PathVariable Long shopId,
                                                      @PathVariable Long menuGroupId) {
