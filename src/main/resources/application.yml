@@ -9,9 +9,8 @@ spring:
     encoding: UTF-8
     ignore-ignored-migrations: true
     clean-on-validation-error: true
-  h2:
-    console:
-      enabled: true
+  datasource:
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
 
 mybatis:
   mapper-locations: mybatis/mapper/*.xml

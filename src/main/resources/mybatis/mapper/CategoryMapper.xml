@@ -7,11 +7,6 @@
     <resultMap id="categoryResultMap" type="Category">
         <id column="CATEGORY_ID" property="id" javaType="long"/>
         <result column="CATEGORY_NAME" property="name" javaType="string"/>
-        <collection column="CATEGORY_ID" property="shops" ofType="long">
-            <id column="SHOP_ID" javaType="long"/>
-        </collection>
-        <!--        <collection column="CATEGORY_ID" property="shops" select="findShopsByCategoryId"-->
-        <!--                    fetchType="lazy" ofType="Shop"/>-->
     </resultMap>
 
     <!-- 카테고리별 가게 조회-->
@@ -35,11 +30,8 @@
     <!-- 전체 카테고리 목록 조회-->
     <select id="findAllCategories" resultMap="categoryResultMap">
         SELECT DISTINCT C.ID       AS CATEGORY_ID,
-                        C.NAME     AS CATEGORY_NAME,
-                        CS.SHOP_ID AS SHOP_ID
+                        C.NAME     AS CATEGORY_NAME
         FROM CATEGORY C
-                 LEFT JOIN CATEGORY_SHOP CS
-                           ON ID = CS.CATEGORY_ID
         ORDER BY ID;
     </select>
 

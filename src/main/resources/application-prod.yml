@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:log4jdbc:mysql://${db.hostname}:3306/delivery
+    username: root
+    password: password
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+  flyway:
+    ignore-ignored-migrations: false
+    clean-on-validation-error: false
+    url: jdbc:mysql://${db.hostname}:3306/delivery
+    user: root
+    password: password
+
+db:
+  hostname: db
