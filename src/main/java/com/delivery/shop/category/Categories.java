@@ -26,3 +26,4 @@ public class Categories {
         this.categories.addAll(categories);
     }
 }
+
