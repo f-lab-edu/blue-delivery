@@ -4,6 +4,8 @@ spring:
     username: root
     password: password
   flyway:
+    ignore-ignored-migrations: true
+    clean-on-validation-error: true
     url: jdbc:mysql://localhost:3306/delivery
     user: root
     password: password
