@@ -1,6 +1,6 @@
 package com.delivery.shop.menu;
 
-import static com.delivery.utility.HttpRes.*;
+import static com.delivery.response.HttpResponse.*;
 
 import javax.validation.Valid;
 
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.delivery.utility.HttpRes;
+import com.delivery.response.HttpResponse;
 
 @RestController
 @RequestMapping("/menu-groups")
@@ -35,7 +35,7 @@ public class MenuController {
     public ResponseEntity<RegisterMenuDto> registerMenu(@PathVariable Long menuGroupId,
                                                         @RequestBody @Valid RegisterMenuDto dto) {
         menuService.registerMenu(dto);
-        return new ResponseEntity(HttpRes.res(SUCCESS, dto), HttpStatus.OK);
+        return new ResponseEntity(HttpResponse.res(SUCCESS, dto), HttpStatus.OK);
     }
 
     /**
@@ -51,7 +51,7 @@ public class MenuController {
                                                           @PathVariable Long menuId,
                                                           @RequestBody @Valid UpdateMenuDto dto) {
         menuService.menuStatusUpdate(menuId, dto.getStatus());
-        return new ResponseEntity(HttpRes.res(SUCCESS, dto), HttpStatus.OK);
+        return new ResponseEntity(HttpResponse.res(SUCCESS, dto), HttpStatus.OK);
     }
 
     /**
@@ -62,10 +62,10 @@ public class MenuController {
      **/
     // ToDo 옵션 그룹 구현 시 옵션 그룹을 포함하여 조회
     @GetMapping("/{menuGroupId}/menus/{menuId}")
-    public ResponseEntity<HttpRes> getMenuById(@PathVariable Long menuGroupId,
-                                                 @PathVariable Long menuId) {
+    public ResponseEntity<HttpResponse> getMenuById(@PathVariable Long menuGroupId,
+                                                    @PathVariable Long menuId) {
         Menu menu = menuService.getMenuById(menuId);
-        return new ResponseEntity(HttpRes.res(SUCCESS, menu), HttpStatus.OK);
+        return new ResponseEntity(HttpResponse.res(SUCCESS, menu), HttpStatus.OK);
     }
 
 }

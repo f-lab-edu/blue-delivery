@@ -1,14 +1,16 @@
 package com.delivery.exception;
 
+import com.delivery.response.ErrorCode;
+
 public class ApiException extends RuntimeException {
-    private ExceptionEnum error;
+    private ErrorCode error;
     
-    public ApiException(ExceptionEnum error) {
+    public ApiException(ErrorCode error) {
         super(error.getMessage());
         this.error = error;
     }
-    
-    public ExceptionEnum getError() {
-        return this.error;
+
+    public ErrorCode getError() {
+        return error;
     }
 }

@@ -1,6 +1,6 @@
 package com.delivery.exception;
 
-import com.delivery.utility.ErrorCode;
+import com.delivery.response.ErrorCode;
 
 public class PasswordAuthenticationException extends CustomException {
 

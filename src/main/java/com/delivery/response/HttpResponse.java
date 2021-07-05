@@ -1,9 +1,9 @@
-package com.delivery.utility;
+package com.delivery.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class HttpRes<T> {
+public class HttpResponse<T> {
 
     public static final String SUCCESS = "success";
     public static final String FAIL = "fail";
@@ -14,22 +14,22 @@ public class HttpRes<T> {
     private String message;
     private T data;
 
-    public HttpRes(String status, T data) {
+    public HttpResponse(String status, T data) {
         this.status = status;
         this.data = data;
     }
 
-    public HttpRes(String status, String message) {
+    public HttpResponse(String status, String message) {
         this.status = status;
         this.message = message;
     }
 
-    public static <T> HttpRes res(String status, T data) {
-        return new HttpRes(status, data);
+    public static <T> HttpResponse res(String status, T data) {
+        return new HttpResponse(status, data);
     }
 
-    public static HttpRes res(String status, String message) {
-        return new HttpRes(status, message);
+    public static HttpResponse res(String status, String message) {
+        return new HttpResponse(status, message);
     }
 
     public String getStatus() {
