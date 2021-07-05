@@ -114,7 +114,7 @@ public class  Menu {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, menuGroupId, name, price, composition,
-                content, status, menuOptionGroup, createdAt, modifiedAt);
+        return Objects.hash(id, menuGroupId, name, price, composition, content, status, menuOptionGroup, createdAt,
+                modifiedAt);
     }
 }

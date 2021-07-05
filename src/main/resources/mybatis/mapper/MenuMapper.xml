@@ -27,7 +27,7 @@
         UPDATE MENU SET STATUS = #{status} WHERE ID = #{id};
     </update>
     
-    <select id="findMenuById" resultMap="menuResult" parameterType="long">
+    <select id="findMenuById" resultMap="menuResult" parameterType="integer">
         SELECT ID, NAME, PRICE, GROUP_ID, COMPOSITION, CONTENT, STATUS FROM MENU WHERE ID = #{id};
     </select>
 </mapper>

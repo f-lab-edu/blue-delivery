@@ -67,4 +67,5 @@ public class MenuController {
         Menu menu = menuService.getMenuById(menuId);
         return new ResponseEntity(HttpRes.res(SUCCESS, menu), HttpStatus.OK);
     }
+
 }

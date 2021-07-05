@@ -1,4 +1,4 @@
-package com.delivery.shop.category;
+package com.delivery.shop.search;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
@@ -6,16 +6,22 @@ import java.time.LocalDateTime;
 public class SearchShopByCategoryParam {
     private Long id;
     private LocalDateTime now;
-    private DayOfWeek dayOfWeek;
     
     public SearchShopByCategoryParam(Long id, LocalDateTime now) {
         this.id = id;
         this.now = now;
-        this.dayOfWeek = now.getDayOfWeek();
+    }
+    
+    public Long getId() {
+        return id;
     }
     
     public LocalDateTime getNow() {
         return now;
+    }
+    
+    public DayOfWeek getDayOfWeek() {
+        return now.getDayOfWeek();
     }
     
 }

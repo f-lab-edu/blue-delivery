@@ -13,6 +13,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.delivery.exception.ApiException;
+import com.delivery.exception.ApiExceptionEntity;
+import com.delivery.exception.ExceptionEnum;
 import com.delivery.exception.InvalidAuthenticationException;
 import com.delivery.exception.NotFoundIdException;
 import com.delivery.exception.PasswordAuthenticationException;
@@ -21,8 +24,20 @@ import com.delivery.utility.HttpRes;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+    
+    @ExceptionHandler(ApiException.class)
+    public ResponseEntity<ApiExceptionEntity> apiExceptionHandler(final ApiException ex) {
+        ExceptionEnum error = ex.getError();
+        return ResponseEntity
+                .status(error.getStatus())
+                .contentType(error.getMediaType())
+                .body(new ApiExceptionEntity(
+                        error.getCode(),
+                        error.getMessage()
+                ));
+    }
 
-    // Valid
+    // 400
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new LinkedHashMap<>();
@@ -33,7 +48,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity(HttpRes.res(FAIL, errors.toString()), HttpStatus.BAD_REQUEST);
     }
 
-    // 400
     @ExceptionHandler(DuplicateKeyException.class)
     public ResponseEntity<String> duplicateKeyExceptionHandler(DuplicateKeyException ex) {
         return new ResponseEntity(res(FAIL, ex.getMessage()), HttpStatus.BAD_REQUEST);

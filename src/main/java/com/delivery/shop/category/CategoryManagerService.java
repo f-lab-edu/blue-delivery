@@ -1,34 +1,34 @@
 package com.delivery.shop.category;
 
-import static java.util.stream.Collectors.toList;
-
-import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
-import com.delivery.shop.shop.Shop;
-
-@Service
-public class CategoryManagerService {
+public interface CategoryManagerService {
     
-    private final CategoryRepository categoryRepository;
+    /**
+     * 카테고리 조회
+     *
+     * @return Category 객체 리스트
+     */
+    List<Category> getAllCategories();
     
-    public CategoryManagerService(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
+    /**
+     * 카테고리 추가
+     *
+     * @param param 추가될 카테고리 정보
+     */
+    void addCategory(CreateCategoryParam param);
     
-    public List<Category> getAllCategories() {
-        // TODO 카테고리 이름의 다국어처리 i18n
-        return categoryRepository.findAllCategories();
-    }
+    /**
+     * 카테고리 삭제
+     *
+     * @param id 삭제될 카테고리의 id
+     */
+    void deleteCategory(Long id);
     
-    public List<Shop> getShopsByCategory(SearchShopByCategoryParam param) {
-        LocalDateTime when = param.getNow();
-        return categoryRepository.findShopsByCategoryId(param).stream()
-                .filter(shop -> !shop.isClosingAt(when.toLocalDate())) // 휴무가 아닌 가게만 선택
-                .sorted((o1, o2) -> Boolean.compare(o2.isOpeningAt(when), o1.isOpeningAt(when))) // 영업중 가게(true) 순 정렬
-                .collect(toList());
-    }
+    /**
+     * 카테고리 정보 변경
+     * @param param 카테고리 변경 정보
+     */
+    void editCategory(EditCategoryParam param);
     
 }
