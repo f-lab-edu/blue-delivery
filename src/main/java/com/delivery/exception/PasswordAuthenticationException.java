@@ -1,4 +1,10 @@
 package com.delivery.exception;
 
-public class PasswordAuthenticationException extends RuntimeException {
+import com.delivery.utility.ErrorCode;
+
+public class PasswordAuthenticationException extends CustomException {
+
+    public PasswordAuthenticationException() {
+        super(ErrorCode.PASSWORD_NOT_MATCH);
+    }
 }

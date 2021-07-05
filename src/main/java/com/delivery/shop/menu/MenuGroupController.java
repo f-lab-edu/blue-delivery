@@ -38,7 +38,7 @@ public class MenuGroupController {
     public ResponseEntity<MenuGroup> registerMenuGroup(@Validated @RequestBody MenuGroupDto dto,
                                                        @PathVariable Long shopId) {
         if (!dto.checkShopId(shopId)) {
-            throw new NotFoundIdException("not found shopId");
+            throw new NotFoundIdException();
         }
         service.registerMenuGroup(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();

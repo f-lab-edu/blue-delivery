@@ -92,24 +92,29 @@ public class  Menu {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Menu menu = (Menu) o;
-        return price == menu.price &&
-                Objects.equals(id, menu.id) &&
-                Objects.equals(menuGroupId, menu.menuGroupId) &&
-                Objects.equals(name, menu.name) &&
-                Objects.equals(composition, menu.composition) &&
-                Objects.equals(content, menu.content) &&
-                status == menu.status &&
-                Objects.equals(menuOptionGroup, menu.menuOptionGroup) &&
-                Objects.equals(createdAt, menu.createdAt) &&
-                Objects.equals(modifiedAt, menu.modifiedAt);
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Menu menu = (Menu) obj;
+        return price == menu.price
+                && Objects.equals(id, menu.id)
+                && Objects.equals(menuGroupId, menu.menuGroupId)
+                && Objects.equals(name, menu.name)
+                && Objects.equals(composition, menu.composition)
+                && Objects.equals(content, menu.content)
+                && status == menu.status
+                && Objects.equals(menuOptionGroup, menu.menuOptionGroup)
+                && Objects.equals(createdAt, menu.createdAt)
+                && Objects.equals(modifiedAt, menu.modifiedAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, menuGroupId, name, price, composition, content, status, menuOptionGroup, createdAt, modifiedAt);
+        return Objects.hash(id, menuGroupId, name, price, composition,
+                content, status, menuOptionGroup, createdAt, modifiedAt);
     }
 }

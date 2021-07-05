@@ -1,4 +1,10 @@
 package com.delivery.exception;
 
-public class InvalidAuthenticationException extends RuntimeException {
+import com.delivery.utility.ErrorCode;
+
+public class InvalidAuthenticationException extends CustomException {
+
+    public InvalidAuthenticationException() {
+        super(ErrorCode.INVALID_AUTHENTICATION);
+    }
 }

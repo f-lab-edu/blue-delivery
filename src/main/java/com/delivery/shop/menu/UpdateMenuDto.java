@@ -3,7 +3,9 @@ package com.delivery.shop.menu;
 import javax.validation.constraints.NotNull;
 
 import com.delivery.shop.menu.Menu.MenuStatus;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UpdateMenuDto {
 
     private String name;
