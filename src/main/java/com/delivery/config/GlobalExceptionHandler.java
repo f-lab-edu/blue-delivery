@@ -26,7 +26,6 @@ public class GlobalExceptionHandler {
         ExceptionEnum error = ex.getError();
         return ResponseEntity
                 .status(error.getStatus())
-                .contentType(error.getMediaType())
                 .body(new ApiExceptionEntity(
                         error.getCode(),
                         error.getMessage()

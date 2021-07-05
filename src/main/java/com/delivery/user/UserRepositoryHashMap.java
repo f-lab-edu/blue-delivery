@@ -25,7 +25,7 @@ public class UserRepositoryHashMap implements UserRepository {
     }
     
     @Override
-    public User findByEmail(String email) {
+    public User findUserByEmail(String email) {
         User user = repository.get(email);
         if (user == null) {
             throw new IllegalArgumentException("User not found");
@@ -43,6 +43,11 @@ public class UserRepositoryHashMap implements UserRepository {
         if (repository.containsKey(user.getEmail())) {
             repository.put(user.getEmail(), user);
         }
+    }
+    
+    @Override
+    public User findUserById(Long id) {
+        throw new UnsupportedOperationException();
     }
     
 }
