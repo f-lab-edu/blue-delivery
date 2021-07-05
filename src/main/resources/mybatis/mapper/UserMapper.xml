@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.delivery.user.UserMapper">
+    <resultMap id="userResultMap" type="com.delivery.user.User">
+        <id column="USER_ID" property="id" javaType="long"/>
+        <result column="EMAIL" property="email" javaType="string"/>
+        <result column="NICKNAME" property="nickname" javaType="string"/>
+        <result column="PHONE" property="phone" javaType="string"/>
+        <result column="PASSWORD" property="password" javaType="string"/>
+        <result column="DATE_OF_BIRTH" property="dateOfBirth" typeHandler="LocalDateTypeHandler"/>
+        <result column="ADDRESS" property="address" javaType="string"/>
+    </resultMap>
+
+    <!-- 고객 추가 -->
+    <insert id="save">
+        INSERT INTO USER (EMAIL, NICKNAME, PHONE, PASSWORD, DATE_OF_BIRTH, ADDRESS)
+        VALUES (#{email}, #{nickname}, #{phone}, #{password}, #{dateOfBirth}, #{address});
+    </insert>
+
+    <!-- 고객 삭제 -->
+    <delete id="delete">
+        DELETE
+        FROM USER
+        WHERE ID = #{id};
+    </delete>
+
+    <!-- 고객 정보 수정 -->
+    <update id="update">
+        UPDATE USER
+        SET EMAIL = #{email}, PHONE = #{phone}, NICKNAME = #{nickname}, ADDRESS = #{address}
+        WHERE ID = #{id};
+    </update>
+
+    <!-- id로 고객 조회 -->
+    <select id="findUserById" resultMap="userResultMap">
+        SELECT ID USER_ID, EMAIL, NICKNAME, PHONE, PASSWORD, DATE_OF_BIRTH, ADDRESS
+        FROM USER
+        WHERE ID = #{id};
+    </select>
+
+    <!-- email로 고객 조회 -->
+    <select id="findUserByEmail" resultMap="userResultMap">
+        SELECT ID USER_ID, EMAIL, NICKNAME, PHONE, PASSWORD, DATE_OF_BIRTH, ADDRESS
+        FROM USER
+        WHERE EMAIL = #{email};
+    </select>
+
+</mapper>

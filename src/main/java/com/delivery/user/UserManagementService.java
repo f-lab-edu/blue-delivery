@@ -1,49 +1,30 @@
 package com.delivery.user;
 
-import org.springframework.stereotype.Service;
-
-import com.delivery.exception.PasswordAuthenticationException;
-
-@Service
-public class UserManagementService {
+public interface UserManagementService {
     
-    private UserRepository userRepository;
+    /**
+     * 회원 가입
+     * @param param
+     */
+    void register(UserRegisterParam param);
     
-    public UserManagementService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    /**
+     * 고객 로그인
+     * @param param
+     * @return 성공시 인증 객체를 반환
+     */
+    Authentication login(UserLoginParam param);
     
-    public void register(UserRegisterDto dto) {
-        userRepository.save(dto.toEntity());
-    }
+    /**
+     * 고객 정보 수정
+     * @param param
+     */
+    void updateAccount(UpdateAccountParam param);
     
-    public User login(UserLoginDto loginDto) {
-        return userRepository.findByEmail(loginDto.getEmail());
-    }
+    /**
+     * 고객 회원 탈퇴
+     * @param param
+     */
+    void deleteAccount(DeleteAccountParam param);
     
-    public void updateAccount(UserUpdateAccountDto dto) {
-        User user = new User(dto.getEmail(),
-                dto.getNickname(),
-                dto.getPhone(),
-                dto.getPassword(),
-                dto.getDateOfBirth()
-        );
-        User findUser = userRepository.findByEmail(dto.getEmail());
-        if (findUser.checkPasswordEquality(user.getPassword())) {
-            userRepository.update(user);
-        } else {
-            throw new PasswordAuthenticationException();
-        }
-    }
-    
-    public void deleteAccount(DeleteAccountDto dto) {
-        User user = userRepository.findByEmail(dto.getEmail());
-        if (user.checkPasswordEquality(dto.getPassword())) {
-            userRepository.delete(user);
-        }
-    }
-    
-    public User getAccount(String email) {
-        return userRepository.findByEmail(email);
-    }
 }

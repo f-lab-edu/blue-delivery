@@ -1,9 +1,11 @@
 package com.delivery.aop;
 
 import static com.delivery.aop.AuthenticationAopTest.*;
+import static com.delivery.response.ErrorCode.*;
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,8 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.delivery.exception.InvalidAuthenticationException;
+import com.delivery.exception.ApiException;
+import com.delivery.response.ErrorCode;
 import com.delivery.user.Authentication;
 import com.delivery.user.AuthenticationHolder;
 
@@ -29,10 +32,11 @@ class AuthenticationAopTest {
     TestService service;
     
     @Test
-    @DisplayName("인증 정보가 없으면 InvalidAuthenticationException 발생")
+    @DisplayName("@AuthenticationRequired 메소드 실행시 인증 정보가 없으면 Exception 발생")
     void throwInvalidAuthenticationExceptionTest() {
         AuthenticationHolder.setAuthentication(null);
-        assertThrows(InvalidAuthenticationException.class, () -> service.orderFood());
+        ErrorCode error = assertThrows(ApiException.class, () -> service.orderFood()).getError();
+        assertThat(error).isEqualTo(NOT_AUTHORIZED_ACCESS);
     }
     
     @Test

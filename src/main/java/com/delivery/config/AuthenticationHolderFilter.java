@@ -16,8 +16,6 @@ import com.delivery.exception.InvalidAuthenticationException;
 import com.delivery.user.Authentication;
 import com.delivery.user.AuthenticationHolder;
 
-
-
 @Component
 public class AuthenticationHolderFilter implements Filter {
     @Override
@@ -25,7 +23,7 @@ public class AuthenticationHolderFilter implements Filter {
             throws IOException, ServletException {
         HttpSession session = ((HttpServletRequest) request).getSession();
         try {
-            Authentication auth = (Authentication) session.getAttribute("auth");
+            Authentication auth = (Authentication) session.getAttribute(Authentication.KEY);
             AuthenticationHolder.setAuthentication(auth);
         } catch (ClassCastException ex) {
             throw new InvalidAuthenticationException();

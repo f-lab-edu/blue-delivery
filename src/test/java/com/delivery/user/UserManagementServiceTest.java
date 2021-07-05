@@ -2,72 +2,66 @@ package com.delivery.user;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doThrow;
 
 import java.time.LocalDate;
-import java.time.Month;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DuplicateKeyException;
 
+import com.delivery.exception.ApiException;
+import com.delivery.response.ErrorCode;
 
-
+@ExtendWith(MockitoExtension.class)
 class UserManagementServiceTest {
     
-    UserManagementService service = new UserManagementService(new UserRepositoryHashMap());
+    @Mock
+    UserRepository userRepository;
+    @InjectMocks
+    UserManagementService service = new UserManagementServiceHttp(userRepository);
     
-    String email = "myEmail@email.com";
-    String password = "P@ssw0rd!";
-    UserRegisterDto dto = new UserRegisterDto(
-            email,
-            "nickname",
-            "010-1234-5676",
-            password,
-            password,
-            LocalDate.now().minusDays(1)
-    );
+    String email;
+    String password;
+    UserRegisterParam param;
     
     @BeforeEach
     void setup() {
-        assertDoesNotThrow(() -> service.register(dto));
+        email = "myEmail@email.com";
+        password = "P@ssw0rd!";
+        param = new UserRegisterParam(
+                email, "nickname", "010-1234-5676",
+                password, LocalDate.now().minusDays(1), "address");
     }
     
+    
     @Test
+    @DisplayName("회원가입시 중복 이메일인 경우 DUPLICATE_EMAIL 예외 발생")
     void registerDuplicateEmailTest() {
-        assertThrows(DuplicateKeyException.class, () -> service.register(dto));
+        doThrow(new DuplicateKeyException("for key ~ email")).when(userRepository).save(param.toEntity());
+        ErrorCode error = assertThrows(ApiException.class, () -> service.register(param)).getError();
+        assertThat(error).isEqualTo(ErrorCode.DUPLICATE_EMAIL);
     }
     
     @Test
-    void deleteAccountNotExistsTest() {
-        DeleteAccountDto dto = new DeleteAccountDto(email, password);
-        assertDoesNotThrow(() -> service.deleteAccount(dto));
-        assertThrows(IllegalArgumentException.class, () -> service.deleteAccount(dto));
+    @DisplayName("회원가입시 중복 닉네임인 경우 DUPLICATE_NICKNAME 예외 발생")
+    void registerDuplicateNicknameTest() {
+        doThrow(new DuplicateKeyException("for key ~ nickname")).when(userRepository).save(param.toEntity());
+        ErrorCode error = assertThrows(ApiException.class, () -> service.register(param)).getError();
+        assertThat(error).isEqualTo(ErrorCode.DUPLICATE_NICKNAME);
     }
     
     @Test
-    void userUpdateTest() {
-        UserRegisterDto user = new UserRegisterDto(
-                "test1",
-                "testName1",
-                "010-1111-1111",
-                "1234",
-                "1234",
-                LocalDate.of(2030, Month.APRIL, 1));
-        service.register(user);
-        
-        UserUpdateAccountDto dto = new UserUpdateAccountDto(
-                "test1",
-                "testName2",
-                "010-2222-2222",
-                "1234",
-                LocalDate.of(2030, Month.APRIL, 1)
-        );
-        service.updateAccount(dto);
-        
-        User findUser = service.getAccount(user.getEmail());
-        
-        assertThat(user.getNickname()).isNotEqualTo(findUser.getNickname());
+    @DisplayName("회원가입시 중복 전화번호인 경우 DUPLICATE_PHONE 예외 발생")
+    void registerDuplicatePhoneTest() {
+        doThrow(new DuplicateKeyException("for key ~ phone")).when(userRepository).save(param.toEntity());
+        ErrorCode error = assertThrows(ApiException.class, () -> service.register(param)).getError();
+        assertThat(error).isEqualTo(ErrorCode.DUPLICATE_PHONE);
     }
-    
     
 }
