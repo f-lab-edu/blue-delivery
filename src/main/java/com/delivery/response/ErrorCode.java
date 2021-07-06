@@ -19,7 +19,7 @@ public enum ErrorCode {
     INVALID_AUTHENTICATION(HttpStatus.BAD_REQUEST, "Invalid Authentication");
 
     private final HttpStatus httpStatus;
-    private String status;
+    private final String status;
     private final String message;
 
     ErrorCode(HttpStatus httpStatus, String message) {

@@ -35,7 +35,7 @@ public class MenuController {
     public ResponseEntity<RegisterMenuDto> registerMenu(@PathVariable Long menuGroupId,
                                                         @RequestBody @Valid RegisterMenuDto dto) {
         menuService.registerMenu(dto);
-        return new ResponseEntity(HttpResponse.res(SUCCESS, dto), HttpStatus.OK);
+        return new ResponseEntity(HttpResponse.response(SUCCESS, dto), HttpStatus.OK);
     }
 
     /**
@@ -51,7 +51,7 @@ public class MenuController {
                                                           @PathVariable Long menuId,
                                                           @RequestBody @Valid UpdateMenuDto dto) {
         menuService.menuStatusUpdate(menuId, dto.getStatus());
-        return new ResponseEntity(HttpResponse.res(SUCCESS, dto), HttpStatus.OK);
+        return new ResponseEntity(HttpResponse.response(SUCCESS, dto), HttpStatus.OK);
     }
 
     /**
@@ -65,7 +65,7 @@ public class MenuController {
     public ResponseEntity<HttpResponse> getMenuById(@PathVariable Long menuGroupId,
                                                     @PathVariable Long menuId) {
         Menu menu = menuService.getMenuById(menuId);
-        return new ResponseEntity(HttpResponse.res(SUCCESS, menu), HttpStatus.OK);
+        return new ResponseEntity(HttpResponse.response(SUCCESS, menu), HttpStatus.OK);
     }
 
 }

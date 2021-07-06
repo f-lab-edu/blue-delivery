@@ -24,11 +24,11 @@ public class HttpResponse<T> {
         this.message = message;
     }
 
-    public static <T> HttpResponse res(String status, T data) {
+    public static <T> HttpResponse response(String status, T data) {
         return new HttpResponse(status, data);
     }
 
-    public static HttpResponse res(String status, String message) {
+    public static HttpResponse response(String status, String message) {
         return new HttpResponse(status, message);
     }
 

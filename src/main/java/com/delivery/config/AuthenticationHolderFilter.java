@@ -12,7 +12,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Component;
 
-import com.delivery.exception.InvalidAuthenticationException;
+import com.delivery.exception.ApiException;
+import com.delivery.response.ErrorCode;
 import com.delivery.user.Authentication;
 import com.delivery.user.AuthenticationHolder;
 
@@ -26,7 +27,7 @@ public class AuthenticationHolderFilter implements Filter {
             Authentication auth = (Authentication) session.getAttribute(Authentication.KEY);
             AuthenticationHolder.setAuthentication(auth);
         } catch (ClassCastException ex) {
-            throw new InvalidAuthenticationException();
+            throw new ApiException(ErrorCode.INVALID_AUTHENTICATION);
         }
         chain.doFilter(request, response);
     }

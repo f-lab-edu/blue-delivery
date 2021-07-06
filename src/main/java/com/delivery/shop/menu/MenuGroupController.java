@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.delivery.exception.NotFoundIdException;
+import com.delivery.exception.ApiException;
+import com.delivery.response.ErrorCode;
 
 @RestController
 @RequestMapping("/shops")
@@ -38,7 +39,7 @@ public class MenuGroupController {
     public ResponseEntity<MenuGroup> registerMenuGroup(@Validated @RequestBody MenuGroupDto dto,
                                                        @PathVariable Long shopId) {
         if (!dto.checkShopId(shopId)) {
-            throw new NotFoundIdException();
+            throw new ApiException(ErrorCode.SHOP_DOES_NOT_EXIST);
         }
         service.registerMenuGroup(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
