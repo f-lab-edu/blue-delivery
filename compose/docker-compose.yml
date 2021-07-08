@@ -1,11 +1,11 @@
 version: '3'
 
 services: # 실행 할 컨테이너 정의
-  db: # docker run --name db와 같음(컨테이너)
+  db-mysql: # docker run --name db와 같음(컨테이너)
     image: mysql:8.0.25 # 사용할 이미지
     command: [ '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci' ]
     volumes:
-      - db_data:/usr/local/mysql/data
+      - ~/project/mysql:/var/lib/mysql
     restart: always
     ports:
       - 3306:3306
