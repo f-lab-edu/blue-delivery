@@ -22,10 +22,9 @@ public class UserRegisterParam {
     private final String phone;
     private final String password;
     private final LocalDate dateOfBirth;
-    private final Address address;
     
     public User toEntity() {
-        return new User(email, nickname, phone, password, dateOfBirth, address);
+        return new User(email, nickname, phone, password, dateOfBirth);
     }
     
     @Getter
@@ -55,11 +54,8 @@ public class UserRegisterParam {
         @Past(message = "올바르지 않은 생년월일 입니다.")
         private final LocalDate dateOfBirth;
         
-        @NotNull
-        private final Address address;
-        
         public UserRegisterParam toParam() {
-            return new UserRegisterParam(email, nickname, phone, password, dateOfBirth, address);
+            return new UserRegisterParam(email, nickname, phone, password, dateOfBirth);
         }
     }
 }

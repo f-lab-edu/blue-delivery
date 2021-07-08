@@ -37,7 +37,7 @@ class UserManagementServiceTest {
         password = "P@ssw0rd!";
         param = new UserRegisterParam(
                 email, "nickname", "010-1234-5676",
-                password, LocalDate.now().minusDays(1), new Address());
+                password, LocalDate.now().minusDays(1));
     }
     
     

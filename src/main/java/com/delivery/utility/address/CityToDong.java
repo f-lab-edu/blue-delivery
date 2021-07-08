@@ -36,18 +36,4 @@ public class CityToDong {
         this.eupMyonDongNameEng = eupMyonDongNameEng;
         this.classificationEupMyonDong = classificationEupMyonDong;
     }
-    
-    public String getCityAndSiGunGu() {
-        return new StringBuilder()
-                .append(city).append(" ")
-                .append(siGunGu)
-                .toString();
-    }
-    
-    public String getEupMyonDong() {
-        if (nonNull(eupMyonDongName)) {
-            return eupMyonDongName;
-        }
-        return "";
-    }
 }

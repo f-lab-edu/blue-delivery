@@ -15,18 +15,16 @@ public class User {
     private String phone;
     private String password;
     private LocalDate dateOfBirth;
-    private Address address;
     
     public User() {
     }
     
-    public User(String email, String nickname, String phone, String password, LocalDate dateOfBirth, Address address) {
+    public User(String email, String nickname, String phone, String password, LocalDate dateOfBirth) {
         this.email = email;
         this.nickname = nickname;
         this.phone = phone.replaceAll("-", "");
         this.password = password;
         this.dateOfBirth = dateOfBirth;
-        this.address = address;
     }
     
     public void validate(String email, String password) {
@@ -59,20 +57,12 @@ public class User {
         return dateOfBirth;
     }
     
-    public Address getAddress() {
-        return address;
-    }
-    
     public void changeNickname(String nickname) {
         this.nickname = nickname;
     }
     
     public void changePhone(String phone) {
         this.phone = phone;
-    }
-    
-    public void changeAddress(Address address) {
-        this.address = address;
     }
     
     @Override
@@ -89,13 +79,12 @@ public class User {
                 && Objects.equals(nickname, user.nickname)
                 && Objects.equals(phone, user.phone)
                 && Objects.equals(password, user.password)
-                && Objects.equals(dateOfBirth, user.dateOfBirth)
-                && Objects.equals(address, user.address);
+                && Objects.equals(dateOfBirth, user.dateOfBirth);
     }
     
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, nickname, phone, password, dateOfBirth, address);
+        return Objects.hash(id, email, nickname, phone, password, dateOfBirth);
     }
     
 }

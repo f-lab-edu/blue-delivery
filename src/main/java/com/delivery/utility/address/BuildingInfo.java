@@ -70,25 +70,4 @@ public class BuildingInfo {
         this.roadNameCode = roadNameCode;
     }
     
-    public String getRoadNameAddress() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(cityToDong.getCityAndSiGunGu()).append(" ").append(roadName).append(" ");
-        if (nonNull(buildingMainNumber) && buildingMainNumber != 0) {
-            sb.append(buildingMainNumber).append("-");
-        }
-        sb.append(buildingSubNumber).append(",");
-        if (nonNull(detailBuildingName)) {
-            sb.append(" ").append(detailBuildingName);
-        }
-        return sb.toString();
-    }
-    
-    public String getBuildingDetail() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("(").append(cityToDong.getEupMyonDong());
-        if (nonNull(buildingNameForSiGunGu)) {
-            sb.append(", ").append(buildingNameForSiGunGu);
-        }
-        return sb.toString();
-    }
 }

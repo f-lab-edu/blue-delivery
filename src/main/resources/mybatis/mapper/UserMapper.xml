@@ -11,13 +11,12 @@
         <result column="PHONE" property="phone" javaType="string"/>
         <result column="PASSWORD" property="password" javaType="string"/>
         <result column="DATE_OF_BIRTH" property="dateOfBirth" typeHandler="LocalDateTypeHandler"/>
-        <result column="ADDRESS" property="address" javaType="string"/>
     </resultMap>
 
     <!-- 고객 추가 -->
     <insert id="save">
-        INSERT INTO USER (EMAIL, NICKNAME, PHONE, PASSWORD, DATE_OF_BIRTH, ADDRESS)
-        VALUES (#{email}, #{nickname}, #{phone}, #{password}, #{dateOfBirth}, #{address});
+        INSERT INTO USER (EMAIL, NICKNAME, PHONE, PASSWORD, DATE_OF_BIRTH)
+        VALUES (#{email}, #{nickname}, #{phone}, #{password}, #{dateOfBirth});
     </insert>
 
     <!-- 고객 삭제 -->

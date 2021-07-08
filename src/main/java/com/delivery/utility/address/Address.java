@@ -26,15 +26,4 @@ public class Address {
         this.buildingInfo = buildingInfo;
         this.detail = detail;
     }
-    
-    public String getFullRoadNameAddress() {
-        if (isNull(buildingInfo)) {
-            return "";
-        }
-        return new StringBuilder()
-                .append(buildingInfo.getRoadNameAddress()).append(" ")
-                .append(detail)
-                .append(buildingInfo.getBuildingDetail()).append(")")
-                .toString();
-    }
 }

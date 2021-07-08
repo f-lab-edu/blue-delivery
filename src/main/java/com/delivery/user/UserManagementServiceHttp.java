@@ -35,7 +35,6 @@ public class UserManagementServiceHttp implements UserManagementService {
         User findUser = findUserByIdAndCheckNotNull(param.getId());
         findUser.validate(param.getEmail(), param.getPassword());
         findUser.changePhone(param.getPhone());
-        findUser.changeAddress(param.getAddress());
         findUser.changeNickname(param.getNickname());
         userRepository.update(findUser);
     }
