@@ -5,11 +5,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.delivery.exception.ApiException;
-import com.delivery.exception.ExceptionEnum;
+import com.delivery.response.ErrorCode;
 
 class UserTest {
     
@@ -26,13 +27,13 @@ class UserTest {
     
     @Test
     void throwExceptionIfEmailIsNotEqual() {
-        ExceptionEnum ex1 = assertThrows(ApiException.class, () -> user.validate("Wrong Email", password)).getError();
-        assertThat(ex1).isEqualTo(ExceptionEnum.USER_NOT_VALIDATED);
+        ErrorCode ex1 = assertThrows(ApiException.class, () -> user.validate("Wrong Email", password)).getError();
+        assertThat(ex1).isEqualTo(ErrorCode.USER_NOT_VALIDATED);
     }
     
     @Test
     void throwExceptionIfPasswordIsNotEqual() {
-        ExceptionEnum ex1 = assertThrows(ApiException.class, () -> user.validate(email, "Wrong Password")).getError();
-        assertThat(ex1).isEqualTo(ExceptionEnum.USER_NOT_VALIDATED);
+        ErrorCode ex1 = assertThrows(ApiException.class, () -> user.validate(email, "Wrong Password")).getError();
+        assertThat(ex1).isEqualTo(ErrorCode.USER_NOT_VALIDATED);
     }
 }

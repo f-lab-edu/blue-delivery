@@ -1,9 +1,11 @@
 package com.delivery.shop.menu;
 
+import static com.delivery.response.ErrorCode.*;
 import static com.delivery.shop.menu.Menu.*;
 
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+
+import com.delivery.exception.ApiException;
 
 @Service
 public class MenuService {
@@ -17,7 +19,7 @@ public class MenuService {
 
     public int registerMenu(RegisterMenuDto dto) {
         if (menuNameCheck(dto.getName())) {
-            throw new DuplicateKeyException("menuName already exists");
+            throw new ApiException(MENU_ALREADY_EXISTS);
         }
         Menu menu = dto.toEntity();
         return menuMapper.saveMenu(menu);

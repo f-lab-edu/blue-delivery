@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 import com.delivery.exception.ApiException;
-import com.delivery.exception.ExceptionEnum;
+import com.delivery.response.ErrorCode;
 
 public class User {
     
@@ -41,7 +41,7 @@ public class User {
     
     public void validate(String email, String password) {
         if (!this.email.equals(email) || !this.password.equals(password)) {
-            throw new ApiException(ExceptionEnum.USER_NOT_VALIDATED);
+            throw new ApiException(ErrorCode.USER_NOT_VALIDATED);
         }
     }
     

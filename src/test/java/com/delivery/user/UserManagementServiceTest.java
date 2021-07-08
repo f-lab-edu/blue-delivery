@@ -13,11 +13,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 
 import com.delivery.exception.ApiException;
-import com.delivery.exception.ExceptionEnum;
+import com.delivery.response.ErrorCode;
 
 @ExtendWith(MockitoExtension.class)
 class UserManagementServiceTest {
@@ -45,24 +44,24 @@ class UserManagementServiceTest {
     @DisplayName("회원가입시 중복 이메일인 경우 DUPLICATE_EMAIL 예외 발생")
     void registerDuplicateEmailTest() {
         doThrow(new DuplicateKeyException("for key ~ email")).when(userRepository).save(param.toEntity());
-        ExceptionEnum error = assertThrows(ApiException.class, () -> service.register(param)).getError();
-        assertThat(error).isEqualTo(ExceptionEnum.DUPLICATE_EMAIL);
+        ErrorCode error = assertThrows(ApiException.class, () -> service.register(param)).getError();
+        assertThat(error).isEqualTo(ErrorCode.DUPLICATE_EMAIL);
     }
     
     @Test
     @DisplayName("회원가입시 중복 닉네임인 경우 DUPLICATE_NICKNAME 예외 발생")
     void registerDuplicateNicknameTest() {
         doThrow(new DuplicateKeyException("for key ~ nickname")).when(userRepository).save(param.toEntity());
-        ExceptionEnum error = assertThrows(ApiException.class, () -> service.register(param)).getError();
-        assertThat(error).isEqualTo(ExceptionEnum.DUPLICATE_NICKNAME);
+        ErrorCode error = assertThrows(ApiException.class, () -> service.register(param)).getError();
+        assertThat(error).isEqualTo(ErrorCode.DUPLICATE_NICKNAME);
     }
     
     @Test
     @DisplayName("회원가입시 중복 전화번호인 경우 DUPLICATE_PHONE 예외 발생")
     void registerDuplicatePhoneTest() {
         doThrow(new DuplicateKeyException("for key ~ phone")).when(userRepository).save(param.toEntity());
-        ExceptionEnum error = assertThrows(ApiException.class, () -> service.register(param)).getError();
-        assertThat(error).isEqualTo(ExceptionEnum.DUPLICATE_PHONE);
+        ErrorCode error = assertThrows(ApiException.class, () -> service.register(param)).getError();
+        assertThat(error).isEqualTo(ErrorCode.DUPLICATE_PHONE);
     }
     
 }
