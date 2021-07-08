@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import com.delivery.exception.ApiException;
 import com.delivery.response.ErrorCode;
+import com.delivery.utility.address.Address;
 
 public class User {
     
@@ -14,26 +15,15 @@ public class User {
     private String phone;
     private String password;
     private LocalDate dateOfBirth;
-    private String address; // TODO 가게 조회시에 사용하기 위해 String 말고 다른 클래스 객체가 필요할 것 같음
+    private Address address;
     
     public User() {
     }
     
-    public User(String email, String nickname, String phone, String password, LocalDate dateOfBirth, String address) {
+    public User(String email, String nickname, String phone, String password, LocalDate dateOfBirth, Address address) {
         this.email = email;
         this.nickname = nickname;
         this.phone = phone.replaceAll("-", "");
-        this.password = password;
-        this.dateOfBirth = dateOfBirth;
-        this.address = address;
-    }
-    
-    public User(Long id, String email, String nickname, String phone, String password,
-                LocalDate dateOfBirth, String address) {
-        this.id = id;
-        this.email = email;
-        this.nickname = nickname;
-        this.phone = phone;
         this.password = password;
         this.dateOfBirth = dateOfBirth;
         this.address = address;
@@ -69,7 +59,7 @@ public class User {
         return dateOfBirth;
     }
     
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
     
@@ -81,7 +71,7 @@ public class User {
         this.phone = phone;
     }
     
-    public void changeAddress(String address) {
+    public void changeAddress(Address address) {
         this.address = address;
     }
     

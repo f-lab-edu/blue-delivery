@@ -9,6 +9,7 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 
 import com.delivery.utility.RegexConstants;
+import com.delivery.utility.address.Address;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class UserRegisterParam {
     private final String phone;
     private final String password;
     private final LocalDate dateOfBirth;
-    private final String address;
+    private final Address address;
     
     public User toEntity() {
         return new User(email, nickname, phone, password, dateOfBirth, address);
@@ -55,7 +56,7 @@ public class UserRegisterParam {
         private final LocalDate dateOfBirth;
         
         @NotNull
-        private final String address; // TODO
+        private final Address address;
         
         public UserRegisterParam toParam() {
             return new UserRegisterParam(email, nickname, phone, password, dateOfBirth, address);

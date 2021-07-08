@@ -17,6 +17,7 @@ import org.springframework.dao.DuplicateKeyException;
 
 import com.delivery.exception.ApiException;
 import com.delivery.response.ErrorCode;
+import com.delivery.utility.address.Address;
 
 @ExtendWith(MockitoExtension.class)
 class UserManagementServiceTest {
@@ -36,7 +37,7 @@ class UserManagementServiceTest {
         password = "P@ssw0rd!";
         param = new UserRegisterParam(
                 email, "nickname", "010-1234-5676",
-                password, LocalDate.now().minusDays(1), "address");
+                password, LocalDate.now().minusDays(1), new Address());
     }
     
     

@@ -12,6 +12,3 @@ spring:
       enabled: true
   cache:
     type: simple
-  jpa:
-    hibernate:
-      ddl-auto: create

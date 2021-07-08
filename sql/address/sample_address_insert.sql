@@ -66,6 +66,7 @@ from (select distinct address_jurisdiction_eup_myon_dong_code,
 
 insert into building_info
 select building_management_number,
+       building_name_for_si_gun_gu,
        building_main_number,
        building_sub_number,
        classification_apartment_house,

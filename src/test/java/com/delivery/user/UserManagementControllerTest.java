@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import com.delivery.user.DeleteAccountParam.DeleteAccountRequest;
 import com.delivery.user.UserRegisterParam.UserRegisterRequest;
+import com.delivery.utility.address.Address;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebMvcTest({UserManagementController.class, PasswordValidator.class})
@@ -35,8 +36,8 @@ class UserManagementControllerTest {
     UserManagementService userManagementService;
     @MockBean
     UserRepository userRepository;
-    
     String url = "/users";
+    Address address = new Address();
     
     @Test
     @DisplayName("회원을 삭제하면 session에 있는 인증 정보도 사라진다.")
@@ -59,7 +60,7 @@ class UserManagementControllerTest {
                 .content(objMapper.writeValueAsString(
                         new UserRegisterRequest("nothing@email.com", "nickname", "010-1234-1234",
                                 password, password + "wrong",
-                                LocalDate.of(2020, Month.MAY, 1), "seoul")))
+                                LocalDate.of(2020, Month.MAY, 1), address)))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andReturn();
@@ -75,7 +76,7 @@ class UserManagementControllerTest {
                 .content(objMapper.writeValueAsString(
                         new UserRegisterRequest("nothing@email.com", "nickname", "010-1234-1234",
                                 password, password,
-                                LocalDate.of(2020, Month.MAY, 1), "seoul")))
+                                LocalDate.of(2020, Month.MAY, 1), new Address())))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andReturn();

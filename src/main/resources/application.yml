@@ -7,7 +7,6 @@ spring:
   datasource:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
   jpa:
-#    show-sql: true
     properties:
       hibernate:
         format_sql: true

@@ -9,6 +9,3 @@ spring:
     url: jdbc:mysql://localhost:3306/delivery
     user: root
     password: password
-  jpa:
-    hibernate:
-      ddl-auto: create
