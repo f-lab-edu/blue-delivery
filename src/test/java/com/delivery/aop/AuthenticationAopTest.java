@@ -1,10 +1,9 @@
 package com.delivery.aop;
 
 import static com.delivery.aop.AuthenticationAopTest.*;
-import static com.delivery.exception.ExceptionEnum.*;
+import static com.delivery.response.ErrorCode.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
-
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.delivery.exception.ApiException;
-import com.delivery.exception.ExceptionEnum;
+import com.delivery.response.ErrorCode;
 import com.delivery.user.Authentication;
 import com.delivery.user.AuthenticationHolder;
 
@@ -36,7 +35,7 @@ class AuthenticationAopTest {
     @DisplayName("@AuthenticationRequired 메소드 실행시 인증 정보가 없으면 Exception 발생")
     void throwInvalidAuthenticationExceptionTest() {
         AuthenticationHolder.setAuthentication(null);
-        ExceptionEnum error = assertThrows(ApiException.class, () -> service.orderFood()).getError();
+        ErrorCode error = assertThrows(ApiException.class, () -> service.orderFood()).getError();
         assertThat(error).isEqualTo(NOT_AUTHORIZED_ACCESS);
     }
     

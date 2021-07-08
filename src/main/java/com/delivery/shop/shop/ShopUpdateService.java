@@ -1,6 +1,6 @@
 package com.delivery.shop.shop;
 
-import static com.delivery.exception.ExceptionEnum.*;
+import static com.delivery.response.ErrorCode.*;
 
 import java.util.List;
 import java.util.stream.Collectors;

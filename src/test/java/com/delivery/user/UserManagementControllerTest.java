@@ -63,7 +63,7 @@ class UserManagementControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andReturn();
-        boolean result = mvcResult.getResponse().getContentAsString().contains("패스워드 불일치");
+        Boolean result = mvcResult.getResponse().getContentAsString().contains("fail");
         assertThat(result).isTrue();
     }
     

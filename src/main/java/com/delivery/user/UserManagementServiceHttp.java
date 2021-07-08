@@ -6,7 +6,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import com.delivery.exception.ApiException;
-import com.delivery.exception.ExceptionEnum;
+import com.delivery.response.ErrorCode;
 
 @Service
 public class UserManagementServiceHttp implements UserManagementService {
@@ -49,7 +49,7 @@ public class UserManagementServiceHttp implements UserManagementService {
     private User findUserByIdAndCheckNotNull(Long id) {
         User user = userRepository.findUserById(id);
         if (user == null) {
-            throw new ApiException(ExceptionEnum.USER_NOT_FOUND);
+            throw new ApiException(ErrorCode.USER_NOT_FOUND);
         }
         return user;
     }
@@ -57,7 +57,7 @@ public class UserManagementServiceHttp implements UserManagementService {
     private User findUserByEmailAndCheckNotNull(String email) {
         User user = userRepository.findUserByEmail(email);
         if (user == null) {
-            throw new ApiException(ExceptionEnum.USER_NOT_FOUND);
+            throw new ApiException(ErrorCode.USER_NOT_FOUND);
         }
         return user;
     }
@@ -66,13 +66,13 @@ public class UserManagementServiceHttp implements UserManagementService {
         String message = ex.getMessage();
         String msg = message.substring(message.lastIndexOf("for key")).toLowerCase(Locale.ROOT);
         if (msg.contains("email")) {
-            throw new ApiException(ExceptionEnum.DUPLICATE_EMAIL);
+            throw new ApiException(ErrorCode.DUPLICATE_EMAIL);
         }
         if (msg.contains("nickname")) {
-            throw new ApiException(ExceptionEnum.DUPLICATE_NICKNAME);
+            throw new ApiException(ErrorCode.DUPLICATE_NICKNAME);
         }
         if (msg.contains("phone")) {
-            throw new ApiException(ExceptionEnum.DUPLICATE_PHONE);
+            throw new ApiException(ErrorCode.DUPLICATE_PHONE);
         }
     }
 }
