@@ -1,9 +1,14 @@
--- sample
--- 같은 경로에 있는 sample.txt (서울 일부)만 데이터베이스에 추가함
+
+-- 샘플데이터 match_build_sample.txt(서울 일부)만 데이터베이스에 추가하는 쿼리다.
+
+-- #############################################################################
+-- ######## '~/project/mysql/buildings' 경로는 실제 txt파일이 있는 경로로 수정해야 함######
+-- #############################################################################
+
 
 -- 주소 데이터를 DB에 추가
 LOAD
-DATA LOCAL INFILE './sample.txt'
+DATA LOCAL INFILE '~/project/mysql/building/match_build_sample.txt'
 INTO TABLE building_address
 FIELDS TERMINATED BY '|'
 OPTIONALLY ENCLOSED BY ''
@@ -58,6 +63,7 @@ from (select distinct address_jurisdiction_eup_myon_dong_code,
      ) DT;
 
 -- 추가한 주소들 중 건물관련 정보만 분리
+
 insert into building_info
 select building_management_number,
        building_main_number,
@@ -69,6 +75,8 @@ select building_management_number,
        number_of_buildings,
        number_of_ground_floor,
        postal_code,
+       road_name,
+       road_name_code,
        road_name_eng,
        x_pos_building,
        x_pos_entrance,

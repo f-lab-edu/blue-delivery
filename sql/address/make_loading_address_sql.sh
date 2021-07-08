@@ -1,10 +1,18 @@
 #!/bin/sh
 
-# 현재 위치에 있는 txt 데이터를 cp949 -> utf8 로 인코딩
-find . -type f -name '*.txt' -exec sh -c 'iconv -f CP949 -t UTF-8 "$0" > "$0.tmp"' '{}' \; -exec mv -f '{}.tmp' '{}' \;
+# 이 스크립트를 실행하면 juso.go.kr에서 받은 주소DB를 UTF8로 인코딩하고, 데이터베이스에 불러올 수 있는 쿼리를 생성한다.(실행위치의 query.txt 파일에 저장)
+# 네비게이션용 DB (https://www.juso.go.kr/addrlink/addressBuildDevNew.do?menu=navi) 를 사용했다.
+# 실제 데이터를 전부 다 로딩하면 시간이 오래걸리니, 간단하게 테스트해보려면 이 스크립트를 실행하지 말고 `sample_address_insert.sql` 을 사용하면 된다.
+
+#############################################################################
+######## '~/project/mysql/buildings' 경로는 실제 txt파일이 있는 경로로 수정해야 함######
+#############################################################################
+
+
+# 주어진 경로에 있는 match_build_로 시작하는 txt 데이터를 cp949 -> utf8 로 인코딩
+find ~/project/mysql/buildings -type f -name 'match_build_*.txt' -exec sh -c 'iconv -f CP949 -t UTF-8 "$0" > "$0.tmp"' '{}' \; -exec mv -f '{}.tmp' '{}' \;
 
 # 각 txt 파일을 불러오는 쿼리 생성
-# '~/project/mysql/buildings' 부분은 주소 데이터의 경로에 맞게 설정
 for entry in `find . -name match_build_\*.txt`; do
 filename=`basename $entry`
     echo "\
