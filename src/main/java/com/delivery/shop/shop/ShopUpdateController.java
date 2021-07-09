@@ -2,7 +2,6 @@ package com.delivery.shop.shop;
 
 import javax.validation.Valid;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.delivery.response.HttpResponse;
 import com.delivery.shop.businesshour.UpdateBusinessHoursDto;
 import com.delivery.shop.suspension.SuspensionRequest;
 
@@ -72,8 +70,4 @@ public interface ShopUpdateController {
     @PutMapping("/suspend")
     void suspendShop(@PathVariable("id") Long shopId,
                      @RequestBody SuspensionRequest suspension);
-    
-    @PutMapping("/delivery-area")
-    void updateDeliveryArea(@PathVariable("id") Long shopId,
-                                                       @RequestBody UpdateDeliveryAreaRequest request);
 }

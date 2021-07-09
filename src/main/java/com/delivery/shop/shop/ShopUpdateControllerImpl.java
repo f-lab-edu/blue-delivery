@@ -15,11 +15,11 @@ import com.delivery.shop.suspension.SuspensionRequest;
 
 @RestController
 @RequestMapping("/shops")
-public class ShopUpdateController {
+public class ShopUpdateControllerImpl {
     
     private ShopUpdateService updateService;
     
-    public ShopUpdateController(ShopUpdateService updateService) {
+    public ShopUpdateControllerImpl(ShopUpdateService updateService) {
         this.updateService = updateService;
     }
     
