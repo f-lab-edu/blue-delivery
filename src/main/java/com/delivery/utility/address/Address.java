@@ -1,7 +1,5 @@
 package com.delivery.utility.address;
 
-import static java.util.Objects.isNull;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -14,7 +12,7 @@ public class Address {
     @GeneratedValue
     private Long id;
     @OneToOne
-    @JoinColumn(name = "buildingManagementNumber")
+    @JoinColumn(name = "building_management_number")
     private BuildingInfo buildingInfo;
     private String detail;
     

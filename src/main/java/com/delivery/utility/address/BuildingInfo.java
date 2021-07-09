@@ -1,6 +1,6 @@
 package com.delivery.utility.address;
 
-import static java.util.Objects.*;
+import java.math.BigDecimal;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -26,10 +26,10 @@ public class BuildingInfo {
     private String classificationApartmentHouse; // 공통주택구분;
     private Integer numberOfBuildings; // 건물수
     private String detailBuildingName; // 상세건물명
-    private Double xPosBuilding; // 건물중심점_x좌표
-    private Double yPosBuilding; // 건물중심점_y좌표
-    private Double xPosEntrance; // 출입구_x좌표
-    private Double yPosEntrance; // 출입구_y좌표
+    private BigDecimal xPosBuilding; // 건물중심점_x좌표
+    private BigDecimal yPosBuilding; // 건물중심점_y좌표
+    private BigDecimal xPosEntrance; // 출입구_x좌표
+    private BigDecimal yPosEntrance; // 출입구_y좌표
     private String roadName; // 도로명
     private String roadNameEng; // 도로명(영문)
     private String roadNameCode; // 도로명코드
@@ -38,16 +38,13 @@ public class BuildingInfo {
     
     }
     
-    public BuildingInfo(String buildingManagementNumber) {
-        this.buildingManagementNumber = buildingManagementNumber;
-    }
-    
     @Builder
     public BuildingInfo(CityToDong cityToDong, String buildingManagementNumber, String buildingNameForSiGunGu,
                         String isBasement, Integer buildingMainNumber, Integer buildingSubNumber,
                         String postalCode, Integer numberOfGroundFloor, Integer numberOfBasementFloor,
                         String classificationApartmentHouse, Integer numberOfBuildings, String detailBuildingName,
-                        Double xPosBuilding, Double yPosBuilding, Double xPosEntrance, Double yPosEntrance,
+                        BigDecimal xPosBuilding, BigDecimal yPosBuilding,
+                        BigDecimal xPosEntrance, BigDecimal yPosEntrance,
                         String roadName, String roadNameEng, String roadNameCode) {
         this.cityToDong = cityToDong;
         this.buildingManagementNumber = buildingManagementNumber;

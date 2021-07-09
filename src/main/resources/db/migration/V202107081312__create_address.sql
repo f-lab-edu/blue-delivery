@@ -40,10 +40,10 @@ create table building_address
     road_name_eng                           varchar(80) COMMENT '도로명(영문)',
     si_gun_gu                               varchar(40) COMMENT '시군구',
     si_gun_gu_name_eng                      varchar(40) COMMENT '시군구(영문)',
-    x_pos_building                          double precision COMMENT '건물중심점_x좌표',
-    x_pos_entrance                          double precision COMMENT '출입구_x좌표',
-    y_pos_building                          double precision COMMENT '건물중심점_x좌표',
-    y_pos_entrance                          double precision COMMENT '출입구_x좌표',
+    x_pos_building                          decimal(15, 6) COMMENT '건물중심점_x좌표',
+    x_pos_entrance                          decimal(15, 6) COMMENT '출입구_x좌표',
+    y_pos_building                          decimal(15, 6) COMMENT '건물중심점_x좌표',
+    y_pos_entrance                          decimal(15, 6) COMMENT '출입구_x좌표',
     primary key (building_management_number)
 ) engine=InnoDB;
 

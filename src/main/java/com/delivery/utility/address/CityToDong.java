@@ -1,7 +1,5 @@
 package com.delivery.utility.address;
 
-import static java.util.Objects.nonNull;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
