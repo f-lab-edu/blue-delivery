@@ -1,4 +1,10 @@
-package com.delivery.user;
+package com.delivery.user.application;
+
+import com.delivery.user.Authentication;
+import com.delivery.user.DeleteAccountParam;
+import com.delivery.user.UpdateAccountParam;
+import com.delivery.user.UserLoginParam;
+import com.delivery.user.UserRegisterParam;
 
 public interface UserManagementService {
     

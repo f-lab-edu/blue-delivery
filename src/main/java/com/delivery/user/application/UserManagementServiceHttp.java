@@ -1,4 +1,4 @@
-package com.delivery.user;
+package com.delivery.user.application;
 
 import java.util.Locale;
 
@@ -7,6 +7,14 @@ import org.springframework.stereotype.Service;
 
 import com.delivery.exception.ApiException;
 import com.delivery.response.ErrorCode;
+import com.delivery.user.Authentication;
+import com.delivery.user.DeleteAccountParam;
+import com.delivery.user.UpdateAccountParam;
+import com.delivery.user.User;
+import com.delivery.user.UserLoginParam;
+import com.delivery.user.UserRegisterParam;
+import com.delivery.user.UserRepository;
+import com.delivery.user.application.UserManagementService;
 
 @Service
 public class UserManagementServiceHttp implements UserManagementService {
