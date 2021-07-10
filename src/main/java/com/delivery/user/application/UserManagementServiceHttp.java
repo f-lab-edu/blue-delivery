@@ -2,6 +2,7 @@ package com.delivery.user.application;
 
 import java.util.Locale;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,9 +17,9 @@ import com.delivery.user.web.dto.DeleteAccountParam;
 import com.delivery.user.web.dto.UpdateAccountParam;
 import com.delivery.user.web.dto.UserLoginParam;
 import com.delivery.user.web.dto.UserRegisterParam;
-import com.delivery.utility.address.domain.Address;
-import com.delivery.utility.address.domain.AddressService;
-import com.delivery.utility.address.domain.BuildingInfo;
+import com.delivery.utility.address.Address;
+import com.delivery.utility.address.AddressService;
+import com.delivery.utility.address.BuildingInfo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,7 +34,7 @@ public class UserManagementServiceHttp implements UserManagementService {
     public void register(UserRegisterParam dto) {
         try {
             userRepository.save(dto.toEntity());
-        } catch (DuplicateKeyException ex) {
+        } catch (RuntimeException ex) {
             throwDuplicateInfoException(ex);
         }
     }
@@ -89,9 +90,8 @@ public class UserManagementServiceHttp implements UserManagementService {
                 .orElseThrow(() -> new ApiException(ErrorCode.USER_NOT_FOUND));
     }
     
-    private void throwDuplicateInfoException(DuplicateKeyException ex) {
-        String message = ex.getMessage();
-        String msg = message.substring(message.lastIndexOf("for key")).toLowerCase(Locale.ROOT);
+    private void throwDuplicateInfoException(RuntimeException ex) {
+        String msg = ex.getMessage().toLowerCase(Locale.ROOT);
         if (msg.contains("email")) {
             throw new ApiException(ErrorCode.DUPLICATE_EMAIL);
         }

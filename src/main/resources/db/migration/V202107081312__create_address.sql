@@ -100,6 +100,11 @@ alter table address
         foreign key (user_id)
             references user (USER_ID);
 
+alter table USER
+    add constraint FK_MAIN_ADDRESS
+        foreign key (MAIN_ADDRESS_ID)
+            references ADDRESS (ADDRESS_ID);
+
 alter table address
     add constraint UC_Address
         unique (USER_ID, BUILDING_MANAGEMENT_NUMBER, DETAIL);
