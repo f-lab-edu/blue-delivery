@@ -1,10 +1,10 @@
 package com.delivery.shop.menu;
 
+import static com.delivery.response.ErrorCode.*;
 import static com.delivery.shop.menu.Menu.*;
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
-
-import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,6 +13,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ActiveProfiles;
+
+import com.delivery.exception.ApiException;
+import com.delivery.response.ErrorCode;
+
 
 @ExtendWith(MockitoExtension.class)
 @ActiveProfiles("test")
@@ -29,12 +33,12 @@ class MenuServiceTest {
     @DisplayName("메뉴 저장 기능 테스트")
     public void saveMenuTest() {
         RegisterMenuDto dto = new RegisterMenuDto();
+        dto.setMenuGroupId(1L);
         dto.setName("부리또");
         dto.setPrice(3500);
         dto.setComposition("1인분");
         dto.setContent("부리또 + 피클");
         dto.setStatus(MenuStatus.DEFAULT);
-        dto.setCreatedAt(LocalDateTime.now());
 
         //when
         service.registerMenu(dto);
@@ -42,6 +46,47 @@ class MenuServiceTest {
         //then
         verify(menuMapper, times(1)).saveMenu(dto.toEntity());
 
+    }
+
+    @Test
+    @DisplayName("대표메뉴 추가 기능 테스트")
+    public void addMainMenu() {
+
+        //when
+        service.registerMainMenu(1L);
+
+        //then
+        verify(menuMapper, times(1)).addMainMenu(1L);
+    }
+
+    @Test
+    @DisplayName("대표메뉴 수 6개 초과 추가시 예외발생")
+    public void addMainMenuMaximumTest() {
+        Menu menu = Menu.builder()
+                .id(7L)
+                .build();
+
+        when(service.registerMainMenu(menu.getId()))
+                .thenThrow(new ApiException(MAXIMUM_NUMBER_OF_MENU));
+
+        ErrorCode errorCode =
+                assertThrows(ApiException.class,
+                        () -> service.registerMainMenu(menu.getId())).getError();
+
+        assertThat(errorCode).isEqualTo(MAXIMUM_NUMBER_OF_MENU);
+
+    }
+
+
+    @Test
+    @DisplayName("대표메뉴 삭제 기능 테스트")
+    public void deleteMainMenu() {
+
+        //when
+        service.deleteMainMenu(1L);
+
+        //then
+        verify(menuMapper, times(1)).deleteMainMenu(1L);
     }
 
 

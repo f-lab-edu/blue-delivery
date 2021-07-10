@@ -1,10 +1,12 @@
 package com.delivery.shop.menu;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
-public class  Menu {
+import lombok.Builder;
+
+@Builder
+public class Menu {
 
     private Long id;
     private Long menuGroupId;
@@ -14,8 +16,7 @@ public class  Menu {
     private String content;
     private MenuStatus status;
     private List<MenuOptionGroup> menuOptionGroup;
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
+    private boolean isMain;
 
     public enum MenuStatus {
         DEFAULT, SOLDOUT, HIDDEN;
@@ -24,21 +25,8 @@ public class  Menu {
     public Menu() {
     }
 
-    // ToDo RegisterDto용 Builder로 변경
-    public Menu(String name, int price, String composition, String content, MenuStatus status,
-                List<MenuOptionGroup> menuOptionGroup, LocalDateTime createdAt) {
-        this.name = name;
-        this.price = price;
-        this.composition = composition;
-        this.content = content;
-        this.status = status;
-        this.menuOptionGroup = menuOptionGroup;
-        this.createdAt = createdAt;
-    }
-
     public Menu(Long id, Long menuGroupId, String name, int price, String composition, String content,
-                MenuStatus status, List<MenuOptionGroup> menuOptionGroup, LocalDateTime createdAt,
-                LocalDateTime modifiedAt) {
+                MenuStatus status, List<MenuOptionGroup> menuOptionGroup, boolean isMain) {
         this.id = id;
         this.menuGroupId = menuGroupId;
         this.name = name;
@@ -47,8 +35,7 @@ public class  Menu {
         this.content = content;
         this.status = status;
         this.menuOptionGroup = menuOptionGroup;
-        this.createdAt = createdAt;
-        this.modifiedAt = modifiedAt;
+        this.isMain = isMain;
     }
 
     public Long getId() {
@@ -83,12 +70,8 @@ public class  Menu {
         return menuOptionGroup;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getModifiedAt() {
-        return modifiedAt;
+    public boolean isMain() {
+        return isMain;
     }
 
     @Override
@@ -108,13 +91,11 @@ public class  Menu {
                 && Objects.equals(content, menu.content)
                 && status == menu.status
                 && Objects.equals(menuOptionGroup, menu.menuOptionGroup)
-                && Objects.equals(createdAt, menu.createdAt)
-                && Objects.equals(modifiedAt, menu.modifiedAt);
+                && Objects.equals(isMain, menu.isMain);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, menuGroupId, name, price, composition, content, status, menuOptionGroup, createdAt,
-                modifiedAt);
+        return Objects.hash(id, menuGroupId, name, price, composition, content, status, menuOptionGroup, isMain);
     }
 }

@@ -2,6 +2,8 @@ package com.delivery.shop.menu;
 
 import static com.delivery.shop.menu.Menu.*;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -15,6 +17,16 @@ public interface MenuMapper {
 
     int menuStatusUpdate(Long id, MenuStatus status);
 
+    int addMainMenu(Long id);
+
+    int deleteMainMenu(Long id);
+
+    int countMainMenu();
+
     Menu findMenuById(Long id);
+
+    List<Menu> findAllMenusByGroup();
+
+    List<Menu> findMainMenus();
 
 }

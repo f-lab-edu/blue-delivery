@@ -16,18 +16,19 @@ public enum ErrorCode {
     USER_NOT_VALIDATED(HttpStatus.BAD_REQUEST, "User is not validated."),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "User is not found."),
     NOT_AUTHORIZED_ACCESS(HttpStatus.FORBIDDEN, "Not Authorized access"),
-    INVALID_AUTHENTICATION(HttpStatus.BAD_REQUEST, "Invalid Authentication");
+    INVALID_AUTHENTICATION(HttpStatus.BAD_REQUEST, "Invalid Authentication"),
+    MAXIMUM_NUMBER_OF_MENU(HttpStatus.BAD_REQUEST, "Maximum number of main menus exceeded");
 
     private final HttpStatus httpStatus;
-    private final String status;
+    private final String result;
     private final String message;
 
     ErrorCode(HttpStatus httpStatus, String message) {
         this.httpStatus = httpStatus;
         if (httpStatus.is4xxClientError()) {
-            this.status = FAIL;
+            this.result = FAIL;
         } else {
-            this.status = ERROR;
+            this.result = ERROR;
         }
         this.message = message;
     }
@@ -37,7 +38,7 @@ public enum ErrorCode {
     }
 
     public String getStatus() {
-        return status;
+        return result;
     }
 
     public String getMessage() {
