@@ -1,4 +1,4 @@
-package com.delivery.utility.address.domain;
+package com.delivery.utility.address;
 
 import java.math.BigDecimal;
 import java.util.Objects;

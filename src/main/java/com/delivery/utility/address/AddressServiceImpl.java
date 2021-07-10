@@ -1,4 +1,4 @@
-package com.delivery.utility.address.impl;
+package com.delivery.utility.address;
 
 import static com.delivery.response.ErrorCode.ADDRESS_DOES_NOT_EXIST;
 
@@ -6,10 +6,6 @@ import org.springframework.stereotype.Service;
 
 import com.delivery.exception.ApiException;
 import com.delivery.user.domain.User;
-import com.delivery.utility.address.domain.Address;
-import com.delivery.utility.address.domain.AddressService;
-import com.delivery.utility.address.domain.BuildingInfo;
-import com.delivery.utility.address.domain.BuildingInfoRepository;
 
 import lombok.RequiredArgsConstructor;
 

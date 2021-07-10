@@ -1,4 +1,4 @@
-package com.delivery.utility.address.domain;
+package com.delivery.utility.address;
 
 import static com.delivery.response.ErrorCode.*;
 import static java.util.Objects.isNull;
