@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doThrow;
 
 import java.time.LocalDate;
+import java.time.Month;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,17 +16,23 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DuplicateKeyException;
 
-import com.delivery.exception.ApiException;
+import com.delivery.response.ApiException;
 import com.delivery.response.ErrorCode;
-import com.delivery.utility.address.Address;
+import com.delivery.user.application.UserManagementService;
+import com.delivery.user.application.UserManagementServiceHttp;
+import com.delivery.user.domain.User;
+import com.delivery.user.domain.UserRepository;
+import com.delivery.user.web.dto.UserRegisterParam;
+import com.delivery.utility.address.domain.AddressService;
 
 @ExtendWith(MockitoExtension.class)
 class UserManagementServiceTest {
     
     @Mock
     UserRepository userRepository;
-    @InjectMocks
-    UserManagementService service = new UserManagementServiceHttp(userRepository);
+    @Mock
+    AddressService addressService;
+    UserManagementService service;
     
     String email;
     String password;
@@ -33,11 +40,12 @@ class UserManagementServiceTest {
     
     @BeforeEach
     void setup() {
+        service = new UserManagementServiceHttp(userRepository, addressService);
         email = "myEmail@email.com";
         password = "P@ssw0rd!";
         param = new UserRegisterParam(
                 email, "nickname", "010-1234-5676",
-                password, LocalDate.now().minusDays(1));
+                password, LocalDate.of(2000, Month.MAY, 1));
     }
     
     

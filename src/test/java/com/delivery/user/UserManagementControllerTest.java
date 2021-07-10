@@ -18,8 +18,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import com.delivery.user.DeleteAccountParam.DeleteAccountRequest;
-import com.delivery.user.UserRegisterParam.UserRegisterRequest;
+import com.delivery.user.application.UserManagementService;
+import com.delivery.user.domain.UserRepository;
+import com.delivery.user.web.PasswordValidator;
+import com.delivery.user.web.UserManagementController;
+import com.delivery.user.web.dto.DeleteAccountParam.DeleteAccountRequest;
+import com.delivery.user.web.dto.UserRegisterParam.UserRegisterRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebMvcTest({UserManagementController.class, PasswordValidator.class})

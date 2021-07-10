@@ -8,8 +8,9 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.delivery.exception.ApiException;
+import com.delivery.response.ApiException;
 import com.delivery.response.ErrorCode;
+import com.delivery.user.domain.User;
 
 class UserTest {
     

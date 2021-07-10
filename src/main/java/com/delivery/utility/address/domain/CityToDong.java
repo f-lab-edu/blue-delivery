@@ -1,4 +1,4 @@
-package com.delivery.utility.address;
+package com.delivery.utility.address.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

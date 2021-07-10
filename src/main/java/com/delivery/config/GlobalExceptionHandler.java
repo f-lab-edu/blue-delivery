@@ -12,7 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.delivery.exception.ApiException;
+import com.delivery.response.ApiException;
 import com.delivery.response.ErrorCode;
 import com.delivery.response.HttpResponse;
 

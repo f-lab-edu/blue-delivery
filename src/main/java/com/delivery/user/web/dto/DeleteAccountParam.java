@@ -1,4 +1,4 @@
-package com.delivery.user;
+package com.delivery.user.web.dto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -15,7 +15,7 @@ public class DeleteAccountParam {
     
     @Getter
     @RequiredArgsConstructor
-    static class DeleteAccountRequest {
+    public static class DeleteAccountRequest {
         @Email
         private final String email;
         @NotBlank

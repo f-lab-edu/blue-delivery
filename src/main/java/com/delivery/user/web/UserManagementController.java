@@ -1,7 +1,5 @@
-package com.delivery.user;
+package com.delivery.user.web;
 
-import static com.delivery.user.UpdateAccountParam.UpdateAccountRequest;
-import static com.delivery.user.UserLoginParam.UserLoginRequest;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -14,8 +12,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.delivery.user.DeleteAccountParam.DeleteAccountRequest;
-import com.delivery.user.UserRegisterParam.UserRegisterRequest;
+import com.delivery.response.HttpResponse;
+import com.delivery.user.web.dto.AddressParam.AddressRequest;
+import com.delivery.user.web.dto.DeleteAccountParam.DeleteAccountRequest;
+import com.delivery.user.web.dto.UpdateAccountParam.UpdateAccountRequest;
+import com.delivery.user.web.dto.UserLoginParam.UserLoginRequest;
+import com.delivery.user.web.dto.UserRegisterParam.UserRegisterRequest;
 
 
 @RequestMapping("/users")
@@ -59,4 +61,35 @@ public interface UserManagementController {
      */
     @PutMapping("/{id}")
     void updateAccount(@PathVariable("id") Long id, @Valid @RequestBody UpdateAccountRequest updateRequest);
+    
+    /**
+     * 고객 주소 추가
+     *
+     * @param id           주소를 추가할 대상 고객
+     * @param addressParam 주소 정보
+     * @return
+     */
+    @PostMapping("/{id}/addresses")
+    ResponseEntity<HttpResponse<?>> addAddress(@PathVariable("id") Long id,
+                                               @Valid @RequestBody AddressRequest addressParam);
+    
+    /**
+     * 고객의 대표 주소 설정
+     *
+     * @param id        대상 고객 아이디
+     * @param addressId 주소 정보
+     * @return
+     */
+    @PostMapping("/{id}/addresses/main/{addrId}")
+    ResponseEntity<HttpResponse<?>> setMainAddress(@PathVariable("id") Long id, @PathVariable("addrId") Long addressId);
+    
+    /**
+     * 주소 목록에서 주소 삭제
+     *
+     * @param id        대상 고객 아이디
+     * @param addressId 주소 정보
+     * @return
+     */
+    @DeleteMapping("/{id}/addresses/{addrId}")
+    ResponseEntity<HttpResponse<?>> removeAddress(@PathVariable("id") Long id, @PathVariable("addrId") Long addressId);
 }

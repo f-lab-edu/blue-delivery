@@ -1,10 +1,10 @@
-package com.delivery.user;
+package com.delivery.user.web.dto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 import com.delivery.utility.RegexConstants;
-import com.delivery.utility.address.Address;
+import com.delivery.utility.address.domain.Address;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class UpdateAccountParam {
     
     @Getter
     @RequiredArgsConstructor
-    static class UpdateAccountRequest {
+    public static class UpdateAccountRequest {
         
         private final String email;
         

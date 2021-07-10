@@ -5,7 +5,6 @@ import static com.delivery.response.ErrorCode.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.delivery.exception.ApiException;
+import com.delivery.response.ApiException;
 import com.delivery.response.ErrorCode;
 import com.delivery.user.Authentication;
 import com.delivery.user.AuthenticationHolder;

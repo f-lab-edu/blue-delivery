@@ -1,4 +1,4 @@
-package com.delivery.exception;
+package com.delivery.response;
 
 import com.delivery.response.ErrorCode;
 

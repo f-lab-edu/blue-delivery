@@ -6,9 +6,10 @@ spring:
     password:
 
   flyway:
-    url: jdbc:h2:mem://localhost:3306/test;MODE=MYSQL;DB_CLOSE_DELAY=-1
-    user: sa
+    create-schemas: off
 
-  h2:
-    console:
-      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+

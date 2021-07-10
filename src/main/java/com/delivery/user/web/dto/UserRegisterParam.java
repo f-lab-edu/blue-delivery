@@ -1,4 +1,4 @@
-package com.delivery.user;
+package com.delivery.user.web.dto;
 
 import java.time.LocalDate;
 
@@ -8,8 +8,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 
+import com.delivery.user.domain.User;
 import com.delivery.utility.RegexConstants;
-import com.delivery.utility.address.Address;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class UserRegisterParam {
     
     @Getter
     @RequiredArgsConstructor
-    static class UserRegisterRequest {
+    public static class UserRegisterRequest {
         
         @NotBlank
         @Email
