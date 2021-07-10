@@ -1,13 +1,12 @@
 package com.delivery.utility.address;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.delivery.response.ApiException;
+import com.delivery.exception.ApiException;
 import com.delivery.response.ErrorCode;
 import com.delivery.user.domain.User;
 import com.delivery.utility.address.domain.Address;

@@ -24,6 +24,6 @@ mybatis:
     com.delivery.shop.businesshour,
     com.delivery.shop.closingday,
     com.delivery.shop.suspension,
-    com.delivery.user,
+    com.delivery.user.domain,
     com.delivery.utility,
     org.apache.ibatis.type

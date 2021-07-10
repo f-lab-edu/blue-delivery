@@ -14,7 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import com.delivery.response.ApiException;
+import com.delivery.exception.ApiException;
 import com.delivery.user.domain.User;
 
 @Embeddable

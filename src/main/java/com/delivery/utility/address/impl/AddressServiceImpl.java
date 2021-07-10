@@ -4,7 +4,7 @@ import static com.delivery.response.ErrorCode.ADDRESS_DOES_NOT_EXIST;
 
 import org.springframework.stereotype.Service;
 
-import com.delivery.response.ApiException;
+import com.delivery.exception.ApiException;
 import com.delivery.user.domain.User;
 import com.delivery.utility.address.domain.Address;
 import com.delivery.utility.address.domain.AddressService;

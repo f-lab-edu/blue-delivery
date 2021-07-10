@@ -6,7 +6,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.delivery.response.ApiException;
+import com.delivery.exception.ApiException;
 import com.delivery.response.ErrorCode;
 import com.delivery.user.Authentication;
 import com.delivery.user.domain.User;

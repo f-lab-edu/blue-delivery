@@ -5,7 +5,7 @@ import static com.delivery.shop.menu.Menu.*;
 
 import org.springframework.stereotype.Service;
 
-import com.delivery.response.ApiException;
+import com.delivery.exception.ApiException;
 
 @Service
 public class MenuService {

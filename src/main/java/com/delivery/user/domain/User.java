@@ -10,7 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.delivery.response.ApiException;
+import com.delivery.exception.ApiException;
 import com.delivery.response.ErrorCode;
 import com.delivery.utility.address.domain.Address;
 import com.delivery.utility.address.domain.Addresses;

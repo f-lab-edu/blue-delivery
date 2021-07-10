@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.delivery.response.ApiException;
+import com.delivery.exception.ApiException;
 import com.delivery.shop.businesshour.BusinessHourConditions;
 import com.delivery.shop.businesshour.BusinessHourPolicy;
 import com.delivery.shop.businesshour.UpdateBusinessHoursDto;
