@@ -47,8 +47,8 @@ public class MenuController {
      * @param menuId 대표 메뉴에 추가할 메뉴 ID
      *
      */
-    @PatchMapping("/{menuGroupId}/menus/main/{menuId}")
-    public ResponseEntity<HttpResponse> registerMainMenu(@PathVariable Long menuGroupId,
+    @PostMapping("/{menuGroupId}/menus/main/{menuId}")
+    public ResponseEntity<HttpResponse<?>> registerMainMenu(@PathVariable Long menuGroupId,
                                                  @PathVariable Long menuId) {
         menuService.registerMainMenu(menuId);
         return ResponseEntity.status(HttpStatus.OK).body(HttpResponse.response(SUCCESS, menuId));
@@ -62,7 +62,7 @@ public class MenuController {
      *
      */
     @DeleteMapping("/{menuGroupId}/menus/main/{menuId}")
-    public ResponseEntity<HttpResponse> deleteMainMenu(@PathVariable Long menuGroupId,
+    public ResponseEntity<HttpResponse<?>> deleteMainMenu(@PathVariable Long menuGroupId,
                                                        @PathVariable Long menuId) {
         menuService.deleteMainMenu(menuId);
         return ResponseEntity.status(HttpStatus.OK).body(HttpResponse.response(SUCCESS, menuId));

@@ -17,9 +17,9 @@ public interface MenuMapper {
 
     int menuStatusUpdate(Long id, MenuStatus status);
 
-    int addMainMenu(Long id);
+    int setMainMenu(Long id);
 
-    int deleteMainMenu(Long id);
+    int unSetMainMenu(Long id);
 
     int countMainMenu();
 

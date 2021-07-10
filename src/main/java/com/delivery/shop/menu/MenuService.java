@@ -29,11 +29,11 @@ public class MenuService {
         if (menuMapper.countMainMenu() > 5) {
             throw new ApiException(MAXIMUM_NUMBER_OF_MENU);
         }
-        return menuMapper.addMainMenu(id);
+        return menuMapper.setMainMenu(id);
     }
 
     public int deleteMainMenu(Long id) {
-        return menuMapper.deleteMainMenu(id);
+        return menuMapper.unSetMainMenu(id);
     }
 
     public void menuStatusUpdate(Long id, MenuStatus status) {

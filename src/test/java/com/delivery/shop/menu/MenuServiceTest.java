@@ -56,7 +56,7 @@ class MenuServiceTest {
         service.registerMainMenu(1L);
 
         //then
-        verify(menuMapper, times(1)).addMainMenu(1L);
+        verify(menuMapper, times(1)).setMainMenu(1L);
     }
 
     @Test
@@ -86,7 +86,7 @@ class MenuServiceTest {
         service.deleteMainMenu(1L);
 
         //then
-        verify(menuMapper, times(1)).deleteMainMenu(1L);
+        verify(menuMapper, times(1)).unSetMainMenu(1L);
     }
 
 

@@ -13,7 +13,7 @@
         <result property="isMain" column="IS_MAIN"/>
     </resultMap>
 
-    <insert id="saveMenu" parameterType="com.delivery.shop.menu.RegisterMenuDto">
+    <insert id="saveMenu" parameterType="com.delivery.shop.menu.Menu">
         INSERT INTO MENU(GROUP_ID, NAME, PRICE, COMPOSITION, CONTENT, STATUS, IS_MAIN)
         VALUES (#{menuGroupId}, #{name}, #{price}, #{composition}, #{content}, #{status}, #{isMain});
     </insert>
@@ -40,11 +40,11 @@
         WHERE IS_MAIN = 1 AND STATUS != 'HIDDEN';
     </select>
 
-    <update id="addMainMenu" parameterType="long">
+    <update id="setMainMenu" parameterType="long">
         UPDATE MENU SET IS_MAIN = 1 WHERE ID = #{id};
     </update>
 
-    <update id="deleteMainMenu" parameterType="long">
+    <update id="unSetMainMenu" parameterType="long">
         UPDATE MENU SET IS_MAIN = 0 WHERE ID = #{id};
     </update>
 
