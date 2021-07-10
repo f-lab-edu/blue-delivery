@@ -11,16 +11,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DuplicateKeyException;
 
-import com.delivery.response.ApiException;
+import com.delivery.exception.ApiException;
 import com.delivery.response.ErrorCode;
 import com.delivery.user.application.UserManagementService;
 import com.delivery.user.application.UserManagementServiceHttp;
-import com.delivery.user.domain.User;
 import com.delivery.user.domain.UserRepository;
 import com.delivery.user.web.dto.UserRegisterParam;
 import com.delivery.utility.address.domain.AddressService;
