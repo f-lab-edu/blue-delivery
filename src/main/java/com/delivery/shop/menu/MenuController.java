@@ -6,7 +6,6 @@ import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,13 +40,13 @@ public class MenuController {
     }
 
     /**
-     * 대표 메뉴 추가
+     * 대표 메뉴로 설정
      *
      * @param menuGroupId 메뉴 그룹 ID
-     * @param menuId 대표 메뉴에 추가할 메뉴 ID
+     * @param menuId 대표 메뉴로 설정할 메뉴 ID
      *
      */
-    @PostMapping("/{menuGroupId}/menus/main/{menuId}")
+    @PatchMapping("/{menuGroupId}/menus/main-set/{menuId}")
     public ResponseEntity<HttpResponse<?>> registerMainMenu(@PathVariable Long menuGroupId,
                                                  @PathVariable Long menuId) {
         menuService.registerMainMenu(menuId);
@@ -55,13 +54,13 @@ public class MenuController {
     }
 
     /**
-     * 대표 메뉴 삭제
+     * 대표 메뉴 설정 해제
      *
      * @param menuGroupId 메뉴 그룹 ID
-     * @param menuId 대표 메뉴에서 삭제할 메뉴 ID
+     * @param menuId 대표 메뉴 설정을 해제할 ID
      *
      */
-    @DeleteMapping("/{menuGroupId}/menus/main/{menuId}")
+    @PatchMapping("/{menuGroupId}/menus/main-unset/{menuId}")
     public ResponseEntity<HttpResponse<?>> deleteMainMenu(@PathVariable Long menuGroupId,
                                                        @PathVariable Long menuId) {
         menuService.deleteMainMenu(menuId);
