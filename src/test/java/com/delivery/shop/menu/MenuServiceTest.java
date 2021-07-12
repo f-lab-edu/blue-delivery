@@ -53,7 +53,7 @@ class MenuServiceTest {
     public void addMainMenu() {
 
         //when
-        service.registerMainMenu(1L);
+        service.setMainMenu(1L);
 
         //then
         verify(menuMapper, times(1)).setMainMenu(1L);
@@ -66,29 +66,16 @@ class MenuServiceTest {
                 .id(7L)
                 .build();
 
-        when(service.registerMainMenu(menu.getId()))
+        when(service.setMainMenu(menu.getId()))
                 .thenThrow(new ApiException(MAXIMUM_NUMBER_OF_MENU));
 
         ErrorCode errorCode =
                 assertThrows(ApiException.class,
-                        () -> service.registerMainMenu(menu.getId())).getError();
+                        () -> service.setMainMenu(menu.getId())).getError();
 
         assertThat(errorCode).isEqualTo(MAXIMUM_NUMBER_OF_MENU);
 
     }
-
-
-    @Test
-    @DisplayName("대표메뉴 삭제 기능 테스트")
-    public void deleteMainMenu() {
-
-        //when
-        service.deleteMainMenu(1L);
-
-        //then
-        verify(menuMapper, times(1)).unSetMainMenu(1L);
-    }
-
 
     @Test
     @DisplayName("메뉴 이름 중복 테스트")

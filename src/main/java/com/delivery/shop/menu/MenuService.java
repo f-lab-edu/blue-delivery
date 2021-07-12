@@ -25,15 +25,11 @@ public class MenuService {
         return menuMapper.saveMenu(menu);
     }
 
-    public int registerMainMenu(Long id) {
+    public int setMainMenu(Long id) {
         if (menuMapper.countMainMenu() > 5) {
             throw new ApiException(MAXIMUM_NUMBER_OF_MENU);
         }
         return menuMapper.setMainMenu(id);
-    }
-
-    public int deleteMainMenu(Long id) {
-        return menuMapper.unSetMainMenu(id);
     }
 
     public void menuStatusUpdate(Long id, MenuStatus status) {

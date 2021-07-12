@@ -41,7 +41,7 @@
     </select>
 
     <update id="setMainMenu" parameterType="long">
-        UPDATE MENU SET IS_MAIN = 1 WHERE ID = #{id};
+        UPDATE MENU SET IS_MAIN = IF(IS_MAIN = true, false, true) WHERE ID = #{id};
     </update>
 
     <update id="unSetMainMenu" parameterType="long">

@@ -40,30 +40,16 @@ public class MenuController {
     }
 
     /**
-     * 대표 메뉴로 설정
+     * 대표 메뉴로 설정 및 해제
      *
      * @param menuGroupId 메뉴 그룹 ID
-     * @param menuId 대표 메뉴로 설정할 메뉴 ID
+     * @param menuId 대표 메뉴로 설정 및 해제할 메뉴 ID
      *
      */
     @PatchMapping("/{menuGroupId}/menus/main-set/{menuId}")
     public ResponseEntity<HttpResponse<?>> registerMainMenu(@PathVariable Long menuGroupId,
-                                                 @PathVariable Long menuId) {
-        menuService.registerMainMenu(menuId);
-        return ResponseEntity.status(HttpStatus.OK).body(HttpResponse.response(SUCCESS, menuId));
-    }
-
-    /**
-     * 대표 메뉴 설정 해제
-     *
-     * @param menuGroupId 메뉴 그룹 ID
-     * @param menuId 대표 메뉴 설정을 해제할 ID
-     *
-     */
-    @PatchMapping("/{menuGroupId}/menus/main-unset/{menuId}")
-    public ResponseEntity<HttpResponse<?>> deleteMainMenu(@PathVariable Long menuGroupId,
-                                                       @PathVariable Long menuId) {
-        menuService.deleteMainMenu(menuId);
+                                                            @PathVariable Long menuId) {
+        menuService.setMainMenu(menuId);
         return ResponseEntity.status(HttpStatus.OK).body(HttpResponse.response(SUCCESS, menuId));
     }
 

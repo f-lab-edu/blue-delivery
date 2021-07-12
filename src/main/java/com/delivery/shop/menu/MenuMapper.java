@@ -19,8 +19,6 @@ public interface MenuMapper {
 
     int setMainMenu(Long id);
 
-    int unSetMainMenu(Long id);
-
     int countMainMenu();
 
     Menu findMenuById(Long id);
