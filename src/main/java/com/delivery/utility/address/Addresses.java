@@ -27,24 +27,20 @@ public class Addresses {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Address> addresses = new HashSet<>();
     
-    public void addAddress(User user, Address address) {
-        address.setUser(user);
-        addresses.add(address);
+    public boolean addAddress(Address address) {
+        return addresses.add(address);
     }
     
-    public void removeAddress(Address address) {
-        if (!addresses.remove(address)) {
-            throw new ApiException(ADDRESS_DOES_NOT_EXIST);
-        }
-        address.setUser(null);
+    public boolean removeAddress(Address address) {
+        return addresses.remove(address);
     }
     
-    public void designateAsMainAddress(User user, Address address) {
-        address.setUser(user);
-        if (!Objects.equals(mainAddress, address)) {
+    public boolean designateAsMainAddress(Address address) {
+        if (addresses.contains(address)) {
             this.mainAddress = address;
-            addresses.add(address);
+            return true;
         }
+        return false;
     }
     
     public Address getMainAddress() {

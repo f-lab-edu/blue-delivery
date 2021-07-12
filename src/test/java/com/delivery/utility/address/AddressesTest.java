@@ -8,10 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import com.delivery.exception.ApiException;
 import com.delivery.response.ErrorCode;
-import com.delivery.user.domain.User;
-import com.delivery.utility.address.domain.Address;
-import com.delivery.utility.address.domain.Addresses;
-import com.delivery.utility.address.domain.BuildingInfo;
 
 class AddressesTest {
     
@@ -25,7 +21,7 @@ class AddressesTest {
         assertThat(addresses.getAddresses().size()).isEqualTo(0);
         
         //when
-        addresses.addAddress(new User(), address);
+        addresses.addAddress(address);
         
         //then
         assertThat(addresses.getAddresses().size()).isEqualTo(1);
@@ -41,8 +37,8 @@ class AddressesTest {
         Address addr2 = new Address(sameBuilding, "102호");
         
         //when
-        addresses.addAddress(new User(), addr1);
-        addresses.addAddress(new User(), addr2);
+        addresses.addAddress(addr1);
+        addresses.addAddress(addr2);
         
         //then
         assertThat(addresses.getAddresses().size()).isEqualTo(2);
@@ -58,21 +54,22 @@ class AddressesTest {
         Address addr2 = new Address(sameBuilding, "101호");
     
         //when
-        addresses.addAddress(new User(), addr1);
-        addresses.addAddress(new User(), addr2);
+        addresses.addAddress(addr1);
+        addresses.addAddress(addr2);
         
         //then
         assertThat(addresses.getAddresses().size()).isEqualTo(1);
     }
     
     @Test
-    @DisplayName("넘겨받은 주소를 대표 주소로 설정한다.")
+    @DisplayName("대표주소 설정시 넘겨받은 주소가 주소 목록에 존재하면 대표 주소 설정 후 true를 리턴한다..")
     void chooseAddressAndSetToCurrentAddress() {
         //given
         Address room101 = new Address(new BuildingInfo(), "101호");
+        addresses.addAddress(room101);
         
         //when
-        addresses.designateAsMainAddress(new User(), room101);
+        addresses.designateAsMainAddress(room101);
         
         //then
         assertThat(addresses.getMainAddress()).isEqualTo(room101);
@@ -90,16 +87,16 @@ class AddressesTest {
     }
     
     @Test
-    @DisplayName("주소 목록에 없는 주소를 넘겨받으면 주소 목록에 추가된다.")
+    @DisplayName("대표주소 설정시 주소 목록에 없는 주소를 넘겨받으면 false를 리턴한다.")
     void chooseAddress() {
         //given
         Address room101 = new Address(new BuildingInfo(), "101호");
         
         //when
-        addresses.designateAsMainAddress(new User(), room101);
-        
+        boolean result = addresses.designateAsMainAddress(room101);
+    
         //then
-        assertThat(addresses.getAddresses().contains(room101)).isTrue();
+        assertThat(result).isFalse();
     }
     
     @Test
@@ -107,7 +104,7 @@ class AddressesTest {
     void removeAddress() {
         //given
         Address room101 = new Address(new BuildingInfo(), "101호");
-        addresses.addAddress(new User(), room101);
+        addresses.addAddress(room101);
         
         //when
         addresses.removeAddress(room101);
@@ -118,16 +115,16 @@ class AddressesTest {
     }
     
     @Test
-    @DisplayName("주소 목록에서 존재하지 않는 주소를 삭제하려고 하면 예외를 던진다.")
+    @DisplayName("주소 목록에서 존재하지 않는 주소를 삭제하려고 하면 false를 리턴한다.")
     void ignoreRemoveIfAddressNotExists() {
         //given
         Address room101 = new Address(new BuildingInfo(), "101호");
         
         //when
-        ApiException exception = assertThrows(ApiException.class, () -> addresses.removeAddress(room101));
-        
+        boolean result = addresses.removeAddress(room101);
+    
         //then
-        assertThat(exception.getError()).isEqualTo(ErrorCode.ADDRESS_DOES_NOT_EXIST);
+        assertThat(result).isFalse();
     }
     
     @Test

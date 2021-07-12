@@ -4,7 +4,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 import com.delivery.utility.RegexConstants;
-import com.delivery.utility.address.domain.Address;
+import com.delivery.utility.address.Address;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

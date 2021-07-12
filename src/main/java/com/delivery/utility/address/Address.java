@@ -40,6 +40,10 @@ public class Address {
         this.detail = detail;
     }
     
+    public Long getId() {
+        return id;
+    }
+    
     public void setUser(User user) {
         this.user = user;
     }

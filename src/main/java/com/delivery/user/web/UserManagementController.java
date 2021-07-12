@@ -91,5 +91,5 @@ public interface UserManagementController {
      * @return
      */
     @DeleteMapping("/{id}/addresses/{addrId}")
-    ResponseEntity<HttpResponse<?>> removeAddress(@PathVariable("id") Long id, @PathVariable("addrId") Long addressId);
+    ResponseEntity<?> removeAddress(@PathVariable("id") Long id, @PathVariable("addrId") Long addressId);
 }

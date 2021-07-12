@@ -6,6 +6,7 @@ import com.delivery.user.web.dto.DeleteAccountParam;
 import com.delivery.user.web.dto.UpdateAccountParam;
 import com.delivery.user.web.dto.UserLoginParam;
 import com.delivery.user.web.dto.UserRegisterParam;
+import com.delivery.utility.address.Address;
 
 public interface UserManagementService {
     
@@ -43,7 +44,7 @@ public interface UserManagementService {
      *
      * @param addressParam 유저 id와 주소 정보
      */
-    void addAddress(AddressParam addressParam);
+    Address addAddress(AddressParam addressParam);
     
     /**
      * 고객 주소를 대표 주소로 지정
@@ -51,8 +52,9 @@ public interface UserManagementService {
      *
      * @param id    고객 id
      * @param addressId 대표로 지정할 주소 id
+     * @return 대표 주소 지정 여부를 반환. false인 경우 주소 목록에 존재하지 않는 경우이다.
      */
-    void setMainAddress(Long id, Long addressId);
+    boolean setMainAddress(Long id, Long addressId);
     
     /**
      * 주소 목록에서 주어진 주소를 삭제한다.
@@ -60,7 +62,8 @@ public interface UserManagementService {
      *
      * @param id    고객 id
      * @param addressId 삭제할 주소 id
+     * @return 삭제 성공 여부를 반환. false이면 애초에 존재하지 않은 경우이다.
      */
-    void removeAddress(Long id, Long addressId);
+    boolean removeAddress(Long id, Long addressId);
     
 }

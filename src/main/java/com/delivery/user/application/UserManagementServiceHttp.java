@@ -2,8 +2,6 @@ package com.delivery.user.application;
 
 import java.util.Locale;
 
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,25 +57,27 @@ public class UserManagementServiceHttp implements UserManagementService {
     }
     
     @Override
-    public void addAddress(AddressParam param) {
+    public Address addAddress(AddressParam param) {
         User user = getUserByIdAndCheckNotNull(param.getId());
         BuildingInfo buildingInfo =
                 addressService.getBuildingAddress(param.getBuildingManagementNumber());
-        user.addAddress(new Address(buildingInfo, param.getDetail()));
+        Address address = new Address(buildingInfo, param.getDetail());
+        user.addAddress(address);
+        return address;
     }
     
     @Override
-    public void setMainAddress(Long userId, Long addressId) {
+    public boolean setMainAddress(Long userId, Long addressId) {
         User user = getUserByIdAndCheckNotNull(userId);
         Address address = addressService.getAddress(addressId, user);
-        user.designateAsMainAddress(address);
+        return user.designateAsMainAddress(address);
     }
     
     @Override
-    public void removeAddress(Long userId, Long addressId) {
+    public boolean removeAddress(Long userId, Long addressId) {
         User user = getUserByIdAndCheckNotNull(userId);
         Address address = addressService.getAddress(addressId, user);
-        user.removeAddress(address);
+        return user.removeAddress(address);
     }
     
     private User getUserByIdAndCheckNotNull(Long id) {

@@ -12,8 +12,8 @@ import javax.persistence.Id;
 
 import com.delivery.exception.ApiException;
 import com.delivery.response.ErrorCode;
-import com.delivery.utility.address.domain.Address;
-import com.delivery.utility.address.domain.Addresses;
+import com.delivery.utility.address.Address;
+import com.delivery.utility.address.Addresses;
 
 @Entity
 public class User {
@@ -87,16 +87,17 @@ public class User {
         return addresses;
     }
     
-    public void designateAsMainAddress(Address address) {
-        addresses.designateAsMainAddress(this, address);
+    public boolean designateAsMainAddress(Address address) {
+        return addresses.designateAsMainAddress(address);
     }
     
-    public void addAddress(Address address) {
-        addresses.addAddress(this, address);
+    public boolean addAddress(Address address) {
+        address.setUser(this);
+        return addresses.addAddress(address);
     }
     
-    public void removeAddress(Address address) {
-        addresses.removeAddress(address);
+    public boolean removeAddress(Address address) {
+        return addresses.removeAddress(address);
     }
     
     @Override

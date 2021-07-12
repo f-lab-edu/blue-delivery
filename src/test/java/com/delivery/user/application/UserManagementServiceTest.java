@@ -1,4 +1,4 @@
-package com.delivery.user;
+package com.delivery.user.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,8 +17,6 @@ import org.springframework.dao.DuplicateKeyException;
 
 import com.delivery.exception.ApiException;
 import com.delivery.response.ErrorCode;
-import com.delivery.user.application.UserManagementService;
-import com.delivery.user.application.UserManagementServiceHttp;
 import com.delivery.user.domain.UserRepository;
 import com.delivery.user.web.dto.UserRegisterParam;
 import com.delivery.utility.address.AddressService;
@@ -40,7 +38,6 @@ class UserManagementServiceTest {
     void setup() {
         service = new UserManagementServiceHttp(userRepository, addressService);
         email = "myEmail@email.com";
-        password = "P@ssw0rd!";
         param = new UserRegisterParam(
                 email, "nickname", "010-1234-5676",
                 password, LocalDate.of(2000, Month.MAY, 1));
