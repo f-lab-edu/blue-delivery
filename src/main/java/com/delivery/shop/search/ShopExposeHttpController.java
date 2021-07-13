@@ -22,7 +22,7 @@ public class ShopExposeHttpController implements ShopExposeController {
         this.shopExposeService = shopExposeService;
     }
     
-    @GetMapping("/{id}/shops")
+    @GetMapping("categories/{id}/shops")
     public ResponseEntity<GetShopsByCategoryResponse> getShopsByCategory(@PathVariable("id") Long id) {
         LocalDateTime when = LocalDateTime.now();
         List<Shop> shops = shopExposeService.getShopsByCategory(new SearchShopByCategoryParam(id, when));

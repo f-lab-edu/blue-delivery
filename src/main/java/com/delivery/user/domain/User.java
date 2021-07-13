@@ -1,42 +1,48 @@
-package com.delivery.user;
+package com.delivery.user.domain;
 
 import java.time.LocalDate;
 import java.util.Objects;
 
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import com.delivery.exception.ApiException;
 import com.delivery.response.ErrorCode;
+import com.delivery.utility.address.Address;
+import com.delivery.utility.address.Addresses;
 
+@Entity
 public class User {
     
+    @Id
+    @Column(name = "USER_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @Embedded
+    private Addresses addresses;
+    
     private String email;
     private String nickname;
     private String phone;
     private String password;
     private LocalDate dateOfBirth;
-    private String address; // TODO 가게 조회시에 사용하기 위해 String 말고 다른 클래스 객체가 필요할 것 같음
+    
     
     public User() {
     }
     
-    public User(String email, String nickname, String phone, String password, LocalDate dateOfBirth, String address) {
+    public User(String email, String nickname, String phone, String password, LocalDate dateOfBirth) {
+        this.addresses = new Addresses();
         this.email = email;
         this.nickname = nickname;
         this.phone = phone.replaceAll("-", "");
         this.password = password;
         this.dateOfBirth = dateOfBirth;
-        this.address = address;
-    }
-    
-    public User(Long id, String email, String nickname, String phone, String password,
-                LocalDate dateOfBirth, String address) {
-        this.id = id;
-        this.email = email;
-        this.nickname = nickname;
-        this.phone = phone;
-        this.password = password;
-        this.dateOfBirth = dateOfBirth;
-        this.address = address;
     }
     
     public void validate(String email, String password) {
@@ -69,10 +75,6 @@ public class User {
         return dateOfBirth;
     }
     
-    public String getAddress() {
-        return address;
-    }
-    
     public void changeNickname(String nickname) {
         this.nickname = nickname;
     }
@@ -81,8 +83,21 @@ public class User {
         this.phone = phone;
     }
     
-    public void changeAddress(String address) {
-        this.address = address;
+    public Addresses getAddresses() {
+        return addresses;
+    }
+    
+    public boolean designateAsMainAddress(Address address) {
+        return addresses.designateAsMainAddress(address);
+    }
+    
+    public boolean addAddress(Address address) {
+        address.setUser(this);
+        return addresses.addAddress(address);
+    }
+    
+    public boolean removeAddress(Address address) {
+        return addresses.removeAddress(address);
     }
     
     @Override
@@ -94,18 +109,14 @@ public class User {
             return false;
         }
         User user = (User) obj;
-        return Objects.equals(id, user.id)
-                && Objects.equals(email, user.email)
-                && Objects.equals(nickname, user.nickname)
-                && Objects.equals(phone, user.phone)
-                && Objects.equals(password, user.password)
-                && Objects.equals(dateOfBirth, user.dateOfBirth)
-                && Objects.equals(address, user.address);
+        return Objects.equals(id, user.id) && Objects.equals(addresses, user.addresses)
+                && Objects.equals(email, user.email) && Objects.equals(nickname, user.nickname)
+                && Objects.equals(phone, user.phone) && Objects.equals(password, user.password)
+                && Objects.equals(dateOfBirth, user.dateOfBirth);
     }
     
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, nickname, phone, password, dateOfBirth, address);
+        return Objects.hash(id, addresses, email, nickname, phone, password, dateOfBirth);
     }
-    
 }

@@ -1,4 +1,4 @@
-package com.delivery.user;
+package com.delivery.user.web.dto;
 
 import java.time.LocalDate;
 
@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 
+import com.delivery.user.domain.User;
 import com.delivery.utility.RegexConstants;
 
 import lombok.Getter;
@@ -21,15 +22,14 @@ public class UserRegisterParam {
     private final String phone;
     private final String password;
     private final LocalDate dateOfBirth;
-    private final String address;
     
     public User toEntity() {
-        return new User(email, nickname, phone, password, dateOfBirth, address);
+        return new User(email, nickname, phone, password, dateOfBirth);
     }
     
     @Getter
     @RequiredArgsConstructor
-    static class UserRegisterRequest {
+    public static class UserRegisterRequest {
         
         @NotBlank
         @Email
@@ -54,11 +54,8 @@ public class UserRegisterParam {
         @Past(message = "올바르지 않은 생년월일 입니다.")
         private final LocalDate dateOfBirth;
         
-        @NotNull
-        private final String address; // TODO
-        
         public UserRegisterParam toParam() {
-            return new UserRegisterParam(email, nickname, phone, password, dateOfBirth, address);
+            return new UserRegisterParam(email, nickname, phone, password, dateOfBirth);
         }
     }
 }

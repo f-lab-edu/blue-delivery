@@ -1,9 +1,10 @@
-package com.delivery.user;
+package com.delivery.user.web.dto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 import com.delivery.utility.RegexConstants;
+import com.delivery.utility.address.Address;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -16,11 +17,11 @@ public class UpdateAccountParam {
     private final String nickname;
     private final String phone;
     private final String password;
-    private final String address;
+    private final Address address;
     
     @Getter
     @RequiredArgsConstructor
-    static class UpdateAccountRequest {
+    public static class UpdateAccountRequest {
         
         private final String email;
         
@@ -37,7 +38,7 @@ public class UpdateAccountParam {
                 message = "알파벳, 숫자, 특수문자가 각 1개이상 포함된 8~20 글자여야 합니다.")
         private final String password;
         
-        private final String address; // TODO
+        private final Address address;
     
         public UpdateAccountParam toParam(Long id) {
             return new UpdateAccountParam(id, email, nickname, phone, password, address);

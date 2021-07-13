@@ -1,4 +1,4 @@
-package com.delivery.user;
+package com.delivery.user.web;
 
 import java.util.Objects;
 
@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.delivery.user.UserRegisterParam.UserRegisterRequest;
+import com.delivery.user.web.dto.UserRegisterParam.UserRegisterRequest;
 
 @Component
 public class PasswordValidator implements Validator {

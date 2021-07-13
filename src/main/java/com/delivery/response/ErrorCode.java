@@ -17,8 +17,9 @@ public enum ErrorCode {
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "User is not found."),
     NOT_AUTHORIZED_ACCESS(HttpStatus.FORBIDDEN, "Not Authorized access"),
     INVALID_AUTHENTICATION(HttpStatus.BAD_REQUEST, "Invalid Authentication"),
+    ADDRESS_DOES_NOT_EXIST(HttpStatus.NOT_FOUND, "Address does not exist.");
     MAXIMUM_NUMBER_OF_MENU(HttpStatus.BAD_REQUEST, "Maximum number of main menus exceeded");
-
+  
     private final HttpStatus httpStatus;
     private final String result;
     private final String message;
