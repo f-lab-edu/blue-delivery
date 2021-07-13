@@ -1,6 +1,7 @@
 package com.delivery.utility.address;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -12,7 +13,7 @@ import lombok.Builder;
 @Entity
 public class BuildingInfo {
     @ManyToOne
-    @JoinColumn(name = "Address_Jurisdiction_Eup_Myon_Dong_Code")
+    @JoinColumn(name = "ADDRESS_JURISDICTION_EUP_MYON_DONG_CODE")
     private CityToDong cityToDong;
     @Id
     private String buildingManagementNumber; // 건물관리번호
@@ -67,4 +68,41 @@ public class BuildingInfo {
         this.roadNameCode = roadNameCode;
     }
     
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        BuildingInfo that = (BuildingInfo) obj;
+        return Objects.equals(cityToDong, that.cityToDong)
+                && Objects.equals(buildingManagementNumber, that.buildingManagementNumber)
+                && Objects.equals(buildingNameForSiGunGu, that.buildingNameForSiGunGu)
+                && Objects.equals(isBasement, that.isBasement)
+                && Objects.equals(buildingMainNumber, that.buildingMainNumber)
+                && Objects.equals(buildingSubNumber, that.buildingSubNumber)
+                && Objects.equals(postalCode, that.postalCode)
+                && Objects.equals(numberOfGroundFloor, that.numberOfGroundFloor)
+                && Objects.equals(numberOfBasementFloor, that.numberOfBasementFloor)
+                && Objects.equals(classificationApartmentHouse, that.classificationApartmentHouse)
+                && Objects.equals(numberOfBuildings, that.numberOfBuildings)
+                && Objects.equals(detailBuildingName, that.detailBuildingName)
+                && Objects.equals(xPosBuilding, that.xPosBuilding)
+                && Objects.equals(yPosBuilding, that.yPosBuilding)
+                && Objects.equals(xPosEntrance, that.xPosEntrance)
+                && Objects.equals(yPosEntrance, that.yPosEntrance)
+                && Objects.equals(roadName, that.roadName) && Objects.equals(roadNameEng, that.roadNameEng)
+                && Objects.equals(roadNameCode, that.roadNameCode);
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(cityToDong, buildingManagementNumber, buildingNameForSiGunGu, isBasement,
+                buildingMainNumber, buildingSubNumber, postalCode, numberOfGroundFloor, numberOfBasementFloor,
+                classificationApartmentHouse, numberOfBuildings, detailBuildingName,
+                xPosBuilding, yPosBuilding, xPosEntrance, yPosEntrance, roadName, roadNameEng, roadNameCode);
+    }
 }

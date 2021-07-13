@@ -1,4 +1,4 @@
-package com.delivery.user;
+package com.delivery.user.web;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -18,10 +18,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import com.delivery.user.Authentication;
 import com.delivery.user.application.UserManagementService;
 import com.delivery.user.domain.UserRepository;
-import com.delivery.user.web.PasswordValidator;
-import com.delivery.user.web.UserManagementController;
 import com.delivery.user.web.dto.DeleteAccountParam.DeleteAccountRequest;
 import com.delivery.user.web.dto.UserRegisterParam.UserRegisterRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;

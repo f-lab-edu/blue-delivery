@@ -1,11 +1,11 @@
 -- 상세 주소 정보
 create table address
 (
-    id                                      bigint NOT NULL AUTO_INCREMENT COMMENT 'PK ID',
+    ADDRESS_ID                              bigint NOT NULL AUTO_INCREMENT COMMENT 'PK ID',
     detail                                  varchar(255) COMMENT '상세주소 (동-호수 등 입력받은 정보)',
-    building_management_number              varchar(25) COMMENT 'FK 건물관리번호',
-    address_jurisdiction_eup_myon_dong_code varchar(10) COMMENT 'FK 주소관할읍면동코드',
-    primary key (id)
+    building_management_number              varchar(25) NOT NULL COMMENT 'FK 건물관리번호',
+    USER_ID                                 bigint COMMENT 'FK USER ID',
+    primary key (ADDRESS_ID)
 ) engine=InnoDB;
 
 -- 주소DB 입력용 테이블
@@ -90,13 +90,21 @@ alter table address
         foreign key (building_management_number)
             references building_info (building_management_number);
 
-alter table address
-    add constraint FK_City_Info
-        foreign key (address_jurisdiction_eup_myon_dong_code)
-            references city_to_dong (address_jurisdiction_eup_myon_dong_code);
-
-
 alter table building_info
     add constraint FK_City
         foreign key (address_jurisdiction_eup_myon_dong_code)
             references city_to_dong (address_jurisdiction_eup_myon_dong_code);
+
+alter table address
+    add constraint FK_User
+        foreign key (user_id)
+            references user (USER_ID);
+
+alter table USER
+    add constraint FK_MAIN_ADDRESS
+        foreign key (MAIN_ADDRESS_ID)
+            references ADDRESS (ADDRESS_ID);
+
+alter table address
+    add constraint UC_Address
+        unique (USER_ID, BUILDING_MANAGEMENT_NUMBER, DETAIL);

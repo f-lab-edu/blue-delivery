@@ -3,8 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.delivery.user.UserMapper">
-    <resultMap id="userResultMap" type="com.delivery.user.User">
+<mapper namespace="com.delivery.user.domain.UserMapper">
+    <resultMap id="userResultMap" type="com.delivery.user.domain.User">
         <id column="USER_ID" property="id" javaType="long"/>
         <result column="EMAIL" property="email" javaType="string"/>
         <result column="NICKNAME" property="nickname" javaType="string"/>

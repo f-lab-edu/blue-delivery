@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import com.delivery.exception.ApiException;
 import com.delivery.response.ErrorCode;
+import com.delivery.user.domain.User;
 
 class UserTest {
     

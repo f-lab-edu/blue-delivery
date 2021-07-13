@@ -1,4 +1,4 @@
-package com.delivery.user;
+package com.delivery.user.web.dto;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,7 @@ public class UserLoginParam {
     
     @Getter
     @RequiredArgsConstructor
-    static class UserLoginRequest {
+    public static class UserLoginRequest {
         private final String email;
         private final String password;
         

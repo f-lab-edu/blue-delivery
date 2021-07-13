@@ -2,33 +2,37 @@ package com.delivery.user.application;
 
 import java.util.Locale;
 
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.delivery.exception.ApiException;
 import com.delivery.response.ErrorCode;
 import com.delivery.user.Authentication;
-import com.delivery.user.DeleteAccountParam;
-import com.delivery.user.UpdateAccountParam;
-import com.delivery.user.User;
-import com.delivery.user.UserLoginParam;
-import com.delivery.user.UserRegisterParam;
-import com.delivery.user.UserRepository;
-import com.delivery.user.application.UserManagementService;
+import com.delivery.user.domain.User;
+import com.delivery.user.domain.UserRepository;
+import com.delivery.user.web.dto.AddressParam;
+import com.delivery.user.web.dto.DeleteAccountParam;
+import com.delivery.user.web.dto.UpdateAccountParam;
+import com.delivery.user.web.dto.UserLoginParam;
+import com.delivery.user.web.dto.UserRegisterParam;
+import com.delivery.utility.address.Address;
+import com.delivery.utility.address.AddressService;
+import com.delivery.utility.address.BuildingInfo;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
+@Transactional
 @Service
 public class UserManagementServiceHttp implements UserManagementService {
     
-    private UserRepository userRepository;
-    
-    public UserManagementServiceHttp(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final UserRepository userRepository;
+    private final AddressService addressService;
     
     public void register(UserRegisterParam dto) {
         try {
             userRepository.save(dto.toEntity());
-        } catch (DuplicateKeyException ex) {
+        } catch (RuntimeException ex) {
             throwDuplicateInfoException(ex);
         }
     }
@@ -40,38 +44,54 @@ public class UserManagementServiceHttp implements UserManagementService {
     }
     
     public void updateAccount(UpdateAccountParam param) {
-        User findUser = findUserByIdAndCheckNotNull(param.getId());
+        User findUser = getUserByIdAndCheckNotNull(param.getId());
         findUser.validate(param.getEmail(), param.getPassword());
         findUser.changePhone(param.getPhone());
         findUser.changeNickname(param.getNickname());
-        userRepository.update(findUser);
     }
     
     public void deleteAccount(DeleteAccountParam param) {
-        User user = findUserByIdAndCheckNotNull(param.getId());
+        User user = getUserByIdAndCheckNotNull(param.getId());
         user.validate(param.getEmail(), param.getPassword());
         userRepository.delete(user);
     }
     
-    private User findUserByIdAndCheckNotNull(Long id) {
-        User user = userRepository.findUserById(id);
-        if (user == null) {
-            throw new ApiException(ErrorCode.USER_NOT_FOUND);
-        }
-        return user;
+    @Override
+    public Address addAddress(AddressParam param) {
+        User user = getUserByIdAndCheckNotNull(param.getId());
+        BuildingInfo buildingInfo =
+                addressService.getBuildingAddress(param.getBuildingManagementNumber());
+        Address address = new Address(buildingInfo, param.getDetail());
+        user.addAddress(address);
+        return address;
+    }
+    
+    @Override
+    public boolean setMainAddress(Long userId, Long addressId) {
+        User user = getUserByIdAndCheckNotNull(userId);
+        Address address = addressService.getAddress(addressId, user);
+        return user.designateAsMainAddress(address);
+    }
+    
+    @Override
+    public boolean removeAddress(Long userId, Long addressId) {
+        User user = getUserByIdAndCheckNotNull(userId);
+        Address address = addressService.getAddress(addressId, user);
+        return user.removeAddress(address);
+    }
+    
+    private User getUserByIdAndCheckNotNull(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new ApiException(ErrorCode.USER_NOT_FOUND));
     }
     
     private User findUserByEmailAndCheckNotNull(String email) {
-        User user = userRepository.findUserByEmail(email);
-        if (user == null) {
-            throw new ApiException(ErrorCode.USER_NOT_FOUND);
-        }
-        return user;
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new ApiException(ErrorCode.USER_NOT_FOUND));
     }
     
-    private void throwDuplicateInfoException(DuplicateKeyException ex) {
-        String message = ex.getMessage();
-        String msg = message.substring(message.lastIndexOf("for key")).toLowerCase(Locale.ROOT);
+    private void throwDuplicateInfoException(RuntimeException ex) {
+        String msg = ex.getMessage().toLowerCase(Locale.ROOT);
         if (msg.contains("email")) {
             throw new ApiException(ErrorCode.DUPLICATE_EMAIL);
         }

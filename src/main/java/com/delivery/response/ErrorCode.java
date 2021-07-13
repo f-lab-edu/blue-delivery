@@ -16,8 +16,9 @@ public enum ErrorCode {
     USER_NOT_VALIDATED(HttpStatus.BAD_REQUEST, "User is not validated."),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "User is not found."),
     NOT_AUTHORIZED_ACCESS(HttpStatus.FORBIDDEN, "Not Authorized access"),
-    INVALID_AUTHENTICATION(HttpStatus.BAD_REQUEST, "Invalid Authentication");
-
+    INVALID_AUTHENTICATION(HttpStatus.BAD_REQUEST, "Invalid Authentication"),
+    ADDRESS_DOES_NOT_EXIST(HttpStatus.NOT_FOUND, "Address does not exist.");
+    
     private final HttpStatus httpStatus;
     private final String status;
     private final String message;

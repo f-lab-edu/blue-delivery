@@ -1,4 +1,4 @@
-package com.delivery.user;
+package com.delivery.user.web.dto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -21,7 +21,7 @@ public class UpdateAccountParam {
     
     @Getter
     @RequiredArgsConstructor
-    static class UpdateAccountRequest {
+    public static class UpdateAccountRequest {
         
         private final String email;
         

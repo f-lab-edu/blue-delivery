@@ -1,4 +1,4 @@
-package com.delivery.user;
+package com.delivery.user.domain;
 
 import org.apache.ibatis.annotations.Mapper;
 

@@ -1,11 +1,15 @@
 spring:
   datasource:
-    url: jdbc:log4jdbc:mysql://localhost:3306/delivery
+    # 쿼리 로그가 2중으로 찍히는데, log4jdbc는 정리가 안되어 나와서 주석처리함. mybatis 쿼리로그를 보려면 이 url을 사용
+    # url: jdbc:log4jdbc:mysql://localhost:3306/delivery
+    url: jdbc:mysql://localhost:3306/delivery
     username: root
     password: password
+
   flyway:
-    ignore-ignored-migrations: true
-    clean-on-validation-error: true
     url: jdbc:mysql://localhost:3306/delivery
     user: root
     password: password
+    baseline-on-migrate: true
+    ignore-ignored-migrations: true
+    clean-on-validation-error: true
