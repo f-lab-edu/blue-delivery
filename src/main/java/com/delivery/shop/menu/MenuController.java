@@ -34,8 +34,23 @@ public class MenuController {
     @PostMapping("/{menuGroupId}/menus")
     public ResponseEntity<RegisterMenuDto> registerMenu(@PathVariable Long menuGroupId,
                                                         @RequestBody @Valid RegisterMenuDto dto) {
+        dto.setMenuGroupId(menuGroupId);
         menuService.registerMenu(dto);
         return new ResponseEntity(HttpResponse.response(SUCCESS, dto), HttpStatus.OK);
+    }
+
+    /**
+     * 대표 메뉴로 설정 및 해제
+     *
+     * @param menuGroupId 메뉴 그룹 ID
+     * @param menuId 대표 메뉴로 설정 및 해제할 메뉴 ID
+     *
+     */
+    @PatchMapping("/{menuGroupId}/menus/main-set/{menuId}")
+    public ResponseEntity<HttpResponse<?>> registerMainMenu(@PathVariable Long menuGroupId,
+                                                            @PathVariable Long menuId) {
+        menuService.setMainMenu(menuId);
+        return ResponseEntity.status(HttpStatus.OK).body(HttpResponse.response(SUCCESS, menuId));
     }
 
     /**
@@ -44,8 +59,8 @@ public class MenuController {
      * @param menuGroupId 메뉴 그룹 ID
      * @param menuId      변경할 메뉴 ID
      * @param dto         변경할 Status 정보
+     *
      **/
-    // ToDo 메뉴 조회시에 메뉴 상태가 HIDDEN인 메뉴는 조회되지 않음
     @PatchMapping("/{menuGroupId}/menus/{menuId}")
     public ResponseEntity<UpdateMenuDto> menuStatusUpdate(@PathVariable Long menuGroupId,
                                                           @PathVariable Long menuId,
@@ -59,6 +74,7 @@ public class MenuController {
      *
      * @param menuGroupId 메뉴 그룹 ID
      * @param menuId      조회할 메뉴 ID
+     *
      **/
     // ToDo 옵션 그룹 구현 시 옵션 그룹을 포함하여 조회
     @GetMapping("/{menuGroupId}/menus/{menuId}")
