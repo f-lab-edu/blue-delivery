@@ -10,13 +10,12 @@
         <result property="composition" column="COMPOSITION"/>
         <result property="content" column="CONTENT"/>
         <result property="status" column="STATUS" javaType="com.delivery.shop.menu.Menu$MenuStatus"/>
-        <result property="createdAt" column="CREATE_AT"/>
-        <result property="modifiedAt" column="MODIFIED_AT"/>
+        <result property="isMain" column="IS_MAIN"/>
     </resultMap>
 
     <insert id="saveMenu" parameterType="com.delivery.shop.menu.Menu">
-        INSERT INTO MENU(GROUP_ID, NAME, PRICE, COMPOSITION, CONTENT, STATUS, CREATE_AT)
-        VALUES (#{menuGroupId}, #{name}, #{price}, #{composition}, #{content}, #{status}, #{createdAt});
+        INSERT INTO MENU(GROUP_ID, NAME, PRICE, COMPOSITION, CONTENT, STATUS, IS_MAIN)
+        VALUES (#{menuGroupId}, #{name}, #{price}, #{composition}, #{content}, #{status}, #{isMain});
     </insert>
 
     <select id="menuNameCheck" resultType="integer" parameterType="string">
@@ -28,6 +27,29 @@
     </update>
     
     <select id="findMenuById" resultMap="menuResult" parameterType="long">
-        SELECT ID, NAME, PRICE, GROUP_ID, COMPOSITION, CONTENT, STATUS FROM MENU WHERE ID = #{id};
+        SELECT ID, NAME, PRICE, GROUP_ID, COMPOSITION, CONTENT, STATUS, IS_MAIN FROM MENU WHERE ID = #{id};
     </select>
+
+    <select id="findAllMenusByGroup" resultMap="menuResult">
+        SELECT ID, NAME, PRICE, GROUP_ID, COMPOSITION, CONTENT, STATUS, IS_MAIN FROM MENU
+        WHERE STATUS != 'HIDDEN';
+    </select>
+
+    <select id="findMainMenus" resultMap="menuResult">
+        SELECT ID, NAME, PRICE, GROUP_ID, COMPOSITION, CONTENT, STATUS, IS_MAIN FROM MENU
+        WHERE IS_MAIN = 1 AND STATUS != 'HIDDEN';
+    </select>
+
+    <update id="setMainMenu" parameterType="long">
+        UPDATE MENU SET IS_MAIN = IF(IS_MAIN = true, false, true) WHERE ID = #{id};
+    </update>
+
+    <update id="unSetMainMenu" parameterType="long">
+        UPDATE MENU SET IS_MAIN = 0 WHERE ID = #{id};
+    </update>
+
+    <select id="countMainMenu" resultType="integer">
+        SELECT COUNT(IS_MAIN) FROM MENU WHERE IS_MAIN = 1;
+    </select>
+
 </mapper>

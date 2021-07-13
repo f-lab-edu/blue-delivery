@@ -2,7 +2,6 @@ package com.delivery.shop.menu;
 
 import static com.delivery.shop.menu.Menu.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
@@ -12,6 +11,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RegisterMenuDto {
+
+    private Long menuGroupId;
 
     @NotNull
     @NotBlank
@@ -28,32 +29,29 @@ public class RegisterMenuDto {
 
     private List<MenuOptionGroup> menuOptionGroup;
 
-    private LocalDateTime createdAt = LocalDateTime.now(); // 등록일
+    private boolean isMain = false;
 
     public RegisterMenuDto() {
     }
 
-    public RegisterMenuDto(String name, int price, String composition, String content,
-                           MenuStatus status, List<MenuOptionGroup> menuOptionGroup,
-                           LocalDateTime createdAt) {
-        this.name = name;
-        this.price = price;
-        this.composition = composition;
-        this.content = content;
-        this.status = status;
-        this.menuOptionGroup = menuOptionGroup;
-        this.createdAt = createdAt;
+    Menu toEntity() {
+        return Menu.builder()
+                .menuGroupId(getMenuGroupId())
+                .name(getName())
+                .price(getPrice())
+                .composition(getComposition())
+                .status(getStatus())
+                .menuOptionGroup(getMenuOptionGroup())
+                .isMain(getIsMain())
+                .build();
     }
 
-    Menu toEntity() {
-        return new Menu(
-                this.getName(),
-                this.getPrice(),
-                this.getComposition(),
-                this.getContent(),
-                this.getStatus(),
-                this.getMenuOptionGroup(),
-                this.getCreatedAt());
+    public Long getMenuGroupId() {
+        return menuGroupId;
+    }
+
+    public void setMenuGroupId(Long menuGroupId) {
+        this.menuGroupId = menuGroupId;
     }
 
     public String getName() {
@@ -104,12 +102,11 @@ public class RegisterMenuDto {
         this.menuOptionGroup = menuOptionGroup;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public boolean getIsMain() {
+        return isMain;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public void setIsMain(boolean main) {
+        isMain = main;
     }
-
 }
