@@ -13,3 +13,11 @@ spring:
     baseline-on-migrate: true
     ignore-ignored-migrations: true
     clean-on-validation-error: true
+
+  redis:
+    host: localhost
+    password:
+    port: 6379
+
+  session:
+    store-type: redis
