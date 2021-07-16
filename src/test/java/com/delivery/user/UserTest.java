@@ -27,13 +27,13 @@ class UserTest {
     
     @Test
     void throwExceptionIfEmailIsNotEqual() {
-        ErrorCode ex1 = assertThrows(ApiException.class, () -> user.validate("Wrong Email", password)).getError();
-        assertThat(ex1).isEqualTo(ErrorCode.USER_NOT_VALIDATED);
+        boolean result = user.validate("Wrong Email", password);
+        assertThat(result).isFalse();
     }
     
     @Test
     void throwExceptionIfPasswordIsNotEqual() {
-        ErrorCode ex1 = assertThrows(ApiException.class, () -> user.validate(email, "Wrong Password")).getError();
-        assertThat(ex1).isEqualTo(ErrorCode.USER_NOT_VALIDATED);
+        boolean result = user.validate(email, "Wrong Password");
+        assertThat(result).isFalse();
     }
 }

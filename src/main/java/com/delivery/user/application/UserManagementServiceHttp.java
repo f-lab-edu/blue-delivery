@@ -1,6 +1,7 @@
 package com.delivery.user.application;
 
 import java.util.Locale;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,17 +38,23 @@ public class UserManagementServiceHttp implements UserManagementService {
         }
     }
     
-    public Authentication login(UserLoginParam param) {
+    public Optional<Authentication> login(UserLoginParam param) {
         User found = findUserByEmailAndCheckNotNull(param.getEmail());
-        found.validate(param.getEmail(), param.getPassword());
-        return new Authentication(found.getEmail(), found.getNickname(), found.getPhone());
+        boolean validate = found.validate(param.getEmail(), param.getPassword());
+        if (validate) {
+            return Optional.of(
+                    new Authentication(found.getId(), found.getEmail(),
+                            found.getNickname(), found.getPhone(), found.getDateOfBirth()));
+        }
+        return Optional.empty();
     }
     
-    public void updateAccount(UpdateAccountParam param) {
-        User findUser = getUserByIdAndCheckNotNull(param.getId());
-        findUser.validate(param.getEmail(), param.getPassword());
-        findUser.changePhone(param.getPhone());
-        findUser.changeNickname(param.getNickname());
+    public User updateAccount(Authentication user, UpdateAccountParam param) {
+        User foundUser = getUserByIdAndCheckNotNull(user.getId());
+        foundUser.changePhone(param.getPhone());
+        foundUser.changeNickname(param.getNickname());
+        foundUser.setDateOfBirth(param.getDateOfBirth());
+        return foundUser;
     }
     
     public void deleteAccount(DeleteAccountParam param) {

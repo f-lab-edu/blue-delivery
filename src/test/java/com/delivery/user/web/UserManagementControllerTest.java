@@ -43,8 +43,10 @@ class UserManagementControllerTest {
     @Test
     @DisplayName("회원을 삭제하면 session에 있는 인증 정보도 사라진다.")
     void deletingAccountInvalidateSessionTest() throws Exception {
+        Authentication auth = new Authentication();
+        auth.setId(1L);
         MvcResult result = mockMvc.perform(delete(url + "/1")
-                .sessionAttr(Authentication.KEY, new Authentication())
+                .sessionAttr(Authentication.KEY, auth)
                 .content(objMapper.writeValueAsString(new DeleteAccountRequest("nothing@email.com", "P@ssw0rd!")))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent())

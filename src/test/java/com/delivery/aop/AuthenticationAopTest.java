@@ -40,7 +40,7 @@ class AuthenticationAopTest {
     
     @Test
     void authenticateTest() {
-        AuthenticationHolder.setAuthentication(new Authentication("a@a", "nick", "01012341234"));
+        AuthenticationHolder.setAuthentication(new Authentication());
         assertDoesNotThrow(() -> service.orderFood());
     }
     

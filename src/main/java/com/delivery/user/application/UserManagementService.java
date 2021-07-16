@@ -1,6 +1,9 @@
 package com.delivery.user.application;
 
+import java.util.Optional;
+
 import com.delivery.user.Authentication;
+import com.delivery.user.domain.User;
 import com.delivery.user.web.dto.AddressParam;
 import com.delivery.user.web.dto.DeleteAccountParam;
 import com.delivery.user.web.dto.UpdateAccountParam;
@@ -21,16 +24,18 @@ public interface UserManagementService {
      * 고객 로그인
      *
      * @param param
-     * @return 성공시 인증 객체를 반환
+     * @return 성공시 인증 객체를 담은 Optional, 실패시 비어있는 Optional
      */
-    Authentication login(UserLoginParam param);
+    Optional<Authentication> login(UserLoginParam param);
     
     /**
      * 고객 정보 수정
      *
+     * @param user 인증된 유저
      * @param param
+     * @return 수정된 유저
      */
-    void updateAccount(UpdateAccountParam param);
+    User updateAccount(Authentication user, UpdateAccountParam param);
     
     /**
      * 고객 회원 탈퇴

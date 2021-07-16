@@ -7,15 +7,18 @@ import static org.springframework.http.HttpStatus.*;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.delivery.config.resolver.Authenticated;
+import com.delivery.exception.ApiException;
+import com.delivery.response.ErrorCode;
 import com.delivery.response.HttpResponse;
 import com.delivery.user.Authentication;
 import com.delivery.user.application.UserManagementService;
+import com.delivery.user.domain.User;
 import com.delivery.user.web.dto.AddressParam.AddressRequest;
 import com.delivery.user.web.dto.DeleteAccountParam.DeleteAccountRequest;
 import com.delivery.user.web.dto.UserRegisterParam.UserRegisterRequest;
@@ -40,14 +43,20 @@ public class UserManagementControllerImpl implements UserManagementController {
         binder.addValidators(passwordValidator);
     }
     
+    public ResponseEntity<HttpResponse<Authentication>> getLoggedInUser(Authentication user) {
+        return ResponseEntity.ok(response(user));
+    }
+    
     public ResponseEntity<?> register(UserRegisterRequest dto) {
         userManagementService.register(dto.toParam());
         return ResponseEntity.status(CREATED).build();
     }
     
-    public void login(UserLoginRequest loginDto, HttpSession session) {
-        Authentication auth = userManagementService.login(loginDto.toParam());
+    public ResponseEntity<HttpResponse<?>> login(UserLoginRequest loginDto, HttpSession session) {
+        Authentication auth = userManagementService.login(loginDto.toParam())
+                .orElseThrow(() -> new ApiException(ErrorCode.INVALID_AUTHENTICATION));
         session.setAttribute(Authentication.KEY, auth);
+        return ResponseEntity.ok(response(SUCCESS, "successfully logged in"));
     }
     
     public ResponseEntity<?> deleteAccount(Long id, DeleteAccountRequest dto, HttpSession session) {
@@ -56,8 +65,12 @@ public class UserManagementControllerImpl implements UserManagementController {
         return ResponseEntity.status(NO_CONTENT).build();
     }
     
-    public void updateAccount(Long id, UpdateAccountRequest dto) {
-        userManagementService.updateAccount(dto.toParam(id));
+    @Override
+    public ResponseEntity<HttpResponse<?>> updateAccount(Authentication user,
+                                                         UpdateAccountRequest req, HttpSession session) {
+        User updated = userManagementService.updateAccount(user, req.toParam());
+        session.setAttribute(Authentication.KEY, Authentication.from(updated));
+        return ResponseEntity.ok(response(SUCCESS, "successfully updated"));
     }
     
     @Override

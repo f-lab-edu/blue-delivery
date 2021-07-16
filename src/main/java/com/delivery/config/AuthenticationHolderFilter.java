@@ -17,7 +17,7 @@ import com.delivery.response.ErrorCode;
 import com.delivery.user.Authentication;
 import com.delivery.user.AuthenticationHolder;
 
-@Component
+//@Component
 public class AuthenticationHolderFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
