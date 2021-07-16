@@ -87,7 +87,7 @@ public class UserManagementServiceHttp implements UserManagementService {
         return user.removeAddress(address);
     }
     
-    public User getUserByIdAndCheckNotNull(Long id) {
+    private User getUserByIdAndCheckNotNull(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new ApiException(ErrorCode.USER_NOT_FOUND));
     }
