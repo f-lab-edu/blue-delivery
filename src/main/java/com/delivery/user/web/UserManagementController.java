@@ -16,16 +16,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.delivery.config.resolver.Authenticated;
 import com.delivery.response.HttpResponse;
 import com.delivery.user.Authentication;
-import com.delivery.user.domain.User;
 import com.delivery.user.web.dto.AddressParam.AddressRequest;
 import com.delivery.user.web.dto.DeleteAccountParam.DeleteAccountRequest;
 import com.delivery.user.web.dto.UpdateAccountParam.UpdateAccountRequest;
-import com.delivery.user.web.dto.UserLoginParam.UserLoginRequest;
 import com.delivery.user.web.dto.UserRegisterParam.UserRegisterRequest;
 
 
 @RequestMapping("/users")
 public interface UserManagementController {
+    String baseUrl = "/users";
     
     @GetMapping("/{id}")
     ResponseEntity<HttpResponse<Authentication>> getLoggedInUser(@Authenticated Authentication user);
@@ -38,15 +37,6 @@ public interface UserManagementController {
      */
     @PostMapping
     ResponseEntity<?> register(@Valid @RequestBody UserRegisterRequest registerRequest);
-    
-    /**
-     * 고객 로그인
-     *
-     * @param loginRequest 로그인 정보
-     * @param session      http session
-     */
-    @PostMapping("/login")
-    ResponseEntity<HttpResponse<?>> login(@RequestBody UserLoginRequest loginRequest, HttpSession session);
     
     /**
      * 고객 회원 탈퇴
