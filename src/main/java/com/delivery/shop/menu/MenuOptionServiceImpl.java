@@ -1,7 +1,9 @@
 package com.delivery.shop.menu;
 
-
 import org.springframework.stereotype.Service;
+
+import com.delivery.exception.ApiException;
+import com.delivery.response.ErrorCode;
 
 @Service
 public class MenuOptionServiceImpl implements MenuOptionService {
@@ -15,6 +17,11 @@ public class MenuOptionServiceImpl implements MenuOptionService {
     public void registerMenuOptionGroup(MenuOptionGroupDto dto) {
 
         MenuOptionGroup optionGroup = dto.toEntity();
+
+        if (dto.optionRequiredCheck(dto.isOptionRequired())) {
+            throw new ApiException(ErrorCode.OPTION_MIN_MAX_SELECT_ERROR);
+        }
+
         repository.save(optionGroup);
     }
 

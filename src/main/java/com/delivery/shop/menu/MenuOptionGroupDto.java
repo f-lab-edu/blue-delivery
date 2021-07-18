@@ -37,12 +37,25 @@ public class MenuOptionGroupDto {
         optionGroup.setMenuId(menuId);
         optionGroup.setName(name);
         optionGroup.setOptionRequired(optionRequired);
-        optionGroup.setMinimumOption(minimumOption);
+        if (!optionRequired) {
+            optionGroup.setMinimumOption(minimumOption);
+        }
         optionGroup.setMaximumOption(maximumOption);
         for (MenuOption option : options) {
             optionGroup.addOption(option);
         }
         return optionGroup;
+    }
+
+    public boolean optionRequiredCheck(boolean optionRequired) {
+        if (optionRequired & (this.getMinimumOption() == 0
+                || this.getMaximumOption() < this.getMinimumOption())) {
+            return true;
+        }
+        if (!optionRequired & this.getMaximumOption() == 0) {
+            return true;
+        }
+        return false;
     }
 
 }
