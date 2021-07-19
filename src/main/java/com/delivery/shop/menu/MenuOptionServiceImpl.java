@@ -16,13 +16,10 @@ public class MenuOptionServiceImpl implements MenuOptionService {
 
     public void registerMenuOptionGroup(MenuOptionGroupDto dto) {
 
-        MenuOptionGroup optionGroup = dto.toEntity();
-
         if (dto.optionRequiredCheck(dto.isOptionRequired())) {
             throw new ApiException(ErrorCode.OPTION_MIN_MAX_SELECT_ERROR);
         }
-
-        repository.save(optionGroup);
+        repository.save(dto.toEntity());
     }
 
 }
