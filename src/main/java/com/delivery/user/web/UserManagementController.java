@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.delivery.config.interceptor.AuthenticationRequired;
 import com.delivery.config.resolver.Authenticated;
 import com.delivery.response.HttpResponse;
 import com.delivery.user.Authentication;
@@ -23,20 +24,12 @@ import com.delivery.user.web.dto.UserRegisterParam.UserRegisterRequest;
 
 
 @RequestMapping("/users")
+@AuthenticationRequired
 public interface UserManagementController {
     String baseUrl = "/users";
     
     @GetMapping("/{id}")
     ResponseEntity<HttpResponse<Authentication>> getLoggedInUser(@Authenticated Authentication user);
-    
-    /**
-     * 고객 회원가입
-     *
-     * @param registerRequest 회원가입정보
-     * @return 가입 성공시 201 CREATED
-     */
-    @PostMapping
-    ResponseEntity<?> register(@Valid @RequestBody UserRegisterRequest registerRequest);
     
     /**
      * 고객 회원 탈퇴

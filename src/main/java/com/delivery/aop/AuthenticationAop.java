@@ -14,7 +14,7 @@ import com.delivery.user.AuthenticationHolder;
 @Component
 public class AuthenticationAop {
     
-    @Pointcut("@annotation(com.delivery.aop.AuthenticationRequired)")
+    @Pointcut("@annotation(com.delivery.config.interceptor.AuthenticationRequired)")
     public void pointcut() {
     }
     

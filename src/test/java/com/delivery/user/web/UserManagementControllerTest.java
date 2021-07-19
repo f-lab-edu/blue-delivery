@@ -25,17 +25,18 @@ import com.delivery.user.web.dto.DeleteAccountParam.DeleteAccountRequest;
 import com.delivery.user.web.dto.UserRegisterParam.UserRegisterRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@WebMvcTest({UserManagementController.class, PasswordValidator.class})
+@WebMvcTest({UserManagementController.class})
 class UserManagementControllerTest {
     
     @Autowired
     MockMvc mockMvc;
+    
     @Autowired
     ObjectMapper objMapper;
-    @Autowired
-    PasswordValidator validator;
+    
     @MockBean
     UserManagementService userManagementService;
+    
     @MockBean
     UserRepository userRepository;
     String url = "/users";
@@ -54,35 +55,5 @@ class UserManagementControllerTest {
         HttpSession session = result.getRequest().getSession();
         assertThat(session.getAttribute(Authentication.KEY)).isNull();
     }
-    
-    @Test
-    @DisplayName("회원가입시 1, 2차 비밀번호가 일치하지 않으면 400 응답")
-    void checkPasswordValidation() throws Exception {
-        String password = "P@ssw0rd!";
-        MvcResult mvcResult = mockMvc.perform(post(url)
-                .content(objMapper.writeValueAsString(
-                        new UserRegisterRequest("nothing@email.com", "nickname", "010-1234-1234",
-                                password, password + "wrong",
-                                LocalDate.of(2020, Month.MAY, 1))))
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andReturn();
-        Boolean result = mvcResult.getResponse().getContentAsString().contains("fail");
-        assertThat(result).isTrue();
-    }
-    
-    @Test
-    @DisplayName("회원가입시 (다른 조건들을 만족하고) 1, 2차 비밀번호가 일치해야 201 created 응답")
-    void checkPasswordNotValidated() throws Exception {
-        String password = "P@ssw0rd!";
-        mockMvc.perform(post(url)
-                .content(objMapper.writeValueAsString(
-                        new UserRegisterRequest("nothing@email.com", "nickname", "010-1234-1234",
-                                password, password,
-                                LocalDate.of(2020, Month.MAY, 1))))
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated())
-                .andReturn();
-    }
-    
+   
 }

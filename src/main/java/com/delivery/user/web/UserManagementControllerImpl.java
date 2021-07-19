@@ -27,22 +27,11 @@ import lombok.RequiredArgsConstructor;
 public class UserManagementControllerImpl implements UserManagementController {
     
     private final UserManagementService userManagementService;
-    private final PasswordValidator passwordValidator;
-    
-    @InitBinder("userRegisterRequest")
-    void initRegisterPasswordValidator(WebDataBinder binder) {
-        binder.addValidators(passwordValidator);
-    }
-    
+ 
     public ResponseEntity<HttpResponse<Authentication>> getLoggedInUser(Authentication user) {
         return ResponseEntity.ok(response(user));
     }
-    
-    public ResponseEntity<?> register(UserRegisterRequest dto) {
-        userManagementService.register(dto.toParam());
-        return ResponseEntity.status(CREATED).build();
-    }
-    
+
     public ResponseEntity<?> deleteAccount(Long id, DeleteAccountRequest dto, HttpSession session) {
         userManagementService.deleteAccount(dto.toParam(id));
         session.invalidate();

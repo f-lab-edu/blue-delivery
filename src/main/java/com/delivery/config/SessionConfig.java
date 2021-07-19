@@ -9,6 +9,7 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 import com.delivery.user.Authentication;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,6 +22,7 @@ import lombok.RequiredArgsConstructor;
  * https://docs.spring.io/spring-session/docs/2.5.1/reference/html5/#httpsession
  */
 @RequiredArgsConstructor
+@EnableRedisHttpSession(redisNamespace = "spring:session")
 @Configuration
 public class SessionConfig {
 

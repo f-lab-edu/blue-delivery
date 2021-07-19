@@ -14,6 +14,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.delivery.config.interceptor.AuthenticationRequired;
 import com.delivery.exception.ApiException;
 import com.delivery.response.ErrorCode;
 import com.delivery.user.Authentication;
