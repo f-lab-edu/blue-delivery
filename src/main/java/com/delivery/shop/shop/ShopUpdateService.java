@@ -61,15 +61,7 @@ public class ShopUpdateService {
     
     public void updateCategory(Long id, UpdateCategoryRequest dto) {
         Shop shop = getShop(id);
-        List<Long> inputs = dto.getCategoryIds();
-        shop.getCategories().updateAll(
-                categoryManagerServiceImpl.getAllCategories().stream()
-                .filter(category -> inputs.contains(category.getId())) // 전체 카테고리 중 입력받은 카테고리만 선택
-                .collect(Collectors.toList())
-        );
-        shop.getCategories().toString();
-        shopRepository.deleteCategory(shop);
-        shopRepository.updateCategory(shop);
+        shop.getCategories().updateAll(categoryManagerServiceImpl.getCategoriesById(dto.getCategoryIds()));
     }
     
     public void updateClosingDays(Long id, UpdateClosingDaysRequest closingDays) {

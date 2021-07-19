@@ -1,6 +1,6 @@
 package com.delivery.shop.category;
 
-import java.util.List;
+import java.util.Objects;
 
 /*
     KOREAN(1),
@@ -14,19 +14,12 @@ public class Category {
     
     private Long id;
     private String name;
-    private List<Long> shops;
     
     public Category() {
     }
     
     public Category(String name) {
         this.name = name;
-    }
-    
-    public Category(Long id, String name, List<Long> shops) {
-        this.id = id;
-        this.name = name;
-        this.shops = shops;
     }
     
     public String getName() {
@@ -37,12 +30,24 @@ public class Category {
         return id;
     }
     
-    public List<Long> getShops() {
-        return shops;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Category category = (Category) obj;
+        return Objects.equals(id, category.id) && Objects.equals(name, category.name);
     }
     
-    public CategoryData toResponse() {
-        return new CategoryData(this.id, this.name);
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
     
+    public void changeName(String newName) {
+        this.name = newName;
+    }
 }
