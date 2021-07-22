@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@WebMvcTest(MenuOptionController.class)
+@WebMvcTest(MenuOptionControllerImpl.class)
 class MenuOptionGroupControllerTest {
 
 
