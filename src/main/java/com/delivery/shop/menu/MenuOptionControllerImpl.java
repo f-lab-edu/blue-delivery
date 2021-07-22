@@ -14,7 +14,7 @@ import com.delivery.response.HttpResponse;
 @RestController
 public class MenuOptionControllerImpl implements MenuOptionController {
 
-    private MenuOptionServiceImpl service;
+    private MenuOptionService service;
 
     public MenuOptionControllerImpl(MenuOptionServiceImpl service) {
         this.service = service;
