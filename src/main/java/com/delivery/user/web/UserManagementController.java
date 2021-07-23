@@ -1,6 +1,7 @@
 package com.delivery.user.web;
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -36,13 +37,13 @@ public interface UserManagementController {
      *
      * @param id            고객의 id
      * @param deleteRequest 탈퇴시 확인할 정보
-     * @param session       http session
+     * @param request
      * @return 요청 성공시 204 NO_CONTENT
      */
     @DeleteMapping("/{id}")
     ResponseEntity<?> deleteAccount(@PathVariable("id") Long id,
                                     @Valid @RequestBody DeleteAccountRequest deleteRequest,
-                                    HttpSession session);
+                                    HttpServletRequest request);
     
     /**
      * 고객 정보 수정

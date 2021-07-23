@@ -10,30 +10,41 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@WebMvcTest(CategoryManagerController.class)
+@ExtendWith(MockitoExtension.class)
 class CategoryManagerControllerImplTest {
     
-    @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
+    private ObjectMapper objectMapper;
     
-    @MockBean
-    CategoryManagerService categoryManagerService;
+    @Mock
+    private CategoryManagerService categoryManagerService;
     
-    @Autowired
-    ObjectMapper objectMapper;
+    @InjectMocks
+    private CategoryManagerControllerImpl categoryManagerController;
+    
+    @BeforeEach
+    void setup() {
+        objectMapper = new ObjectMapper();
+        mockMvc = MockMvcBuilders.standaloneSetup(categoryManagerController)
+                .build();
+    }
     
     @Test
     void getAllCategories() throws Exception {
-        List<Category> categories = List.of(new Category("KOREAN"),
+        List<Category> categories = List.of(
+                new Category("KOREAN"),
                 new Category("CHICKEN"),
                 new Category("PIZZA"));
         when(categoryManagerService.getAllCategories()).thenReturn(categories);

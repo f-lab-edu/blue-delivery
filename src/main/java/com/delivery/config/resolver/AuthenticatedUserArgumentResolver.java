@@ -1,5 +1,7 @@
 package com.delivery.config.resolver;
 
+import static com.delivery.config.CustomSession.SESSION_STR;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.core.MethodParameter;
@@ -9,6 +11,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+import com.delivery.config.CustomSession;
 import com.delivery.user.Authentication;
 
 import lombok.RequiredArgsConstructor;
@@ -29,7 +32,7 @@ public class AuthenticatedUserArgumentResolver implements HandlerMethodArgumentR
                                   NativeWebRequest webRequest,
                                   WebDataBinderFactory binderFactory) {
         HttpServletRequest req = (HttpServletRequest) webRequest.getNativeRequest();
-        return req.getSession().getAttribute(Authentication.KEY);
+        return ((CustomSession) req.getAttribute(SESSION_STR)).getAuthentication();
     }
     
 }

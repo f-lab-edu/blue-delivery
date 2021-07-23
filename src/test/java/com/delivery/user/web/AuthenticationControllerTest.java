@@ -16,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import com.delivery.config.interceptor.SessionRepository;
 import com.delivery.user.application.UserManagementService;
 import com.delivery.user.domain.UserRepository;
 import com.delivery.user.web.dto.UserRegisterParam;
@@ -35,6 +36,9 @@ class AuthenticationControllerTest {
     
     @MockBean
     UserManagementService userManagementService;
+    
+    @MockBean
+    SessionRepository sessionRepository;
     
     @MockBean
     UserRepository userRepository;

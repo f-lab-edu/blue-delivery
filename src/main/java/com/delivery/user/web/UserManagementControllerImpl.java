@@ -1,23 +1,23 @@
 package com.delivery.user.web;
 
+import static com.delivery.config.CustomSession.SESSION_STR;
 import static com.delivery.response.HttpResponse.*;
 import static com.delivery.user.web.dto.UpdateAccountParam.*;
 import static org.springframework.http.HttpStatus.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.delivery.config.CustomSession;
 import com.delivery.response.HttpResponse;
 import com.delivery.user.Authentication;
 import com.delivery.user.application.UserManagementService;
 import com.delivery.user.domain.User;
 import com.delivery.user.web.dto.AddressParam.AddressRequest;
 import com.delivery.user.web.dto.DeleteAccountParam.DeleteAccountRequest;
-import com.delivery.user.web.dto.UserRegisterParam.UserRegisterRequest;
 import com.delivery.utility.address.Address;
 
 import lombok.RequiredArgsConstructor;
@@ -32,9 +32,9 @@ public class UserManagementControllerImpl implements UserManagementController {
         return ResponseEntity.ok(response(user));
     }
 
-    public ResponseEntity<?> deleteAccount(Long id, DeleteAccountRequest dto, HttpSession session) {
+    public ResponseEntity<?> deleteAccount(Long id, DeleteAccountRequest dto, HttpServletRequest request) {
         userManagementService.deleteAccount(dto.toParam(id));
-        session.invalidate();
+        ((CustomSession) request.getAttribute(SESSION_STR)).invalidate();
         return ResponseEntity.status(NO_CONTENT).build();
     }
     
@@ -42,7 +42,7 @@ public class UserManagementControllerImpl implements UserManagementController {
     public ResponseEntity<HttpResponse<?>> updateAccount(Authentication user,
                                                          UpdateAccountRequest req, HttpSession session) {
         User updated = userManagementService.updateAccount(user, req.toParam());
-        session.setAttribute(Authentication.KEY, Authentication.from(updated));
+        session.setAttribute(Authentication.AUTH_VALUE, Authentication.from(updated));
         return ResponseEntity.ok(response(SUCCESS, "successfully updated"));
     }
     

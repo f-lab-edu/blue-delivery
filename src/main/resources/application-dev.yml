@@ -19,10 +19,3 @@ spring:
     password:
     port: 6379
 
-  session:
-    store-type: redis
-
-server:
-  servlet:
-    session:
-      timeout: -1m

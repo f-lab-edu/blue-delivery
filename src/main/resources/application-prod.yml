@@ -19,14 +19,6 @@ spring:
     password:
     port: 6379
 
-  session:
-    store-type: redis # 이 설정으로 @EnableRedisHttpSession 을 대체함.
-    
-server:
-  servlet:
-    session:
-      timeout: -1m
-
 db:
   hostname: db-mysql # Docker container에서 localhost는 was 자신이 되기때문에 docker db 호스트 이름을 적어줘야함.
 redis:

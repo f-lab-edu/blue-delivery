@@ -5,8 +5,11 @@ import java.time.LocalDate;
 
 import com.delivery.user.domain.User;
 
+import lombok.Builder;
+
+@Builder
 public class Authentication implements Serializable {
-    public static String KEY = "auth"; // session에 key로 스트링을 넣을 때 사용
+    public static String AUTH_VALUE = "auth"; // session에 key로 스트링을 넣을 때 사용
     private Long id;
     private String email;
     private String nickname;

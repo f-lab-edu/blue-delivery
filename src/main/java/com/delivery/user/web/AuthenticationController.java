@@ -1,5 +1,6 @@
 package com.delivery.user.web;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -8,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.delivery.config.CustomSession;
+import com.delivery.config.interceptor.AuthenticationRequired;
 import com.delivery.config.interceptor.NotLoggedIn;
 import com.delivery.response.HttpResponse;
 import com.delivery.user.web.dto.UserLoginParam.UserLoginRequest;
@@ -20,11 +23,11 @@ public interface AuthenticationController {
      * 고객 로그인
      *
      * @param loginRequest 로그인 정보
-     * @param session      http session
+     *
      */
     @NotLoggedIn
     @PostMapping("login")
-    ResponseEntity<HttpResponse<?>> login(@RequestBody UserLoginRequest loginRequest, HttpSession session);
+    ResponseEntity<HttpResponse<CustomSession>> login(@RequestBody UserLoginRequest loginRequest);
     
     
     /**
@@ -36,5 +39,9 @@ public interface AuthenticationController {
     @NotLoggedIn
     @PostMapping("/register")
     ResponseEntity<?> register(@Valid @RequestBody UserRegisterParam.UserRegisterRequest registerRequest);
+    
+    @AuthenticationRequired
+    @PostMapping("/logout")
+    ResponseEntity<?> logout(HttpServletRequest request);
     
 }
