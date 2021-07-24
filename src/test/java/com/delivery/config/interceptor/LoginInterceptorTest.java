@@ -1,8 +1,8 @@
 package com.delivery.config.interceptor;
 
-import static com.delivery.config.CustomSession.ID_HEADER_NAME;
 import static org.hamcrest.Matchers.containsStringIgnoringCase;
 import static org.mockito.Mockito.when;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -58,7 +58,7 @@ class LoginInterceptorTest {
         mvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(new UserLoginRequest()))
-                .header(ID_HEADER_NAME, sessionId))
+                .header(AUTHORIZATION, sessionId))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", containsStringIgnoringCase("already logged in")));
     }

@@ -1,8 +1,8 @@
 package com.delivery.config.interceptor;
 
-import static com.delivery.config.CustomSession.ID_HEADER_NAME;
 import static com.delivery.user.Authentication.*;
 import static org.mockito.Mockito.when;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -46,7 +46,7 @@ class UserAuthInterceptorTest {
         auth = new Authentication();
         session = new CustomSession();
         session.setAuthentication(auth);
-        session.setMaxInactiveDays(Duration.ofDays(-1L));
+        session.setMaxInactiveTime(Duration.ofDays(-1L));
         
         mockMvc = MockMvcBuilders.standaloneSetup(userManagementController)
                 .addInterceptors(new UserAuthInterceptor(sessionRepository))
@@ -62,7 +62,7 @@ class UserAuthInterceptorTest {
     
         auth.setId(1L);
         mockMvc.perform(get("/users/1")
-                .header(ID_HEADER_NAME, "mysessionid"))
+                .header(AUTHORIZATION, "mysessionid"))
                 .andExpect(status().isOk());
     }
     

@@ -23,7 +23,7 @@ public class SessionRedisRepository implements SessionRepository {
         var ops
                 = redisTemplate.boundHashOps(NAME_SPACE + customSession.getSessionId());
         ops.put(customSession.getSessionId(), customSession);
-        ops.expire(customSession.getMaxInactiveDays());
+        ops.expire(customSession.getMaxInactiveTime());
         return customSession;
     }
     

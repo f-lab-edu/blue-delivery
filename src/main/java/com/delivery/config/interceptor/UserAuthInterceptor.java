@@ -1,7 +1,7 @@
 package com.delivery.config.interceptor;
 
-import static com.delivery.config.CustomSession.ID_HEADER_NAME;
 import static com.delivery.config.CustomSession.SESSION_STR;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 import java.util.Map;
 
@@ -30,7 +30,7 @@ public class UserAuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         if (needToBeAuthenticated((HandlerMethod) handler)) {
-            String sessionId = request.getHeader(ID_HEADER_NAME);
+            String sessionId = request.getHeader(AUTHORIZATION);
             CustomSession session = sessionRepository.findById(sessionId)
                     .orElseThrow(() -> new ApiException(ErrorCode.NOT_AUTHORIZED_ACCESS));
             

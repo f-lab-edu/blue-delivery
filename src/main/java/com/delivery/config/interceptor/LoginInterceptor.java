@@ -1,6 +1,6 @@
 package com.delivery.config.interceptor;
 
-import static com.delivery.config.CustomSession.ID_HEADER_NAME;
+import static org.springframework.http.HttpHeaders.*;
 
 import java.util.Optional;
 
@@ -26,7 +26,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         if (mustCheckIfLoggedIn((HandlerMethod) handler)) {
-            String sessionId = request.getHeader(ID_HEADER_NAME);
+            String sessionId = request.getHeader(AUTHORIZATION);
             if (isLoggedIn(sessionId)) {
                 throw new ApiException(ErrorCode.ALREADY_LOGGED_IN);
             }
@@ -35,6 +35,9 @@ public class LoginInterceptor implements HandlerInterceptor {
     }
     
     private boolean isLoggedIn(String sessionId) {
+        if (sessionId == null) {
+            return false;
+        }
         Optional<CustomSession> sessionBox = sessionRepository.findById(sessionId);
         if (sessionBox.isPresent() && isValid(sessionBox)) {
             return true;

@@ -3,7 +3,6 @@ package com.delivery.config;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.UUID;
 
 import com.delivery.user.Authentication;
 
@@ -12,13 +11,12 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode
 public class CustomSession implements Serializable {
     public static String SESSION_STR = "session";
-    public static String ID_HEADER_NAME = "Session-Id";
     public static String NAME_SPACE = "custom:session:";
     private String sessionId;
     private Authentication authentication;
     private Instant creationTime = Instant.now();
     private Instant lastAccessedTime = creationTime;
-    private Duration maxInactiveDays = Duration.ofDays(5);
+    private Duration maxInactiveTime = Duration.ofDays(5);
     private boolean invalidated = false;
     
     public CustomSession() {
@@ -38,10 +36,6 @@ public class CustomSession implements Serializable {
         return authentication;
     }
     
-    private String newId() {
-        return UUID.randomUUID().toString();
-    }
-    
     public String getSessionId() {
         return sessionId;
     }
@@ -54,8 +48,8 @@ public class CustomSession implements Serializable {
         return lastAccessedTime;
     }
     
-    public Duration getMaxInactiveDays() {
-        return maxInactiveDays;
+    public Duration getMaxInactiveTime() {
+        return maxInactiveTime;
     }
     
     private void setLastAccessedTime() {
@@ -63,14 +57,14 @@ public class CustomSession implements Serializable {
     }
     
     public boolean isInvalidated() {
-        if (maxInactiveDays.isNegative()) {
+        if (maxInactiveTime.isNegative()) {
             return false;
         }
-        return invalidated || Instant.now().minus(maxInactiveDays).compareTo(lastAccessedTime) >= 0;
+        return invalidated || Instant.now().minus(maxInactiveTime).compareTo(lastAccessedTime) >= 0;
     }
     
-    public void setMaxInactiveDays(Duration maxInactiveDays) {
-        this.maxInactiveDays = maxInactiveDays;
+    public void setMaxInactiveTime(Duration maxInactiveTime) {
+        this.maxInactiveTime = maxInactiveTime;
     }
     
     public void setAuthentication(Authentication authentication) {

@@ -11,7 +11,9 @@ import javax.validation.constraints.Pattern;
 import com.delivery.user.domain.User;
 import com.delivery.utility.RegexConstants;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Getter
@@ -28,31 +30,32 @@ public class UserRegisterParam {
     }
     
     @Getter
-    @RequiredArgsConstructor
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class UserRegisterRequest {
         
         @NotBlank
         @Email
-        private final String email;
+        private String email;
         
         @NotBlank
-        private final String nickname;
+        private String nickname;
         
         @NotBlank
         @Pattern(regexp = RegexConstants.PHONE, message = "01로 시작하는 10-11자리 숫자여야 합니다.")
-        private final String phone;
+        private String phone;
         
         @NotBlank
         @Pattern(regexp = RegexConstants.PASSWORD, message = "알파벳, 숫자, 특수문자가 각 1개이상 포함된 8~20 글자여야 합니다.")
-        private final String password;
+        private String password;
         
         @NotBlank
         @Pattern(regexp = RegexConstants.PASSWORD, message = "알파벳, 숫자, 특수문자가 각 1개이상 포함된 8~20 글자여야 합니다.")
-        private final String confirmedPassword;
+        private String confirmedPassword;
         
         @NotNull
         @Past(message = "올바르지 않은 생년월일 입니다.")
-        private final LocalDate dateOfBirth;
+        private LocalDate dateOfBirth;
         
         public UserRegisterParam toParam() {
             return new UserRegisterParam(email, nickname, phone, password, dateOfBirth);
