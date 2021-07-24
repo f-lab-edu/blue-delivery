@@ -1,5 +1,7 @@
 package com.delivery.shop.menu;
 
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -46,4 +48,22 @@ public class MenuOption {
         this.optionGroup = optionGroup;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        MenuOption that = (MenuOption) obj;
+        return getPrice() == that.getPrice()
+                && Objects.equals(getId(), that.getId())
+                && Objects.equals(getName(), that.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getPrice());
+    }
 }

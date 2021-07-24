@@ -66,4 +66,5 @@ public class MenuOptionGroup {
         this.options.add(option);
         option.setOptionGroup(this);
     }
+
 }

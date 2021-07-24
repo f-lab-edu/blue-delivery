@@ -1,5 +1,6 @@
 package com.delivery.shop.menu;
 
+import static java.util.Optional.*;
 import static org.mockito.BDDMockito.*;
 
 import java.util.ArrayList;
@@ -19,7 +20,10 @@ class MenuOptionServiceTest {
 
 
     @Mock
-    MenuOptionGroupRepository repository;
+    MenuOptionGroupRepository optionGroupRepository;
+
+    @Mock
+    MenuOptionRepository menuOptionRepository;
 
     @InjectMocks
     MenuOptionServiceImpl service;
@@ -46,8 +50,27 @@ class MenuOptionServiceTest {
 
         service.registerMenuOptionGroup(dto);
 
-        verify(repository, times(1)).save(dto.toEntity());
+        verify(optionGroupRepository, times(1)).save(dto.toEntity());
 
+    }
+
+    @Test
+    @DisplayName("메뉴 옵션 생성 테스트")
+    public void registerMenuOptionTest() {
+
+        MenuOptionDto dto = new MenuOptionDto();
+        dto.setOptionGroupId(1L);
+        dto.setName("매운맛");
+        dto.setPrice(0);
+
+        MenuOptionGroup menuOptionGroup = new MenuOptionGroup();
+        menuOptionGroup.setId(1L);
+
+        when(optionGroupRepository.findById(dto.getOptionGroupId())).thenReturn(of(menuOptionGroup));
+
+        service.registerMenuOption(dto);
+
+        verify(menuOptionRepository, times(1)).save(dto.toEntity());
     }
 
 }

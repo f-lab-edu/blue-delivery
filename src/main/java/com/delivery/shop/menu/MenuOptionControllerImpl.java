@@ -33,7 +33,24 @@ public class MenuOptionControllerImpl implements MenuOptionController {
                                                                    @RequestBody @Valid MenuOptionGroupDto dto) {
         dto.setMenuId(menuId);
         service.registerMenuOptionGroup(dto);
-        return ResponseEntity.status(HttpStatus.OK).body(HttpResponse.response(dto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(HttpResponse.response(dto));
+    }
+
+
+    /**
+     * 메뉴 옵션 추가
+     *
+     * @param optionGroupId 옵션 그룹을 생성할 메뉴의 Id
+     * @param dto 생성할 옵션
+     *
+     */
+    @Override
+    @PostMapping("/{optionGroupId}/options")
+    public ResponseEntity<HttpResponse<?>> registerMenuOption(@PathVariable Long optionGroupId,
+                                                              @RequestBody MenuOptionDto dto) {
+        dto.setOptionGroupId(optionGroupId);
+        service.registerMenuOption(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(HttpResponse.response(dto));
     }
 
 }
