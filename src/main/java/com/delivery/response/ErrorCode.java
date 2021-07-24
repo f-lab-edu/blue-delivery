@@ -21,6 +21,7 @@ public enum ErrorCode {
     MAXIMUM_NUMBER_OF_MENU(HttpStatus.BAD_REQUEST, "Maximum number of main menus exceeded"),
     OPTION_MIN_MAX_SELECT_ERROR(HttpStatus.BAD_REQUEST, "Option min,max select error"),
     OPTION_GROUP_NOT_FOUND(HttpStatus.BAD_REQUEST, "Option group not found");
+
   
     private final HttpStatus httpStatus;
     private final String result;

@@ -24,6 +24,7 @@ public class MenuOptionServiceImpl implements MenuOptionService {
         if (dto.optionRequiredCheck(dto.isOptionRequired())) {
             throw new ApiException(ErrorCode.OPTION_MIN_MAX_SELECT_ERROR);
         }
+
         optionGroupRepository.save(dto.toEntity());
     }
 
@@ -38,5 +39,4 @@ public class MenuOptionServiceImpl implements MenuOptionService {
 
         optionRepository.save(option);
     }
-
 }

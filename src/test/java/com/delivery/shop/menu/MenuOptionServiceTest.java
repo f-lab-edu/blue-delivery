@@ -71,6 +71,7 @@ class MenuOptionServiceTest {
         service.registerMenuOption(dto);
 
         verify(menuOptionRepository, times(1)).save(dto.toEntity());
+
     }
 
 }
