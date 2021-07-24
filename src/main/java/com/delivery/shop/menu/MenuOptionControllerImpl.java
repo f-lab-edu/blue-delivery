@@ -40,7 +40,7 @@ public class MenuOptionControllerImpl implements MenuOptionController {
     /**
      * 메뉴 옵션 추가
      *
-     * @param optionGroupId 옵션 그룹을 생성할 메뉴의 Id
+     * @param optionGroupId 메뉴 옵션을 생성할 메뉴 옵션 그룹 Id
      * @param dto 생성할 옵션
      *
      */
