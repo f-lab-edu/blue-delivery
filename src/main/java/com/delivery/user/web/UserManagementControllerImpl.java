@@ -1,23 +1,23 @@
 package com.delivery.user.web;
 
-import static com.delivery.config.CustomSession.SESSION_STR;
+import static com.delivery.authentication.Authentication.AUTH_STR;
 import static com.delivery.response.HttpResponse.*;
 import static com.delivery.user.web.dto.UpdateAccountParam.*;
 import static org.springframework.http.HttpStatus.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.delivery.config.CustomSession;
+import com.delivery.authentication.Authentication;
 import com.delivery.response.HttpResponse;
-import com.delivery.user.Authentication;
 import com.delivery.user.application.UserManagementService;
-import com.delivery.user.domain.User;
 import com.delivery.user.web.dto.AddressParam.AddressRequest;
 import com.delivery.user.web.dto.DeleteAccountParam.DeleteAccountRequest;
+import com.delivery.user.web.dto.UserRegisterParam;
 import com.delivery.utility.address.Address;
 
 import lombok.RequiredArgsConstructor;
@@ -27,22 +27,26 @@ import lombok.RequiredArgsConstructor;
 public class UserManagementControllerImpl implements UserManagementController {
     
     private final UserManagementService userManagementService;
- 
+    private final PasswordValidator passwordValidator;
+    
+    @InitBinder("userRegisterRequest")
+    void initRegisterPasswordValidator(WebDataBinder binder) {
+        binder.addValidators(passwordValidator);
+    }
+    
     public ResponseEntity<HttpResponse<Authentication>> getLoggedInUser(Authentication user) {
         return ResponseEntity.ok(response(user));
     }
 
     public ResponseEntity<?> deleteAccount(Long id, DeleteAccountRequest dto, HttpServletRequest request) {
         userManagementService.deleteAccount(dto.toParam(id));
-        ((CustomSession) request.getAttribute(SESSION_STR)).invalidate();
+        ((Authentication) request.getAttribute(AUTH_STR)).invalidate();
         return ResponseEntity.status(NO_CONTENT).build();
     }
     
     @Override
-    public ResponseEntity<HttpResponse<?>> updateAccount(Authentication user,
-                                                         UpdateAccountRequest req, HttpSession session) {
-        User updated = userManagementService.updateAccount(user, req.toParam());
-        session.setAttribute(Authentication.AUTH_VALUE, Authentication.from(updated));
+    public ResponseEntity<HttpResponse<?>> updateAccount(Long id, UpdateAccountRequest dto, HttpServletRequest req) {
+        userManagementService.updateAccount(dto.toParam(id));
         return ResponseEntity.ok(response(SUCCESS, "successfully updated"));
     }
     
@@ -70,4 +74,8 @@ public class UserManagementControllerImpl implements UserManagementController {
         return ResponseEntity.notFound().build();
     }
     
+    public ResponseEntity<?> register(UserRegisterParam.UserRegisterRequest dto) {
+        userManagementService.register(dto.toParam());
+        return ResponseEntity.status(CREATED).build();
+    }
 }

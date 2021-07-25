@@ -1,12 +1,12 @@
 package com.delivery.config.interceptor;
 
-import static com.delivery.user.Authentication.*;
+import static com.delivery.authentication.AuthenticationService.BEARER_PREFIX;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.time.Duration;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -16,12 +16,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.delivery.config.CustomSession;
+import com.delivery.authentication.Authentication;
+import com.delivery.authentication.AuthenticationService;
 import com.delivery.config.GlobalExceptionHandler;
-import com.delivery.user.Authentication;
 import com.delivery.user.application.UserManagementService;
+import com.delivery.user.web.PasswordValidator;
 import com.delivery.user.web.UserManagementController;
 import com.delivery.user.web.UserManagementControllerImpl;
 
@@ -29,8 +31,6 @@ import com.delivery.user.web.UserManagementControllerImpl;
 class UserAuthInterceptorTest {
     
     private MockMvc mockMvc;
-    private CustomSession session;
-    private Authentication auth;
     
     private UserManagementController userManagementController;
     
@@ -38,46 +38,54 @@ class UserAuthInterceptorTest {
     private UserManagementService userManagementService;
     
     @Mock
-    private SessionRepository sessionRepository;
+    private PasswordValidator validator;
+    
+    @Mock
+    private AuthenticationService authService;
     
     @BeforeEach
     void setup() {
-        userManagementController = new UserManagementControllerImpl(userManagementService);
-        auth = new Authentication();
-        session = new CustomSession();
-        session.setAuthentication(auth);
-        session.setMaxInactiveTime(Duration.ofDays(-1L));
-        
+        userManagementController = new UserManagementControllerImpl(userManagementService, validator);
         mockMvc = MockMvcBuilders.standaloneSetup(userManagementController)
-                .addInterceptors(new UserAuthInterceptor(sessionRepository))
+                .addInterceptors(new UserAuthInterceptor(authService))
                 .setControllerAdvice(new GlobalExceptionHandler())
+                .alwaysDo(print())
                 .build();
-      
     }
     
     @Test
     @DisplayName("인증객체의 ID와 URL의 타겟 ID가 일치하면 정상적으로 처리한다.")
     void successWhenEverythingIsOk() throws Exception {
-        when(sessionRepository.findById("mysessionid")).thenReturn(Optional.of(session));
-    
-        auth.setId(1L);
-        mockMvc.perform(get("/users/1")
-                .header(AUTHORIZATION, "mysessionid"))
-                .andExpect(status().isOk());
+        //given
+        Authentication auth = new Authentication("t0ken", 1L);
+        when(authService.getAuthentication(BEARER_PREFIX + "t0ken")).thenReturn(Optional.of(auth));
+        //when
+        ResultActions perform = mockMvc.perform(get("/users/1")
+                .header(AUTHORIZATION, BEARER_PREFIX + "t0ken"));
+        //then
+        perform.andExpect(status().isOk());
     }
     
     @Test
     @DisplayName("인증객체가 없으면 ApiException 발생")
     void throwApiExceptionWhenThereIsNoAuthentication() throws Exception {
-        mockMvc.perform(get("/users/1")).andExpect(status().isForbidden());
+        //given
+        //when
+        ResultActions perform = mockMvc.perform(get("/users/1"));
+        //then
+        perform.andExpect(status().isUnauthorized());
     }
     
     @Test
     @DisplayName("인증객체와 요청 URL의 타겟이 다르면 ApiException 발생")
     void throwApiExceptionWhenThereIsWrongAuthentication() throws Exception {
-        Authentication auth = new Authentication();
-        auth.setId(100L);
-        mockMvc.perform(get("/users/1").sessionAttr(AUTH_VALUE, auth))
-                .andExpect(status().isForbidden());
+        //given
+        Authentication auth = new Authentication("t0ken", 2L);
+        String authenticationHeader = BEARER_PREFIX + "t0ken";
+        when(authService.getAuthentication(authenticationHeader)).thenReturn(Optional.of(auth));
+        //when
+        ResultActions perform = mockMvc.perform(get("/users/1").header(AUTHORIZATION, authenticationHeader));
+        //then
+        perform.andExpect(status().isForbidden());
     }
 }

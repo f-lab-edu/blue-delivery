@@ -9,8 +9,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-import com.delivery.config.interceptor.SessionRedisRepository;
-import com.delivery.config.interceptor.SessionRepository;
+import com.delivery.authentication.Authentication;
+import com.delivery.config.interceptor.AuthenticationRedisRepository;
+import com.delivery.config.interceptor.AuthenticationRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -19,11 +20,11 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Configuration
-public class SessionConfig {
+public class RedisConfig {
     
     @Bean
-    public SessionRepository sessionRepository(RedisTemplate<String, Object> redisTemplate) {
-        return new SessionRedisRepository(redisTemplate);
+    public AuthenticationRepository authenticationRepository(RedisTemplate<String, Object> redisTemplate) {
+        return new AuthenticationRedisRepository(redisTemplate);
     }
     
     @Bean
@@ -36,7 +37,7 @@ public class SessionConfig {
     
     @Bean
     public RedisTemplate<String, Object> redisTemplate() {
-        var serializer = new Jackson2JsonRedisSerializer(CustomSession.class);
+        var serializer = new Jackson2JsonRedisSerializer(Authentication.class);
         serializer.setObjectMapper(objectMapper());
         
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();

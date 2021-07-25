@@ -8,8 +8,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.delivery.config.interceptor.LoginInterceptor;
-import com.delivery.config.interceptor.SessionRepository;
+import com.delivery.authentication.AuthenticationService;
 import com.delivery.config.interceptor.UserAuthInterceptor;
 import com.delivery.config.resolver.AuthenticatedUserArgumentResolver;
 
@@ -17,16 +16,15 @@ import com.delivery.config.resolver.AuthenticatedUserArgumentResolver;
 public class WebConfig implements WebMvcConfigurer {
     
     @Autowired
-    private SessionRepository sessionRepository;
+    private AuthenticationService authService;
     
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LoginInterceptor(sessionRepository));
-        registry.addInterceptor(new UserAuthInterceptor(sessionRepository));
+        registry.addInterceptor(new UserAuthInterceptor(authService));
     }
     
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(new AuthenticatedUserArgumentResolver());
+        resolvers.add(new AuthenticatedUserArgumentResolver(authService));
     }
 }

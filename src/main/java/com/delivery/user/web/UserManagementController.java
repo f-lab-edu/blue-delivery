@@ -2,7 +2,6 @@ package com.delivery.user.web;
 
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
@@ -14,23 +13,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.delivery.authentication.Authentication;
 import com.delivery.config.interceptor.AuthenticationRequired;
-import com.delivery.config.resolver.Authenticated;
 import com.delivery.response.HttpResponse;
-import com.delivery.user.Authentication;
 import com.delivery.user.web.dto.AddressParam.AddressRequest;
 import com.delivery.user.web.dto.DeleteAccountParam.DeleteAccountRequest;
 import com.delivery.user.web.dto.UpdateAccountParam.UpdateAccountRequest;
-import com.delivery.user.web.dto.UserRegisterParam.UserRegisterRequest;
+import com.delivery.user.web.dto.UserRegisterParam;
 
 
 @RequestMapping("/users")
 @AuthenticationRequired
 public interface UserManagementController {
-    String baseUrl = "/users";
-    
     @GetMapping("/{id}")
-    ResponseEntity<HttpResponse<Authentication>> getLoggedInUser(@Authenticated Authentication user);
+    ResponseEntity<HttpResponse<Authentication>> getLoggedInUser(Authentication user);
     
     /**
      * 고객 회원 탈퇴
@@ -45,17 +41,11 @@ public interface UserManagementController {
                                     @Valid @RequestBody DeleteAccountRequest deleteRequest,
                                     HttpServletRequest request);
     
-    /**
-     * 고객 정보 수정
-     *
-     * @param user          유저
-     * @param updateRequest 업데이트할 정보
-     * @return 수정된 유저
-     */
+
     @PatchMapping("/{id}")
-    ResponseEntity<HttpResponse<?>> updateAccount(@Authenticated Authentication user,
+    ResponseEntity<HttpResponse<?>> updateAccount(@PathVariable Long id,
                                                   @Valid @RequestBody UpdateAccountRequest updateRequest,
-                                                  HttpSession session);
+                                                  HttpServletRequest request);
     
     /**
      * 고객 주소 추가
@@ -87,5 +77,15 @@ public interface UserManagementController {
      */
     @DeleteMapping("/{id}/addresses/{addrId}")
     ResponseEntity<?> removeAddress(@PathVariable("id") Long id, @PathVariable("addrId") Long addressId);
+    
+    /**
+     * 고객 회원가입
+     *
+     * @param registerRequest 회원가입정보
+     * @return 가입 성공시 201 CREATED
+     */
+    @PostMapping
+    ResponseEntity<?> register(@Valid @RequestBody UserRegisterParam.UserRegisterRequest registerRequest);
+    
     
 }

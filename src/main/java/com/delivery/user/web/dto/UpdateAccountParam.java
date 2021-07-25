@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class UpdateAccountParam {
+    private final Long id;
     private final String nickname;
     private final String phone;
     private final LocalDate dateOfBirth;
@@ -31,8 +32,8 @@ public class UpdateAccountParam {
         @Past
         private final LocalDate dateOfBirth;
         
-        public UpdateAccountParam toParam() {
-            return new UpdateAccountParam(nickname, phone, dateOfBirth);
+        public UpdateAccountParam toParam(Long id) {
+            return new UpdateAccountParam(id, nickname, phone, dateOfBirth);
         }
     }
 }

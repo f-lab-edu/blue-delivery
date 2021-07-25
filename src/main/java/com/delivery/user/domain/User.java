@@ -45,8 +45,8 @@ public class User {
         this.dateOfBirth = dateOfBirth;
     }
     
-    public boolean validate(String email, String password) {
-        if (!this.email.equals(email) || !this.password.equals(password)) {
+    public boolean validate(String password) {
+        if (!this.password.equals(password)) {
             return false;
         }
         return true;

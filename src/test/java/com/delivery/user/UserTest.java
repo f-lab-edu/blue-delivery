@@ -26,14 +26,8 @@ class UserTest {
     }
     
     @Test
-    void throwExceptionIfEmailIsNotEqual() {
-        boolean result = user.validate("Wrong Email", password);
-        assertThat(result).isFalse();
-    }
-    
-    @Test
     void throwExceptionIfPasswordIsNotEqual() {
-        boolean result = user.validate(email, "Wrong Password");
+        boolean result = user.validate("Wrong Password");
         assertThat(result).isFalse();
     }
 }

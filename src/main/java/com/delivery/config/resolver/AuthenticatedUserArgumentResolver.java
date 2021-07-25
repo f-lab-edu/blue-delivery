@@ -1,6 +1,9 @@
 package com.delivery.config.resolver;
 
-import static com.delivery.config.CustomSession.SESSION_STR;
+
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,8 +14,8 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import com.delivery.config.CustomSession;
-import com.delivery.user.Authentication;
+import com.delivery.authentication.Authentication;
+import com.delivery.authentication.AuthenticationService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,10 +23,11 @@ import lombok.RequiredArgsConstructor;
 @Component
 public class AuthenticatedUserArgumentResolver implements HandlerMethodArgumentResolver {
     
+    private final AuthenticationService authenticationService;
+    
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.getParameter().getType().isAssignableFrom(Authentication.class)
-                && parameter.getParameterAnnotation(Authenticated.class) != null;
+        return parameter.getParameter().getType().isAssignableFrom(Authentication.class);
     }
     
     @Override
@@ -32,7 +36,11 @@ public class AuthenticatedUserArgumentResolver implements HandlerMethodArgumentR
                                   NativeWebRequest webRequest,
                                   WebDataBinderFactory binderFactory) {
         HttpServletRequest req = (HttpServletRequest) webRequest.getNativeRequest();
-        return ((CustomSession) req.getAttribute(SESSION_STR)).getAuthentication();
+        Optional<Authentication> optional = authenticationService.getAuthentication(req.getHeader(AUTHORIZATION));
+        if (optional.isPresent()) {
+            return optional.get();
+        }
+        return null;
     }
     
 }

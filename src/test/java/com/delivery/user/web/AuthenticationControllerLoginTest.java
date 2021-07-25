@@ -6,8 +6,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import java.util.Optional;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,11 +14,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.delivery.config.interceptor.SessionRepository;
-import com.delivery.user.Authentication;
-import com.delivery.user.application.UserManagementService;
+import com.delivery.authentication.Authentication;
+import com.delivery.authentication.AuthenticationService;
+import com.delivery.config.resolver.AuthenticatedUserArgumentResolver;
 import com.delivery.user.web.dto.UserLoginParam.UserLoginRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -30,33 +29,32 @@ public class AuthenticationControllerLoginTest {
     private MockMvc mvc;
     
     @Mock
-    UserManagementService service;
-    
-    @Mock
-    PasswordValidator valida;
-    
-    @Mock
-    SessionRepository sessionRepository;
+    AuthenticationService authService;
     
     @BeforeEach
     void setup() {
-        mvc = MockMvcBuilders.standaloneSetup(new AuthenticationControllerImpl(service, valida, sessionRepository))
+        mvc = MockMvcBuilders.standaloneSetup(new AuthenticationControllerImpl(authService))
+                .setCustomArgumentResolvers(new AuthenticatedUserArgumentResolver(authService))
                 .alwaysDo(print())
                 .build();
     }
     
     @Test
-    @DisplayName("성공적으로 로그인하면 CustomSession을 반환한다")
+    @DisplayName("성공적으로 로그인하면 Authentication 객체를 반환한다")
     void returnCustomSessionIfLoginSuccess() throws Exception {
+        //given
         UserLoginRequest dto = new UserLoginRequest("email", "password");
-        Authentication authentication = new Authentication();
-        authentication.setId(1L);
-        when(service.login(dto.toParam())).thenReturn(Optional.of(authentication));
-        mvc.perform(post("/auth/login")
+        Authentication authentication = new Authentication("t0ken", 1L);
+        when(authService.authenticate(dto.toParam())).thenReturn(authentication);
+        
+        //when
+        ResultActions action = mvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new ObjectMapper().writeValueAsString(dto)))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("sessionId")))
-                .andExpect(jsonPath("$.data.authentication.id", is(1) ));
+                .content(new ObjectMapper().writeValueAsString(dto)));
+        
+        //then
+        action.andExpect(status().isOk())
+                .andExpect(content().string(containsString("token")))
+                .andExpect(jsonPath("$.data.token", is("t0ken")));
     }
 }
