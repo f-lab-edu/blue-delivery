@@ -30,15 +30,7 @@ public class UpdateBusinessHoursDto {
         return businessHourType;
     }
     
-    public void setBusinessHourType(BusinessHourType businessHourType) {
-        this.businessHourType = businessHourType;
-    }
-    
     public BusinessHourRequestParams getBusinessHours() {
         return businessHours;
-    }
-    
-    public void setBusinessHours(BusinessHourRequestParams businessHours) {
-        this.businessHours = businessHours;
     }
 }

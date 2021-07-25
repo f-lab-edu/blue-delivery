@@ -1,29 +1,24 @@
 package com.delivery.shop.category;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Categories {
     
-    private List<Category> categories;
+    private Set<Category> categories = new HashSet<>();
     
     public Categories() {
-        this.categories = new ArrayList<>();
     }
     
-    public Categories(List<Category> categories) {
-        this.categories = categories;
+    public Collection<Category> getCategories() {
+        return Collections.unmodifiableSet(categories);
     }
     
-    public List<Category> getCategories() {
-        return Collections.unmodifiableList(categories);
-    }
-    
-    public void updateAll(Collection<Category> categories) {
+    public boolean updateAll(Collection<Category> categories) {
         this.categories.clear();
-        this.categories.addAll(categories);
+        return this.categories.addAll(categories);
     }
 }
 

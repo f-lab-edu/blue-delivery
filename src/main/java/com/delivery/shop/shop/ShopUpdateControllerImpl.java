@@ -1,8 +1,13 @@
 package com.delivery.shop.shop;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.delivery.exception.ApiException;
+import com.delivery.response.ErrorCode;
+import com.delivery.response.HttpResponse;
 import com.delivery.shop.businesshour.UpdateBusinessHoursDto;
+import com.delivery.shop.category.CategoryNotFoundException;
 import com.delivery.shop.suspension.SuspensionRequest;
 
 @RestController
@@ -35,8 +40,13 @@ public class ShopUpdateControllerImpl implements ShopUpdateController {
         updateService.rename(id, name);
     }
     
-    public void updateCategory(Long shopId, UpdateCategoryRequest dto) {
-        updateService.updateCategory(shopId, dto);
+    public ResponseEntity<HttpResponse<?>> updateCategory(Long shopId, UpdateCategoryRequest dto) {
+        try {
+            updateService.updateCategory(shopId, dto);
+            return ResponseEntity.ok(HttpResponse.response("successfully updated"));
+        } catch (CategoryNotFoundException ex) {
+            throw new ApiException(ErrorCode.CATEGORY_NOT_FOUND);
+        }
     }
     
     public void updateClosingDays(Long shopId, UpdateClosingDaysRequest closingDays) {

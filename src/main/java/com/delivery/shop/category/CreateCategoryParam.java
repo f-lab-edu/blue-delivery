@@ -4,21 +4,17 @@ import javax.validation.constraints.Pattern;
 
 import com.delivery.utility.RegexConstants;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@EqualsAndHashCode
+@RequiredArgsConstructor
+@Getter
 public class CreateCategoryParam {
-    private String name;
+    private final String name;
     
-    public CreateCategoryParam(String name) {
-        this.name = name;
-    }
-    
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-    
+    @Getter
     static class CreateCategoryRequest {
         @Pattern(regexp = RegexConstants.CATEGORY_NAME)
         private String name;
@@ -33,10 +29,7 @@ public class CreateCategoryParam {
         public CreateCategoryParam toParam() {
             return new CreateCategoryParam(name);
         }
-    
-        public String getName() {
-            return name;
-        }
-    
+        
+        
     }
 }
