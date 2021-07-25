@@ -2,6 +2,8 @@ package com.delivery.shop.category;
 
 import static com.delivery.shop.category.CreateCategoryParam.*;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.delivery.response.HttpResponse;
 import com.delivery.shop.category.EditCategoryParam.EditCategoryRequest;
 
 @RequestMapping("/categories")
@@ -22,7 +25,7 @@ public interface CategoryManagerController {
      * @return 카테고리 정보가 담긴 list
      */
     @GetMapping
-    ResponseEntity<GetAllCategoriesResponse> getAllCategories();
+    ResponseEntity<HttpResponse<List<Categories>>> getAllCategories();
     
     /**
      * 카테고리 추가

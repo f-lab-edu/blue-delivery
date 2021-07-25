@@ -29,7 +29,7 @@ public class BusinessHourRequestParams {
                 && params.containsKey(DayType.SUNDAY);
     }
     
-    public BusinessHourRequestParam retreiveParamByDayType(DayType dayType) {
+    public BusinessHourRequestParam retrieveParamByDayType(DayType dayType) {
         return params.get(dayType);
     }
     
