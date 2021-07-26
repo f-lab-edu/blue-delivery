@@ -1,6 +1,7 @@
 package com.delivery.shop.category;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
@@ -11,13 +12,15 @@ import com.delivery.shop.shop.Shop;
 public interface CategoryRepository {
     List<Category> findAllCategories();
     
-    void update(List<Category> categories);
-    
     List<Shop> findShopsByCategoryId(SearchShopByCategoryParam param);
     
-    void addCategory(CreateCategoryParam name);
+    Category addCategory(Category category);
     
-    void deleteCategoryById(Long id);
+    long deleteCategoryById(Long id);
     
     void updateCategoryById(EditCategoryParam param);
+    
+    Optional<Category> findById(Long id);
+    
+    List<Category> findCategoriesById(List<Long> categoryIds);
 }

@@ -2,6 +2,7 @@ package com.delivery.shop.shop;
 
 import javax.validation.Valid;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.delivery.response.HttpResponse;
 import com.delivery.shop.businesshour.UpdateBusinessHoursDto;
 import com.delivery.shop.suspension.SuspensionRequest;
 
@@ -32,13 +34,13 @@ public interface ShopUpdateController {
     
     /**
      * 해당 가게의 카테고리를 입력받은 대로 업데이트
-     *
-     * @param shopId 가게 id
+     *  @param shopId 가게 id
      * @param dto    추가할 카테고리 enum name을 담은 dto
+     * @return
      */
     @PutMapping("/categories")
-    void updateCategory(@PathVariable("id") Long shopId,
-                        @RequestBody @Valid UpdateCategoryRequest dto);
+    ResponseEntity<HttpResponse<?>> updateCategory(@PathVariable("id") Long shopId,
+                                                   @RequestBody @Valid UpdateCategoryRequest dto);
     
     /**
      * 해당 가게의 휴무일을 입력받고 업데이트한다.

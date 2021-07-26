@@ -1,5 +1,6 @@
 package com.delivery.shop.shop;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.validation.constraints.Size;
@@ -11,15 +12,11 @@ public class UpdateCategoryRequest {
     public UpdateCategoryRequest() {
     }
     
-    public UpdateCategoryRequest(List<Long> categoryIds) {
-        this.categoryIds = categoryIds;
+    public UpdateCategoryRequest(Long ... ids) {
+        this.categoryIds = Arrays.asList(ids);
     }
     
     public List<Long> getCategoryIds() {
         return categoryIds;
-    }
-    
-    public void setCategoryIds(List<Long> typeName) {
-        this.categoryIds = typeName;
     }
 }
