@@ -7,13 +7,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.delivery.exception.ApiException;
 import com.delivery.response.ErrorCode;
-import com.delivery.user.Authentication;
 import com.delivery.user.domain.User;
 import com.delivery.user.domain.UserRepository;
 import com.delivery.user.web.dto.AddressParam;
 import com.delivery.user.web.dto.DeleteAccountParam;
 import com.delivery.user.web.dto.UpdateAccountParam;
-import com.delivery.user.web.dto.UserLoginParam;
 import com.delivery.user.web.dto.UserRegisterParam;
 import com.delivery.utility.address.Address;
 import com.delivery.utility.address.AddressService;
@@ -37,22 +35,17 @@ public class UserManagementServiceHttp implements UserManagementService {
         }
     }
     
-    public Authentication login(UserLoginParam param) {
-        User found = findUserByEmailAndCheckNotNull(param.getEmail());
-        found.validate(param.getEmail(), param.getPassword());
-        return new Authentication(found.getEmail(), found.getNickname(), found.getPhone());
-    }
-    
-    public void updateAccount(UpdateAccountParam param) {
-        User findUser = getUserByIdAndCheckNotNull(param.getId());
-        findUser.validate(param.getEmail(), param.getPassword());
-        findUser.changePhone(param.getPhone());
-        findUser.changeNickname(param.getNickname());
+    public User updateAccount(UpdateAccountParam param) {
+        User foundUser = getUserByIdAndCheckNotNull(param.getId());
+        foundUser.changePhone(param.getPhone());
+        foundUser.changeNickname(param.getNickname());
+        foundUser.setDateOfBirth(param.getDateOfBirth());
+        return foundUser;
     }
     
     public void deleteAccount(DeleteAccountParam param) {
         User user = getUserByIdAndCheckNotNull(param.getId());
-        user.validate(param.getEmail(), param.getPassword());
+        user.validate(param.getPassword());
         userRepository.delete(user);
     }
     
@@ -82,11 +75,6 @@ public class UserManagementServiceHttp implements UserManagementService {
     
     private User getUserByIdAndCheckNotNull(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new ApiException(ErrorCode.USER_NOT_FOUND));
-    }
-    
-    private User findUserByEmailAndCheckNotNull(String email) {
-        return userRepository.findByEmail(email)
                 .orElseThrow(() -> new ApiException(ErrorCode.USER_NOT_FOUND));
     }
     

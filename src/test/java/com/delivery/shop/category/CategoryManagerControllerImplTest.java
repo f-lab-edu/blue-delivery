@@ -9,30 +9,42 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.delivery.config.GlobalExceptionHandler;
 import com.delivery.shop.category.CreateCategoryParam.CreateCategoryRequest;
 import com.delivery.shop.category.EditCategoryParam.EditCategoryRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@WebMvcTest(CategoryManagerController.class)
+@ExtendWith(MockitoExtension.class)
 class CategoryManagerControllerImplTest {
     
-    @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
+    private ObjectMapper objectMapper;
     
-    @MockBean
-    CategoryManagerService categoryManagerService;
+    @Mock
+    private CategoryManagerService categoryManagerService;
     
-    @Autowired
-    ObjectMapper objectMapper;
+    @InjectMocks
+    private CategoryManagerControllerImpl categoryManagerController;
+    
+    @BeforeEach
+    void setup() {
+        objectMapper = new ObjectMapper();
+        mockMvc = MockMvcBuilders.standaloneSetup(categoryManagerController)
+                .setControllerAdvice(new GlobalExceptionHandler())
+                .build();
+    }
     
     @Test
     @DisplayName("모든 종류의 카테고리를 가져오는 요청을 보내고 성공하면 상태코드 200과 카테고리 목록을 반환한다.")
@@ -128,6 +140,5 @@ class CategoryManagerControllerImplTest {
                 .andExpect(jsonPath("$.result", containsStringIgnoringCase("fail")))
                 .andExpect(jsonPath("$.message", containsStringIgnoringCase("not found")));
     }
-    
     
 }

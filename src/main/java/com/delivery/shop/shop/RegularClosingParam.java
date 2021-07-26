@@ -6,6 +6,9 @@ import com.delivery.shop.closingday.CyclicRegularClosing;
 import com.delivery.shop.closingday.RegularClosingDay;
 import com.delivery.shop.closingday.WeeklyRegularClosing;
 
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
 public class RegularClosingParam {
     
     private CyclicRegularClosing.Cycle cycle;

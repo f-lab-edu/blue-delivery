@@ -11,26 +11,32 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.delivery.authentication.AuthenticationService;
+import com.delivery.config.interceptor.AuthenticationRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebMvcTest(MenuOptionControllerImpl.class)
 class MenuOptionControllerTest {
-
-
+    
     @Autowired
     private MockMvc mockMvc;
-
+    
     @MockBean
     MenuOptionServiceImpl menuOptionGroupService;
-
+    
+    @MockBean
+    AuthenticationRepository authenticationRepository;
+    
+    @MockBean
+    AuthenticationService authService;
+    
     @Autowired
     private ObjectMapper objectMapper;
-
-
+    
     @Test
     @DisplayName("메뉴 옵션 그룹 생성시 201 create 응답")
     void registerMenuOptionGroupTest() throws Exception {
-
+        
         MenuOptionGroup request = new MenuOptionGroup();
         request.setId(1L);
         request.setMenuId(1L);
@@ -38,7 +44,7 @@ class MenuOptionControllerTest {
         request.setOptionRequired(true);
         request.setMinimumOption(1);
         request.setMaximumOption(3);
-
+        
         mockMvc.perform(post("/1/option-groups")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
@@ -58,5 +64,5 @@ class MenuOptionControllerTest {
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated());
     }
-
+    
 }

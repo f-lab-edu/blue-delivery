@@ -1,10 +1,9 @@
 package com.delivery.user.application;
 
-import com.delivery.user.Authentication;
+import com.delivery.user.domain.User;
 import com.delivery.user.web.dto.AddressParam;
 import com.delivery.user.web.dto.DeleteAccountParam;
 import com.delivery.user.web.dto.UpdateAccountParam;
-import com.delivery.user.web.dto.UserLoginParam;
 import com.delivery.user.web.dto.UserRegisterParam;
 import com.delivery.utility.address.Address;
 
@@ -17,20 +16,7 @@ public interface UserManagementService {
      */
     void register(UserRegisterParam param);
     
-    /**
-     * 고객 로그인
-     *
-     * @param param
-     * @return 성공시 인증 객체를 반환
-     */
-    Authentication login(UserLoginParam param);
-    
-    /**
-     * 고객 정보 수정
-     *
-     * @param param
-     */
-    void updateAccount(UpdateAccountParam param);
+    User updateAccount(UpdateAccountParam param);
     
     /**
      * 고객 회원 탈퇴

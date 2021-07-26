@@ -10,6 +10,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -20,7 +21,7 @@ import com.delivery.user.domain.User;
 @Embeddable
 public class Addresses {
     
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "MAIN_ADDRESS_ID", referencedColumnName = "ADDRESS_ID")
     private Address mainAddress; // 대표 주소
     

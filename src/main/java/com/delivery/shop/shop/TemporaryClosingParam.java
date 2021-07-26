@@ -4,6 +4,9 @@ import java.time.LocalDate;
 
 import com.delivery.shop.closingday.TemporaryClosing;
 
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
 public class TemporaryClosingParam {
     
     private LocalDate from;

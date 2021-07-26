@@ -12,3 +12,6 @@ spring:
   h2:
     console:
       enabled: true
+
+  session:
+    store-type: none

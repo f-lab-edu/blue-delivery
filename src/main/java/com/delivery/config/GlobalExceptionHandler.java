@@ -16,9 +16,12 @@ import com.delivery.exception.ApiException;
 import com.delivery.response.ErrorCode;
 import com.delivery.response.HttpResponse;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
+    
     @ExceptionHandler(ApiException.class)
     public ResponseEntity<HttpResponse> apiExceptionHandler(final ApiException ex) {
         ErrorCode error = ex.getError();
@@ -49,7 +52,7 @@ public class GlobalExceptionHandler {
     // 500
     @ExceptionHandler(Exception.class)
     public ResponseEntity<HttpResponse> internalServerExceptionHandler(Exception ex) {
-
+        log.error("500 error ", ex);
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(response(

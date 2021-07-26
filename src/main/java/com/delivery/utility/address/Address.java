@@ -44,6 +44,18 @@ public class Address {
         return id;
     }
     
+    public User getUser() {
+        return user;
+    }
+    
+    public BuildingInfo getBuildingInfo() {
+        return buildingInfo;
+    }
+    
+    public String getDetail() {
+        return detail;
+    }
+    
     public void setUser(User user) {
         this.user = user;
     }

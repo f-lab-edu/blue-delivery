@@ -45,10 +45,11 @@ public class User {
         this.dateOfBirth = dateOfBirth;
     }
     
-    public void validate(String email, String password) {
-        if (!this.email.equals(email) || !this.password.equals(password)) {
-            throw new ApiException(ErrorCode.USER_NOT_VALIDATED);
+    public boolean validate(String password) {
+        if (!this.password.equals(password)) {
+            return false;
         }
+        return true;
     }
     
     public Long getId() {
@@ -81,6 +82,10 @@ public class User {
     
     public void changePhone(String phone) {
         this.phone = phone;
+    }
+    
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
     
     public Addresses getAddresses() {
@@ -117,6 +122,6 @@ public class User {
     
     @Override
     public int hashCode() {
-        return Objects.hash(id, addresses, email, nickname, phone, password, dateOfBirth);
+        return Objects.hash(id);
     }
 }
