@@ -20,10 +20,11 @@ public enum ErrorCode {
     ADDRESS_DOES_NOT_EXIST(HttpStatus.NOT_FOUND, "Address does not exist."),
     MAXIMUM_NUMBER_OF_MENU(HttpStatus.BAD_REQUEST, "Maximum number of main menus exceeded"),
     ALREADY_LOGGED_IN(HttpStatus.BAD_REQUEST, "Already Logged in"),
+    OPTION_GROUP_NOT_FOUND(HttpStatus.BAD_REQUEST, "Option group not found"),
     DUPLICATE_CATEGORY(HttpStatus.CONFLICT, "Category already exists."),
     CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "Category is not found"),
     OPTION_MIN_MAX_SELECT_ERROR(HttpStatus.BAD_REQUEST, "Option min,max select error");
-  
+
     private final HttpStatus httpStatus;
     private final String result;
     private final String message;

@@ -7,4 +7,6 @@ import com.delivery.response.HttpResponse;
 public interface MenuOptionController {
 
     ResponseEntity<HttpResponse<?>> registerMenuOptionGroup(Long menuId, MenuOptionGroupDto dto);
+
+    ResponseEntity<HttpResponse<?>> registerMenuOption(Long optionGroupId, MenuOptionDto menuOptionDto);
 }
