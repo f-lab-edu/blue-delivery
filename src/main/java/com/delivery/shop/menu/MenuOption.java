@@ -57,12 +57,13 @@ public class MenuOption {
             return false;
         }
         MenuOption that = (MenuOption) obj;
-        return Objects.equals(getId(), that.getId())
+        return getPrice() == that.getPrice()
                 && Objects.equals(getName(), that.getName());
     }
 
+
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName());
+        return Objects.hash(getName(), getPrice());
     }
 }
