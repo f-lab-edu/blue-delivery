@@ -1,0 +1,12 @@
+package com.bluedelivery.shop.menu;
+
+import org.springframework.http.ResponseEntity;
+
+import com.bluedelivery.response.HttpResponse;
+
+public interface MenuOptionController {
+
+    ResponseEntity<HttpResponse<?>> registerMenuOptionGroup(Long menuId, MenuOptionGroupDto dto);
+
+    ResponseEntity<HttpResponse<?>> registerMenuOption(Long optionGroupId, MenuOptionDto menuOptionDto);
+}

@@ -3,14 +3,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.delivery.shop.category.CategoryMapper">
+<mapper namespace="com.bluedelivery.shop.category.CategoryMapper">
     <resultMap id="categoryResultMap" type="Category">
         <id column="CATEGORY_ID" property="id" javaType="long"/>
         <result column="CATEGORY_NAME" property="name" javaType="string"/>
     </resultMap>
 
     <!-- 카테고리별 가게 조회-->
-    <select id="findShopsByCategoryId" resultMap="com.delivery.shop.shop.ShopMapper.shopResultMap">
+    <select id="findShopsByCategoryId" resultMap="com.bluedelivery.shop.shop.ShopMapper.shopResultMap">
         SELECT S.ID                            SHOP_ID,
                NAME,
                INTRODUCE,
