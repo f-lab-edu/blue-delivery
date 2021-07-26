@@ -44,10 +44,6 @@
         UPDATE MENU SET IS_MAIN = IF(IS_MAIN = true, false, true) WHERE ID = #{id};
     </update>
 
-    <update id="unSetMainMenu" parameterType="long">
-        UPDATE MENU SET IS_MAIN = 0 WHERE ID = #{id};
-    </update>
-
     <select id="countMainMenu" resultType="integer">
         SELECT COUNT(IS_MAIN) FROM MENU WHERE IS_MAIN = 1;
     </select>
