@@ -8,8 +8,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 
+import com.bluedelivery.common.RegexConstants;
 import com.bluedelivery.user.domain.User;
-import com.bluedelivery.utility.RegexConstants;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

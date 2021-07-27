@@ -1,11 +1,11 @@
 package com.bluedelivery.user.application;
 
+import com.bluedelivery.common.address.Address;
 import com.bluedelivery.user.domain.User;
 import com.bluedelivery.user.web.dto.AddressParam;
 import com.bluedelivery.user.web.dto.DeleteAccountParam;
 import com.bluedelivery.user.web.dto.UpdateAccountParam;
 import com.bluedelivery.user.web.dto.UserRegisterParam;
-import com.bluedelivery.utility.address.Address;
 
 public interface UserManagementService {
     

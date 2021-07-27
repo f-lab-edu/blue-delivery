@@ -11,8 +11,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.bluedelivery.authentication.AuthenticationService;
-import com.bluedelivery.config.interceptor.AuthenticationRepository;
+import com.bluedelivery.common.authentication.application.AuthenticationService;
+import com.bluedelivery.common.authentication.domain.AuthenticationRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebMvcTest(MenuOptionControllerImpl.class)

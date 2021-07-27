@@ -17,10 +17,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.bluedelivery.authentication.Authentication;
-import com.bluedelivery.authentication.AuthenticationService;
-import com.bluedelivery.config.resolver.AuthenticatedUserArgumentResolver;
-import com.bluedelivery.user.web.dto.UserLoginParam.UserLoginRequest;
+import com.bluedelivery.common.authentication.AuthenticatedUserArgumentResolver;
+import com.bluedelivery.common.authentication.api.LoginRequest;
+import com.bluedelivery.common.authentication.api.adapter.AuthenticationControllerImpl;
+import com.bluedelivery.common.authentication.application.AuthenticationService;
+import com.bluedelivery.common.authentication.domain.Authentication;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @ExtendWith({MockitoExtension.class})
@@ -43,7 +44,7 @@ public class AuthenticationControllerLoginTest {
     @DisplayName("성공적으로 로그인하면 Authentication 객체를 반환한다")
     void returnCustomSessionIfLoginSuccess() throws Exception {
         //given
-        UserLoginRequest dto = new UserLoginRequest("email", "password");
+        LoginRequest dto = new LoginRequest("email", "password");
         Authentication authentication = new Authentication("t0ken", 1L);
         when(authService.authenticate(dto.toParam())).thenReturn(authentication);
         

@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 
-import com.bluedelivery.utility.RegexConstants;
+import com.bluedelivery.common.RegexConstants;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

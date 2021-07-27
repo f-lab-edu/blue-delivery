@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.bluedelivery.authentication.Authentication;
-import com.bluedelivery.config.interceptor.AuthenticationRequired;
+import com.bluedelivery.common.authentication.AuthenticationRequired;
+import com.bluedelivery.common.authentication.domain.Authentication;
 import com.bluedelivery.response.HttpResponse;
 import com.bluedelivery.user.web.dto.AddressParam.AddressRequest;
 import com.bluedelivery.user.web.dto.DeleteAccountParam.DeleteAccountRequest;

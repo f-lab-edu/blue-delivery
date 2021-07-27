@@ -1,6 +1,6 @@
 package com.bluedelivery.user.web;
 
-import static com.bluedelivery.authentication.Authentication.AUTH_STR;
+import static com.bluedelivery.common.authentication.domain.Authentication.AUTH_STR;
 import static com.bluedelivery.response.HttpResponse.*;
 import static com.bluedelivery.user.web.dto.UpdateAccountParam.*;
 import static org.springframework.http.HttpStatus.*;
@@ -12,13 +12,13 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bluedelivery.authentication.Authentication;
+import com.bluedelivery.common.address.Address;
+import com.bluedelivery.common.authentication.domain.Authentication;
 import com.bluedelivery.response.HttpResponse;
 import com.bluedelivery.user.application.UserManagementService;
 import com.bluedelivery.user.web.dto.AddressParam.AddressRequest;
 import com.bluedelivery.user.web.dto.DeleteAccountParam.DeleteAccountRequest;
 import com.bluedelivery.user.web.dto.UserRegisterParam;
-import com.bluedelivery.utility.address.Address;
 
 import lombok.RequiredArgsConstructor;
 

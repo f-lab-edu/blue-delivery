@@ -3,7 +3,7 @@ package com.bluedelivery.shop.shop;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
-import com.bluedelivery.utility.RegexConstants;
+import com.bluedelivery.common.RegexConstants;
 
 public class EditPhoneRequest {
     @Pattern(regexp = RegexConstants.SHOP_PHONE, message = "잘못된 번호 형식")

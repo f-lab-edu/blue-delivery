@@ -8,9 +8,9 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.bluedelivery.authentication.AuthenticationService;
-import com.bluedelivery.config.interceptor.UserAuthInterceptor;
-import com.bluedelivery.config.resolver.AuthenticatedUserArgumentResolver;
+import com.bluedelivery.common.authentication.AuthenticatedUserArgumentResolver;
+import com.bluedelivery.common.authentication.UserAuthInterceptor;
+import com.bluedelivery.common.authentication.application.AuthenticationService;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {

@@ -2,7 +2,7 @@ package com.bluedelivery.shop.category;
 
 import javax.validation.constraints.Pattern;
 
-import com.bluedelivery.utility.RegexConstants;
+import com.bluedelivery.common.RegexConstants;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

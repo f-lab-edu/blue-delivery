@@ -5,6 +5,9 @@ import java.util.Locale;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bluedelivery.common.address.Address;
+import com.bluedelivery.common.address.AddressService;
+import com.bluedelivery.common.address.BuildingInfo;
 import com.bluedelivery.exception.ApiException;
 import com.bluedelivery.response.ErrorCode;
 import com.bluedelivery.user.domain.User;
@@ -13,9 +16,6 @@ import com.bluedelivery.user.web.dto.AddressParam;
 import com.bluedelivery.user.web.dto.DeleteAccountParam;
 import com.bluedelivery.user.web.dto.UpdateAccountParam;
 import com.bluedelivery.user.web.dto.UserRegisterParam;
-import com.bluedelivery.utility.address.Address;
-import com.bluedelivery.utility.address.AddressService;
-import com.bluedelivery.utility.address.BuildingInfo;
 
 import lombok.RequiredArgsConstructor;
 

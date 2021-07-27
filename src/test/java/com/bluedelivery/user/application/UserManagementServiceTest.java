@@ -15,11 +15,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DuplicateKeyException;
 
+import com.bluedelivery.common.address.AddressService;
 import com.bluedelivery.exception.ApiException;
 import com.bluedelivery.response.ErrorCode;
 import com.bluedelivery.user.domain.UserRepository;
 import com.bluedelivery.user.web.dto.UserRegisterParam;
-import com.bluedelivery.utility.address.AddressService;
 
 @ExtendWith(MockitoExtension.class)
 class UserManagementServiceTest {

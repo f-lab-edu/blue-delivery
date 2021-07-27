@@ -9,8 +9,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.MethodParameter;
 
-import com.bluedelivery.authentication.Authentication;
-import com.bluedelivery.authentication.AuthenticationService;
+import com.bluedelivery.common.authentication.AuthenticatedUserArgumentResolver;
+import com.bluedelivery.common.authentication.application.AuthenticationService;
+import com.bluedelivery.common.authentication.domain.Authentication;
 
 @ExtendWith(MockitoExtension.class)
 class AuthenticatedUserArgumentResolverTest {
