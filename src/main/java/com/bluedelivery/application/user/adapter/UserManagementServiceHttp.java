@@ -5,7 +5,6 @@ import java.util.Locale;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bluedelivery.application.address.AddressService;
 import com.bluedelivery.application.user.AddAddressTarget;
 import com.bluedelivery.application.user.DeleteAccountTarget;
 import com.bluedelivery.application.user.UpdateAccountTarget;
@@ -14,6 +13,7 @@ import com.bluedelivery.application.user.UserRegisterTarget;
 import com.bluedelivery.common.response.ApiException;
 import com.bluedelivery.common.response.ErrorCode;
 import com.bluedelivery.domain.address.Address;
+import com.bluedelivery.domain.address.AddressService;
 import com.bluedelivery.domain.address.BuildingInfo;
 import com.bluedelivery.domain.user.User;
 import com.bluedelivery.domain.user.UserRepository;
