@@ -4,8 +4,8 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.bluedelivery.exception.ApiException;
-import com.bluedelivery.response.ErrorCode;
+import com.bluedelivery.common.response.ApiException;
+import com.bluedelivery.common.response.ErrorCode;
 
 @Service
 public class MenuOptionServiceImpl implements MenuOptionService {

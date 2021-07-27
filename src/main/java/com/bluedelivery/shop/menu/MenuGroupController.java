@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bluedelivery.exception.ApiException;
-import com.bluedelivery.response.ErrorCode;
+import com.bluedelivery.common.response.ApiException;
+import com.bluedelivery.common.response.ErrorCode;
 
 @RestController
 @RequestMapping("/shops")

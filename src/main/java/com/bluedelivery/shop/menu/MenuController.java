@@ -1,6 +1,6 @@
 package com.bluedelivery.shop.menu;
 
-import static com.bluedelivery.response.HttpResponse.*;
+import static com.bluedelivery.common.response.HttpResponse.*;
 
 import javax.validation.Valid;
 
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bluedelivery.response.HttpResponse;
+import com.bluedelivery.common.response.HttpResponse;
 
 @RestController
 @RequestMapping("/menu-groups")

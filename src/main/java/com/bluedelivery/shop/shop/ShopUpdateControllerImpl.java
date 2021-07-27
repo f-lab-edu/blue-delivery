@@ -3,9 +3,9 @@ package com.bluedelivery.shop.shop;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bluedelivery.exception.ApiException;
-import com.bluedelivery.response.ErrorCode;
-import com.bluedelivery.response.HttpResponse;
+import com.bluedelivery.common.response.ApiException;
+import com.bluedelivery.common.response.ErrorCode;
+import com.bluedelivery.common.response.HttpResponse;
 import com.bluedelivery.shop.businesshour.UpdateBusinessHoursDto;
 import com.bluedelivery.shop.category.CategoryNotFoundException;
 import com.bluedelivery.shop.suspension.SuspensionRequest;

@@ -1,6 +1,6 @@
 package com.bluedelivery.config;
 
-import static com.bluedelivery.response.HttpResponse.*;
+import static com.bluedelivery.common.response.HttpResponse.*;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -12,9 +12,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.bluedelivery.exception.ApiException;
-import com.bluedelivery.response.ErrorCode;
-import com.bluedelivery.response.HttpResponse;
+import com.bluedelivery.common.response.ApiException;
+import com.bluedelivery.common.response.ErrorCode;
+import com.bluedelivery.common.response.HttpResponse;
 
 import lombok.extern.slf4j.Slf4j;
 

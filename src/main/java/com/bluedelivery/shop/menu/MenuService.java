@@ -1,11 +1,11 @@
 package com.bluedelivery.shop.menu;
 
-import static com.bluedelivery.response.ErrorCode.*;
+import static com.bluedelivery.common.response.ErrorCode.*;
 import static com.bluedelivery.shop.menu.Menu.*;
 
 import org.springframework.stereotype.Service;
 
-import com.bluedelivery.exception.ApiException;
+import com.bluedelivery.common.response.ApiException;
 
 @Service
 public class MenuService {

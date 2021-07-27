@@ -17,11 +17,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.bluedelivery.common.authentication.AuthenticatedUserArgumentResolver;
-import com.bluedelivery.common.authentication.api.LoginRequest;
-import com.bluedelivery.common.authentication.api.adapter.AuthenticationControllerImpl;
-import com.bluedelivery.common.authentication.application.AuthenticationService;
-import com.bluedelivery.common.authentication.domain.Authentication;
+import com.bluedelivery.api.authentication.LoginRequest;
+import com.bluedelivery.api.authentication.adapter.AuthenticationControllerImpl;
+import com.bluedelivery.application.authentication.AuthenticationService;
+import com.bluedelivery.domain.authentication.Authentication;
+import com.bluedelivery.infra.authentication.AuthenticatedUserArgumentResolver;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @ExtendWith({MockitoExtension.class})

@@ -2,7 +2,7 @@ package com.bluedelivery.shop.menu;
 
 import org.springframework.http.ResponseEntity;
 
-import com.bluedelivery.response.HttpResponse;
+import com.bluedelivery.common.response.HttpResponse;
 
 public interface MenuOptionController {
 

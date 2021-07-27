@@ -3,8 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.bluedelivery.user.infra.UserMapper">
-    <resultMap id="userResultMap" type="com.bluedelivery.user.domain.User">
+<mapper namespace="com.bluedelivery.infra.user.UserMapper">
+    <resultMap id="userResultMap" type="com.bluedelivery.domain.user.User">
         <id column="USER_ID" property="id" javaType="long"/>
         <result column="EMAIL" property="email" javaType="string"/>
         <result column="NICKNAME" property="nickname" javaType="string"/>

@@ -1,6 +1,6 @@
 package com.bluedelivery.shop.category;
 
-import static com.bluedelivery.response.HttpResponse.response;
+import static com.bluedelivery.common.response.HttpResponse.response;
 import static com.bluedelivery.shop.category.CreateCategoryParam.*;
 
 import java.util.List;
@@ -10,9 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bluedelivery.exception.ApiException;
-import com.bluedelivery.response.ErrorCode;
-import com.bluedelivery.response.HttpResponse;
+import com.bluedelivery.common.response.ApiException;
+import com.bluedelivery.common.response.ErrorCode;
+import com.bluedelivery.common.response.HttpResponse;
 import com.bluedelivery.shop.category.EditCategoryParam.EditCategoryRequest;
 
 @RestController

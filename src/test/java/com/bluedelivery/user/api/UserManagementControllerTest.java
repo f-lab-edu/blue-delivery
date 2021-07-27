@@ -19,10 +19,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.bluedelivery.api.user.UserManagementController;
+import com.bluedelivery.api.user.UserRegisterRequest;
+import com.bluedelivery.api.user.adapter.UserManagementControllerImpl;
+import com.bluedelivery.application.user.UserManagementService;
 import com.bluedelivery.config.GlobalExceptionHandler;
-import com.bluedelivery.user.PasswordValidator;
-import com.bluedelivery.user.api.dto.UserRegisterRequest;
-import com.bluedelivery.user.application.UserManagementService;
+import com.bluedelivery.infra.user.PasswordValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 

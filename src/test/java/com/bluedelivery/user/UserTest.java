@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.bluedelivery.user.domain.User;
+import com.bluedelivery.domain.user.User;
 
 class UserTest {
     

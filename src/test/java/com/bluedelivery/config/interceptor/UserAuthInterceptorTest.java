@@ -1,6 +1,6 @@
 package com.bluedelivery.config.interceptor;
 
-import static com.bluedelivery.common.authentication.application.AuthenticationService.BEARER_PREFIX;
+import static com.bluedelivery.application.authentication.AuthenticationService.BEARER_PREFIX;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -19,14 +19,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.bluedelivery.common.authentication.UserAuthInterceptor;
-import com.bluedelivery.common.authentication.application.AuthenticationService;
-import com.bluedelivery.common.authentication.domain.Authentication;
+import com.bluedelivery.api.user.UserManagementController;
+import com.bluedelivery.api.user.adapter.UserManagementControllerImpl;
+import com.bluedelivery.application.authentication.AuthenticationService;
+import com.bluedelivery.application.user.UserManagementService;
 import com.bluedelivery.config.GlobalExceptionHandler;
-import com.bluedelivery.user.PasswordValidator;
-import com.bluedelivery.user.api.UserManagementController;
-import com.bluedelivery.user.api.UserManagementControllerImpl;
-import com.bluedelivery.user.application.UserManagementService;
+import com.bluedelivery.domain.authentication.Authentication;
+import com.bluedelivery.infra.authentication.UserAuthInterceptor;
+import com.bluedelivery.infra.user.PasswordValidator;
 
 @ExtendWith(MockitoExtension.class)
 class UserAuthInterceptorTest {

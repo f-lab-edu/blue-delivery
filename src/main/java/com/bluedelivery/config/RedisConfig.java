@@ -9,9 +9,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-import com.bluedelivery.common.authentication.domain.Authentication;
-import com.bluedelivery.common.authentication.domain.AuthenticationRepository;
-import com.bluedelivery.common.authentication.infra.AuthenticationRedisRepository;
+import com.bluedelivery.domain.authentication.Authentication;
+import com.bluedelivery.domain.authentication.AuthenticationRepository;
+import com.bluedelivery.infra.authentication.AuthenticationRedisRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

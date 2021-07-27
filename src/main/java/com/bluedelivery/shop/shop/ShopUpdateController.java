@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.bluedelivery.response.HttpResponse;
+import com.bluedelivery.common.response.HttpResponse;
 import com.bluedelivery.shop.businesshour.UpdateBusinessHoursDto;
 import com.bluedelivery.shop.suspension.SuspensionRequest;
 
