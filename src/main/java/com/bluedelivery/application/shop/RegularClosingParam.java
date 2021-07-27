@@ -2,9 +2,9 @@ package com.bluedelivery.application.shop;
 
 import java.time.DayOfWeek;
 
-import com.bluedelivery.shop.closingday.CyclicRegularClosing;
-import com.bluedelivery.shop.closingday.RegularClosingDay;
-import com.bluedelivery.shop.closingday.WeeklyRegularClosing;
+import com.bluedelivery.domain.closingday.CyclicRegularClosing;
+import com.bluedelivery.domain.closingday.RegularClosingDay;
+import com.bluedelivery.domain.closingday.WeeklyRegularClosing;
 
 import lombok.NoArgsConstructor;
 

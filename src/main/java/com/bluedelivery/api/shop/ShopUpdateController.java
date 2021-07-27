@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.bluedelivery.common.response.HttpResponse;
-import com.bluedelivery.shop.suspension.SuspensionRequest;
 
 @RequestMapping("/shops/{id}")
 public interface ShopUpdateController {

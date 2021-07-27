@@ -18,10 +18,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bluedelivery.api.shop.UpdateClosingDaysRequest;
 import com.bluedelivery.application.category.CategoryManagerService;
+import com.bluedelivery.domain.closingday.CyclicRegularClosing;
+import com.bluedelivery.domain.closingday.LegalHolidayClosing;
 import com.bluedelivery.domain.shop.Shop;
 import com.bluedelivery.domain.shop.ShopRepository;
-import com.bluedelivery.shop.closingday.CyclicRegularClosing;
-import com.bluedelivery.shop.closingday.LegalHolidayClosing;
 
 @ExtendWith(MockitoExtension.class)
 class ShopUpdateServiceTest {

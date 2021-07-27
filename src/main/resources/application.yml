@@ -22,8 +22,8 @@ mybatis:
     com.bluedelivery.domain.shop,
     com.bluedelivery.domain.category,
     com.bluedelivery.domain.businesshour,
-    com.bluedelivery.shop.closingday,
-    com.bluedelivery.shop.suspension,
+    com.bluedelivery.domain.closingday,
+    com.bluedelivery.domain.suspension,
     com.bluedelivery.user.domain,
     com.bluedelivery.utility,
     org.apache.ibatis.type

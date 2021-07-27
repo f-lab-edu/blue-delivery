@@ -1,4 +1,4 @@
-package com.bluedelivery.shop.suspension;
+package com.bluedelivery.domain.closingday;
 
 import java.time.LocalDateTime;
 

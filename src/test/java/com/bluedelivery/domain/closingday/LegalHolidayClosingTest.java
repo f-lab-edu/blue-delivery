@@ -1,4 +1,4 @@
-package com.bluedelivery.shop.closingday;
+package com.bluedelivery.domain.closingday;
 
 import static org.assertj.core.api.Assertions.*;
 

@@ -1,4 +1,4 @@
-package com.bluedelivery.shop.closingday;
+package com.bluedelivery.domain.closingday;
 
 /**
  * 매주 쉬는 휴무일 일정한 주기가 존재하는 휴무일을 자식클래스로 따로 관리하고

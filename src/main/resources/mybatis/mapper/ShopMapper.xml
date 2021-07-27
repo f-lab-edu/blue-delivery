@@ -138,16 +138,16 @@
     <insert id="updateClosingDays" parameterType="map">
         INSERT INTO CLOSING_DAY (SHOP_ID, CLOSING_TYPE, CYCLE_TYPE, DAY_OF_WEEK, FROM_DATE, TO_DATE) VALUES
         <foreach collection="closingDayPolicies.closingDays" item="closing" separator=",">
-            <if test="closing instanceof com.bluedelivery.shop.closingday.LegalHolidayClosing">
+            <if test="closing instanceof com.bluedelivery.domain.closingday.LegalHolidayClosing">
                 (#{id}, #{closing.CLOSING_TYPE}, null, null, null, null)
             </if>
-            <if test="closing instanceof com.bluedelivery.shop.closingday.WeeklyRegularClosing">
+            <if test="closing instanceof com.bluedelivery.domain.closingday.WeeklyRegularClosing">
                 (#{id}, #{closing.CLOSING_TYPE}, null, #{closing.dayOfWeek}, null, null)
             </if>
-            <if test="closing instanceof com.bluedelivery.shop.closingday.CyclicRegularClosing">
+            <if test="closing instanceof com.bluedelivery.domain.closingday.CyclicRegularClosing">
                 (#{id}, #{closing.CLOSING_TYPE}, #{closing.cycle}, #{closing.dayOfWeek}, null, null)
             </if>
-            <if test="closing instanceof com.bluedelivery.shop.closingday.TemporaryClosing">
+            <if test="closing instanceof com.bluedelivery.domain.closingday.TemporaryClosing">
                 (#{id}, #{closing.CLOSING_TYPE}, null, null, #{closing.from}, #{closing.to})
             </if>
         </foreach>

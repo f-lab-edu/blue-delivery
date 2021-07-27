@@ -1,6 +1,8 @@
-package com.bluedelivery.shop.suspension;
+package com.bluedelivery.api.shop;
 
 import java.time.LocalDateTime;
+
+import com.bluedelivery.domain.closingday.Suspension;
 
 public class SuspensionRequest {
     private enum Period {

@@ -1,7 +1,7 @@
-package com.bluedelivery.shop.closingday;
+package com.bluedelivery.domain.closingday;
 
-import static com.bluedelivery.shop.closingday.LegalHoliday.CalendarType.LUNAR;
-import static com.bluedelivery.shop.closingday.LegalHoliday.CalendarType.SOLAR;
+import static com.bluedelivery.domain.closingday.LegalHoliday.CalendarType.LUNAR;
+import static com.bluedelivery.domain.closingday.LegalHoliday.CalendarType.SOLAR;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;

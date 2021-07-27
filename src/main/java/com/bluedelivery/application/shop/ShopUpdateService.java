@@ -14,10 +14,10 @@ import com.bluedelivery.application.category.CategoryManagerService;
 import com.bluedelivery.common.response.ApiException;
 import com.bluedelivery.domain.businesshour.BusinessHourConditions;
 import com.bluedelivery.domain.businesshour.BusinessHourPolicy;
+import com.bluedelivery.domain.closingday.LegalHolidayClosing;
+import com.bluedelivery.domain.closingday.Suspension;
 import com.bluedelivery.domain.shop.Shop;
 import com.bluedelivery.domain.shop.ShopRepository;
-import com.bluedelivery.shop.closingday.LegalHolidayClosing;
-import com.bluedelivery.shop.suspension.Suspension;
 
 @Service
 @Transactional

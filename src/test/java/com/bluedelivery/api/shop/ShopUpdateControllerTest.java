@@ -17,10 +17,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.bluedelivery.api.shop.UpdateClosingDaysRequest;
 import com.bluedelivery.application.shop.RegularClosingParam;
 import com.bluedelivery.application.shop.TemporaryClosingParam;
-import com.bluedelivery.shop.closingday.CyclicRegularClosing;
+import com.bluedelivery.domain.closingday.CyclicRegularClosing;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest

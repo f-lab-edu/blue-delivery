@@ -2,7 +2,7 @@ package com.bluedelivery.application.shop;
 
 import java.time.LocalDate;
 
-import com.bluedelivery.shop.closingday.TemporaryClosing;
+import com.bluedelivery.domain.closingday.TemporaryClosing;
 
 import lombok.NoArgsConstructor;
 

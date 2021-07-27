@@ -1,4 +1,4 @@
-package com.bluedelivery.shop.closingday;
+package com.bluedelivery.domain.closingday;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
