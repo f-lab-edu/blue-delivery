@@ -35,7 +35,7 @@ public class AuthenticatedUserArgumentResolver implements HandlerMethodArgumentR
                                   ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest,
                                   WebDataBinderFactory binderFactory) {
-        if (Authentication.isAnnotated(parameter.getMethod())) {
+        if (AuthenticationHolder.hasAuthentication()) {
             return AuthenticationHolder.getAuthentication();
         }
         HttpServletRequest req = (HttpServletRequest) webRequest.getNativeRequest();
