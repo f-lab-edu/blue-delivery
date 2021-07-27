@@ -1,10 +1,13 @@
-package com.bluedelivery.shop.menu;
+package com.bluedelivery.api.shop;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
+import com.bluedelivery.domain.menu.MenuOption;
+import com.bluedelivery.domain.menu.MenuOptionGroup;
 
 import lombok.Getter;
 import lombok.Setter;

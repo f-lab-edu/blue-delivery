@@ -1,5 +1,4 @@
-package com.bluedelivery.shop.menu;
-
+package com.bluedelivery.application.shop;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
@@ -11,6 +10,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ActiveProfiles;
+
+import com.bluedelivery.api.shop.MenuGroupDto;
+import com.bluedelivery.application.shop.adapter.MenuGroupService;
+import com.bluedelivery.infra.shop.MenuGroupMapper;
 
 @ExtendWith(MockitoExtension.class)
 @ActiveProfiles("test")

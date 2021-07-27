@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.bluedelivery.shop.menu.MenuGroupMapper">
+<mapper namespace="com.bluedelivery.infra.shop.MenuGroupMapper">
     
-    <resultMap id="menuGroupResult" type="com.bluedelivery.shop.menu.MenuGroupDto">
+    <resultMap id="menuGroupResult" type="com.bluedelivery.api.shop.MenuGroupDto">
         <result property="id" column="ID"></result>
         <result property="shopId" column="SHOP_ID"></result>
         <result property="name" column="NAME"></result>
         <result property="content" column="CONTENT"></result>
-        <collection property="menus" column="ID" javaType="arraylist" ofType="com.bluedelivery.shop.menu.MenuGroupDto" select="findMenuByGroupId"></collection>
+        <collection property="menus" column="ID" javaType="arraylist" ofType="com.bluedelivery.api.shop.MenuGroupDto" select="findMenuByGroupId"></collection>
     </resultMap>
     
-    <resultMap id="menuResult" type="com.bluedelivery.shop.menu.RegisterMenuDto">
+    <resultMap id="menuResult" type="com.bluedelivery.api.shop.RegisterMenuDto">
         <result property="id" column="ID"></result>
         <result property="groupId" column="GROUP_ID"></result>
         <result property="name" column="NAME"></result>
         <result property="price" column="PRICE"></result>
     </resultMap>
 
-    <insert id="saveMenuGroup" parameterType="com.bluedelivery.shop.menu.MenuGroupDto">
+    <insert id="saveMenuGroup" parameterType="com.bluedelivery.api.shop.MenuGroupDto">
         INSERT INTO MENU_GROUP(SHOP_ID, NAME, CONTENT)
         VALUES (#{shopId}, #{name}, #{content})
     </insert>

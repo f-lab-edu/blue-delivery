@@ -1,5 +1,8 @@
-package com.bluedelivery.shop.menu;
+package com.bluedelivery.application.shop;
 
+
+import com.bluedelivery.api.shop.MenuOptionDto;
+import com.bluedelivery.api.shop.MenuOptionGroupDto;
 
 public interface MenuOptionService {
 

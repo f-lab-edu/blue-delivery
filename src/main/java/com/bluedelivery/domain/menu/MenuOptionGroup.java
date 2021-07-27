@@ -1,4 +1,4 @@
-package com.bluedelivery.shop.menu;
+package com.bluedelivery.domain.menu;
 
 import java.util.ArrayList;
 import java.util.List;

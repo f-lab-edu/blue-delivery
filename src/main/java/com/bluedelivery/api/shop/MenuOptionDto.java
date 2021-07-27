@@ -1,7 +1,9 @@
-package com.bluedelivery.shop.menu;
+package com.bluedelivery.api.shop;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
+import com.bluedelivery.domain.menu.MenuOption;
 
 public class MenuOptionDto {
 

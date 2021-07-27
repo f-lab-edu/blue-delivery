@@ -1,11 +1,13 @@
-package com.bluedelivery.shop.menu;
+package com.bluedelivery.infra.shop;
 
-import static com.bluedelivery.shop.menu.Menu.*;
+import static com.bluedelivery.domain.menu.Menu.*;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
+
+import com.bluedelivery.domain.menu.Menu;
 
 @Mapper
 @Repository

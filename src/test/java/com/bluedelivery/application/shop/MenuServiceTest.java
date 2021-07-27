@@ -1,7 +1,7 @@
-package com.bluedelivery.shop.menu;
+package com.bluedelivery.application.shop;
 
 import static com.bluedelivery.common.response.ErrorCode.*;
-import static com.bluedelivery.shop.menu.Menu.*;
+import static com.bluedelivery.domain.menu.Menu.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
@@ -14,8 +14,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ActiveProfiles;
 
+import com.bluedelivery.api.shop.RegisterMenuDto;
+import com.bluedelivery.application.shop.adapter.MenuService;
 import com.bluedelivery.common.response.ApiException;
 import com.bluedelivery.common.response.ErrorCode;
+import com.bluedelivery.domain.menu.Menu;
+import com.bluedelivery.infra.shop.MenuMapper;
 
 
 @ExtendWith(MockitoExtension.class)

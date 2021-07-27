@@ -1,4 +1,4 @@
-package com.bluedelivery.shop.menu;
+package com.bluedelivery.api.shop;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -11,8 +11,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.bluedelivery.api.shop.adapter.MenuOptionControllerImpl;
+import com.bluedelivery.api.shop.adapter.MenuOptionServiceImpl;
 import com.bluedelivery.application.authentication.AuthenticationService;
 import com.bluedelivery.domain.authentication.AuthenticationRepository;
+import com.bluedelivery.domain.menu.MenuOptionGroup;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebMvcTest(MenuOptionControllerImpl.class)

@@ -1,4 +1,4 @@
-package com.bluedelivery.shop.menu;
+package com.bluedelivery.application.shop;
 
 import static java.util.Optional.*;
 import static org.mockito.BDDMockito.*;
@@ -13,6 +13,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ActiveProfiles;
+
+import com.bluedelivery.api.shop.MenuOptionDto;
+import com.bluedelivery.api.shop.MenuOptionGroupDto;
+import com.bluedelivery.api.shop.adapter.MenuOptionServiceImpl;
+import com.bluedelivery.domain.menu.MenuOption;
+import com.bluedelivery.domain.menu.MenuOptionGroup;
+import com.bluedelivery.domain.menu.MenuOptionGroupRepository;
+import com.bluedelivery.domain.menu.MenuOptionRepository;
+
 
 @ExtendWith(MockitoExtension.class)
 @ActiveProfiles("test")

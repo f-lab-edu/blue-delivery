@@ -1,8 +1,8 @@
-package com.bluedelivery.shop.menu;
+package com.bluedelivery.api.shop;
 
 import javax.validation.constraints.NotNull;
 
-import com.bluedelivery.shop.menu.Menu.MenuStatus;
+import com.bluedelivery.domain.menu.Menu.MenuStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)

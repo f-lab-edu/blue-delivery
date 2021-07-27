@@ -1,12 +1,14 @@
-package com.bluedelivery.shop.menu;
+package com.bluedelivery.api.shop;
 
-import static com.bluedelivery.shop.menu.Menu.*;
+import static com.bluedelivery.domain.menu.Menu.*;
 
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.bluedelivery.domain.menu.Menu;
+import com.bluedelivery.domain.menu.MenuOptionGroup;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -34,7 +36,7 @@ public class RegisterMenuDto {
     public RegisterMenuDto() {
     }
 
-    Menu toEntity() {
+    public Menu toEntity() {
         return Menu.builder()
                 .menuGroupId(getMenuGroupId())
                 .name(getName())

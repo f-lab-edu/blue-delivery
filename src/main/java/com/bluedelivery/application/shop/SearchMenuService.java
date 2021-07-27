@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.bluedelivery.shop.menu.Menu;
-import com.bluedelivery.shop.menu.MenuMapper;
+import com.bluedelivery.domain.menu.Menu;
+import com.bluedelivery.infra.shop.MenuMapper;
 
 @Service
 public class SearchMenuService {

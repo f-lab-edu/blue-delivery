@@ -1,8 +1,10 @@
-package com.bluedelivery.shop.menu;
+package com.bluedelivery.api.shop;
 
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
+
+import com.bluedelivery.domain.menu.Menu;
 
 public class MenuGroupDto {
 

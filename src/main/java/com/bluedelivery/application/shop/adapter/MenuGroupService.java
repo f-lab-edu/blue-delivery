@@ -1,10 +1,14 @@
-package com.bluedelivery.shop.menu;
+package com.bluedelivery.application.shop.adapter;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+
+import com.bluedelivery.api.shop.MenuGroupDto;
+import com.bluedelivery.domain.menu.MenuGroup;
+import com.bluedelivery.infra.shop.MenuGroupMapper;
 
 @Service
 public class MenuGroupService {
@@ -28,11 +32,11 @@ public class MenuGroupService {
         return menuGroupMapper.findMenuGroup(id);
     }
 
-    int updateMenuGroup(MenuGroupDto dto) {
+    public int updateMenuGroup(MenuGroupDto dto) {
         return menuGroupMapper.updateMenuGroup(dto);
     }
 
-    int deleteMenuGroup(Long id) {
+    public int deleteMenuGroup(Long id) {
         return menuGroupMapper.deleteMenuGroup(id);
     }
 

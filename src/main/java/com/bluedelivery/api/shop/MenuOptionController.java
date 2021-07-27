@@ -1,4 +1,4 @@
-package com.bluedelivery.shop.menu;
+package com.bluedelivery.api.shop;
 
 import org.springframework.http.ResponseEntity;
 

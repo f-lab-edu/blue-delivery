@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.bluedelivery.shop.menu.MenuMapper">
+<mapper namespace="com.bluedelivery.infra.shop.MenuMapper">
 
-    <resultMap id="menuResult" type="com.bluedelivery.shop.menu.Menu">
+    <resultMap id="menuResult" type="com.bluedelivery.domain.menu.Menu">
         <result property="id" column="ID"/>
         <result property="menuGroupId" column="GROUP_ID"/>
         <result property="name" column="NAME"/>
         <result property="price" column="PRICE"/>
         <result property="composition" column="COMPOSITION"/>
         <result property="content" column="CONTENT"/>
-        <result property="status" column="STATUS" javaType="com.bluedelivery.shop.menu.Menu$MenuStatus"/>
+        <result property="status" column="STATUS" javaType="com.bluedelivery.domain.menu.Menu$MenuStatus"/>
         <result property="isMain" column="IS_MAIN"/>
     </resultMap>
 
-    <insert id="saveMenu" parameterType="com.bluedelivery.shop.menu.Menu">
+    <insert id="saveMenu" parameterType="com.bluedelivery.domain.menu.Menu">
         INSERT INTO MENU(GROUP_ID, NAME, PRICE, COMPOSITION, CONTENT, STATUS, IS_MAIN)
         VALUES (#{menuGroupId}, #{name}, #{price}, #{composition}, #{content}, #{status}, #{isMain});
     </insert>
