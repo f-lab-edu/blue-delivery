@@ -1,4 +1,4 @@
-package com.bluedelivery.config.resolver;
+package com.bluedelivery.common.config.resolver;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

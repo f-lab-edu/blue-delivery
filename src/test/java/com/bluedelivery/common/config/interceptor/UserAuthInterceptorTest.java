@@ -1,4 +1,4 @@
-package com.bluedelivery.config.interceptor;
+package com.bluedelivery.common.config.interceptor;
 
 import static com.bluedelivery.application.authentication.AuthenticationService.BEARER_PREFIX;
 import static org.mockito.Mockito.when;
@@ -23,7 +23,7 @@ import com.bluedelivery.api.user.UserManagementController;
 import com.bluedelivery.api.user.adapter.UserManagementControllerImpl;
 import com.bluedelivery.application.authentication.AuthenticationService;
 import com.bluedelivery.application.user.UserManagementService;
-import com.bluedelivery.config.GlobalExceptionHandler;
+import com.bluedelivery.common.config.GlobalExceptionHandler;
 import com.bluedelivery.domain.authentication.Authentication;
 import com.bluedelivery.infra.authentication.UserAuthInterceptor;
 import com.bluedelivery.infra.user.PasswordValidator;

@@ -1,4 +1,4 @@
-package com.bluedelivery.config;
+package com.bluedelivery.common.config;
 
 import java.time.Duration;
 

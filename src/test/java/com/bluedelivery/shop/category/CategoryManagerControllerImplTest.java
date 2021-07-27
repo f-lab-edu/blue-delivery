@@ -21,7 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.bluedelivery.config.GlobalExceptionHandler;
+import com.bluedelivery.common.config.GlobalExceptionHandler;
 import com.bluedelivery.shop.category.CreateCategoryParam.CreateCategoryRequest;
 import com.bluedelivery.shop.category.EditCategoryParam.EditCategoryRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
