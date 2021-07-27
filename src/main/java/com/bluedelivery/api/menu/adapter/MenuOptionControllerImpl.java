@@ -1,4 +1,4 @@
-package com.bluedelivery.api.shop.adapter;
+package com.bluedelivery.api.menu.adapter;
 
 import javax.validation.Valid;
 
@@ -9,10 +9,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bluedelivery.api.shop.MenuOptionController;
-import com.bluedelivery.api.shop.MenuOptionDto;
-import com.bluedelivery.api.shop.MenuOptionGroupDto;
+import com.bluedelivery.api.menu.MenuOptionController;
+import com.bluedelivery.api.menu.MenuOptionDto;
+import com.bluedelivery.api.menu.MenuOptionGroupDto;
 import com.bluedelivery.application.shop.MenuOptionService;
+import com.bluedelivery.application.shop.MenuOptionServiceImpl;
 import com.bluedelivery.common.response.HttpResponse;
 
 @RestController

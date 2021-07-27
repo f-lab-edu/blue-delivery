@@ -1,4 +1,4 @@
-package com.bluedelivery.api.shop;
+package com.bluedelivery.api.menu;
 
 import java.util.List;
 

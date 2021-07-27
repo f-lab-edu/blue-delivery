@@ -14,7 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ActiveProfiles;
 
-import com.bluedelivery.api.shop.RegisterMenuDto;
+import com.bluedelivery.api.menu.RegisterMenuDto;
 import com.bluedelivery.application.shop.adapter.MenuService;
 import com.bluedelivery.common.response.ApiException;
 import com.bluedelivery.common.response.ErrorCode;

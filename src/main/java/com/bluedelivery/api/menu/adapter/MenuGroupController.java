@@ -1,4 +1,4 @@
-package com.bluedelivery.api.shop.adapter;
+package com.bluedelivery.api.menu.adapter;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bluedelivery.api.shop.MenuGroupDto;
+import com.bluedelivery.api.menu.MenuGroupDto;
 import com.bluedelivery.application.shop.adapter.MenuGroupService;
 import com.bluedelivery.common.response.ApiException;
 import com.bluedelivery.common.response.ErrorCode;

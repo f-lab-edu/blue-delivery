@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
-import com.bluedelivery.api.shop.MenuGroupDto;
+import com.bluedelivery.api.menu.MenuGroupDto;
 import com.bluedelivery.domain.menu.MenuGroup;
 import com.bluedelivery.infra.shop.MenuGroupMapper;
 

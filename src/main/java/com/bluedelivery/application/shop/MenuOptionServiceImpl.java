@@ -1,12 +1,11 @@
-package com.bluedelivery.api.shop.adapter;
+package com.bluedelivery.application.shop;
 
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.bluedelivery.api.shop.MenuOptionDto;
-import com.bluedelivery.api.shop.MenuOptionGroupDto;
-import com.bluedelivery.application.shop.MenuOptionService;
+import com.bluedelivery.api.menu.MenuOptionDto;
+import com.bluedelivery.api.menu.MenuOptionGroupDto;
 import com.bluedelivery.common.response.ApiException;
 import com.bluedelivery.common.response.ErrorCode;
 import com.bluedelivery.domain.menu.MenuOption;

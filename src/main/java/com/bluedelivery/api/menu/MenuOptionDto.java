@@ -1,4 +1,4 @@
-package com.bluedelivery.api.shop;
+package com.bluedelivery.api.menu;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

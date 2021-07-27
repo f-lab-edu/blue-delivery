@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
-import com.bluedelivery.api.shop.MenuGroupDto;
+import com.bluedelivery.api.menu.MenuGroupDto;
 import com.bluedelivery.domain.menu.MenuGroup;
 
 

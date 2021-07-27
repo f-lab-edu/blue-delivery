@@ -1,4 +1,4 @@
-package com.bluedelivery.api.shop;
+package com.bluedelivery.api.menu;
 
 import static com.bluedelivery.domain.menu.Menu.*;
 

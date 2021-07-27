@@ -1,4 +1,4 @@
-package com.bluedelivery.api.shop.adapter;
+package com.bluedelivery.api.menu.adapter;
 
 import static com.bluedelivery.common.response.HttpResponse.*;
 
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bluedelivery.api.shop.RegisterMenuDto;
+import com.bluedelivery.api.menu.RegisterMenuDto;
 import com.bluedelivery.api.shop.UpdateMenuDto;
 import com.bluedelivery.application.shop.adapter.MenuService;
 import com.bluedelivery.common.response.HttpResponse;
