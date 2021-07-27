@@ -1,4 +1,4 @@
-package com.bluedelivery.application.address;
+package com.bluedelivery.domain.address;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -8,9 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import com.bluedelivery.common.response.ApiException;
 import com.bluedelivery.common.response.ErrorCode;
-import com.bluedelivery.domain.address.Address;
-import com.bluedelivery.domain.address.Addresses;
-import com.bluedelivery.domain.address.BuildingInfo;
 
 class AddressesTest {
     

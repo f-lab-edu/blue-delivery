@@ -1,4 +1,4 @@
-package com.bluedelivery.common.config.resolver;
+package com.bluedelivery.api.authentication;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -11,7 +11,6 @@ import org.springframework.core.MethodParameter;
 
 import com.bluedelivery.application.authentication.AuthenticationService;
 import com.bluedelivery.domain.authentication.Authentication;
-import com.bluedelivery.infra.authentication.AuthenticatedUserArgumentResolver;
 
 @ExtendWith(MockitoExtension.class)
 class AuthenticatedUserArgumentResolverTest {

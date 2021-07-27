@@ -1,4 +1,4 @@
-package com.bluedelivery.user.api;
+package com.bluedelivery.api.user;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -21,10 +21,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.bluedelivery.api.user.UserManagementController;
 import com.bluedelivery.api.user.UserRegisterRequest;
+import com.bluedelivery.api.user.adapter.PasswordValidator;
 import com.bluedelivery.api.user.adapter.UserManagementControllerImpl;
 import com.bluedelivery.application.user.UserManagementService;
 import com.bluedelivery.common.config.GlobalExceptionHandler;
-import com.bluedelivery.infra.user.PasswordValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 

@@ -1,8 +1,10 @@
-package com.bluedelivery.common;
+package com.bluedelivery.common.regex;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
+
+import com.bluedelivery.common.EncryptUtils;
 
 class EncryptUtilsTest {
     

@@ -1,10 +1,12 @@
-package com.bluedelivery.common;
+package com.bluedelivery.common.regex;
 
 import static org.assertj.core.api.Assertions.*;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import com.bluedelivery.common.RegexConstants;
 
 @DisplayName("휴대폰번호 또는 지역번호로 시작하는 전화번호인지 확인")
 public class ShopPhoneRegexTest {

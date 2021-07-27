@@ -1,4 +1,4 @@
-package com.bluedelivery.user.api;
+package com.bluedelivery.api.authentication;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.when;
@@ -17,11 +17,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.bluedelivery.api.authentication.AuthenticatedUserArgumentResolver;
 import com.bluedelivery.api.authentication.LoginRequest;
 import com.bluedelivery.api.authentication.adapter.AuthenticationControllerImpl;
 import com.bluedelivery.application.authentication.AuthenticationService;
 import com.bluedelivery.domain.authentication.Authentication;
-import com.bluedelivery.infra.authentication.AuthenticatedUserArgumentResolver;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @ExtendWith({MockitoExtension.class})

@@ -1,4 +1,4 @@
-package com.bluedelivery.common.config.interceptor;
+package com.bluedelivery.api.authentication;
 
 import static com.bluedelivery.application.authentication.AuthenticationService.BEARER_PREFIX;
 import static org.mockito.Mockito.when;
@@ -18,36 +18,29 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.bluedelivery.api.user.UserManagementController;
-import com.bluedelivery.api.user.adapter.UserManagementControllerImpl;
+import com.bluedelivery.api.authentication.AuthenticationRequired;
+import com.bluedelivery.api.authentication.UserAuthInterceptor;
 import com.bluedelivery.application.authentication.AuthenticationService;
-import com.bluedelivery.application.user.UserManagementService;
 import com.bluedelivery.common.config.GlobalExceptionHandler;
 import com.bluedelivery.domain.authentication.Authentication;
-import com.bluedelivery.infra.authentication.UserAuthInterceptor;
-import com.bluedelivery.infra.user.PasswordValidator;
 
 @ExtendWith(MockitoExtension.class)
 class UserAuthInterceptorTest {
     
     private MockMvc mockMvc;
     
-    private UserManagementController userManagementController;
-    
-    @Mock
-    private UserManagementService userManagementService;
-    
-    @Mock
-    private PasswordValidator validator;
+    private TestController testController;
     
     @Mock
     private AuthenticationService authService;
     
     @BeforeEach
     void setup() {
-        userManagementController = new UserManagementControllerImpl(userManagementService, validator);
-        mockMvc = MockMvcBuilders.standaloneSetup(userManagementController)
+        testController = new TestController();
+        mockMvc = MockMvcBuilders.standaloneSetup(testController)
                 .addInterceptors(new UserAuthInterceptor(authService))
                 .setControllerAdvice(new GlobalExceptionHandler())
                 .alwaysDo(print())
@@ -61,7 +54,7 @@ class UserAuthInterceptorTest {
         Authentication auth = new Authentication("t0ken", 1L);
         when(authService.getAuthentication(BEARER_PREFIX + "t0ken")).thenReturn(Optional.of(auth));
         //when
-        ResultActions perform = mockMvc.perform(get("/users/1")
+        ResultActions perform = mockMvc.perform(get("/{id}", 1)
                 .header(AUTHORIZATION, BEARER_PREFIX + "t0ken"));
         //then
         perform.andExpect(status().isOk());
@@ -72,7 +65,7 @@ class UserAuthInterceptorTest {
     void throwApiExceptionWhenThereIsNoAuthentication() throws Exception {
         //given
         //when
-        ResultActions perform = mockMvc.perform(get("/users/1"));
+        ResultActions perform = mockMvc.perform(get("/{id}", 1));
         //then
         perform.andExpect(status().isUnauthorized());
     }
@@ -85,8 +78,17 @@ class UserAuthInterceptorTest {
         String authenticationHeader = BEARER_PREFIX + "t0ken";
         when(authService.getAuthentication(authenticationHeader)).thenReturn(Optional.of(auth));
         //when
-        ResultActions perform = mockMvc.perform(get("/users/1").header(AUTHORIZATION, authenticationHeader));
+        ResultActions perform = mockMvc.perform(get("/{id}", 1).header(AUTHORIZATION, authenticationHeader));
         //then
         perform.andExpect(status().isForbidden());
+    }
+    
+    @AuthenticationRequired
+    @RestController
+    public static class TestController {
+        @GetMapping("/{id}")
+        public void testMethod() {
+        
+        }
     }
 }

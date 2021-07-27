@@ -1,9 +1,11 @@
-package com.bluedelivery.common;
+package com.bluedelivery.common.regex;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import com.bluedelivery.common.RegexConstants;
 
 @DisplayName("01X로 시작하는 10~11자리 숫자여야 한다. '-'은 포함될수도 있고 안될수도 있다.")
 public class PhoneRegexTest {

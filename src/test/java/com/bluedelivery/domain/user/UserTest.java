@@ -1,4 +1,4 @@
-package com.bluedelivery.user;
+package com.bluedelivery.domain.user;
 
 import static org.assertj.core.api.Assertions.*;
 
