@@ -21,6 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.bluedelivery.api.category.adapter.CategoryManagerControllerImpl;
 import com.bluedelivery.application.category.CategoryManagerService;
 import com.bluedelivery.common.config.GlobalExceptionHandler;
 import com.bluedelivery.domain.category.Category;

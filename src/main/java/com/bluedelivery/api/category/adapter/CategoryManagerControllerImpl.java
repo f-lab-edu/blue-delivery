@@ -1,4 +1,4 @@
-package com.bluedelivery.api.category;
+package com.bluedelivery.api.category.adapter;
 
 import static com.bluedelivery.common.response.HttpResponse.response;
 
@@ -9,6 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bluedelivery.api.category.CategoryManagerController;
+import com.bluedelivery.api.category.CreateCategoryRequest;
+import com.bluedelivery.api.category.EditCategoryRequest;
 import com.bluedelivery.application.category.CategoryManagerService;
 import com.bluedelivery.application.category.CategoryNotFoundException;
 import com.bluedelivery.common.response.ApiException;
