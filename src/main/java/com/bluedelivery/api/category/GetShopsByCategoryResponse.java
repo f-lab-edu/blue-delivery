@@ -1,4 +1,4 @@
-package com.bluedelivery.shop.category;
+package com.bluedelivery.api.category;
 
 import java.util.List;
 

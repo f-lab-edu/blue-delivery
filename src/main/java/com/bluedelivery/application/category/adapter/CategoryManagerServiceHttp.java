@@ -1,10 +1,17 @@
-package com.bluedelivery.shop.category;
+package com.bluedelivery.application.category.adapter;
 
 import java.util.List;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+
+import com.bluedelivery.application.category.CategoryManagerService;
+import com.bluedelivery.application.category.CategoryNotFoundException;
+import com.bluedelivery.application.category.CreateCategoryParam;
+import com.bluedelivery.application.category.EditCategoryParam;
+import com.bluedelivery.domain.category.Category;
+import com.bluedelivery.domain.category.CategoryRepository;
 
 @Service
 public class CategoryManagerServiceHttp implements CategoryManagerService {

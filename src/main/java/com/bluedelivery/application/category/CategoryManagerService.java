@@ -1,6 +1,8 @@
-package com.bluedelivery.shop.category;
+package com.bluedelivery.application.category;
 
 import java.util.List;
+
+import com.bluedelivery.domain.category.Category;
 
 public interface CategoryManagerService {
     

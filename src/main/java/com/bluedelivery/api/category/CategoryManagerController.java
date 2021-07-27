@@ -1,6 +1,4 @@
-package com.bluedelivery.shop.category;
-
-import static com.bluedelivery.shop.category.CreateCategoryParam.*;
+package com.bluedelivery.api.category;
 
 import java.util.List;
 
@@ -14,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.bluedelivery.common.response.HttpResponse;
-import com.bluedelivery.shop.category.EditCategoryParam.EditCategoryRequest;
+import com.bluedelivery.domain.category.Categories;
 
 @RequestMapping("/categories")
 public interface CategoryManagerController {

@@ -1,4 +1,4 @@
-package com.bluedelivery.shop.category;
+package com.bluedelivery.domain.category;
 
 import java.util.Objects;
 

@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.bluedelivery.shop.category.CategoryRepository;
+import com.bluedelivery.domain.category.CategoryRepository;
 import com.bluedelivery.shop.shop.Shop;
 
 @Service

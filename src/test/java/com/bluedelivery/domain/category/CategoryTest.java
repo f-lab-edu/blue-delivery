@@ -1,9 +1,11 @@
-package com.bluedelivery.shop.category;
+package com.bluedelivery.domain.category;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import com.bluedelivery.domain.category.Category;
 
 public class CategoryTest {
     @Test

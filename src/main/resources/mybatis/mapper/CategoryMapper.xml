@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.bluedelivery.shop.category.CategoryMapper">
+<mapper namespace="com.bluedelivery.infra.category.CategoryMapper">
     <resultMap id="categoryResultMap" type="Category">
         <id column="CATEGORY_ID" property="id" javaType="long"/>
         <result column="CATEGORY_NAME" property="name" javaType="string"/>

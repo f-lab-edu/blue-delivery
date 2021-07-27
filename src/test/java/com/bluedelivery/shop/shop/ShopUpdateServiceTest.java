@@ -16,7 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bluedelivery.shop.category.CategoryManagerService;
+import com.bluedelivery.application.category.CategoryManagerService;
 import com.bluedelivery.shop.closingday.CyclicRegularClosing;
 import com.bluedelivery.shop.closingday.LegalHolidayClosing;
 

@@ -40,7 +40,7 @@
     </select>
 
     <!-- 가게 id로 카테고리들 조회 (nested Select용) -->
-    <select id="findCategoriesByShopId" resultMap="com.bluedelivery.shop.category.CategoryMapper.categoryResultMap">
+    <select id="findCategoriesByShopId" resultMap="com.bluedelivery.infra.category.CategoryMapper.categoryResultMap">
         SELECT ID AS CATEGORY_ID,
                NAME AS CATEGORY_NAME,
                CS.SHOP_ID AS SHOP_ID

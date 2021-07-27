@@ -1,7 +1,6 @@
-package com.bluedelivery.shop.category;
+package com.bluedelivery.api.category;
 
 import static com.bluedelivery.common.response.HttpResponse.response;
-import static com.bluedelivery.shop.category.CreateCategoryParam.*;
 
 import java.util.List;
 
@@ -10,10 +9,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bluedelivery.application.category.CategoryManagerService;
+import com.bluedelivery.application.category.CategoryNotFoundException;
 import com.bluedelivery.common.response.ApiException;
 import com.bluedelivery.common.response.ErrorCode;
 import com.bluedelivery.common.response.HttpResponse;
-import com.bluedelivery.shop.category.EditCategoryParam.EditCategoryRequest;
+import com.bluedelivery.domain.category.Categories;
+import com.bluedelivery.domain.category.Category;
 
 @RestController
 public class CategoryManagerControllerImpl implements CategoryManagerController {

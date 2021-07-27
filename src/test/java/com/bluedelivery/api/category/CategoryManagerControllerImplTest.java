@@ -1,4 +1,4 @@
-package com.bluedelivery.shop.category;
+package com.bluedelivery.api.category;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.when;
@@ -21,9 +21,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.bluedelivery.application.category.CategoryManagerService;
 import com.bluedelivery.common.config.GlobalExceptionHandler;
-import com.bluedelivery.shop.category.CreateCategoryParam.CreateCategoryRequest;
-import com.bluedelivery.shop.category.EditCategoryParam.EditCategoryRequest;
+import com.bluedelivery.domain.category.Category;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @ExtendWith(MockitoExtension.class)

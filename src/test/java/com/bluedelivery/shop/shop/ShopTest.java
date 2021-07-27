@@ -7,8 +7,8 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.bluedelivery.shop.category.Categories;
-import com.bluedelivery.shop.category.Category;
+import com.bluedelivery.domain.category.Categories;
+import com.bluedelivery.domain.category.Category;
 
 class ShopTest {
     

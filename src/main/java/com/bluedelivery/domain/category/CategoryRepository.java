@@ -1,10 +1,11 @@
-package com.bluedelivery.shop.category;
+package com.bluedelivery.domain.category;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
+import com.bluedelivery.application.category.EditCategoryParam;
 import com.bluedelivery.shop.search.SearchShopByCategoryParam;
 import com.bluedelivery.shop.shop.Shop;
 

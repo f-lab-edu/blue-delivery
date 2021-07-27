@@ -4,7 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.bluedelivery.shop.category.GetShopsByCategoryResponse;
+import com.bluedelivery.api.category.GetShopsByCategoryResponse;
 
 public interface ShopExposeController {
     
