@@ -1,4 +1,4 @@
-package com.bluedelivery.shop.search;
+package com.bluedelivery.api.shop;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

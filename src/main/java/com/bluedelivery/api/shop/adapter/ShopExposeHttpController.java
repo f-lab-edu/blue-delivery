@@ -1,4 +1,4 @@
-package com.bluedelivery.shop.search;
+package com.bluedelivery.api.shop.adapter;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,7 +11,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bluedelivery.api.category.GetShopsByCategoryResponse;
-import com.bluedelivery.shop.shop.Shop;
+import com.bluedelivery.api.shop.SearchedShopData;
+import com.bluedelivery.api.shop.ShopExposeController;
+import com.bluedelivery.application.shop.SearchShopByCategoryParam;
+import com.bluedelivery.application.shop.ShopExposeService;
+import com.bluedelivery.domain.shop.Shop;
 
 @RestController
 public class ShopExposeHttpController implements ShopExposeController {

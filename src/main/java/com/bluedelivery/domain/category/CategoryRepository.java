@@ -6,8 +6,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Repository;
 
 import com.bluedelivery.application.category.EditCategoryParam;
-import com.bluedelivery.shop.search.SearchShopByCategoryParam;
-import com.bluedelivery.shop.shop.Shop;
+import com.bluedelivery.application.shop.SearchShopByCategoryParam;
+import com.bluedelivery.domain.shop.Shop;
 
 @Repository
 public interface CategoryRepository {

@@ -1,4 +1,4 @@
-package com.bluedelivery.shop.search;
+package com.bluedelivery.application.shop.adapter;
 
 import static java.lang.Boolean.compare;
 import static java.util.stream.Collectors.toList;
@@ -8,8 +8,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.bluedelivery.application.shop.SearchShopByCategoryParam;
+import com.bluedelivery.application.shop.ShopExposeService;
 import com.bluedelivery.domain.category.CategoryRepository;
-import com.bluedelivery.shop.shop.Shop;
+import com.bluedelivery.domain.shop.Shop;
 
 @Service
 public class ShopExposeServiceImpl implements ShopExposeService {

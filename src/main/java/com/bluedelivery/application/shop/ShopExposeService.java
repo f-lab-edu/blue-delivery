@@ -1,8 +1,8 @@
-package com.bluedelivery.shop.search;
+package com.bluedelivery.application.shop;
 
 import java.util.List;
 
-import com.bluedelivery.shop.shop.Shop;
+import com.bluedelivery.domain.shop.Shop;
 
 public interface ShopExposeService {
     List<Shop> getShopsByCategory(SearchShopByCategoryParam param);

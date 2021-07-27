@@ -1,4 +1,4 @@
-package com.bluedelivery.shop.search;
+package com.bluedelivery.application.shop;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;

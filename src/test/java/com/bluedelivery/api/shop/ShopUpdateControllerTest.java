@@ -1,4 +1,4 @@
-package com.bluedelivery.shop.shop;
+package com.bluedelivery.api.shop;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -17,6 +17,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.bluedelivery.api.shop.UpdateClosingDaysRequest;
+import com.bluedelivery.application.shop.RegularClosingParam;
+import com.bluedelivery.application.shop.TemporaryClosingParam;
 import com.bluedelivery.shop.closingday.CyclicRegularClosing;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

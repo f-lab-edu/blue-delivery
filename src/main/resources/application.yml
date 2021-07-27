@@ -19,7 +19,7 @@ spring:
 mybatis:
   mapper-locations: mybatis/mapper/*.xml
   type-aliases-package:
-    com.bluedelivery.shop.shop,
+    com.bluedelivery.domain.shop,
     com.bluedelivery.domain.category,
     com.bluedelivery.shop.businesshour,
     com.bluedelivery.shop.closingday,

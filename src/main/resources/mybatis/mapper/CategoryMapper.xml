@@ -10,7 +10,7 @@
     </resultMap>
 
     <!-- 카테고리별 가게 조회-->
-    <select id="findShopsByCategoryId" resultMap="com.bluedelivery.shop.shop.ShopMapper.shopResultMap">
+    <select id="findShopsByCategoryId" resultMap="com.bluedelivery.infra.shop.ShopMapper.shopResultMap">
         SELECT S.ID                            SHOP_ID,
                NAME,
                INTRODUCE,

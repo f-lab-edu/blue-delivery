@@ -1,9 +1,12 @@
-package com.bluedelivery.shop.shop;
+package com.bluedelivery.api.shop;
 
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.bluedelivery.application.shop.RegularClosingParam;
+import com.bluedelivery.application.shop.TemporaryClosingParam;
 
 import lombok.NoArgsConstructor;
 

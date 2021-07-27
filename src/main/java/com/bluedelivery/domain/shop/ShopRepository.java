@@ -1,6 +1,8 @@
-package com.bluedelivery.shop.shop;
+package com.bluedelivery.domain.shop;
 
 import org.springframework.stereotype.Repository;
+
+import com.bluedelivery.domain.shop.Shop;
 
 @Repository
 public interface ShopRepository {

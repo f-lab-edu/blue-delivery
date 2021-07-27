@@ -1,4 +1,4 @@
-package com.bluedelivery.shop.shop;
+package com.bluedelivery.application.shop;
 
 import java.time.LocalDate;
 

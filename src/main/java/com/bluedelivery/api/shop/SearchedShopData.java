@@ -1,4 +1,4 @@
-package com.bluedelivery.shop.search;
+package com.bluedelivery.api.shop;
 
 // TODO 나중에 대표메뉴 조회결과, 평점, 배달소요시간, 최소주문, 배달팁 정보 등등 추가되어야 함
 public class SearchedShopData {

@@ -2,7 +2,7 @@ package com.bluedelivery.api.category;
 
 import java.util.List;
 
-import com.bluedelivery.shop.search.SearchedShopData;
+import com.bluedelivery.api.shop.SearchedShopData;
 
 public class GetShopsByCategoryResponse {
     

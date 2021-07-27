@@ -1,4 +1,4 @@
-package com.bluedelivery.shop.shop;
+package com.bluedelivery.api.shop;
 
 import java.util.Arrays;
 import java.util.List;

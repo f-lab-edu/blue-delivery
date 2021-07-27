@@ -1,4 +1,4 @@
-package com.bluedelivery.shop.shop;
+package com.bluedelivery.application.shop;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -16,7 +16,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bluedelivery.api.shop.UpdateClosingDaysRequest;
 import com.bluedelivery.application.category.CategoryManagerService;
+import com.bluedelivery.domain.shop.Shop;
+import com.bluedelivery.domain.shop.ShopRepository;
 import com.bluedelivery.shop.closingday.CyclicRegularClosing;
 import com.bluedelivery.shop.closingday.LegalHolidayClosing;
 
