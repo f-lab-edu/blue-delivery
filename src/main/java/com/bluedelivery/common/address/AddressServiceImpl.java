@@ -4,6 +4,10 @@ import static com.bluedelivery.response.ErrorCode.ADDRESS_DOES_NOT_EXIST;
 
 import org.springframework.stereotype.Service;
 
+import com.bluedelivery.common.address.domain.Address;
+import com.bluedelivery.common.address.domain.AddressRepository;
+import com.bluedelivery.common.address.domain.BuildingInfo;
+import com.bluedelivery.common.address.domain.BuildingInfoRepository;
 import com.bluedelivery.exception.ApiException;
 import com.bluedelivery.user.domain.User;
 

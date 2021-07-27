@@ -23,10 +23,10 @@ import com.bluedelivery.common.authentication.UserAuthInterceptor;
 import com.bluedelivery.common.authentication.application.AuthenticationService;
 import com.bluedelivery.common.authentication.domain.Authentication;
 import com.bluedelivery.config.GlobalExceptionHandler;
+import com.bluedelivery.user.PasswordValidator;
+import com.bluedelivery.user.api.UserManagementController;
+import com.bluedelivery.user.api.UserManagementControllerImpl;
 import com.bluedelivery.user.application.UserManagementService;
-import com.bluedelivery.user.web.PasswordValidator;
-import com.bluedelivery.user.web.UserManagementController;
-import com.bluedelivery.user.web.UserManagementControllerImpl;
 
 @ExtendWith(MockitoExtension.class)
 class UserAuthInterceptorTest {

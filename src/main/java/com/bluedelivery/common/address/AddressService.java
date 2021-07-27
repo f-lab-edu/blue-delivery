@@ -1,5 +1,7 @@
 package com.bluedelivery.common.address;
 
+import com.bluedelivery.common.address.domain.Address;
+import com.bluedelivery.common.address.domain.BuildingInfo;
 import com.bluedelivery.exception.ApiException;
 import com.bluedelivery.user.domain.User;
 

@@ -1,21 +1,22 @@
-package com.bluedelivery.user.application;
+package com.bluedelivery.user.application.adapter;
 
 import java.util.Locale;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bluedelivery.common.address.Address;
 import com.bluedelivery.common.address.AddressService;
-import com.bluedelivery.common.address.BuildingInfo;
+import com.bluedelivery.common.address.domain.Address;
+import com.bluedelivery.common.address.domain.BuildingInfo;
 import com.bluedelivery.exception.ApiException;
 import com.bluedelivery.response.ErrorCode;
+import com.bluedelivery.user.application.AddAddressTarget;
+import com.bluedelivery.user.application.DeleteAccountTarget;
+import com.bluedelivery.user.application.UpdateAccountTarget;
+import com.bluedelivery.user.application.UserManagementService;
+import com.bluedelivery.user.application.UserRegisterTarget;
 import com.bluedelivery.user.domain.User;
 import com.bluedelivery.user.domain.UserRepository;
-import com.bluedelivery.user.web.dto.AddressParam;
-import com.bluedelivery.user.web.dto.DeleteAccountParam;
-import com.bluedelivery.user.web.dto.UpdateAccountParam;
-import com.bluedelivery.user.web.dto.UserRegisterParam;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,7 +28,7 @@ public class UserManagementServiceHttp implements UserManagementService {
     private final UserRepository userRepository;
     private final AddressService addressService;
     
-    public void register(UserRegisterParam dto) {
+    public void register(UserRegisterTarget dto) {
         try {
             userRepository.save(dto.toEntity());
         } catch (RuntimeException ex) {
@@ -35,7 +36,7 @@ public class UserManagementServiceHttp implements UserManagementService {
         }
     }
     
-    public User updateAccount(UpdateAccountParam param) {
+    public User updateAccount(UpdateAccountTarget param) {
         User foundUser = getUserByIdAndCheckNotNull(param.getId());
         foundUser.changePhone(param.getPhone());
         foundUser.changeNickname(param.getNickname());
@@ -43,14 +44,14 @@ public class UserManagementServiceHttp implements UserManagementService {
         return foundUser;
     }
     
-    public void deleteAccount(DeleteAccountParam param) {
+    public void deleteAccount(DeleteAccountTarget param) {
         User user = getUserByIdAndCheckNotNull(param.getId());
         user.validate(param.getPassword());
         userRepository.delete(user);
     }
     
     @Override
-    public Address addAddress(AddressParam param) {
+    public Address addAddress(AddAddressTarget param) {
         User user = getUserByIdAndCheckNotNull(param.getId());
         BuildingInfo buildingInfo =
                 addressService.getBuildingAddress(param.getBuildingManagementNumber());

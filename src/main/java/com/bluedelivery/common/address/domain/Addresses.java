@@ -1,4 +1,4 @@
-package com.bluedelivery.common.address;
+package com.bluedelivery.common.address.domain;
 
 import static com.bluedelivery.response.ErrorCode.*;
 import static java.util.Objects.isNull;

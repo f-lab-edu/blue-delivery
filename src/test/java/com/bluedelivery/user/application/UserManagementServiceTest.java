@@ -18,8 +18,8 @@ import org.springframework.dao.DuplicateKeyException;
 import com.bluedelivery.common.address.AddressService;
 import com.bluedelivery.exception.ApiException;
 import com.bluedelivery.response.ErrorCode;
+import com.bluedelivery.user.application.adapter.UserManagementServiceHttp;
 import com.bluedelivery.user.domain.UserRepository;
-import com.bluedelivery.user.web.dto.UserRegisterParam;
 
 @ExtendWith(MockitoExtension.class)
 class UserManagementServiceTest {
@@ -32,13 +32,13 @@ class UserManagementServiceTest {
     
     String email;
     String password;
-    UserRegisterParam param;
+    UserRegisterTarget param;
     
     @BeforeEach
     void setup() {
         service = new UserManagementServiceHttp(userRepository, addressService);
         email = "myEmail@email.com";
-        param = new UserRegisterParam(
+        param = new UserRegisterTarget(
                 email, "nickname", "010-1234-5676",
                 password, LocalDate.of(2000, Month.MAY, 1));
     }

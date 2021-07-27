@@ -6,6 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.bluedelivery.common.address.domain.Address;
+import com.bluedelivery.common.address.domain.Addresses;
+import com.bluedelivery.common.address.domain.BuildingInfo;
 import com.bluedelivery.exception.ApiException;
 import com.bluedelivery.response.ErrorCode;
 

@@ -10,8 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.bluedelivery.common.address.Address;
-import com.bluedelivery.common.address.Addresses;
+import com.bluedelivery.common.address.domain.Address;
+import com.bluedelivery.common.address.domain.Addresses;
 
 @Entity
 public class User {

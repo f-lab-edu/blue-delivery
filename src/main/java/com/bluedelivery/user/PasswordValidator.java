@@ -1,4 +1,4 @@
-package com.bluedelivery.user.web;
+package com.bluedelivery.user;
 
 import java.util.Objects;
 
@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.bluedelivery.user.web.dto.UserRegisterParam.UserRegisterRequest;
+import com.bluedelivery.user.api.dto.UserRegisterRequest;
 
 @Component
 public class PasswordValidator implements Validator {

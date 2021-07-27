@@ -1,11 +1,7 @@
 package com.bluedelivery.user.application;
 
-import com.bluedelivery.common.address.Address;
+import com.bluedelivery.common.address.domain.Address;
 import com.bluedelivery.user.domain.User;
-import com.bluedelivery.user.web.dto.AddressParam;
-import com.bluedelivery.user.web.dto.DeleteAccountParam;
-import com.bluedelivery.user.web.dto.UpdateAccountParam;
-import com.bluedelivery.user.web.dto.UserRegisterParam;
 
 public interface UserManagementService {
     
@@ -14,23 +10,23 @@ public interface UserManagementService {
      *
      * @param param
      */
-    void register(UserRegisterParam param);
+    void register(UserRegisterTarget param);
     
-    User updateAccount(UpdateAccountParam param);
+    User updateAccount(UpdateAccountTarget param);
     
     /**
      * 고객 회원 탈퇴
      *
      * @param param
      */
-    void deleteAccount(DeleteAccountParam param);
+    void deleteAccount(DeleteAccountTarget param);
     
     /**
      * 고객 주소 추가
      *
-     * @param addressParam 유저 id와 주소 정보
+     * @param addAddressTarget 유저 id와 주소 정보
      */
-    Address addAddress(AddressParam addressParam);
+    Address addAddress(AddAddressTarget addAddressTarget);
     
     /**
      * 고객 주소를 대표 주소로 지정

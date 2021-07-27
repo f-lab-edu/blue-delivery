@@ -1,8 +1,7 @@
-package com.bluedelivery.user.web;
+package com.bluedelivery.user.api;
 
 import static com.bluedelivery.common.authentication.domain.Authentication.AUTH_STR;
 import static com.bluedelivery.response.HttpResponse.*;
-import static com.bluedelivery.user.web.dto.UpdateAccountParam.*;
 import static org.springframework.http.HttpStatus.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,13 +11,15 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bluedelivery.common.address.Address;
+import com.bluedelivery.common.address.domain.Address;
 import com.bluedelivery.common.authentication.domain.Authentication;
 import com.bluedelivery.response.HttpResponse;
+import com.bluedelivery.user.PasswordValidator;
+import com.bluedelivery.user.api.dto.AddAddressRequest;
+import com.bluedelivery.user.api.dto.DeleteAccountRequest;
+import com.bluedelivery.user.api.dto.UpdateAccountRequest;
+import com.bluedelivery.user.api.dto.UserRegisterRequest;
 import com.bluedelivery.user.application.UserManagementService;
-import com.bluedelivery.user.web.dto.AddressParam.AddressRequest;
-import com.bluedelivery.user.web.dto.DeleteAccountParam.DeleteAccountRequest;
-import com.bluedelivery.user.web.dto.UserRegisterParam;
 
 import lombok.RequiredArgsConstructor;
 
@@ -51,7 +52,7 @@ public class UserManagementControllerImpl implements UserManagementController {
     }
     
     @Override
-    public ResponseEntity<HttpResponse<?>> addAddress(Long id, AddressRequest addressRequest) {
+    public ResponseEntity<HttpResponse<?>> addAddress(Long id, AddAddressRequest addressRequest) {
         Address address = userManagementService.addAddress(addressRequest.toParam(id));
         return ResponseEntity.status(CREATED).body(response(address));
     }
@@ -74,7 +75,7 @@ public class UserManagementControllerImpl implements UserManagementController {
         return ResponseEntity.notFound().build();
     }
     
-    public ResponseEntity<?> register(UserRegisterParam.UserRegisterRequest dto) {
+    public ResponseEntity<?> register(UserRegisterRequest dto) {
         userManagementService.register(dto.toParam());
         return ResponseEntity.status(CREATED).build();
     }

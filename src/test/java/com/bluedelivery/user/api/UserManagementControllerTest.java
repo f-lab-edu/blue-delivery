@@ -1,4 +1,4 @@
-package com.bluedelivery.user.web;
+package com.bluedelivery.user.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -20,8 +20,9 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.bluedelivery.config.GlobalExceptionHandler;
+import com.bluedelivery.user.PasswordValidator;
+import com.bluedelivery.user.api.dto.UserRegisterRequest;
 import com.bluedelivery.user.application.UserManagementService;
-import com.bluedelivery.user.web.dto.UserRegisterParam;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
@@ -58,7 +59,7 @@ class UserManagementControllerTest {
         String password = "P@ssw0rd!";
         MvcResult mvcResult = mockMvc.perform(post("/users")
                 .content(objMapper.writeValueAsString(
-                        new UserRegisterParam.UserRegisterRequest("nothing@email.com", "nickname", "010-1234-1234",
+                        new UserRegisterRequest("nothing@email.com", "nickname", "010-1234-1234",
                                 password, password + "wrong",
                                 LocalDate.of(2020, Month.MAY, 1))))
                 .contentType(MediaType.APPLICATION_JSON))
@@ -74,7 +75,7 @@ class UserManagementControllerTest {
         String password = "P@ssw0rd!";
         mockMvc.perform(post("/users")
                 .content(objMapper.writeValueAsString(
-                        new UserRegisterParam.UserRegisterRequest("nothing@email.com", "nickname", "010-1234-1234",
+                        new UserRegisterRequest("nothing@email.com", "nickname", "010-1234-1234",
                                 password, password,
                                 LocalDate.of(2020, Month.MAY, 1))))
                 .contentType(MediaType.APPLICATION_JSON))

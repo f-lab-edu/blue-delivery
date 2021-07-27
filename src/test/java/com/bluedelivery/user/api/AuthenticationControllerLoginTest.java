@@ -1,4 +1,4 @@
-package com.bluedelivery.user.web;
+package com.bluedelivery.user.api;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.when;

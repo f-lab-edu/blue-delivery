@@ -1,4 +1,4 @@
-package com.bluedelivery.common.address;
+package com.bluedelivery.common.address.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

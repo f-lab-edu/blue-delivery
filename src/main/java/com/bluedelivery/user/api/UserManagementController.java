@@ -1,4 +1,4 @@
-package com.bluedelivery.user.web;
+package com.bluedelivery.user.api;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.bluedelivery.common.authentication.AuthenticationRequired;
 import com.bluedelivery.common.authentication.domain.Authentication;
 import com.bluedelivery.response.HttpResponse;
-import com.bluedelivery.user.web.dto.AddressParam.AddressRequest;
-import com.bluedelivery.user.web.dto.DeleteAccountParam.DeleteAccountRequest;
-import com.bluedelivery.user.web.dto.UpdateAccountParam.UpdateAccountRequest;
-import com.bluedelivery.user.web.dto.UserRegisterParam;
+import com.bluedelivery.user.api.dto.AddAddressRequest;
+import com.bluedelivery.user.api.dto.DeleteAccountRequest;
+import com.bluedelivery.user.api.dto.UpdateAccountRequest;
+import com.bluedelivery.user.api.dto.UserRegisterRequest;
 
 
 @RequestMapping("/users")
@@ -56,7 +56,7 @@ public interface UserManagementController {
      */
     @PostMapping("/{id}/addresses")
     ResponseEntity<HttpResponse<?>> addAddress(@PathVariable("id") Long id,
-                                               @Valid @RequestBody AddressRequest addressParam);
+                                               @Valid @RequestBody AddAddressRequest addressParam);
     
     /**
      * 고객의 대표 주소 설정
@@ -85,7 +85,7 @@ public interface UserManagementController {
      * @return 가입 성공시 201 CREATED
      */
     @PostMapping
-    ResponseEntity<?> register(@Valid @RequestBody UserRegisterParam.UserRegisterRequest registerRequest);
+    ResponseEntity<?> register(@Valid @RequestBody UserRegisterRequest registerRequest);
     
     
 }

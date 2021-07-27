@@ -1,4 +1,4 @@
-package com.bluedelivery.common.address;
+package com.bluedelivery.common.address.domain;
 
 import java.util.Optional;
 
