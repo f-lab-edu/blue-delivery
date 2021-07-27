@@ -1,4 +1,4 @@
-package com.bluedelivery.infra.authentication;
+package com.bluedelivery.api.authentication;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

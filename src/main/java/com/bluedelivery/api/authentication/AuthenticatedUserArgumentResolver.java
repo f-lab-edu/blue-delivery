@@ -1,4 +1,4 @@
-package com.bluedelivery.infra.authentication;
+package com.bluedelivery.api.authentication;
 
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;

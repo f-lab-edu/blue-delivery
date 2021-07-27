@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.bluedelivery.api.authentication.AuthenticationRequired;
 import com.bluedelivery.common.response.HttpResponse;
 import com.bluedelivery.domain.authentication.Authentication;
-import com.bluedelivery.infra.authentication.AuthenticationRequired;
 
 
 @RequestMapping("/users")
 @AuthenticationRequired
 public interface UserManagementController {
-    @GetMapping("/{id}")
+    @GetMapping("/")
     ResponseEntity<HttpResponse<Authentication>> getLoggedInUser(Authentication user);
     
     /**
@@ -82,6 +82,5 @@ public interface UserManagementController {
      */
     @PostMapping
     ResponseEntity<?> register(@Valid @RequestBody UserRegisterRequest registerRequest);
-    
     
 }

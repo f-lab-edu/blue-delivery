@@ -1,4 +1,4 @@
-package com.bluedelivery.infra.authentication;
+package com.bluedelivery.api.authentication;
 
 import static com.bluedelivery.common.response.ErrorCode.INVALID_AUTHENTICATION;
 import static com.bluedelivery.common.response.ErrorCode.NOT_AUTHORIZED_ACCESS;

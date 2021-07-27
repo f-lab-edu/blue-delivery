@@ -20,7 +20,6 @@ import com.bluedelivery.application.user.UserManagementService;
 import com.bluedelivery.common.response.HttpResponse;
 import com.bluedelivery.domain.address.Address;
 import com.bluedelivery.domain.authentication.Authentication;
-import com.bluedelivery.infra.user.PasswordValidator;
 
 import lombok.RequiredArgsConstructor;
 

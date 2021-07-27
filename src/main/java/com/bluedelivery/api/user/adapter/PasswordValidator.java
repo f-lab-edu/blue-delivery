@@ -1,4 +1,4 @@
-package com.bluedelivery.infra.user;
+package com.bluedelivery.api.user.adapter;
 
 import java.util.Objects;
 
