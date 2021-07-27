@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bluedelivery.api.shop.EditPhoneRequest;
 import com.bluedelivery.api.shop.ShopUpdateController;
+import com.bluedelivery.api.shop.UpdateBusinessHoursDto;
 import com.bluedelivery.api.shop.UpdateCategoryRequest;
 import com.bluedelivery.api.shop.UpdateClosingDaysRequest;
 import com.bluedelivery.application.category.CategoryNotFoundException;
@@ -12,7 +13,6 @@ import com.bluedelivery.application.shop.ShopUpdateService;
 import com.bluedelivery.common.response.ApiException;
 import com.bluedelivery.common.response.ErrorCode;
 import com.bluedelivery.common.response.HttpResponse;
-import com.bluedelivery.shop.businesshour.UpdateBusinessHoursDto;
 import com.bluedelivery.shop.suspension.SuspensionRequest;
 
 @RestController

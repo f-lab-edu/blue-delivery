@@ -1,6 +1,6 @@
-package com.bluedelivery.shop.businesshour;
+package com.bluedelivery.domain.businesshour;
 
-import com.bluedelivery.shop.businesshour.UpdateBusinessHoursDto.BusinessHourType;
+import com.bluedelivery.api.shop.UpdateBusinessHoursDto.BusinessHourType;
 
 public interface BusinessHourCondition {
     

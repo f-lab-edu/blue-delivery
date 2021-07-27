@@ -1,4 +1,4 @@
-package com.bluedelivery.shop.businesshour;
+package com.bluedelivery.domain.businesshour;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;

@@ -21,7 +21,7 @@ mybatis:
   type-aliases-package:
     com.bluedelivery.domain.shop,
     com.bluedelivery.domain.category,
-    com.bluedelivery.shop.businesshour,
+    com.bluedelivery.domain.businesshour,
     com.bluedelivery.shop.closingday,
     com.bluedelivery.shop.suspension,
     com.bluedelivery.user.domain,

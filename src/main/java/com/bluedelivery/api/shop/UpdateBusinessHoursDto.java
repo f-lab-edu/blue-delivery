@@ -1,6 +1,8 @@
-package com.bluedelivery.shop.businesshour;
+package com.bluedelivery.api.shop;
 
 import javax.validation.constraints.NotNull;
+
+import com.bluedelivery.domain.businesshour.BusinessHourRequestParams;
 
 public class UpdateBusinessHoursDto {
     

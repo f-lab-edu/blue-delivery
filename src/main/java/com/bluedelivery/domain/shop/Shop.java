@@ -4,9 +4,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.bluedelivery.domain.businesshour.BusinessHourPolicy;
 import com.bluedelivery.domain.category.Categories;
 import com.bluedelivery.domain.category.Category;
-import com.bluedelivery.shop.businesshour.BusinessHourPolicy;
 import com.bluedelivery.shop.closingday.ClosingDayPolicies;
 import com.bluedelivery.shop.closingday.ClosingDayPolicy;
 import com.bluedelivery.shop.suspension.Suspension;

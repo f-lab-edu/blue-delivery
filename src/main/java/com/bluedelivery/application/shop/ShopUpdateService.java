@@ -7,15 +7,15 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bluedelivery.api.shop.UpdateBusinessHoursDto;
 import com.bluedelivery.api.shop.UpdateCategoryRequest;
 import com.bluedelivery.api.shop.UpdateClosingDaysRequest;
 import com.bluedelivery.application.category.CategoryManagerService;
 import com.bluedelivery.common.response.ApiException;
+import com.bluedelivery.domain.businesshour.BusinessHourConditions;
+import com.bluedelivery.domain.businesshour.BusinessHourPolicy;
 import com.bluedelivery.domain.shop.Shop;
 import com.bluedelivery.domain.shop.ShopRepository;
-import com.bluedelivery.shop.businesshour.BusinessHourConditions;
-import com.bluedelivery.shop.businesshour.BusinessHourPolicy;
-import com.bluedelivery.shop.businesshour.UpdateBusinessHoursDto;
 import com.bluedelivery.shop.closingday.LegalHolidayClosing;
 import com.bluedelivery.shop.suspension.Suspension;
 

@@ -1,6 +1,6 @@
-package com.bluedelivery.shop.businesshour;
+package com.bluedelivery.domain.businesshour;
 
-import static com.bluedelivery.shop.businesshour.UpdateBusinessHoursDto.*;
+import static com.bluedelivery.api.shop.UpdateBusinessHoursDto.*;
 import static java.time.DayOfWeek.*;
 
 import java.time.DayOfWeek;
