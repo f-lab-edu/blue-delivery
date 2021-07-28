@@ -1,9 +1,14 @@
 package com.bluedelivery.domain.authentication;
 
 import java.io.Serializable;
+import java.lang.reflect.Method;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Objects;
+
+import org.springframework.core.annotation.AnnotationUtils;
+
+import com.bluedelivery.api.authentication.AuthenticationRequired;
 
 public class Authentication implements Serializable {
     public static String AUTH_STR = "auth";
@@ -19,6 +24,14 @@ public class Authentication implements Serializable {
     public Authentication(String token, Long userId) {
         this.token = token;
         this.userId = userId;
+    }
+    
+    public static boolean isAnnotated(Method method) {
+        if (AnnotationUtils.findAnnotation(method, AuthenticationRequired.class) == null
+                && AnnotationUtils.findAnnotation(method.getDeclaringClass(), AuthenticationRequired.class) == null) {
+            return false;
+        }
+        return true;
     }
     
     public void invalidate() {

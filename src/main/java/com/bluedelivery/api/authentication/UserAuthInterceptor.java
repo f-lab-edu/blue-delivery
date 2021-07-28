@@ -9,7 +9,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.HandlerMapping;
@@ -27,20 +26,13 @@ public class UserAuthInterceptor implements HandlerInterceptor {
     
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        if (needToBeAuthenticated((HandlerMethod) handler)) {
+        if (Authentication.isAnnotated(((HandlerMethod) handler).getMethod())) {
             Authentication auth = authenticationService.getAuthentication(request.getHeader(AUTHORIZATION))
                     .orElseThrow(() -> new ApiException(INVALID_AUTHENTICATION));
             if (!isSameUser(request, auth) || auth.isInvalidated()) {
                 throw new ApiException(NOT_AUTHORIZED_ACCESS);
             }
-        }
-        return true;
-    }
-    
-    private boolean needToBeAuthenticated(HandlerMethod handler) {
-        if (AnnotationUtils.findAnnotation(handler.getMethod(), AuthenticationRequired.class) == null
-                && AnnotationUtils.findAnnotation(handler.getBeanType(), AuthenticationRequired.class) == null) {
-            return false;
+            AuthenticationHolder.setAuthentication(auth);
         }
         return true;
     }
