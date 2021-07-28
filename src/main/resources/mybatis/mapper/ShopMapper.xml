@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.delivery.shop.shop.ShopMapper">
+<mapper namespace="com.bluedelivery.infra.shop.ShopMapper">
     <resultMap id="shopResultMap" type="Shop">
         <id column="SHOP_ID" property="id" jdbcType="BIGINT"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
@@ -40,7 +40,7 @@
     </select>
 
     <!-- 가게 id로 카테고리들 조회 (nested Select용) -->
-    <select id="findCategoriesByShopId" resultMap="com.delivery.shop.category.CategoryMapper.categoryResultMap">
+    <select id="findCategoriesByShopId" resultMap="com.bluedelivery.infra.category.CategoryMapper.categoryResultMap">
         SELECT ID AS CATEGORY_ID,
                NAME AS CATEGORY_NAME,
                CS.SHOP_ID AS SHOP_ID
@@ -51,7 +51,7 @@
     </select>
 
     <!-- 가게별 휴무일 조회(nested select용)-->
-    <select id="findClosingDaysByShopId" resultMap="com.delivery.shop.category.ClosingMapper.closingDayResultMap">
+    <select id="findClosingDaysByShopId" resultMap="com.bluedelivery.shop.category.ClosingMapper.closingDayResultMap">
         SELECT SHOP_ID,
                CLOSING_TYPE,
                CYCLE_TYPE,
@@ -138,16 +138,16 @@
     <insert id="updateClosingDays" parameterType="map">
         INSERT INTO CLOSING_DAY (SHOP_ID, CLOSING_TYPE, CYCLE_TYPE, DAY_OF_WEEK, FROM_DATE, TO_DATE) VALUES
         <foreach collection="closingDayPolicies.closingDays" item="closing" separator=",">
-            <if test="closing instanceof com.delivery.shop.closingday.LegalHolidayClosing">
+            <if test="closing instanceof com.bluedelivery.domain.closingday.LegalHolidayClosing">
                 (#{id}, #{closing.CLOSING_TYPE}, null, null, null, null)
             </if>
-            <if test="closing instanceof com.delivery.shop.closingday.WeeklyRegularClosing">
+            <if test="closing instanceof com.bluedelivery.domain.closingday.WeeklyRegularClosing">
                 (#{id}, #{closing.CLOSING_TYPE}, null, #{closing.dayOfWeek}, null, null)
             </if>
-            <if test="closing instanceof com.delivery.shop.closingday.CyclicRegularClosing">
+            <if test="closing instanceof com.bluedelivery.domain.closingday.CyclicRegularClosing">
                 (#{id}, #{closing.CLOSING_TYPE}, #{closing.cycle}, #{closing.dayOfWeek}, null, null)
             </if>
-            <if test="closing instanceof com.delivery.shop.closingday.TemporaryClosing">
+            <if test="closing instanceof com.bluedelivery.domain.closingday.TemporaryClosing">
                 (#{id}, #{closing.CLOSING_TYPE}, null, null, #{closing.from}, #{closing.to})
             </if>
         </foreach>

@@ -3,9 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.delivery.shop.category.ClosingMapper">
+<mapper namespace="com.bluedelivery.shop.category.ClosingMapper">
 
-    <resultMap id="closingDayResultMap" type="com.delivery.shop.closingday.ClosingDayPolicy">
+    <resultMap id="closingDayResultMap" type="com.bluedelivery.domain.closingday.ClosingDayPolicy">
         <discriminator javaType="string" column="CLOSING_TYPE">
             <case value="CYCLIC_REGULAR" resultMap="cyclicRegularResultMap"/>
             <case value="WEEKLY_REGULAR" resultMap="weeklyRegularResultMap"/>
@@ -16,7 +16,7 @@
 
     <resultMap id="cyclicRegularResultMap" type="CyclicRegularClosing">
         <constructor>
-            <arg column="CYCLE_TYPE" javaType="com.delivery.shop.closingday.CyclicRegularClosing$Cycle"/>
+            <arg column="CYCLE_TYPE" javaType="com.bluedelivery.domain.closingday.CyclicRegularClosing$Cycle"/>
             <arg column="DAY_OF_WEEK" javaType="java.time.DayOfWeek"/>
         </constructor>
     </resultMap>
