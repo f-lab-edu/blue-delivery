@@ -42,6 +42,10 @@ dependencies {
     implementation 'com.github.ben-manes.caffeine:caffeine:3.0.2' // caffeine cache
     implementation 'net.time4j:time4j-base:5.7' // time4j 음력->양력 변환을 위해 사용
 
+    // swagger
+    implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+
     // lombok
     compileOnly 'org.projectlombok:lombok:1.18.20'
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
