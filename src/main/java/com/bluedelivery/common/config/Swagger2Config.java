@@ -2,6 +2,7 @@ package com.bluedelivery.common.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import com.google.common.net.HttpHeaders;
 
@@ -17,6 +18,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @EnableSwagger2
 @Configuration
+@Profile("!prod")
 public class Swagger2Config {
     private static final String API_NAME = "Blue-Delivery API";
     private static final String API_VERSION = "0.0.1";
