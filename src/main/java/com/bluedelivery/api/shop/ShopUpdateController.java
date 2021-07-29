@@ -10,34 +10,39 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.bluedelivery.api.shop.dto.BusinessHoursRequest;
 import com.bluedelivery.common.response.HttpResponse;
+import com.bluedelivery.domain.businesshour.BusinessHours;
 
-@RequestMapping("/shops/{id}")
+@RequestMapping("/shops/{shopId}")
 public interface ShopUpdateController {
+    
     @PutMapping("/business-hours")
-    void updateBusinessHours(@PathVariable("id") Long id, @RequestBody @Valid UpdateBusinessHoursDto dto);
+    ResponseEntity<HttpResponse<BusinessHours>> updateBusinessHours(
+            @PathVariable Long shopId, @RequestBody @Valid BusinessHoursRequest dto);
     
     @PatchMapping("/introduce")
-    void editIntroduce(@PathVariable("id") Long id, @RequestBody String introduce);
+    void editIntroduce(@PathVariable Long id, @RequestBody String introduce);
     
     @PatchMapping("/phone")
-    void editPhoneNumber(@PathVariable("id") Long id,
+    void editPhoneNumber(@PathVariable Long id,
                          @RequestBody @Valid EditPhoneRequest dto);
     
     @PatchMapping("/delivery-area-guide")
-    void editDeliveryAreaGuid(@PathVariable("id") Long id, @RequestBody String guide);
+    void editDeliveryAreaGuid(@PathVariable Long id, @RequestBody String guide);
     
     @PatchMapping("/name")
-    void rename(@PathVariable("id") Long id, @RequestBody String name);
+    void rename(@PathVariable Long id, @RequestBody String name);
     
     /**
      * 해당 가게의 카테고리를 입력받은 대로 업데이트
-     *  @param shopId 가게 id
+     *
+     * @param shopId 가게 id
      * @param dto    추가할 카테고리 enum name을 담은 dto
      * @return
      */
     @PutMapping("/categories")
-    ResponseEntity<HttpResponse<?>> updateCategory(@PathVariable("id") Long shopId,
+    ResponseEntity<HttpResponse<?>> updateCategory(@PathVariable Long shopId,
                                                    @RequestBody @Valid UpdateCategoryRequest dto);
     
     /**
@@ -47,7 +52,7 @@ public interface ShopUpdateController {
      * @param closingDays 휴무일 정보
      */
     @PutMapping("/closing-days")
-    void updateClosingDays(@PathVariable("id") Long shopId,
+    void updateClosingDays(@PathVariable Long shopId,
                            @RequestBody @Valid UpdateClosingDaysRequest closingDays);
     
     /**
@@ -57,7 +62,7 @@ public interface ShopUpdateController {
      * @param expose 가게 노출 여부
      */
     @PostMapping("/expose")
-    void setExpose(@PathVariable("id") Long shopId, @RequestBody Boolean expose);
+    void setExpose(@PathVariable Long shopId, @RequestBody Boolean expose);
     
     /**
      * 영업을 일시 정지시킨다.
@@ -68,6 +73,6 @@ public interface ShopUpdateController {
      * @param suspension 정지 시작 시간, 정지 기간 정보를 담고 있는 DTO
      */
     @PutMapping("/suspend")
-    void suspendShop(@PathVariable("id") Long shopId,
+    void suspendShop(@PathVariable Long shopId,
                      @RequestBody SuspensionRequest suspension);
 }

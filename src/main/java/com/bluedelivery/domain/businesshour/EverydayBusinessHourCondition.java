@@ -1,26 +1,31 @@
 package com.bluedelivery.domain.businesshour;
 
-import static com.bluedelivery.api.shop.UpdateBusinessHoursDto.*;
-
 import java.time.DayOfWeek;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.bluedelivery.api.shop.dto.BusinessHourDay;
+import com.bluedelivery.application.shop.dto.BusinessHourParam;
 
 public class EverydayBusinessHourCondition implements BusinessHourCondition {
+    
     @Override
-    public boolean isSatisfied(BusinessHourType type, BusinessHourRequestParams params) {
-        if (params.isEveryDayHours(type)) {
+    public boolean isSatisfied(BusinessHourType type, Map<BusinessHourDay, BusinessHourParam> hours) {
+        if (type == BusinessHourType.EVERY_SAME_TIME
+                && hours.size() == 1
+                && hours.containsKey(BusinessHourDay.EVERY_DAY)) {
             return true;
         }
         return false;
     }
     
     @Override
-    public BusinessHourPolicy returnBusinessHourPolicy(Long shopId, BusinessHourRequestParams params) {
-        BusinessHourPolicy policy = new BusinessHourPolicy();
-        BusinessHourRequestParam bh = params.retrieveParamByDayType(DayType.EVERYDAY);
+    public Map<DayOfWeek, BusinessHourParam> mapToDayOfWeek(Map<BusinessHourDay, BusinessHourParam> hours) {
+        Map<DayOfWeek, BusinessHourParam> map = new HashMap<>();
         for (DayOfWeek day : DayOfWeek.values()) {
-            policy.update(bh.toEntity(shopId, day));
+            map.put(day, hours.get(BusinessHourDay.EVERY_DAY));
         }
-        return policy;
+        return map;
     }
     
 }

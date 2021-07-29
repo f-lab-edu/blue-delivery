@@ -10,7 +10,7 @@
         <result column="introduce" property="introduce" jdbcType="VARCHAR"/>
         <result column="phone" property="phone" jdbcType="VARCHAR"/>
         <result column="delivery_area_guide" property="deliveryAreaGuide" jdbcType="VARCHAR"/>
-        <association property="businessHourPolicy" javaType="BusinessHourPolicy" fetchType="lazy">
+        <association property="businessHours" javaType="BusinessHours" fetchType="lazy">
             <collection property="businessHours" ofType="BusinessHour"
                         select="findBusinessHoursByShopId" column="SHOP_ID"/>
         </association>
@@ -121,7 +121,7 @@
     <insert id="updateBusinessHours" parameterType="map">
         INSERT INTO BUSINESS_HOUR (SHOP_ID, OPEN, CLOSE, DAY_OF_WEEK)
         VALUES
-        <foreach collection="businessHourPolicy.businessHours" item="hour" separator=",">
+        <foreach collection="businessHours.businessHours" item="hour" separator=",">
             (#{hour.shopId}, #{hour.open}, #{hour.close}, #{hour.dayOfWeek})
         </foreach>
         ON DUPLICATE KEY UPDATE OPEN = values(OPEN), CLOSE = values(CLOSE)

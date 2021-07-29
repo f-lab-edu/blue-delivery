@@ -1,35 +1,50 @@
 package com.bluedelivery.domain.businesshour;
 
-import static com.bluedelivery.api.shop.UpdateBusinessHoursDto.*;
-import static java.time.DayOfWeek.*;
+import static com.bluedelivery.api.shop.dto.BusinessHourDay.*;
 
 import java.time.DayOfWeek;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+
+import com.bluedelivery.api.shop.dto.BusinessHourDay;
+import com.bluedelivery.application.shop.dto.BusinessHourParam;
 
 public class WeekdayWeekendBusinessHourCondition implements BusinessHourCondition {
     
     @Override
-    public boolean isSatisfied(BusinessHourType type, BusinessHourRequestParams params) {
-        if (params.isWeekdaySatSunday(type)) {
+    public boolean isSatisfied(BusinessHourType type, Map<BusinessHourDay, BusinessHourParam> hours) {
+        if (type == BusinessHourType.WEEKDAY_SAT_SUNDAY
+                && hours.size() == 3
+                && hasRequiredDays(hours)) {
             return true;
         }
         return false;
     }
     
     @Override
-    public BusinessHourPolicy returnBusinessHourPolicy(Long shopId, BusinessHourRequestParams params) {
-        BusinessHourPolicy policy = new BusinessHourPolicy();
-        BusinessHourRequestParam weekday = params.retrieveParamByDayType(DayType.WEEKDAY);
-        BusinessHourRequestParam sat = params.retrieveParamByDayType(DayType.SATURDAY);
-        BusinessHourRequestParam sun = params.retrieveParamByDayType(DayType.SUNDAY);
+    public Map<DayOfWeek, BusinessHourParam> mapToDayOfWeek(Map<BusinessHourDay, BusinessHourParam> hours) {
+        Map<DayOfWeek, BusinessHourParam> map = new HashMap<>();
+        BusinessHourParam weekday = hours.get(WEEKDAY);
+        BusinessHourParam saturday = hours.get(SATURDAY);
+        BusinessHourParam sunday = hours.get(SUNDAY);
         
-        for (DayOfWeek day : values()) {
-            if (day.compareTo(SATURDAY) >= 0) {
+        for (DayOfWeek day : DayOfWeek.values()) {
+            if (day.compareTo(DayOfWeek.SATURDAY) >= 0) {
                 break;
             }
-            policy.update(weekday.toEntity(shopId, day));
+            map.put(day, weekday);
         }
-        policy.update(sat.toEntity(shopId, SATURDAY));
-        policy.update(sun.toEntity(shopId, SUNDAY));
-        return policy;
+        map.put(DayOfWeek.SATURDAY, saturday);
+        map.put(DayOfWeek.SUNDAY, sunday);
+    
+        return map;
+    }
+    
+    private boolean hasRequiredDays(Map<BusinessHourDay, BusinessHourParam> hours) {
+        return hours.containsKey(WEEKDAY)
+                && hours.containsKey(SATURDAY)
+                && hours.containsKey(SUNDAY);
     }
 }

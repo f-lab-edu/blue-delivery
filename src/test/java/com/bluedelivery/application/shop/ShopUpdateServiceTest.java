@@ -8,16 +8,17 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.Year;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bluedelivery.api.shop.UpdateClosingDaysRequest;
 import com.bluedelivery.application.category.CategoryManagerService;
+import com.bluedelivery.domain.businesshour.BusinessHourRepository;
 import com.bluedelivery.domain.closingday.CyclicRegularClosing;
 import com.bluedelivery.domain.closingday.LegalHolidayClosing;
 import com.bluedelivery.domain.shop.Shop;
@@ -26,19 +27,16 @@ import com.bluedelivery.domain.shop.ShopRepository;
 @ExtendWith(MockitoExtension.class)
 class ShopUpdateServiceTest {
     
-    @Mock
-    private ShopRepository shopRepository;
-    @Mock
-    private CategoryManagerService categoryManagerService;
-    @InjectMocks
     ShopUpdateService shopUpdateService;
     Shop shop;
     
     @BeforeEach
-    void setup() {
+    void setup(@Mock ShopRepository shopRepository,
+               @Mock CategoryManagerService categoryManagerService,
+               @Mock BusinessHourRepository businessHourRepository) {
         shop = new Shop();
-        when(shopRepository.findShopById(1L)).thenReturn(shop);
-        shopUpdateService = new ShopUpdateService(shopRepository, categoryManagerService);
+        when(shopRepository.findById(1L)).thenReturn(Optional.of(shop));
+        shopUpdateService = new ShopUpdateService(shopRepository, categoryManagerService, businessHourRepository);
     }
     
     @Test

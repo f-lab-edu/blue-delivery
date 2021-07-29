@@ -2,69 +2,86 @@ package com.bluedelivery.application.shop;
 
 import static com.bluedelivery.common.response.ErrorCode.*;
 
+import java.time.DayOfWeek;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bluedelivery.api.shop.UpdateBusinessHoursDto;
 import com.bluedelivery.api.shop.UpdateCategoryRequest;
 import com.bluedelivery.api.shop.UpdateClosingDaysRequest;
 import com.bluedelivery.application.category.CategoryManagerService;
+import com.bluedelivery.application.shop.dto.BusinessHourParam;
+import com.bluedelivery.application.shop.dto.BusinessHoursTarget;
 import com.bluedelivery.common.response.ApiException;
-import com.bluedelivery.domain.businesshour.BusinessHourConditions;
-import com.bluedelivery.domain.businesshour.BusinessHourPolicy;
+import com.bluedelivery.domain.businesshour.BusinessHour;
+import com.bluedelivery.domain.businesshour.BusinessHourRepository;
+import com.bluedelivery.domain.businesshour.BusinessHours;
+import com.bluedelivery.domain.businesshour.DayOfWeekMapper;
 import com.bluedelivery.domain.closingday.LegalHolidayClosing;
 import com.bluedelivery.domain.closingday.Suspension;
 import com.bluedelivery.domain.shop.Shop;
 import com.bluedelivery.domain.shop.ShopRepository;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Service
 @Transactional
 public class ShopUpdateService {
     
     private final ShopRepository shopRepository;
-    private final CategoryManagerService categoryManagerServiceImpl;
+    private final CategoryManagerService categoryManagerService;
+    private final BusinessHourRepository businessHourRepository;
     
-    public ShopUpdateService(ShopRepository shopRepository, CategoryManagerService categoryManagerServiceImpl) {
-        this.shopRepository = shopRepository;
-        this.categoryManagerServiceImpl = categoryManagerServiceImpl;
-    }
-    
-    public void updateBusinessHour(Long id, UpdateBusinessHoursDto dto) {
-        Shop shop = getShop(id);
-        BusinessHourPolicy policy = BusinessHourConditions.makeBusinessHoursBy(shop.getId(), dto);
-        shop.updateBusinessHour(policy);
-        shopRepository.updateBusinessHours(shop);
+    public BusinessHours updateBusinessHour(BusinessHoursTarget target) {
+        Shop shop = getShop(target.getShopId());
+        List<BusinessHour> all = businessHourRepository.findAllByShop(shop);
+        // 입력받은 영업일 정책을 실제 요일과 매핑
+        Map<DayOfWeek, BusinessHourParam> resolved =
+                DayOfWeekMapper.map(target.getBusinessHourType(), target.getBusinessHours());
+        
+        // 영업일이 없으면 입력을 그대로 저장
+        if (all.size() == 0) {
+            List<BusinessHour> list = resolved.entrySet().stream()
+                    .map(entry -> entry.getValue().toEntity(entry.getKey()))
+                    .collect(Collectors.toList());
+            Collections.sort(list);
+            return new BusinessHours(list);
+        }
+        
+        for (BusinessHour businessHour : all) {
+            businessHour.update(resolved.get(businessHour.getDayOfWeek()));
+        }
+        return new BusinessHours(all);
     }
     
     public void editIntroduce(Long id, String introduce) {
         Shop shop = getShop(id);
         shop.editIntroduce(introduce);
-        shopRepository.updateIntroduce(shop);
     }
     
     public void editPhoneNumber(Long id, String phone) {
         Shop shop = getShop(id);
         shop.editPhoneNumber(phone);
-        shopRepository.updatePhone(shop);
     }
     
     public void editDeliveryAreaGuide(Long id, String guide) {
         Shop shop = getShop(id);
         shop.editDeliveryAreaGuide(guide);
-        shopRepository.updateDeliveryAreaGuide(shop);
     }
     
     public void rename(Long id, String name) {
         Shop shop = getShop(id);
         shop.rename(name);
-        shopRepository.updateName(shop);
     }
     
     public void updateCategory(Long id, UpdateCategoryRequest dto) {
         Shop shop = getShop(id);
-        shop.getCategories().updateAll(categoryManagerServiceImpl.getCategoriesById(dto.getCategoryIds()));
+        shop.getCategories().updateAll(categoryManagerService.getCategoriesById(dto.getCategoryIds()));
     }
     
     public void updateClosingDays(Long id, UpdateClosingDaysRequest closingDays) {
@@ -80,27 +97,19 @@ public class ShopUpdateService {
                 temporary -> shop.addClosingDayPolicy(temporary.toEntity()));
         regulars.stream().forEach(
                 regular -> shop.addClosingDayPolicy(regular.toEntity()));
-        shopRepository.deleteClosingDays(shop);
-        shopRepository.updateClosingDays(shop);
     }
     
     public void expose(Long shopId, Boolean status) {
         Shop shop = getShop(shopId);
         shop.updateExposeStatus(status);
-        shopRepository.updateExposeStatus(shop);
     }
     
     public void suspend(Long shopId, Suspension suspension) {
         Shop shop = getShop(shopId);
         shop.suspend(suspension);
-        shopRepository.updateSuspension(shop);
     }
     
     private Shop getShop(Long id) {
-        Shop shop = shopRepository.findShopById(id);
-        if (shop == null) {
-            throw new ApiException(SHOP_DOES_NOT_EXIST);
-        }
-        return shop;
+        return shopRepository.findById(id).orElseThrow(() -> new ApiException(SHOP_DOES_NOT_EXIST));
     }
 }

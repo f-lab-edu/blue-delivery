@@ -1,38 +1,46 @@
 package com.bluedelivery.domain.businesshour;
 
-import static com.bluedelivery.api.shop.UpdateBusinessHoursDto.*;
+import static com.bluedelivery.api.shop.dto.BusinessHourDay.*;
+import static com.bluedelivery.api.shop.dto.BusinessHourDay.EVERY_DAY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import com.bluedelivery.api.shop.UpdateBusinessHoursDto;
+import com.bluedelivery.api.shop.dto.BusinessHourDay;
+import com.bluedelivery.application.shop.dto.BusinessHourParam;
 
-class BusinessHourPolicyConditionsTest {
+class BusinessHoursConditionsTest {
     
-    BusinessHourConditions policies = new BusinessHourConditions();
-    BusinessHourRequestParams params;
+    private DayOfWeekMapper resolver = new DayOfWeekMapper();
     
     @Test
     @DisplayName("타입 EVERYDAY만 갖는 BusinessHour를 넘겨주면 모든 요일이 동일한 영업시간을 생성한다.")
     void everydayBusinessHourTest() {
         LocalTime open = LocalTime.of(9, 0);
         LocalTime close = LocalTime.of(20, 0);
-        HashMap<DayType, BusinessHourRequestParam> map = new HashMap<>();
-        map.put(DayType.EVERYDAY, new BusinessHourRequestParam(open, close));
-        this.params = new BusinessHourRequestParams(map);
-        
-        BusinessHourPolicy businessHourPolicy = policies.makeBusinessHoursBy(1L,
-                new UpdateBusinessHoursDto(BusinessHourType.EVERY_SAME_TIME, this.params));
+        Map<BusinessHourDay, BusinessHourParam> hours = new LinkedHashMap<>();
+        hours.put(EVERY_DAY, new BusinessHourParam(open, close));
+    
+    
+        List<BusinessHour> resolve = resolver.map(BusinessHourType.EVERY_SAME_TIME, hours).entrySet().stream()
+                .map(entry -> entry.getValue().toEntity(entry.getKey()))
+                .collect(Collectors.toList());
+    
+        BusinessHours businessHours = new BusinessHours(resolve);
+    
         for (DayOfWeek day : DayOfWeek.values()) {
-            BusinessHour hour = businessHourPolicy.getBusinessHourOf(day);
+            BusinessHour hour = businessHours.getBusinessHourOf(day);
             assertThat(hour.getOpen()).isEqualTo(open);
             assertThat(hour.getClose()).isEqualTo(close);
             System.out.println(hour + " on " + day);
@@ -48,16 +56,19 @@ class BusinessHourPolicyConditionsTest {
         LocalTime satClose = LocalTime.of(21, 0);
         LocalTime sunOpen = LocalTime.of(19, 0);
         LocalTime sunClose = LocalTime.of(23, 58);
-        HashMap<DayType, BusinessHourRequestParam> map = new HashMap<>();
-        map.put(DayType.WEEKDAY, new BusinessHourRequestParam(weekdayOpen, weekdayClose));
-        map.put(DayType.SATURDAY, new BusinessHourRequestParam(satOpen, satClose));
-        map.put(DayType.SUNDAY, new BusinessHourRequestParam(sunOpen, sunClose));
-        this.params = new BusinessHourRequestParams(map);
+        Map<BusinessHourDay, BusinessHourParam> hours = new LinkedHashMap<>();
+        hours.put(WEEKDAY, new BusinessHourParam(weekdayOpen, weekdayClose));
+        hours.put(SATURDAY, new BusinessHourParam(satOpen, satClose));
+        hours.put(SUNDAY, new BusinessHourParam(sunOpen, sunClose));
+    
+    
+        List<BusinessHour> resolve = resolver.map(BusinessHourType.WEEKDAY_SAT_SUNDAY, hours).entrySet().stream()
+                .map(entry -> entry.getValue().toEntity(entry.getKey()))
+                .collect(Collectors.toList());
+        BusinessHours businessHours = new BusinessHours(resolve);
         
-        BusinessHourPolicy businessHourPolicy = policies.makeBusinessHoursBy(1L,
-                new UpdateBusinessHoursDto(BusinessHourType.WEEKDAY_SAT_SUNDAY, this.params));
         for (DayOfWeek day : DayOfWeek.values()) {
-            BusinessHour hour = businessHourPolicy.getBusinessHourOf(day);
+            BusinessHour hour = businessHours.getBusinessHourOf(day);
             if (day.compareTo(DayOfWeek.FRIDAY) <= 0) {
                 assertThat(hour.getOpen()).isEqualTo(weekdayOpen);
                 assertThat(hour.getClose()).isEqualTo(weekdayClose);
@@ -80,16 +91,12 @@ class BusinessHourPolicyConditionsTest {
         LocalTime satClose = LocalTime.of(21, 0);
         LocalTime sunOpen = LocalTime.of(19, 0);
         LocalTime sunClose = LocalTime.of(23, 58);
-        HashMap<DayType, BusinessHourRequestParam> map = new HashMap<>();
-        map.put(DayType.EVERYDAY, new BusinessHourRequestParam(everydayOpen, everydayClose));
-        map.put(DayType.SATURDAY, new BusinessHourRequestParam(satOpen, satClose));
-        map.put(DayType.SUNDAY, new BusinessHourRequestParam(sunOpen, sunClose));
-        this.params = new BusinessHourRequestParams(map);
+        Map<BusinessHourDay, BusinessHourParam> hours = new LinkedHashMap<>();
+        hours.put(WEEKDAY, new BusinessHourParam(everydayOpen, everydayClose));
+        hours.put(SATURDAY, new BusinessHourParam(satOpen, satClose));
+        hours.put(SUNDAY, new BusinessHourParam(sunOpen, sunClose));
         
-        assertThrows(IllegalArgumentException.class,
-                () -> policies.makeBusinessHoursBy(1L,
-                        new UpdateBusinessHoursDto(BusinessHourType.EVERY_SAME_TIME, this.params))
-        );
+        assertThrows(IllegalArgumentException.class, () -> resolver.map(BusinessHourType.EVERY_SAME_TIME, hours));
     }
     
     @ParameterizedTest

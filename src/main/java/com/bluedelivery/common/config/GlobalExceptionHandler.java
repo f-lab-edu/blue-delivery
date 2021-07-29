@@ -57,7 +57,7 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(response(
                         ERROR,
-                        ex.getMessage()
+                        ex.toString()
                 ));
     }
 

@@ -4,23 +4,34 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.bluedelivery.domain.businesshour.BusinessHourPolicy;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
+import com.bluedelivery.domain.businesshour.BusinessHours;
 import com.bluedelivery.domain.category.Categories;
 import com.bluedelivery.domain.category.Category;
 import com.bluedelivery.domain.closingday.ClosingDayPolicies;
 import com.bluedelivery.domain.closingday.ClosingDayPolicy;
 import com.bluedelivery.domain.closingday.Suspension;
 
+@Entity
 public class Shop {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private BusinessHourPolicy businessHourPolicy = new BusinessHourPolicy();
+    private BusinessHours businessHours;
     private String introduce;
     private String phone;
     private String deliveryAreaGuide;
+    @Transient
     private Categories categories = new Categories();
+    @Transient
     private ClosingDayPolicies closingDayPolicies = new ClosingDayPolicies();
     private boolean exposed;
+    @Transient
     private Suspension suspension = new Suspension();
     
     public Shop() {
@@ -38,8 +49,8 @@ public class Shop {
         return this.categories.updateAll(categories);
     }
     
-    public void updateBusinessHour(BusinessHourPolicy bh) {
-        this.businessHourPolicy = bh;
+    public void updateBusinessHour(BusinessHours bh) {
+        businessHours = bh;
     }
     
     public void editIntroduce(String introduce) {
@@ -70,8 +81,8 @@ public class Shop {
         return deliveryAreaGuide;
     }
     
-    public BusinessHourPolicy getBusinessHourPolicy() {
-        return businessHourPolicy;
+    public BusinessHours getBusinessHours() {
+        return businessHours;
     }
     
     public String getIntroduce() {
@@ -91,7 +102,7 @@ public class Shop {
     }
     
     public boolean isOpeningAt(LocalDateTime when) {
-        return businessHourPolicy.isBusinessHour(when)
+        return businessHours.isBusinessHour(when)
                 && !suspension.isSuspended(when);
     }
     

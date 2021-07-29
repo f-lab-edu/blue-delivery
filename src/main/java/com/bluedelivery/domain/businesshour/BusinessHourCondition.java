@@ -1,10 +1,14 @@
 package com.bluedelivery.domain.businesshour;
 
-import com.bluedelivery.api.shop.UpdateBusinessHoursDto.BusinessHourType;
+import java.time.DayOfWeek;
+import java.util.Map;
+
+import com.bluedelivery.api.shop.dto.BusinessHourDay;
+import com.bluedelivery.application.shop.dto.BusinessHourParam;
 
 public interface BusinessHourCondition {
     
-    boolean isSatisfied(BusinessHourType type, BusinessHourRequestParams params);
+    boolean isSatisfied(BusinessHourType type, Map<BusinessHourDay, BusinessHourParam> params);
     
-    BusinessHourPolicy returnBusinessHourPolicy(Long shopId, BusinessHourRequestParams params);
+    Map<DayOfWeek, BusinessHourParam> mapToDayOfWeek(Map<BusinessHourDay, BusinessHourParam> params);
 }
