@@ -1,4 +1,4 @@
-package com.bluedelivery.application.shop;
+package com.bluedelivery.domain.shop;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

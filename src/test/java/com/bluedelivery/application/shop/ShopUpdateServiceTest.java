@@ -22,6 +22,7 @@ import com.bluedelivery.domain.businesshour.BusinessHourRepository;
 import com.bluedelivery.domain.closingday.CyclicRegularClosing;
 import com.bluedelivery.domain.closingday.LegalHolidayClosing;
 import com.bluedelivery.domain.shop.Shop;
+import com.bluedelivery.domain.shop.ShopCategoryRepository;
 import com.bluedelivery.domain.shop.ShopRepository;
 
 @ExtendWith(MockitoExtension.class)

@@ -25,6 +25,7 @@ import com.bluedelivery.domain.closingday.LegalHolidayClosing;
 import com.bluedelivery.domain.closingday.Suspension;
 import com.bluedelivery.domain.shop.Shop;
 import com.bluedelivery.domain.shop.ShopCategory;
+import com.bluedelivery.domain.shop.ShopCategoryRepository;
 import com.bluedelivery.domain.shop.ShopRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -100,7 +101,7 @@ public class ShopUpdateService {
             shop.addClosingDayPolicy(new LegalHolidayClosing());
         }
         temporaries.stream().forEach(
-                temporary -> shop.addClosingDayPolicy(temporary.toEntity()));
+                temporary -> shop.addClosingDayPolicy( temporary.toEntity()));
         regulars.stream().forEach(
                 regular -> shop.addClosingDayPolicy(regular.toEntity()));
     }
