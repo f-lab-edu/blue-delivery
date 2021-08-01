@@ -19,8 +19,9 @@ import com.bluedelivery.domain.authentication.Authentication;
 
 
 @RequestMapping("/users")
-@AuthenticationRequired
 public interface UserManagementController {
+    
+    @AuthenticationRequired
     @GetMapping("/")
     ResponseEntity<HttpResponse<Authentication>> getLoggedInUser(Authentication user);
     
@@ -32,12 +33,14 @@ public interface UserManagementController {
      * @param request
      * @return 요청 성공시 204 NO_CONTENT
      */
+    @AuthenticationRequired
     @DeleteMapping("/{id}")
     ResponseEntity<?> deleteAccount(@PathVariable("id") Long id,
                                     @Valid @RequestBody DeleteAccountRequest deleteRequest,
                                     HttpServletRequest request);
     
-
+    
+    @AuthenticationRequired
     @PatchMapping("/{id}")
     ResponseEntity<HttpResponse<?>> updateAccount(@PathVariable Long id,
                                                   @Valid @RequestBody UpdateAccountRequest updateRequest,
@@ -50,6 +53,7 @@ public interface UserManagementController {
      * @param addressParam 주소 정보
      * @return
      */
+    @AuthenticationRequired
     @PostMapping("/{id}/addresses")
     ResponseEntity<HttpResponse<?>> addAddress(@PathVariable("id") Long id,
                                                @Valid @RequestBody AddAddressRequest addressParam);
@@ -61,6 +65,7 @@ public interface UserManagementController {
      * @param addressId 주소 정보
      * @return
      */
+    @AuthenticationRequired
     @PostMapping("/{id}/addresses/main/{addrId}")
     ResponseEntity<HttpResponse<?>> setMainAddress(@PathVariable("id") Long id, @PathVariable("addrId") Long addressId);
     
@@ -71,6 +76,7 @@ public interface UserManagementController {
      * @param addressId 주소 정보
      * @return
      */
+    @AuthenticationRequired
     @DeleteMapping("/{id}/addresses/{addrId}")
     ResponseEntity<?> removeAddress(@PathVariable("id") Long id, @PathVariable("addrId") Long addressId);
     
