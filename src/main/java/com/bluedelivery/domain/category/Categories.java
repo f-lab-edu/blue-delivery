@@ -5,18 +5,26 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Embeddable;
+import javax.persistence.OneToMany;
+
+import com.bluedelivery.domain.shop.ShopCategory;
+
+@Embeddable
 public class Categories {
     
-    private Set<Category> categories = new HashSet<>();
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
+    private Set<ShopCategory> categories = new HashSet<>();
     
     public Categories() {
     }
     
-    public Collection<Category> getCategories() {
+    public Collection<ShopCategory> getCategories() {
         return Collections.unmodifiableSet(categories);
     }
     
-    public boolean updateAll(Collection<Category> categories) {
+    public boolean updateAll(Collection<ShopCategory> categories) {
         this.categories.clear();
         return this.categories.addAll(categories);
     }

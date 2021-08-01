@@ -24,6 +24,7 @@ import com.bluedelivery.domain.businesshour.DayOfWeekMapper;
 import com.bluedelivery.domain.closingday.LegalHolidayClosing;
 import com.bluedelivery.domain.closingday.Suspension;
 import com.bluedelivery.domain.shop.Shop;
+import com.bluedelivery.domain.shop.ShopCategory;
 import com.bluedelivery.domain.shop.ShopRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,7 @@ public class ShopUpdateService {
     private final ShopRepository shopRepository;
     private final CategoryManagerService categoryManagerService;
     private final BusinessHourRepository businessHourRepository;
+    private final ShopCategoryRepository shopCategoryRepository;
     
     public BusinessHours updateBusinessHour(BusinessHoursTarget target) {
         Shop shop = getShop(target.getShopId());
@@ -79,9 +81,13 @@ public class ShopUpdateService {
         shop.rename(name);
     }
     
-    public void updateCategory(Long id, UpdateCategoryRequest dto) {
-        Shop shop = getShop(id);
-        shop.getCategories().updateAll(categoryManagerService.getCategoriesById(dto.getCategoryIds()));
+    public void updateCategory(Long shopId, UpdateCategoryRequest dto) {
+        Shop shop = getShop(shopId);
+        shopCategoryRepository.deleteByShopId(shopId);
+        List<ShopCategory> shopCategories = categoryManagerService.getCategoriesById(dto.getCategoryIds()).stream()
+                .map(category -> new ShopCategory(shop, category))
+                .collect(Collectors.toList());
+        shopCategoryRepository.saveAll(shopCategories);
     }
     
     public void updateClosingDays(Long id, UpdateClosingDaysRequest closingDays) {

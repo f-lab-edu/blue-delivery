@@ -2,6 +2,11 @@ package com.bluedelivery.domain.category;
 
 import java.util.Objects;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /*
     KOREAN(1),
     CHINESE(2),
@@ -10,8 +15,9 @@ import java.util.Objects;
     PIZZA(5),
     FAST_FOOD(6);
 */
+@Entity
 public class Category {
-    
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     
@@ -30,6 +36,10 @@ public class Category {
         return id;
     }
     
+    public void changeName(String newName) {
+        this.name = newName;
+    }
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -39,15 +49,11 @@ public class Category {
             return false;
         }
         Category category = (Category) obj;
-        return Objects.equals(id, category.id) && Objects.equals(name, category.name);
+        return Objects.equals(name, category.name);
     }
     
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
-    }
-    
-    public void changeName(String newName) {
-        this.name = newName;
+        return Objects.hash(name);
     }
 }

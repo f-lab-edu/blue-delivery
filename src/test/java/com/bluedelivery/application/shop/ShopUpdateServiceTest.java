@@ -27,16 +27,17 @@ import com.bluedelivery.domain.shop.ShopRepository;
 @ExtendWith(MockitoExtension.class)
 class ShopUpdateServiceTest {
     
-    ShopUpdateService shopUpdateService;
+    ShopUpdateService service;
     Shop shop;
     
     @BeforeEach
     void setup(@Mock ShopRepository shopRepository,
                @Mock CategoryManagerService categoryManagerService,
-               @Mock BusinessHourRepository businessHourRepository) {
+               @Mock BusinessHourRepository businessHourRepository,
+               @Mock ShopCategoryRepository screpo) {
         shop = new Shop();
         when(shopRepository.findById(1L)).thenReturn(Optional.of(shop));
-        shopUpdateService = new ShopUpdateService(shopRepository, categoryManagerService, businessHourRepository);
+        service = new ShopUpdateService(shopRepository, categoryManagerService, businessHourRepository, screpo);
     }
     
     @Test
@@ -52,7 +53,7 @@ class ShopUpdateServiceTest {
                         new RegularClosingParam(CyclicRegularClosing.Cycle.LAST, DayOfWeek.MONDAY)),
                 List.of(new TemporaryClosingParam(june18, june23))
         );
-        shopUpdateService.updateClosingDays(1L, request);
+        service.updateClosingDays(1L, request);
         
         // 법정공휴일 테스트
         LegalHolidayClosing.getYearOf(Year.of(2021)).stream().forEach(

@@ -21,8 +21,9 @@ class ShopTest {
         Category pizza = new Category("pizza");
         Category chicken = new Category("chicken");
         
+        
         //when
-        shop.updateCategory(List.of(pizza, chicken));
+        shop.updateCategory(List.of(new ShopCategory(shop, pizza), new ShopCategory(shop, chicken)));
         Categories categories = shop.getCategories();
         int count = categories.getCategories().size();
         

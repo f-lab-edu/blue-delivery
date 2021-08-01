@@ -35,6 +35,7 @@ import com.bluedelivery.api.shop.dto.BusinessHourDay;
 import com.bluedelivery.api.shop.dto.BusinessHoursRequest;
 import com.bluedelivery.application.category.CategoryManagerService;
 import com.bluedelivery.application.shop.RegularClosingParam;
+import com.bluedelivery.application.shop.ShopCategoryRepository;
 import com.bluedelivery.application.shop.ShopUpdateService;
 import com.bluedelivery.application.shop.TemporaryClosingParam;
 import com.bluedelivery.application.shop.dto.BusinessHourParam;
@@ -44,6 +45,7 @@ import com.bluedelivery.domain.businesshour.BusinessHourRepository;
 import com.bluedelivery.domain.businesshour.BusinessHours;
 import com.bluedelivery.domain.closingday.CyclicRegularClosing;
 import com.bluedelivery.domain.shop.Shop;
+import com.bluedelivery.domain.shop.ShopCategory;
 import com.bluedelivery.domain.shop.ShopRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -59,12 +61,13 @@ class ShopUpdateControllerTest {
     @BeforeEach
     void setup(@Mock ShopRepository shopRepository,
                @Mock CategoryManagerService categoryManagerService,
-               @Mock BusinessHourRepository businessHourRepository) {
+               @Mock BusinessHourRepository businessHourRepository,
+               @Mock ShopCategoryRepository screpo) {
         Shop shop = new Shop();
         when(shopRepository.findById(1L)).thenReturn(Optional.of(shop));
         objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
-        service = new ShopUpdateService(shopRepository, categoryManagerService, businessHourRepository);
+        service = new ShopUpdateService(shopRepository, categoryManagerService, businessHourRepository, screpo);
         controller = new ShopUpdateControllerImpl(service);
         mvc = MockMvcBuilders.standaloneSetup(controller)
                 .setControllerAdvice(new GlobalExceptionHandler())
@@ -83,9 +86,9 @@ class ShopUpdateControllerTest {
         
         //when
         MockHttpServletResponse response = mvc.perform(put("/shops/{id}/business-hours", 1)
-                .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding("utf-8")
-                .content(objectMapper.writeValueAsString(dto)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+                        .content(objectMapper.writeValueAsString(dto)))
                 .andReturn().getResponse();
         
         //then
@@ -116,8 +119,8 @@ class ShopUpdateControllerTest {
         );
         
         mvc.perform(put("/shops/1/closing-days")
-                .content(objectMapper.writeValueAsString(request))
-                .contentType(MediaType.APPLICATION_JSON))
+                        .content(objectMapper.writeValueAsString(request))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 }

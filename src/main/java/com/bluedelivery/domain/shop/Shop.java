@@ -26,7 +26,6 @@ public class Shop {
     private String introduce;
     private String phone;
     private String deliveryAreaGuide;
-    @Transient
     private Categories categories = new Categories();
     @Transient
     private ClosingDayPolicies closingDayPolicies = new ClosingDayPolicies();
@@ -45,7 +44,7 @@ public class Shop {
         return this.categories;
     }
     
-    public boolean updateCategory(List<Category> categories) {
+    public boolean updateCategory(List<ShopCategory> categories) {
         return this.categories.updateAll(categories);
     }
     

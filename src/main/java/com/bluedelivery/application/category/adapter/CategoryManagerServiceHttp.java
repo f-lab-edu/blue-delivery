@@ -25,13 +25,13 @@ public class CategoryManagerServiceHttp implements CategoryManagerService {
     @Cacheable(value = "categories", cacheManager = "caffeineCacheManager")
     public List<Category> getAllCategories() {
         // TODO 카테고리 이름의 다국어처리 i18n
-        return categoryRepository.findAllCategories();
+        return categoryRepository.findAll();
     }
     
     @CacheEvict(value = "categories", allEntries = true)
     public Category addCategory(CreateCategoryParam param) {
         Category category = new Category(param.getName());
-        return categoryRepository.addCategory(category);
+        return categoryRepository.save(category);
     }
     
     @CacheEvict(value = "categories", allEntries = true)
@@ -48,7 +48,7 @@ public class CategoryManagerServiceHttp implements CategoryManagerService {
     
     @Override
     public List<Category> getCategoriesById(List<Long> categoryIds) {
-        return categoryRepository.findCategoriesById(categoryIds);
+        return categoryRepository.findCategoriesByIdIn(categoryIds);
     }
     
 }
