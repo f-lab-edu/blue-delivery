@@ -13,7 +13,7 @@ import com.bluedelivery.domain.shop.Shop;
 @Repository
 public interface ShopRepository extends JpaRepository<Shop, Long> {
     
-    @Query("select s from Shop s join ShopCategory sc where sc.id = :#{#param.id}")
+    @Query("select s from Shop s join ShopCategory sc on sc.category.id = :#{#param.id}")
     List<Shop> findShopsByCategoryId(@Param("param") SearchShopByCategoryParam param);
     
 }
