@@ -28,11 +28,21 @@ public class UserManagementServiceHttp implements UserManagementService {
     private final UserRepository userRepository;
     private final AddressService addressService;
     
-    public void register(UserRegisterTarget dto) {
+    public User register(UserRegisterTarget dto) {
         try {
-            userRepository.save(dto.toEntity());
+            return userRepository.save(dto.toEntity());
         } catch (RuntimeException ex) {
-            throwDuplicateInfoException(ex);
+            String msg = ex.getMessage().toLowerCase(Locale.ROOT);
+            if (msg.contains("email")) {
+                throw new ApiException(ErrorCode.DUPLICATE_EMAIL);
+            }
+            if (msg.contains("nickname")) {
+                throw new ApiException(ErrorCode.DUPLICATE_NICKNAME);
+            }
+            if (msg.contains("phone")) {
+                throw new ApiException(ErrorCode.DUPLICATE_PHONE);
+            }
+            throw new IllegalArgumentException();
         }
     }
     
@@ -79,16 +89,4 @@ public class UserManagementServiceHttp implements UserManagementService {
                 .orElseThrow(() -> new ApiException(ErrorCode.USER_NOT_FOUND));
     }
     
-    private void throwDuplicateInfoException(RuntimeException ex) {
-        String msg = ex.getMessage().toLowerCase(Locale.ROOT);
-        if (msg.contains("email")) {
-            throw new ApiException(ErrorCode.DUPLICATE_EMAIL);
-        }
-        if (msg.contains("nickname")) {
-            throw new ApiException(ErrorCode.DUPLICATE_NICKNAME);
-        }
-        if (msg.contains("phone")) {
-            throw new ApiException(ErrorCode.DUPLICATE_PHONE);
-        }
-    }
 }
