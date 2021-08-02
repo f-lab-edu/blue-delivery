@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.bluedelivery.domain.category.Category;
@@ -17,6 +18,7 @@ public class ShopCategory {
     private Long id;
     
     @ManyToOne
+    @JoinColumn(referencedColumnName = "SHOP_ID")
     private Shop shop;
     
     @ManyToOne
