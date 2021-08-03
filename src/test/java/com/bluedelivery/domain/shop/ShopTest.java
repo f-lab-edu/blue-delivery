@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 
 import com.bluedelivery.domain.category.Categories;
 import com.bluedelivery.domain.category.Category;
-import com.bluedelivery.domain.shop.Shop;
 
 class ShopTest {
     

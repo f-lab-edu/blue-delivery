@@ -2,15 +2,19 @@ package com.bluedelivery.domain.shop;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Transient;
 
-import com.bluedelivery.domain.businesshour.BusinessHours;
 import com.bluedelivery.domain.category.Categories;
 import com.bluedelivery.domain.category.Category;
 import com.bluedelivery.domain.closingday.ClosingDayPolicies;
@@ -19,13 +23,19 @@ import com.bluedelivery.domain.closingday.Suspension;
 
 @Entity
 public class Shop {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "SHOP_ID")
     private Long id;
     private String name;
-    private BusinessHours businessHours;
     private String introduce;
     private String phone;
     private String deliveryAreaGuide;
+    
+    @ElementCollection
+    @CollectionTable(name = "BUSINESS_HOUR", joinColumns = @JoinColumn(name = "SHOP_ID"))
+    private List<BusinessHour> businessHours = new ArrayList<>();
+    
     @Transient
     private Categories categories = new Categories();
     @Transient
@@ -35,6 +45,15 @@ public class Shop {
     private Suspension suspension = new Suspension();
     
     public Shop() {
+    }
+    
+    public void updateBusinessHours(List<BusinessHour> input) {
+        this.businessHours.clear();
+        this.businessHours.addAll(input);
+    }
+    
+    public List<BusinessHour> getBusinessHours() {
+        return this.businessHours;
     }
     
     public Long getId() {
@@ -47,10 +66,6 @@ public class Shop {
     
     public boolean updateCategory(List<Category> categories) {
         return this.categories.updateAll(categories);
-    }
-    
-    public void updateBusinessHour(BusinessHours bh) {
-        businessHours = bh;
     }
     
     public void editIntroduce(String introduce) {
@@ -81,10 +96,6 @@ public class Shop {
         return deliveryAreaGuide;
     }
     
-    public BusinessHours getBusinessHours() {
-        return businessHours;
-    }
-    
     public String getIntroduce() {
         return introduce;
     }
@@ -102,8 +113,7 @@ public class Shop {
     }
     
     public boolean isOpeningAt(LocalDateTime when) {
-        return businessHours.isBusinessHour(when)
-                && !suspension.isSuspended(when);
+        return !suspension.isSuspended(when);
     }
     
     public boolean isExposed() {

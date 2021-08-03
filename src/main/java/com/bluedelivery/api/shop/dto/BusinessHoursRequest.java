@@ -4,9 +4,9 @@ import java.util.Map;
 
 import javax.validation.constraints.NotNull;
 
+import com.bluedelivery.application.shop.businesshour.BusinessHourType;
 import com.bluedelivery.application.shop.dto.BusinessHourParam;
 import com.bluedelivery.application.shop.dto.BusinessHoursTarget;
-import com.bluedelivery.domain.businesshour.BusinessHourType;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

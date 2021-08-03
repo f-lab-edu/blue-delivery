@@ -3,6 +3,8 @@ package com.bluedelivery.api.shop.adapter;
 import static com.bluedelivery.common.response.HttpResponse.FAIL;
 import static com.bluedelivery.common.response.HttpResponse.response;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +20,7 @@ import com.bluedelivery.application.shop.ShopUpdateService;
 import com.bluedelivery.common.response.ApiException;
 import com.bluedelivery.common.response.ErrorCode;
 import com.bluedelivery.common.response.HttpResponse;
-import com.bluedelivery.domain.businesshour.BusinessHours;
+import com.bluedelivery.domain.shop.BusinessHour;
 
 @RestController
 public class ShopUpdateControllerImpl implements ShopUpdateController {
@@ -29,9 +31,9 @@ public class ShopUpdateControllerImpl implements ShopUpdateController {
         this.updateService = updateService;
     }
     
-    public ResponseEntity<HttpResponse<BusinessHours>> updateBusinessHours(Long shopId, BusinessHoursRequest dto) {
+    public ResponseEntity<HttpResponse<?>> updateBusinessHours(Long shopId, BusinessHoursRequest dto) {
         try {
-            BusinessHours businessHours = updateService.updateBusinessHour(dto.toTarget(shopId));
+            List<BusinessHour> businessHours = updateService.updateBusinessHour(dto.toTarget(shopId));
             return ResponseEntity.ok(response(businessHours));
         } catch (IllegalArgumentException ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response(FAIL, ex.getMessage()));

@@ -1,36 +1,20 @@
-package com.bluedelivery.domain.businesshour;
-
+package com.bluedelivery.domain.shop;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.Objects;
 
-import javax.persistence.Entity;
+import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
-import com.bluedelivery.application.shop.dto.BusinessHourParam;
-import com.bluedelivery.domain.shop.Shop;
-
-@Entity
+@Embeddable
 public class BusinessHour implements Comparable<BusinessHour> {
-    
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
     
     @Enumerated(value = EnumType.STRING)
     private DayOfWeek dayOfWeek;
-    
     private LocalTime open;
     private LocalTime close;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Shop shop;
     
     protected BusinessHour() {
     }
@@ -65,10 +49,6 @@ public class BusinessHour implements Comparable<BusinessHour> {
         
     }
     
-    public Long getId() {
-        return id;
-    }
-    
     public DayOfWeek getDayOfWeek() {
         return dayOfWeek;
     }
@@ -79,10 +59,6 @@ public class BusinessHour implements Comparable<BusinessHour> {
     
     public LocalTime getClose() {
         return close;
-    }
-    
-    public void setShop(Shop shop) {
-        this.shop = shop;
     }
     
     @Override
@@ -109,11 +85,6 @@ public class BusinessHour implements Comparable<BusinessHour> {
         return "BusinessHour{"
                 + "shopId=" + ", open=" + open + ", close=" + close
                 + ", dayOfWeek=" + dayOfWeek + '}';
-    }
-    
-    public void update(BusinessHourParam businessHour) {
-        open = businessHour.getOpen();
-        close = businessHour.getClose();
     }
     
     @Override

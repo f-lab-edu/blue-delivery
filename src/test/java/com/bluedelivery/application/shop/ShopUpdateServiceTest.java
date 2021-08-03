@@ -18,7 +18,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bluedelivery.api.shop.UpdateClosingDaysRequest;
 import com.bluedelivery.application.category.CategoryManagerService;
-import com.bluedelivery.domain.businesshour.BusinessHourRepository;
 import com.bluedelivery.domain.closingday.CyclicRegularClosing;
 import com.bluedelivery.domain.closingday.LegalHolidayClosing;
 import com.bluedelivery.domain.shop.Shop;
@@ -32,11 +31,10 @@ class ShopUpdateServiceTest {
     
     @BeforeEach
     void setup(@Mock ShopRepository shopRepository,
-               @Mock CategoryManagerService categoryManagerService,
-               @Mock BusinessHourRepository businessHourRepository) {
+               @Mock CategoryManagerService categoryManagerService) {
         shop = new Shop();
         when(shopRepository.findById(1L)).thenReturn(Optional.of(shop));
-        shopUpdateService = new ShopUpdateService(shopRepository, categoryManagerService, businessHourRepository);
+        shopUpdateService = new ShopUpdateService(shopRepository, categoryManagerService);
     }
     
     @Test
