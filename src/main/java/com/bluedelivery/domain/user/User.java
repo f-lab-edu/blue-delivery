@@ -24,6 +24,7 @@ public class User {
     @Embedded
     private Addresses addresses;
     
+    @Column(unique = true)
     private String email;
     private String nickname;
     private String phone;

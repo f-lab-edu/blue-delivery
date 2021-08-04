@@ -4,9 +4,11 @@ import java.time.LocalDate;
 
 import com.bluedelivery.domain.user.User;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+@EqualsAndHashCode
 @Getter
 @RequiredArgsConstructor
 public class UserRegisterTarget {
