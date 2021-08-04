@@ -2,11 +2,7 @@ package com.bluedelivery.application.shop;
 
 import static com.bluedelivery.common.response.ErrorCode.*;
 
-import java.time.DayOfWeek;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,18 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bluedelivery.api.shop.UpdateCategoryRequest;
 import com.bluedelivery.api.shop.UpdateClosingDaysRequest;
 import com.bluedelivery.application.category.CategoryManagerService;
-import com.bluedelivery.application.shop.dto.BusinessHourParam;
+import com.bluedelivery.application.shop.businesshour.DayOfWeekMapper;
 import com.bluedelivery.application.shop.dto.BusinessHoursTarget;
 import com.bluedelivery.common.response.ApiException;
-import com.bluedelivery.domain.businesshour.BusinessHour;
-import com.bluedelivery.domain.businesshour.BusinessHourRepository;
-import com.bluedelivery.domain.businesshour.BusinessHours;
-import com.bluedelivery.domain.businesshour.DayOfWeekMapper;
 import com.bluedelivery.domain.closingday.LegalHolidayClosing;
 import com.bluedelivery.domain.closingday.Suspension;
+import com.bluedelivery.domain.shop.BusinessHour;
 import com.bluedelivery.domain.shop.Shop;
-import com.bluedelivery.domain.shop.ShopCategory;
-import com.bluedelivery.domain.shop.ShopCategoryRepository;
 import com.bluedelivery.domain.shop.ShopRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -37,29 +28,11 @@ public class ShopUpdateService {
     
     private final ShopRepository shopRepository;
     private final CategoryManagerService categoryManagerService;
-    private final BusinessHourRepository businessHourRepository;
-    private final ShopCategoryRepository shopCategoryRepository;
     
-    public BusinessHours updateBusinessHour(BusinessHoursTarget target) {
+    public List<BusinessHour> updateBusinessHour(BusinessHoursTarget target) {
         Shop shop = getShop(target.getShopId());
-        List<BusinessHour> all = businessHourRepository.findAllByShop(shop);
-        // 입력받은 영업일 정책을 실제 요일과 매핑
-        Map<DayOfWeek, BusinessHourParam> resolved =
-                DayOfWeekMapper.map(target.getBusinessHourType(), target.getBusinessHours());
-        
-        // 영업일이 없으면 입력을 그대로 저장
-        if (all.size() == 0) {
-            List<BusinessHour> list = resolved.entrySet().stream()
-                    .map(entry -> entry.getValue().toEntity(entry.getKey()))
-                    .collect(Collectors.toList());
-            Collections.sort(list);
-            return new BusinessHours(list);
-        }
-        
-        for (BusinessHour businessHour : all) {
-            businessHour.update(resolved.get(businessHour.getDayOfWeek()));
-        }
-        return new BusinessHours(all);
+        shop.updateBusinessHours(DayOfWeekMapper.map(target));
+        return shop.getBusinessHours();
     }
     
     public void editIntroduce(Long id, String introduce) {
@@ -84,11 +57,7 @@ public class ShopUpdateService {
     
     public void updateCategory(Long shopId, UpdateCategoryRequest dto) {
         Shop shop = getShop(shopId);
-        shopCategoryRepository.deleteByShopId(shopId);
-        List<ShopCategory> shopCategories = categoryManagerService.getCategoriesById(dto.getCategoryIds()).stream()
-                .map(category -> new ShopCategory(shop, category))
-                .collect(Collectors.toList());
-        shopCategoryRepository.saveAll(shopCategories);
+        shop.updateCategoryIds(categoryManagerService.getCategoriesById(dto.getCategoryIds()));
     }
     
     public void updateClosingDays(Long id, UpdateClosingDaysRequest closingDays) {

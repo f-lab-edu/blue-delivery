@@ -1,15 +1,15 @@
-package com.bluedelivery.domain.businesshour;
+package com.bluedelivery.application.shop.businesshour;
 
 import static com.bluedelivery.api.shop.dto.BusinessHourDay.*;
 
 import java.time.DayOfWeek;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import com.bluedelivery.api.shop.dto.BusinessHourDay;
 import com.bluedelivery.application.shop.dto.BusinessHourParam;
+import com.bluedelivery.domain.shop.BusinessHour;
 
 public class WeekdayWeekendBusinessHourCondition implements BusinessHourCondition {
     
@@ -24,8 +24,8 @@ public class WeekdayWeekendBusinessHourCondition implements BusinessHourConditio
     }
     
     @Override
-    public Map<DayOfWeek, BusinessHourParam> mapToDayOfWeek(Map<BusinessHourDay, BusinessHourParam> hours) {
-        Map<DayOfWeek, BusinessHourParam> map = new HashMap<>();
+    public List<BusinessHour> mapToDayOfWeek(Map<BusinessHourDay, BusinessHourParam> hours) {
+        List<BusinessHour> bhs = new ArrayList<>();
         BusinessHourParam weekday = hours.get(WEEKDAY);
         BusinessHourParam saturday = hours.get(SATURDAY);
         BusinessHourParam sunday = hours.get(SUNDAY);
@@ -34,12 +34,12 @@ public class WeekdayWeekendBusinessHourCondition implements BusinessHourConditio
             if (day.compareTo(DayOfWeek.SATURDAY) >= 0) {
                 break;
             }
-            map.put(day, weekday);
+            bhs.add(weekday.toEntity(day));
         }
-        map.put(DayOfWeek.SATURDAY, saturday);
-        map.put(DayOfWeek.SUNDAY, sunday);
+        bhs.add(saturday.toEntity(DayOfWeek.SATURDAY));
+        bhs.add(sunday.toEntity(DayOfWeek.SUNDAY));
     
-        return map;
+        return bhs;
     }
     
     private boolean hasRequiredDays(Map<BusinessHourDay, BusinessHourParam> hours) {

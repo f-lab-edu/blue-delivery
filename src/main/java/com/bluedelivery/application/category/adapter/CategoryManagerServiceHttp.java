@@ -24,7 +24,6 @@ public class CategoryManagerServiceHttp implements CategoryManagerService {
     
     @Cacheable(value = "categories", cacheManager = "caffeineCacheManager")
     public List<Category> getAllCategories() {
-        // TODO 카테고리 이름의 다국어처리 i18n
         return categoryRepository.findAll();
     }
     
@@ -48,7 +47,11 @@ public class CategoryManagerServiceHttp implements CategoryManagerService {
     
     @Override
     public List<Category> getCategoriesById(List<Long> categoryIds) {
-        return categoryRepository.findCategoriesByIdIn(categoryIds);
+        List<Category> categories = categoryRepository.findCategoriesByIdIn(categoryIds);
+        if (categories.size() != categoryIds.size()) {
+            throw new CategoryNotFoundException();
+        }
+        return categories;
     }
     
 }

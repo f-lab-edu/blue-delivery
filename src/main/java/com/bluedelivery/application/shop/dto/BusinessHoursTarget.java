@@ -3,7 +3,7 @@ package com.bluedelivery.application.shop.dto;
 import java.util.Map;
 
 import com.bluedelivery.api.shop.dto.BusinessHourDay;
-import com.bluedelivery.domain.businesshour.BusinessHourType;
+import com.bluedelivery.application.shop.businesshour.BusinessHourType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

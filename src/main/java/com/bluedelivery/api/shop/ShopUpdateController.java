@@ -12,13 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.bluedelivery.api.shop.dto.BusinessHoursRequest;
 import com.bluedelivery.common.response.HttpResponse;
-import com.bluedelivery.domain.businesshour.BusinessHours;
 
 @RequestMapping("/shops/{shopId}")
 public interface ShopUpdateController {
     
     @PutMapping("/business-hours")
-    ResponseEntity<HttpResponse<BusinessHours>> updateBusinessHours(
+    ResponseEntity<HttpResponse<?>> updateBusinessHours(
             @PathVariable Long shopId, @RequestBody @Valid BusinessHoursRequest dto);
     
     @PatchMapping("/introduce")

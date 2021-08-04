@@ -1,7 +1,7 @@
 package com.bluedelivery.api.shop;
 
 import static com.bluedelivery.api.shop.dto.BusinessHourDay.EVERY_DAY;
-import static com.bluedelivery.domain.businesshour.BusinessHourType.EVERY_SAME_TIME;
+import static com.bluedelivery.application.shop.businesshour.BusinessHourType.EVERY_SAME_TIME;
 import static java.time.DayOfWeek.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
@@ -39,12 +39,9 @@ import com.bluedelivery.application.shop.ShopUpdateService;
 import com.bluedelivery.application.shop.TemporaryClosingParam;
 import com.bluedelivery.application.shop.dto.BusinessHourParam;
 import com.bluedelivery.common.config.GlobalExceptionHandler;
-import com.bluedelivery.domain.businesshour.BusinessHour;
-import com.bluedelivery.domain.businesshour.BusinessHourRepository;
-import com.bluedelivery.domain.businesshour.BusinessHours;
 import com.bluedelivery.domain.closingday.CyclicRegularClosing;
+import com.bluedelivery.domain.shop.BusinessHour;
 import com.bluedelivery.domain.shop.Shop;
-import com.bluedelivery.domain.shop.ShopCategoryRepository;
 import com.bluedelivery.domain.shop.ShopRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -59,14 +56,12 @@ class ShopUpdateControllerTest {
     
     @BeforeEach
     void setup(@Mock ShopRepository shopRepository,
-               @Mock CategoryManagerService categoryManagerService,
-               @Mock BusinessHourRepository businessHourRepository,
-               @Mock ShopCategoryRepository screpo) {
+               @Mock CategoryManagerService categoryManagerService) {
         Shop shop = new Shop();
         when(shopRepository.findById(1L)).thenReturn(Optional.of(shop));
         objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
-        service = new ShopUpdateService(shopRepository, categoryManagerService, businessHourRepository, screpo);
+        service = new ShopUpdateService(shopRepository, categoryManagerService);
         controller = new ShopUpdateControllerImpl(service);
         mvc = MockMvcBuilders.standaloneSetup(controller)
                 .setControllerAdvice(new GlobalExceptionHandler())
@@ -93,7 +88,7 @@ class ShopUpdateControllerTest {
         //then
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
         assertThat(response.getContentAsString()).contains(
-                objectMapper.writeValueAsString(new BusinessHours(List.of(
+                objectMapper.writeValueAsString(List.of(
                         new BusinessHour(MONDAY, open, close),
                         new BusinessHour(TUESDAY, open, close),
                         new BusinessHour(WEDNESDAY, open, close),
@@ -101,7 +96,7 @@ class ShopUpdateControllerTest {
                         new BusinessHour(FRIDAY, open, close),
                         new BusinessHour(SATURDAY, open, close),
                         new BusinessHour(SUNDAY, open, close)
-                ))));
+                )));
     }
     
     @Test
