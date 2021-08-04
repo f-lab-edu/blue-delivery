@@ -42,7 +42,7 @@ public class UserManagementServiceHttp implements UserManagementService {
             if (msg.contains("phone")) {
                 throw new ApiException(ErrorCode.DUPLICATE_PHONE);
             }
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(ex);
         }
     }
     

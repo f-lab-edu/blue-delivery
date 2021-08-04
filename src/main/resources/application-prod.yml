@@ -6,6 +6,8 @@ spring:
     password: password
 
   flyway:
+    enabled: false
+    baseline-on-migrate: true
     url: jdbc:mysql://${db.hostname}:3306/delivery
     user: root
     password: password
