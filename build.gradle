@@ -1,4 +1,5 @@
 plugins {
+    id 'com.google.cloud.tools.jib' version '3.1.2' // jib
     id 'checkstyle' // linter
     id 'org.springframework.boot' version '2.4.5'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
@@ -19,6 +20,20 @@ repositories {
     mavenCentral()
 }
 
+jib {
+    from {
+        image = "adoptopenjdk/openjdk11:alpine"
+    }
+    to {
+        image = "kimstz0/blue-delivery"
+        tags = ["latest"]
+    }
+    container {
+        creationTime = "USE_CURRENT_TIMESTAMP"
+        jvmFlags = ["-Dspring.profiles.active=prod"]
+    }
+}
+
 checkstyle {
     toolVersion = '8.42'
     ignoreFailures = false // 분석결과 error가 발생하면 build 실패
@@ -32,7 +47,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-aop'
     implementation 'org.springframework.boot:spring-boot-starter-cache'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis' // redis
-//    implementation 'org.springframework.session:spring-session-data-redis' // session redis
     implementation 'redis.clients:jedis:3.6.0' // jedis
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.4'
