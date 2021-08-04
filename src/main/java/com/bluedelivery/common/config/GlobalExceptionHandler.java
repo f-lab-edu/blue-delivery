@@ -55,10 +55,7 @@ public class GlobalExceptionHandler {
         log.error("500 error ", ex);
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(response(
-                        ERROR,
-                        ex.toString()
-                ));
+                .body(response(ERROR, "ERROR OCCURRED"));
     }
 
 }

@@ -1,11 +1,13 @@
-package com.bluedelivery.domain.businesshour;
+package com.bluedelivery.application.shop.businesshour;
 
 import java.time.DayOfWeek;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import com.bluedelivery.api.shop.dto.BusinessHourDay;
 import com.bluedelivery.application.shop.dto.BusinessHourParam;
+import com.bluedelivery.domain.shop.BusinessHour;
 
 public class EverydayBusinessHourCondition implements BusinessHourCondition {
     
@@ -20,12 +22,12 @@ public class EverydayBusinessHourCondition implements BusinessHourCondition {
     }
     
     @Override
-    public Map<DayOfWeek, BusinessHourParam> mapToDayOfWeek(Map<BusinessHourDay, BusinessHourParam> hours) {
-        Map<DayOfWeek, BusinessHourParam> map = new HashMap<>();
+    public List<BusinessHour> mapToDayOfWeek(Map<BusinessHourDay, BusinessHourParam> hours) {
+        List<BusinessHour> bhs = new ArrayList<>();
         for (DayOfWeek day : DayOfWeek.values()) {
-            map.put(day, hours.get(BusinessHourDay.EVERY_DAY));
+            bhs.add(hours.get(BusinessHourDay.EVERY_DAY).toEntity(day));
         }
-        return map;
+        return bhs;
     }
     
 }
