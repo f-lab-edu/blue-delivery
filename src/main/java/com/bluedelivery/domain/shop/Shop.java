@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -116,8 +117,8 @@ public class Shop {
         return closingDayPolicies.isClosingAt(date);
     }
     
-    public boolean isOpeningAt(LocalDateTime when) {
-        return !suspension.isSuspended(when);
+    public boolean isOpeningAt() {
+        return !suspension.isSuspended(LocalDateTime.now());
     }
     
     public boolean isExposed() {
@@ -135,7 +136,5 @@ public class Shop {
     public Suspension getSuspension() {
         return suspension;
     }
-    
-    
 
 }

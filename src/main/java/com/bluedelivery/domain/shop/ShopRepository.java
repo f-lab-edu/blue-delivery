@@ -7,13 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.bluedelivery.application.shop.SearchShopByCategoryParam;
-import com.bluedelivery.domain.shop.Shop;
-
 @Repository
 public interface ShopRepository extends JpaRepository<Shop, Long> {
     
-    @Query("select s from Shop s join Category c on c.id = :#{#param.id}")
-    List<Shop> findShopsByCategoryId(@Param("param") SearchShopByCategoryParam param);
+    @Query("select s from Shop s join Category c on c.id = :categoryId")
+    List<Shop> findShopsByCategoryId(Long categoryId);
     
 }
