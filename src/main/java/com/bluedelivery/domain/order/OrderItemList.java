@@ -9,15 +9,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.bluedelivery.domain.menu.Menu;
-import com.bluedelivery.domain.menu.MenuRepository;
 
 public class OrderItemList {
     
-    private final MenuRepository menuRepository;
     private final List<OrderItem> orderItems;
     
-    public OrderItemList(MenuRepository menuRepository, OrderItem... orderItem) {
-        this.menuRepository = menuRepository;
+    public OrderItemList(OrderItem... orderItem) {
         this.orderItems = new ArrayList<>(Arrays.asList(orderItem));
     }
     
@@ -25,8 +22,7 @@ public class OrderItemList {
         return orderItems.isEmpty();
     }
     
-    public void validateMenu() {
-        List<Menu> menus = getMenus();
+    public void validateMenu(List<Menu> menus) {
         if (menus.size() != orderItems.size()) {
             throw new IllegalArgumentException(ORDERED_MENU_NOT_FOUND);
         }
@@ -37,11 +33,11 @@ public class OrderItemList {
         }
     }
     
-    private List<Menu> getMenus() {
-        return menuRepository.findAllById(orderItems.stream().map(x -> x.getMenuId()).collect(toList()));
-    }
-    
     public int totalOrderAmount() {
         return orderItems.stream().mapToInt(x -> x.getPrice()).sum();
+    }
+    
+    public Iterable<Long> getIds() {
+        return orderItems.stream().map(x -> x.getMenuId()).collect(toList());
     }
 }

@@ -21,8 +21,7 @@ import com.bluedelivery.domain.shop.Shop;
 @ExtendWith(MockitoExtension.class)
 public class OrderTest {
     
-    private Menu chicken = chicken();
-    @Mock
+    @Mock(lenient = true)
     private Shop shop;
     
     @Mock
@@ -30,26 +29,28 @@ public class OrderTest {
     
     @BeforeEach
     void setup() {
-    
+        given(shop.isOpen()).willReturn(true);
+        given(shop.getMinimumOrderAmount()).willReturn(0);
     }
     
     @Test
-    void if_order_created_it_has_status_Wait() {
+    void if_order_created_it_has_status_Accept() {
         //given
-        Order order = new Order();
-        
+        Order order = order().build();
+    
         //when
+        order.accept();
         Order.OrderStatus orderStatus = order.getStatus();
         
         //then
-        assertThat(orderStatus).isEqualTo(Order.OrderStatus.WAIT);
+        assertThat(orderStatus).isEqualTo(Order.OrderStatus.ACCEPT);
     }
     
     @Test
     void exception_if_shop_is_not_open() {
         //given
+        Order order = order().build();
         given(shop.isOpen()).willReturn(false);
-        Order order = new Order(shop);
         
         //when
         String message = assertThrows(IllegalStateException.class, order::validate).getMessage();
@@ -61,8 +62,7 @@ public class OrderTest {
     @Test
     void exception_if_ordered_item_list_is_empty() {
         //given
-        given(shop.isOpen()).willReturn(true);
-        Order order = new Order(shop, new OrderItemList(menuRepository));
+        Order order = order().orderItemList(new OrderItemList()).build();
         
         //when
         String message = assertThrows(IllegalArgumentException.class, order::validate).getMessage();
@@ -74,10 +74,10 @@ public class OrderTest {
     @Test
     void exception_if_ordered_item_and_menu_are_different() {
         //given
-        given(shop.isOpen()).willReturn(true);
-        given(menuRepository.findAllById(List.of(chicken.getId()))).willReturn(List.of(chicken));
-        Order order = new Order(shop, new OrderItemList(menuRepository, new OrderItem(1L, "옛날양념치킨", 10000)));
-        
+        Menu ordered = chicken().name("옛날양념통닭").price(10000).build();
+        Order order = order().orderItemList(new OrderItemList(OrderItem.from(ordered))).build();
+        menuRepositoryStub(chicken().build());
+    
         //when
         String message = assertThrows(IllegalStateException.class, order::validate).getMessage();
         
@@ -88,8 +88,7 @@ public class OrderTest {
     @Test
     void exception_if_ordered_item_does_not_exist() {
         //given
-        given(shop.isOpen()).willReturn(true);
-        Order order = new Order(shop, new OrderItemList(menuRepository, OrderItem.from(chicken())));
+        Order order = order().build();
         
         //when
         String message = assertThrows(IllegalArgumentException.class, order::validate).getMessage();
@@ -101,14 +100,13 @@ public class OrderTest {
     @Test
     void exception_if_ordered_amount_is_lower_than_minimum_amount() {
         //given
-        Order order = new Order(shop, new OrderItemList(menuRepository, OrderItem.from(chicken)));
+        Order order = order().build();
         given(shop.getMinimumOrderAmount()).willReturn(30000);
-        given(shop.isOpen()).willReturn(true);
-        given(menuRepository.findAllById(List.of(chicken.getId()))).willReturn(List.of(chicken));
+        menuRepositoryStub(chicken().build());
     
         //when
         String message = assertThrows(IllegalArgumentException.class, order::validate).getMessage();
-    
+        
         //then
         assertThat(message).isEqualTo(ORDERED_AMOUNT_LOWER_THAN_MINIMUM_ORDER_AMOUNT);
     }
@@ -116,15 +114,14 @@ public class OrderTest {
     @Test
     void success_when_order_is_validate() {
         //given
-        Order order = new Order(shop, new OrderItemList(menuRepository, OrderItem.from(chicken)));
-        given(shop.isOpen()).willReturn(true);
-        given(menuRepository.findAllById(List.of(chicken.getId()))).willReturn(List.of(chicken));
-        
+        Order order = order().build();
+        menuRepositoryStub(chicken().build());
+    
         //when //then
         assertDoesNotThrow(order::validate);
     }
     
-    private Menu chicken() {
+    private Menu.MenuBuilder chicken() {
         return Menu.builder()
                 .id(1L)
                 .name("양념치킨")
@@ -133,8 +130,17 @@ public class OrderTest {
                 .isMain(true)
                 .menuGroupId(1L)
                 .price(15000)
-                .status(Menu.MenuStatus.DEFAULT)
-                .build();
+                .status(Menu.MenuStatus.DEFAULT);
     }
     
+    private Order.OrderBuilder order() {
+        return Order.builder()
+                .menuRepository(menuRepository)
+                .shop(shop)
+                .orderItemList(new OrderItemList(OrderItem.from(chicken().build())));
+    }
+    
+    private void menuRepositoryStub(Menu changed) {
+        given(menuRepository.findAllById(List.of(changed.getId()))).willReturn(List.of(changed));
+    }
 }
