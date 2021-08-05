@@ -34,7 +34,7 @@ public class ShopExposeHttpController implements ShopExposeController {
                         .map(shop -> new SearchedShopData(
                                 shop.getId(),
                                 shop.getName(),
-                                shop.isOpeningAt()))
+                                shop.isOpen()))
                         .collect(Collectors.toList()))
                 );
     }

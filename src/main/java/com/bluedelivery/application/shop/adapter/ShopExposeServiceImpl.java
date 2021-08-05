@@ -4,7 +4,6 @@ import static java.lang.Boolean.compare;
 import static java.util.stream.Collectors.toList;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -26,7 +25,7 @@ public class ShopExposeServiceImpl implements ShopExposeService {
     public List<Shop> getShopsByCategory(Long categoryId) {
         return shopRepository.findShopsByCategoryId(categoryId).stream()
                 .filter(shop -> !shop.isClosingAt(LocalDate.now())) // 휴무가 아닌 가게만 선택
-                .sorted((o1, o2) -> compare(o2.isOpeningAt(), o1.isOpeningAt())) // 영업중 가게(true) 순 정렬
+                .sorted((o1, o2) -> compare(o2.isOpen(), o1.isOpen())) // 영업중 가게(true) 순 정렬
                 .collect(toList());
     }
 }

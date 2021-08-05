@@ -1,5 +1,9 @@
 package com.bluedelivery.domain.order;
 
+import static java.util.function.Predicate.*;
+
+import java.util.List;
+
 import com.bluedelivery.domain.menu.Menu;
 
 public class OrderItem {
@@ -13,11 +17,23 @@ public class OrderItem {
         this.price = price;
     }
     
+    public static OrderItem from(Menu menu) {
+        return new OrderItem(menu.getId(), menu.getName(), menu.getPrice());
+    }
+    
     public Long getMenuId() {
         return this.menuId;
     }
     
-    public boolean validate(Menu menu) {
+    public int getPrice() {
+        return price;
+    }
+    
+    public boolean validateWith(List<Menu> menus) {
+        return menus.stream().anyMatch(not(this::isEqualTo));
+    }
+    
+    private boolean isEqualTo(Menu menu) {
         return this.menuId == menu.getId()
                 && this.menuName.equals(menu.getName())
                 && this.price == menu.getPrice();
