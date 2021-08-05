@@ -1,13 +1,13 @@
 package com.bluedelivery.domain.order;
 
 import static com.bluedelivery.domain.order.ExceptionMessage.*;
-import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 
 import com.bluedelivery.domain.menu.Menu;
 import com.bluedelivery.domain.menu.MenuRepository;
 import com.bluedelivery.domain.shop.Shop;
+import com.bluedelivery.domain.user.User;
 
 import lombok.Builder;
 
@@ -19,18 +19,24 @@ public class Order {
     
     private MenuRepository menuRepository;
     private OrderStatus orderStatus;
+    private User user;
     private Shop shop;
     private OrderItemList orderItemList;
     
     @Builder
-    public Order(MenuRepository menuRepository, OrderStatus orderStatus, Shop shop, OrderItemList orderItemList) {
+    public Order(MenuRepository menuRepository, OrderStatus orderStatus,
+                 User user, Shop shop, OrderItemList orderItemList) {
         this.menuRepository = menuRepository;
         this.orderStatus = orderStatus;
+        this.user = user;
         this.shop = shop;
         this.orderItemList = orderItemList;
     }
     
     public void validate() {
+        if (user == null) {
+            throw new IllegalArgumentException(ORDER_USER_DOES_NOT_EXIST);
+        }
         if (!shop.isOpen()) {
             throw new IllegalStateException(SHOP_IS_NOT_OPEN);
         }

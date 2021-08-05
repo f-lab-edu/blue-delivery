@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bluedelivery.domain.menu.Menu;
 import com.bluedelivery.domain.menu.MenuRepository;
 import com.bluedelivery.domain.shop.Shop;
+import com.bluedelivery.domain.user.User;
 
 @ExtendWith(MockitoExtension.class)
 public class OrderTest {
@@ -112,6 +113,19 @@ public class OrderTest {
     }
     
     @Test
+    void exception_if_user_does_not_exist() {
+        //given
+        Order order = order().user(null).build();
+        
+        //when
+        String message = assertThrows(IllegalArgumentException.class, order::validate).getMessage();
+    
+        //then
+        assertThat(message).isEqualTo(ORDER_USER_DOES_NOT_EXIST);
+    
+    }
+    
+    @Test
     void success_when_order_is_validate() {
         //given
         Order order = order().build();
@@ -136,6 +150,7 @@ public class OrderTest {
     private Order.OrderBuilder order() {
         return Order.builder()
                 .menuRepository(menuRepository)
+                .user(new User())
                 .shop(shop)
                 .orderItemList(new OrderItemList(OrderItem.from(chicken().build())));
     }
