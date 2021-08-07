@@ -1,7 +1,6 @@
 package com.bluedelivery.order.domain;
 
-import static com.bluedelivery.order.domain.ExceptionMessage.ORDERED_AND_MENU_ARE_DIFFERENT;
-import static com.bluedelivery.order.domain.ExceptionMessage.ORDERED_MENU_NOT_FOUND;
+import static com.bluedelivery.order.domain.ExceptionMessage.*;
 import static java.util.stream.Collectors.toList;
 
 import java.util.ArrayList;
@@ -27,19 +26,16 @@ public class OrderItemList {
         this.orderItems = new ArrayList<>(Arrays.asList(orderItem));
     }
     
-    public boolean isEmpty() {
-        return orderItems.isEmpty();
-    }
-    
-    public void validateMenu(List<Menu> menus) {
-        if (menus.size() != orderItems.size()) {
-            throw new IllegalArgumentException(ORDERED_MENU_NOT_FOUND);
+    public void validate(List<Menu> menus) {
+        if (orderItems.isEmpty()) {
+            throw new IllegalArgumentException(ORDER_LIST_IS_EMPTY);
         }
         for (OrderItem orderItem : orderItems) {
             if (orderItem.validateWith(menus)) {
                 throw new IllegalStateException(ORDERED_AND_MENU_ARE_DIFFERENT);
             }
         }
+       
     }
     
     public int totalOrderAmount() {

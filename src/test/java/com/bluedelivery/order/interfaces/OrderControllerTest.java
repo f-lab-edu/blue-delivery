@@ -1,6 +1,7 @@
 package com.bluedelivery.order.interfaces;
 
 import static com.bluedelivery.Data.chicken;
+import static com.bluedelivery.Data.order;
 import static com.bluedelivery.common.response.HttpResponse.SUCCESS;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -29,13 +30,8 @@ import com.bluedelivery.api.authentication.AuthenticatedUserArgumentResolver;
 import com.bluedelivery.application.authentication.AuthenticationService;
 import com.bluedelivery.domain.authentication.Authentication;
 import com.bluedelivery.domain.menu.Menu;
-import com.bluedelivery.domain.menu.MenuRepository;
-import com.bluedelivery.domain.shop.Shop;
-import com.bluedelivery.domain.user.User;
 import com.bluedelivery.order.application.OrderService;
 import com.bluedelivery.order.domain.Order;
-import com.bluedelivery.order.domain.OrderItem;
-import com.bluedelivery.order.domain.OrderItemList;
 import com.bluedelivery.order.infra.CartArgumentResolver;
 import com.bluedelivery.order.interfaces.Cart.CartItem;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -46,6 +42,7 @@ public class OrderControllerTest {
     private static String VALID_TOKEN = "valid token";
     private static  Long VALID_USER_ID = 1L;
     private static Long SHOP_ID = 1L;
+    private static Long ORDER_ID = 1L;
     
     private MockMvc mockMvc;
     private OrderService orderService = Mockito.mock(OrderService.class);
@@ -70,7 +67,7 @@ public class OrderControllerTest {
         //given
         Menu chicken = chicken().build();
         Cart cart = new Cart(SHOP_ID, List.of(CartItem.from(chicken, 1)));
-        Order order = order().orderItemList(cart.toOrderItemList()).build();
+        Order order = order().orderId(ORDER_ID).orderItemList(cart.toOrderItemList()).build();
         given(orderService.takeOrder(VALID_USER_ID, cart.toOrderItemList())).willReturn(order);
         
         //when
@@ -82,25 +79,8 @@ public class OrderControllerTest {
         //then
         perform
                 .andExpect(status().isCreated())
-                .andExpect(redirectedUrl("/orders/" + VALID_USER_ID))
+                .andExpect(redirectedUrl("/orders/" + ORDER_ID))
                 .andExpect(jsonPath("$.result").value(SUCCESS))
                 .andExpect(jsonPath("$.data").isNotEmpty());
     }
-    
-    
-    @Mock(lenient = true)
-    private Shop shop;
-    
-    @Mock
-    private MenuRepository menuRepository;
-    
-    private Order.OrderBuilder order() {
-        return Order.builder()
-                .orderId(1L)
-                .menuRepository(menuRepository)
-                .user(new User())
-                .shop(shop)
-                .orderItemList(new OrderItemList(OrderItem.from(chicken().build(), 1)));
-    }
-    
 }
