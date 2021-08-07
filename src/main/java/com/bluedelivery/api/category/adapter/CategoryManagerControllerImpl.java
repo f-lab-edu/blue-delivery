@@ -17,7 +17,6 @@ import com.bluedelivery.application.category.CategoryNotFoundException;
 import com.bluedelivery.common.response.ApiException;
 import com.bluedelivery.common.response.ErrorCode;
 import com.bluedelivery.common.response.HttpResponse;
-import com.bluedelivery.domain.category.Categories;
 import com.bluedelivery.domain.category.Category;
 
 @RestController
@@ -29,7 +28,7 @@ public class CategoryManagerControllerImpl implements CategoryManagerController 
         this.categoryManagerService = categoryManagerService;
     }
     
-    public ResponseEntity<HttpResponse<List<Categories>>> getAllCategories() {
+    public ResponseEntity<HttpResponse<?>> getAllCategories() {
         List<Category> categories = categoryManagerService.getAllCategories();
         return ResponseEntity.status(HttpStatus.OK).body(response(categories));
     }

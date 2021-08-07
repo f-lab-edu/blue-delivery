@@ -21,8 +21,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bluedelivery.api.authentication.AuthenticationRequired;
-import com.bluedelivery.api.authentication.UserAuthInterceptor;
 import com.bluedelivery.application.authentication.AuthenticationService;
 import com.bluedelivery.common.config.GlobalExceptionHandler;
 import com.bluedelivery.domain.authentication.Authentication;

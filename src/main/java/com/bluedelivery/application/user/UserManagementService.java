@@ -9,8 +9,9 @@ public interface UserManagementService {
      * 회원 가입
      *
      * @param param
+     * @return 생성된 유저 정보
      */
-    void register(UserRegisterTarget param);
+    User register(UserRegisterTarget param);
     
     User updateAccount(UpdateAccountTarget param);
     
