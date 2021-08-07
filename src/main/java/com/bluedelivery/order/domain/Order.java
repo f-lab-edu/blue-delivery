@@ -1,6 +1,6 @@
-package com.bluedelivery.domain.order;
+package com.bluedelivery.order.domain;
 
-import static com.bluedelivery.domain.order.ExceptionMessage.*;
+import static com.bluedelivery.order.domain.ExceptionMessage.*;
 
 import java.util.List;
 
@@ -17,15 +17,20 @@ public class Order {
         ACCEPT
     }
     
+    private Long orderId;
     private MenuRepository menuRepository;
     private OrderStatus orderStatus;
     private User user;
     private Shop shop;
     private OrderItemList orderItemList;
     
+    public Order() {
+    }
+    
     @Builder
-    public Order(MenuRepository menuRepository, OrderStatus orderStatus,
-                 User user, Shop shop, OrderItemList orderItemList) {
+    public Order(Long orderId, MenuRepository menuRepository, OrderStatus orderStatus, User user, Shop shop,
+                 OrderItemList orderItemList) {
+        this.orderId = orderId;
         this.menuRepository = menuRepository;
         this.orderStatus = orderStatus;
         this.user = user;
@@ -51,6 +56,10 @@ public class Order {
     
     public void accept() {
         this.orderStatus = OrderStatus.ACCEPT;
+    }
+    
+    public Long getOrderId() {
+        return orderId;
     }
     
     public OrderStatus getStatus() {

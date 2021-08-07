@@ -1,4 +1,4 @@
-package com.bluedelivery.domain.order;
+package com.bluedelivery.order.domain;
 
 public interface ExceptionMessage {
     String SHOP_IS_NOT_OPEN = "Shop is not open now";

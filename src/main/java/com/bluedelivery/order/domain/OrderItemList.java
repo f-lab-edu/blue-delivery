@@ -1,7 +1,7 @@
-package com.bluedelivery.domain.order;
+package com.bluedelivery.order.domain;
 
-import static com.bluedelivery.domain.order.ExceptionMessage.ORDERED_AND_MENU_ARE_DIFFERENT;
-import static com.bluedelivery.domain.order.ExceptionMessage.ORDERED_MENU_NOT_FOUND;
+import static com.bluedelivery.order.domain.ExceptionMessage.ORDERED_AND_MENU_ARE_DIFFERENT;
+import static com.bluedelivery.order.domain.ExceptionMessage.ORDERED_MENU_NOT_FOUND;
 import static java.util.stream.Collectors.toList;
 
 import java.util.ArrayList;
@@ -10,9 +10,18 @@ import java.util.List;
 
 import com.bluedelivery.domain.menu.Menu;
 
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+@EqualsAndHashCode
+@NoArgsConstructor
 public class OrderItemList {
     
-    private final List<OrderItem> orderItems;
+    private List<OrderItem> orderItems = new ArrayList<>();
+    
+    public OrderItemList(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
+    }
     
     public OrderItemList(OrderItem... orderItem) {
         this.orderItems = new ArrayList<>(Arrays.asList(orderItem));

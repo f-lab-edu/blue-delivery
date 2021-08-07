@@ -1,6 +1,7 @@
-package com.bluedelivery.domain.order;
+package com.bluedelivery.order.domain;
 
-import static com.bluedelivery.domain.order.ExceptionMessage.*;
+import static com.bluedelivery.Data.chicken;
+import static com.bluedelivery.order.domain.ExceptionMessage.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -76,7 +77,7 @@ public class OrderTest {
     void exception_if_ordered_item_and_menu_are_different() {
         //given
         Menu ordered = chicken().name("옛날양념통닭").price(10000).build();
-        Order order = order().orderItemList(new OrderItemList(OrderItem.from(ordered))).build();
+        Order order = order().orderItemList(new OrderItemList(OrderItem.from(ordered, 1))).build();
         menuRepositoryStub(chicken().build());
     
         //when
@@ -130,29 +131,17 @@ public class OrderTest {
         //given
         Order order = order().build();
         menuRepositoryStub(chicken().build());
-    
         //when //then
         assertDoesNotThrow(order::validate);
     }
     
-    private Menu.MenuBuilder chicken() {
-        return Menu.builder()
-                .id(1L)
-                .name("양념치킨")
-                .composition("양념치킨과 치킨무 세트")
-                .content("양념이지만 바삭바삭한 양념치킨입니다.")
-                .isMain(true)
-                .menuGroupId(1L)
-                .price(15000)
-                .status(Menu.MenuStatus.DEFAULT);
-    }
-    
     private Order.OrderBuilder order() {
         return Order.builder()
+                .orderId(1L)
                 .menuRepository(menuRepository)
                 .user(new User())
                 .shop(shop)
-                .orderItemList(new OrderItemList(OrderItem.from(chicken().build())));
+                .orderItemList(new OrderItemList(OrderItem.from(chicken().build(), 1)));
     }
     
     private void menuRepositoryStub(Menu changed) {
