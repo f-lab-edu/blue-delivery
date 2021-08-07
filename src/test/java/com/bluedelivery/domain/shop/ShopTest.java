@@ -7,7 +7,6 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.bluedelivery.domain.category.Categories;
 import com.bluedelivery.domain.category.Category;
 
 class ShopTest {
@@ -17,15 +16,15 @@ class ShopTest {
     void updateCategoriesTest() {
         //given
         Shop shop = new Shop();
-        Category pizza = new Category("pizza");
-        Category chicken = new Category("chicken");
+        Category pizza = new Category(1L, "pizza");
+        Category chicken = new Category(2L, "chicken");
         
         //when
-        shop.updateCategory(List.of(pizza, chicken));
-        Categories categories = shop.getCategories();
-        int count = categories.getCategories().size();
+        shop.updateCategoryIds(List.of(pizza, chicken));
+        int count = shop.getCategoryIds().size();
         
         //then
         assertThat(count).isEqualTo(2);
     }
+    
 }

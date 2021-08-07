@@ -55,9 +55,9 @@ public class ShopUpdateService {
         shop.rename(name);
     }
     
-    public void updateCategory(Long id, UpdateCategoryRequest dto) {
-        Shop shop = getShop(id);
-        shop.getCategories().updateAll(categoryManagerService.getCategoriesById(dto.getCategoryIds()));
+    public void updateCategory(Long shopId, UpdateCategoryRequest dto) {
+        Shop shop = getShop(shopId);
+        shop.updateCategoryIds(categoryManagerService.getCategoriesById(dto.getCategoryIds()));
     }
     
     public void updateClosingDays(Long id, UpdateClosingDaysRequest closingDays) {
@@ -70,7 +70,7 @@ public class ShopUpdateService {
             shop.addClosingDayPolicy(new LegalHolidayClosing());
         }
         temporaries.stream().forEach(
-                temporary -> shop.addClosingDayPolicy(temporary.toEntity()));
+                temporary -> shop.addClosingDayPolicy( temporary.toEntity()));
         regulars.stream().forEach(
                 regular -> shop.addClosingDayPolicy(regular.toEntity()));
     }

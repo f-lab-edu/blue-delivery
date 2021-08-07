@@ -1,5 +1,6 @@
 package com.bluedelivery.common.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -22,6 +23,12 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 public class RedisConfig {
     
+    @Value("${spring.redis.host}")
+    public String host;
+    
+    @Value("${spring.redis.port}")
+    public String port;
+    
     @Bean
     public AuthenticationRepository authenticationRepository(RedisTemplate<String, Object> redisTemplate) {
         return new AuthenticationRedisRepository(redisTemplate);
@@ -30,6 +37,8 @@ public class RedisConfig {
     @Bean
     public RedisConnectionFactory jedisConnectionFactory() {
         RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration();
+        configuration.setHostName(host);
+        configuration.setPort(Integer.parseInt(port));
         JedisConnectionFactory connectionFactory = new JedisConnectionFactory(configuration);
         connectionFactory.afterPropertiesSet();
         return connectionFactory;

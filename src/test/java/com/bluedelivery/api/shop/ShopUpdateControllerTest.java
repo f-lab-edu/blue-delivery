@@ -80,9 +80,9 @@ class ShopUpdateControllerTest {
         
         //when
         MockHttpServletResponse response = mvc.perform(put("/shops/{id}/business-hours", 1)
-                .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding("utf-8")
-                .content(objectMapper.writeValueAsString(dto)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+                        .content(objectMapper.writeValueAsString(dto)))
                 .andReturn().getResponse();
         
         //then
@@ -113,8 +113,8 @@ class ShopUpdateControllerTest {
         );
         
         mvc.perform(put("/shops/1/closing-days")
-                .content(objectMapper.writeValueAsString(request))
-                .contentType(MediaType.APPLICATION_JSON))
+                        .content(objectMapper.writeValueAsString(request))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 }

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -15,7 +16,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Transient;
 
-import com.bluedelivery.domain.category.Categories;
 import com.bluedelivery.domain.category.Category;
 import com.bluedelivery.domain.closingday.ClosingDayPolicies;
 import com.bluedelivery.domain.closingday.ClosingDayPolicy;
@@ -36,8 +36,10 @@ public class Shop {
     @CollectionTable(name = "BUSINESS_HOUR", joinColumns = @JoinColumn(name = "SHOP_ID"))
     private List<BusinessHour> businessHours = new ArrayList<>();
     
-    @Transient
-    private Categories categories = new Categories();
+    @ElementCollection
+    @CollectionTable(name = "SHOP_CATEGORY", joinColumns = @JoinColumn(name = "SHOP_ID"))
+    private List<Long> categoryIds = new ArrayList<>();
+    
     @Transient
     private ClosingDayPolicies closingDayPolicies = new ClosingDayPolicies();
     private boolean exposed;
@@ -52,20 +54,22 @@ public class Shop {
         this.businessHours.addAll(input);
     }
     
+    public void updateCategoryIds(List<Category> categories) {
+        List<Long> ids = categories.stream().map(each -> each.getId()).collect(Collectors.toList());
+        this.categoryIds.clear();
+        this.categoryIds.addAll(ids);
+    }
+    
     public List<BusinessHour> getBusinessHours() {
         return this.businessHours;
     }
     
+    public List<Long> getCategoryIds() {
+        return this.categoryIds;
+    }
+    
     public Long getId() {
         return id;
-    }
-    
-    public Categories getCategories() {
-        return this.categories;
-    }
-    
-    public boolean updateCategory(List<Category> categories) {
-        return this.categories.updateAll(categories);
     }
     
     public void editIntroduce(String introduce) {
@@ -131,4 +135,7 @@ public class Shop {
     public Suspension getSuspension() {
         return suspension;
     }
+    
+    
+
 }

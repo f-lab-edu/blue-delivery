@@ -3,36 +3,41 @@ version: '3'
 services: # 실행 할 컨테이너 정의
   db-mysql: # docker run --name db와 같음(컨테이너)
     image: mysql:8.0.25 # 사용할 이미지
-    command: [ '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci' ]
     volumes:
-      - ~/project/mysql:/var/lib/mysql
+      - ./mysql/conf.d:/etc/mysql/conf.d # MySQL 설정 파일 위치
+      - ./mysql/data:/var/lib/mysql # DB 데이터 위치
     restart: always
     ports:
-      - 3306:3306
+      - "3306:3306"
+    env_file: .env
     environment:
-      MYSQL_ROOT_PASSWORD: password
+      TZ: Asia/Seoul
+
   redis:
     image: redis:6.2.4
     ports:
-      - 6379:6379
+      - "6379:6379"
+    restart: always
+
+
   nginx: # load balancer
     image: nginx:1.21.0
     volumes:
-      - ./nginx:/etc/nginx/conf.d
+      - ./nginx/conf.d:/etc/nginx/conf.d
     ports:
-      - 8080:80
-  blue-delivery1: # app server1
-    image: blue-delivery:0.1
-    ports:
-      - 5000:8080
-  blue-delivery2: # app server2
-    image: blue-delivery:0.1
-    ports:
-      - 5001:8080
-  blue-delivery3: # app server3
-    image: blue-delivery:0.1
-    ports:
-      - 5002:8080
+      - "8080:80"
 
-volumes:
-  db_data: { }
+  blue-delivery1: # app server1
+    image: kimstz0/blue-delivery:latest
+    ports:
+      - "5000:8080"
+
+  blue-delivery2: # app server2
+    image: kimstz0/blue-delivery:latest
+    ports:
+      - "5001:8080"
+
+  blue-delivery3: # app server3
+    image: kimstz0/blue-delivery:latest
+    ports:
+      - "5002:8080"

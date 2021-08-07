@@ -21,17 +21,17 @@ public interface ShopUpdateController {
             @PathVariable Long shopId, @RequestBody @Valid BusinessHoursRequest dto);
     
     @PatchMapping("/introduce")
-    void editIntroduce(@PathVariable Long id, @RequestBody String introduce);
+    void editIntroduce(@PathVariable("shopId") Long id, @RequestBody String introduce);
     
     @PatchMapping("/phone")
-    void editPhoneNumber(@PathVariable Long id,
+    void editPhoneNumber(@PathVariable("shopId") Long id,
                          @RequestBody @Valid EditPhoneRequest dto);
     
     @PatchMapping("/delivery-area-guide")
-    void editDeliveryAreaGuid(@PathVariable Long id, @RequestBody String guide);
+    void editDeliveryAreaGuid(@PathVariable("shopId") Long id, @RequestBody String guide);
     
     @PatchMapping("/name")
-    void rename(@PathVariable Long id, @RequestBody String name);
+    void rename(@PathVariable("shopId") Long id, @RequestBody String name);
     
     /**
      * 해당 가게의 카테고리를 입력받은 대로 업데이트
