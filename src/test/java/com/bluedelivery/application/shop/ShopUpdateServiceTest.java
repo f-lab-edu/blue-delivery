@@ -8,11 +8,11 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.Year;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -26,19 +26,15 @@ import com.bluedelivery.domain.shop.ShopRepository;
 @ExtendWith(MockitoExtension.class)
 class ShopUpdateServiceTest {
     
-    @Mock
-    private ShopRepository shopRepository;
-    @Mock
-    private CategoryManagerService categoryManagerService;
-    @InjectMocks
-    ShopUpdateService shopUpdateService;
+    ShopUpdateService service;
     Shop shop;
     
     @BeforeEach
-    void setup() {
+    void setup(@Mock ShopRepository shopRepository,
+               @Mock CategoryManagerService categoryManagerService) {
         shop = new Shop();
-        when(shopRepository.findShopById(1L)).thenReturn(shop);
-        shopUpdateService = new ShopUpdateService(shopRepository, categoryManagerService);
+        when(shopRepository.findById(1L)).thenReturn(Optional.of(shop));
+        service = new ShopUpdateService(shopRepository, categoryManagerService);
     }
     
     @Test
@@ -54,7 +50,7 @@ class ShopUpdateServiceTest {
                         new RegularClosingParam(CyclicRegularClosing.Cycle.LAST, DayOfWeek.MONDAY)),
                 List.of(new TemporaryClosingParam(june18, june23))
         );
-        shopUpdateService.updateClosingDays(1L, request);
+        service.updateClosingDays(1L, request);
         
         // 법정공휴일 테스트
         LegalHolidayClosing.getYearOf(Year.of(2021)).stream().forEach(
