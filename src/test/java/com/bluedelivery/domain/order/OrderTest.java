@@ -4,7 +4,6 @@ import static com.bluedelivery.OrderData.*;
 import static java.util.Collections.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
