@@ -1,41 +1,61 @@
 package com.bluedelivery.domain.order;
 
-import static java.util.function.Predicate.*;
-
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import com.bluedelivery.domain.menu.Menu;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 public class OrderItem {
     private final Long menuId;
     private final String menuName;
     private final int price;
+    private final int quantity;
+    private final List<OrderItemOptionGroup> orderItemOptionGroups = new ArrayList<>();
     
-    public OrderItem(Long menuId, String menuName, int price) {
+    @Builder
+    public OrderItem(Long menuId, String menuName, int price, int quantity,
+                     List<OrderItemOptionGroup> orderItemOptionGroups) {
         this.menuId = menuId;
         this.menuName = menuName;
         this.price = price;
-    }
-    
-    public static OrderItem from(Menu menu) {
-        return new OrderItem(menu.getId(), menu.getName(), menu.getPrice());
+        this.quantity = quantity;
+        this.orderItemOptionGroups.addAll(orderItemOptionGroups);
     }
     
     public Long getMenuId() {
         return this.menuId;
     }
     
+    public String getMenuName() {
+        return menuName;
+    }
+    
     public int getPrice() {
         return price;
     }
     
-    public boolean validateWith(List<Menu> menus) {
-        return menus.stream().anyMatch(not(this::isEqualTo));
+    public List<OrderItemOptionGroup> getOrderItemOptionGroups() {
+        return Collections.unmodifiableList(orderItemOptionGroups);
     }
     
-    private boolean isEqualTo(Menu menu) {
-        return this.menuId == menu.getId()
-                && this.menuName.equals(menu.getName())
-                && this.price == menu.getPrice();
+    @Builder
+    @Getter
+    @RequiredArgsConstructor
+    public static class OrderItemOptionGroup {
+        private final Long id;
+        private final String name;
+        private final List<OrderItemOption> orderItemOptions;
+    }
+    
+    @Builder
+    @Getter
+    @RequiredArgsConstructor
+    public static class OrderItemOption {
+        private final Long id;
+        private final String name;
+        private final int price;
     }
 }

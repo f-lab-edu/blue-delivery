@@ -1,5 +1,7 @@
 package com.bluedelivery.domain.menu;
 
+import static com.bluedelivery.domain.order.ExceptionMessage.ORDERED_AND_MENU_ARE_DIFFERENT;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.bluedelivery.domain.order.OrderItem;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.EqualsAndHashCode;
@@ -66,4 +69,22 @@ public class MenuOptionGroup {
         this.options.add(option);
         option.setOptionGroup(this);
     }
+    
+    public void validate(OrderItem.OrderItemOptionGroup orderGroup) {
+        if (!this.name.equals(orderGroup.getName())) {
+            throw new IllegalStateException(ORDERED_AND_MENU_ARE_DIFFERENT);
+        }
+        for (OrderItem.OrderItemOption orderOption : orderGroup.getOrderItemOptions()) {
+            validateOptionWith(orderOption);
+        }
+    }
+    
+    private void validateOptionWith(OrderItem.OrderItemOption orderOption) {
+        this.options.stream()
+                .filter(option -> option.getName().equals(orderOption.getName()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException(ORDERED_AND_MENU_ARE_DIFFERENT))
+                .validate(orderOption);
+    }
+    
 }
