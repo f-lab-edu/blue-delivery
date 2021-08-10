@@ -41,13 +41,27 @@ public class OrderItem {
         return Collections.unmodifiableList(orderItemOptionGroups);
     }
     
-    @Builder
+    public int totalOrderAmount() {
+        return (price * quantity) + orderItemOptionGroups.stream().mapToInt(group -> group.totalOrderAmount()).sum();
+    }
+    
     @Getter
-    @RequiredArgsConstructor
     public static class OrderItemOptionGroup {
+        
         private final Long id;
         private final String name;
-        private final List<OrderItemOption> orderItemOptions;
+        private final List<OrderItemOption> orderItemOptions = new ArrayList<>();
+    
+        @Builder
+        public OrderItemOptionGroup(Long id, String name, List<OrderItemOption> orderItemOptions) {
+            this.id = id;
+            this.name = name;
+            this.orderItemOptions.addAll(orderItemOptions);
+        }
+    
+        public int totalOrderAmount() {
+            return orderItemOptions.stream().mapToInt(option -> option.getPrice()).sum();
+        }
     }
     
     @Builder

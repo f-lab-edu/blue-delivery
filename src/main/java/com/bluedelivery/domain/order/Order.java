@@ -38,7 +38,7 @@ public class Order {
     
     
     public int totalOrderAmount() {
-        return orderItems.stream().mapToInt(x -> x.getPrice()).sum();
+        return orderItems.stream().mapToInt(item -> item.totalOrderAmount()).sum();
     }
     
     public OrderStatus getStatus() {
