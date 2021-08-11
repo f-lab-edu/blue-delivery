@@ -1,7 +1,6 @@
 package com.bluedelivery.order.interfaces;
 
-import static com.bluedelivery.OrderData.menu;
-import static com.bluedelivery.OrderData.order;
+import static com.bluedelivery.OrderData.*;
 import static com.bluedelivery.common.response.HttpResponse.SUCCESS;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -11,8 +10,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.List;
 import java.util.Optional;
-
-import javax.servlet.http.Cookie;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,11 +26,9 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import com.bluedelivery.api.authentication.AuthenticatedUserArgumentResolver;
 import com.bluedelivery.application.authentication.AuthenticationService;
 import com.bluedelivery.domain.authentication.Authentication;
-import com.bluedelivery.domain.menu.Menu;
 import com.bluedelivery.order.application.OrderService;
 import com.bluedelivery.order.domain.Order;
-import com.bluedelivery.order.infra.CartArgumentResolver;
-import com.bluedelivery.order.interfaces.Cart.CartItem;
+import com.bluedelivery.order.interfaces.impl.OrderControllerImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @ExtendWith(MockitoExtension.class)
@@ -55,8 +50,7 @@ public class OrderControllerTest {
         given(authenticationService.getAuthentication(VALID_TOKEN)).willReturn(Optional.of(authentication));
         mockMvc = MockMvcBuilders.standaloneSetup(orderController)
                 .setCustomArgumentResolvers(
-                        new AuthenticatedUserArgumentResolver(authenticationService),
-                        new CartArgumentResolver(objectMapper))
+                        new AuthenticatedUserArgumentResolver(authenticationService))
                 .addFilters(new CharacterEncodingFilter("UTF-8", true))
                 .alwaysDo(print())
                 .build();
@@ -65,14 +59,13 @@ public class OrderControllerTest {
     @Test
     void orderTest() throws Exception {
         //given
-        Menu chicken = menu().build();
-        Cart cart = new Cart(SHOP_ID, List.of(CartItem.from(chicken, 1)));
-        Order order = order().orderId(ORDER_ID).orderItems(cart.toOrderItemList()).build();
-        given(orderService.takeOrder(VALID_USER_ID, cart.toOrderItemList())).willReturn(order);
+        Cart cart = new Cart(SHOP_ID, List.of(cartItem().build()));
+        Order order = order().orderId(ORDER_ID).orderItems(cart.toOrderItems()).build();
+        given(orderService.takeOrder(VALID_USER_ID, cart.toOrderItems())).willReturn(order);
         
         //when
         ResultActions perform = mockMvc.perform(post("/orders")
-                .cookie(new Cookie("CART", objectMapper.writeValueAsString(cart)))
+                .content(objectMapper.writeValueAsString(cart))
                 .header(AUTHORIZATION, VALID_TOKEN)
                 .contentType(MediaType.APPLICATION_JSON));
         
@@ -83,4 +76,5 @@ public class OrderControllerTest {
                 .andExpect(jsonPath("$.result").value(SUCCESS))
                 .andExpect(jsonPath("$.data").isNotEmpty());
     }
+    
 }

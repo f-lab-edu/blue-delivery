@@ -2,6 +2,7 @@ package com.bluedelivery.order.interfaces;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.bluedelivery.api.authentication.AuthenticationRequired;
@@ -18,7 +19,7 @@ public interface OrderController {
     @ApiOperation(value = "주문 생성 요청", notes = "인증 정보와 장바구니 정보를 바탕으로 주문을 생성한다.")
     @PostMapping
     @AuthenticationRequired
-    ResponseEntity<HttpResponse<?>> createOrderRequest(Authentication authentication, Cart cart);
+    ResponseEntity<HttpResponse<?>> createOrderRequest(Authentication authentication, @RequestBody Cart cart);
 }
 
 

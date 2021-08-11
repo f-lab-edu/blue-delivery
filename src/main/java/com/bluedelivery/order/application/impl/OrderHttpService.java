@@ -1,4 +1,4 @@
-package com.bluedelivery.order.application;
+package com.bluedelivery.order.application.impl;
 
 import java.util.List;
 
@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import com.bluedelivery.order.application.OrderService;
 import com.bluedelivery.order.domain.Order;
 import com.bluedelivery.order.domain.OrderItem;
 

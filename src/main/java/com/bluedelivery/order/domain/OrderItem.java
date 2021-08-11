@@ -3,6 +3,7 @@ package com.bluedelivery.order.domain;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.bluedelivery.order.interfaces.Cart;
 
@@ -55,11 +56,12 @@ public class OrderItem {
                 .menuName(cartItem.getName())
                 .price(cartItem.getPrice())
                 .quantity(cartItem.getQuantity())
-                .orderItemOptionGroups(Collections.emptyList()) // TODO
+                .orderItemOptionGroups(OrderItemOptionGroup.fromList(cartItem.getCartItemOptionGroups()))
                 .build();
     }
     
     @Getter
+    @EqualsAndHashCode
     public static class OrderItemOptionGroup {
         
         private final Long id;
@@ -73,17 +75,46 @@ public class OrderItem {
             this.orderItemOptions.addAll(orderItemOptions);
         }
     
+        public static List<OrderItemOptionGroup> fromList(List<Cart.CartItemOptionGroup> cartItemOptionGroups) {
+            return cartItemOptionGroups.stream()
+                    .map(OrderItemOptionGroup::from)
+                    .collect(Collectors.toList());
+        }
+    
+        private static OrderItemOptionGroup from(Cart.CartItemOptionGroup cartItemOptionGroup) {
+            return OrderItemOptionGroup.builder()
+                    .id(cartItemOptionGroup.getId())
+                    .name(cartItemOptionGroup.getName())
+                    .orderItemOptions(OrderItem.fromList(cartItemOptionGroup.getOrderItemOptions()))
+                    .build();
+        }
+    
         public int totalOrderAmount() {
             return orderItemOptions.stream().mapToInt(option -> option.getPrice()).sum();
         }
     }
     
+    private static List<OrderItemOption> fromList(List<Cart.CartItemOption> cartItemOptions) {
+        return cartItemOptions.stream()
+                .map(OrderItemOption::from)
+                .collect(Collectors.toList());
+    }
+    
     @Builder
     @Getter
     @RequiredArgsConstructor
+    @EqualsAndHashCode
     public static class OrderItemOption {
         private final Long id;
         private final String name;
         private final int price;
+    
+        public static OrderItemOption from(Cart.CartItemOption cartItemOption) {
+            return OrderItemOption.builder()
+                    .id(cartItemOption.getId())
+                    .name(cartItemOption.getName())
+                    .price(cartItemOption.getPrice())
+                    .build();
+        }
     }
 }

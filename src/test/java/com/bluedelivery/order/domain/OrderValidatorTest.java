@@ -22,6 +22,7 @@ import com.bluedelivery.domain.shop.Shop;
 import com.bluedelivery.domain.shop.ShopRepository;
 import com.bluedelivery.domain.user.User;
 import com.bluedelivery.domain.user.UserRepository;
+import com.bluedelivery.order.application.OrderValidator;
 
 @ExtendWith(MockitoExtension.class)
 public class OrderValidatorTest {
