@@ -29,7 +29,6 @@ public class UserAuthInterceptor implements HandlerInterceptor {
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
-        
         if (Authentication.isAnnotated(((HandlerMethod) handler).getMethod())) {
             Authentication auth = authenticationService.getAuthentication(request.getHeader(AUTHORIZATION))
                     .orElseThrow(() -> new ApiException(INVALID_AUTHENTICATION));

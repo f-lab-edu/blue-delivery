@@ -1,7 +1,5 @@
 package com.bluedelivery.api.category;
 
-import java.util.List;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.bluedelivery.common.response.HttpResponse;
-import com.bluedelivery.domain.category.Categories;
 
 @RequestMapping("/categories")
 public interface CategoryManagerController {
@@ -23,7 +20,7 @@ public interface CategoryManagerController {
      * @return 카테고리 정보가 담긴 list
      */
     @GetMapping
-    ResponseEntity<HttpResponse<List<Categories>>> getAllCategories();
+    ResponseEntity<HttpResponse<?>> getAllCategories();
     
     /**
      * 카테고리 추가

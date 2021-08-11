@@ -2,44 +2,74 @@ package com.bluedelivery.domain.shop;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import com.bluedelivery.domain.businesshour.BusinessHourPolicy;
-import com.bluedelivery.domain.category.Categories;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Transient;
+
 import com.bluedelivery.domain.category.Category;
 import com.bluedelivery.domain.closingday.ClosingDayPolicies;
 import com.bluedelivery.domain.closingday.ClosingDayPolicy;
 import com.bluedelivery.domain.closingday.Suspension;
 
+@Entity
 public class Shop {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "SHOP_ID")
     private Long id;
     private String name;
-    private BusinessHourPolicy businessHourPolicy = new BusinessHourPolicy();
     private String introduce;
     private String phone;
     private String deliveryAreaGuide;
-    private Categories categories = new Categories();
+    
+    @ElementCollection
+    @CollectionTable(name = "BUSINESS_HOUR", joinColumns = @JoinColumn(name = "SHOP_ID"))
+    private List<BusinessHour> businessHours = new ArrayList<>();
+    
+    @ElementCollection
+    @CollectionTable(name = "SHOP_CATEGORY", joinColumns = @JoinColumn(name = "SHOP_ID"))
+    private List<Long> categoryIds = new ArrayList<>();
+    
+    @Transient
     private ClosingDayPolicies closingDayPolicies = new ClosingDayPolicies();
     private boolean exposed;
+    @Transient
     private Suspension suspension = new Suspension();
     
     public Shop() {
     }
     
+    public void updateBusinessHours(List<BusinessHour> input) {
+        this.businessHours.clear();
+        this.businessHours.addAll(input);
+    }
+    
+    public void updateCategoryIds(List<Category> categories) {
+        List<Long> ids = categories.stream().map(each -> each.getId()).collect(Collectors.toList());
+        this.categoryIds.clear();
+        this.categoryIds.addAll(ids);
+    }
+    
+    public List<BusinessHour> getBusinessHours() {
+        return this.businessHours;
+    }
+    
+    public List<Long> getCategoryIds() {
+        return this.categoryIds;
+    }
+    
     public Long getId() {
         return id;
-    }
-    
-    public Categories getCategories() {
-        return this.categories;
-    }
-    
-    public boolean updateCategory(List<Category> categories) {
-        return this.categories.updateAll(categories);
-    }
-    
-    public void updateBusinessHour(BusinessHourPolicy bh) {
-        this.businessHourPolicy = bh;
     }
     
     public void editIntroduce(String introduce) {
@@ -70,10 +100,6 @@ public class Shop {
         return deliveryAreaGuide;
     }
     
-    public BusinessHourPolicy getBusinessHourPolicy() {
-        return businessHourPolicy;
-    }
-    
     public String getIntroduce() {
         return introduce;
     }
@@ -91,8 +117,7 @@ public class Shop {
     }
     
     public boolean isOpeningAt(LocalDateTime when) {
-        return businessHourPolicy.isBusinessHour(when)
-                && !suspension.isSuspended(when);
+        return !suspension.isSuspended(when);
     }
     
     public boolean isExposed() {
@@ -110,4 +135,7 @@ public class Shop {
     public Suspension getSuspension() {
         return suspension;
     }
+    
+    
+
 }

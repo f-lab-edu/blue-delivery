@@ -20,6 +20,7 @@ import com.bluedelivery.application.user.UserManagementService;
 import com.bluedelivery.common.response.HttpResponse;
 import com.bluedelivery.domain.address.Address;
 import com.bluedelivery.domain.authentication.Authentication;
+import com.bluedelivery.domain.user.User;
 
 import lombok.RequiredArgsConstructor;
 
@@ -75,8 +76,9 @@ public class UserManagementControllerImpl implements UserManagementController {
         return ResponseEntity.notFound().build();
     }
     
+    @Override
     public ResponseEntity<?> register(UserRegisterRequest dto) {
-        userManagementService.register(dto.toParam());
-        return ResponseEntity.status(CREATED).build();
+        User user = userManagementService.register(dto.toParam());
+        return ResponseEntity.status(CREATED).body(response(new CreatedUserDto(user)));
     }
 }

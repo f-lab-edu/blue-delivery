@@ -6,6 +6,8 @@ import static com.bluedelivery.common.response.HttpResponse.SUCCESS;
 import static com.bluedelivery.common.response.HttpResponse.response;
 import static org.springframework.http.HttpStatus.*;
 
+import java.util.NoSuchElementException;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,6 +15,7 @@ import com.bluedelivery.api.authentication.AuthenticationController;
 import com.bluedelivery.api.authentication.LoginRequest;
 import com.bluedelivery.application.authentication.AuthenticationService;
 import com.bluedelivery.common.response.ApiException;
+import com.bluedelivery.common.response.ErrorCode;
 import com.bluedelivery.common.response.HttpResponse;
 import com.bluedelivery.domain.authentication.Authentication;
 
@@ -29,8 +32,13 @@ public class AuthenticationControllerImpl implements AuthenticationController {
         if (loggedIn != null) {
             throw new ApiException(ALREADY_LOGGED_IN);
         }
-        Authentication authentication = authService.authenticate(dto.toParam());
-        return ResponseEntity.ok(response(SUCCESS, authentication));
+        
+        try {
+            Authentication authentication = authService.authenticate(dto.toParam());
+            return ResponseEntity.ok(response(SUCCESS, authentication));
+        } catch (NoSuchElementException ex) {
+            throw new ApiException(USER_NOT_FOUND);
+        }
     }
     
     @Override
