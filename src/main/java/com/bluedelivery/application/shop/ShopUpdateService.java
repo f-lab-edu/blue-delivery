@@ -1,6 +1,7 @@
 package com.bluedelivery.application.shop;
 
 import static com.bluedelivery.common.response.ErrorCode.*;
+import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 
@@ -12,10 +13,13 @@ import com.bluedelivery.api.shop.UpdateClosingDaysRequest;
 import com.bluedelivery.application.category.CategoryManagerService;
 import com.bluedelivery.application.shop.businesshour.DayOfWeekMapper;
 import com.bluedelivery.application.shop.dto.BusinessHoursTarget;
+import com.bluedelivery.application.shop.dto.UpdateDeliveryAreaTarget;
 import com.bluedelivery.common.response.ApiException;
+import com.bluedelivery.domain.address.AddressService;
 import com.bluedelivery.domain.closingday.LegalHolidayClosing;
 import com.bluedelivery.domain.closingday.Suspension;
 import com.bluedelivery.domain.shop.BusinessHour;
+import com.bluedelivery.domain.shop.DeliveryArea;
 import com.bluedelivery.domain.shop.Shop;
 import com.bluedelivery.domain.shop.ShopRepository;
 
@@ -28,6 +32,7 @@ public class ShopUpdateService {
     
     private final ShopRepository shopRepository;
     private final CategoryManagerService categoryManagerService;
+    private final AddressService addressService;
     
     public List<BusinessHour> updateBusinessHour(BusinessHoursTarget target) {
         Shop shop = getShop(target.getShopId());
@@ -70,7 +75,7 @@ public class ShopUpdateService {
             shop.addClosingDayPolicy(new LegalHolidayClosing());
         }
         temporaries.stream().forEach(
-                temporary -> shop.addClosingDayPolicy( temporary.toEntity()));
+                temporary -> shop.addClosingDayPolicy(temporary.toEntity()));
         regulars.stream().forEach(
                 regular -> shop.addClosingDayPolicy(regular.toEntity()));
     }
@@ -83,6 +88,17 @@ public class ShopUpdateService {
     public void suspend(Long shopId, Suspension suspension) {
         Shop shop = getShop(shopId);
         shop.suspend(suspension);
+    }
+    
+    @Transactional
+    public List<DeliveryArea> updateDeliveryArea(UpdateDeliveryAreaTarget target) {
+        Shop shop = getShop(target.getShopId());
+        List<DeliveryArea> areas = addressService.getTowns(target.getTownCodes())
+                .stream()
+                .map(DeliveryArea::of)
+                .collect(toList());
+        shop.updateDeliveryArea(areas);
+        return areas;
     }
     
     private Shop getShop(Long id) {

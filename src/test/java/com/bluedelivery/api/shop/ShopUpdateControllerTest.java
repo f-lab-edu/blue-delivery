@@ -2,11 +2,14 @@ package com.bluedelivery.api.shop;
 
 import static com.bluedelivery.api.shop.dto.BusinessHourDay.EVERY_DAY;
 import static com.bluedelivery.application.shop.businesshour.BusinessHourType.EVERY_SAME_TIME;
+import static com.bluedelivery.common.response.HttpResponse.SUCCESS;
 import static java.time.DayOfWeek.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.DayOfWeek;
@@ -28,17 +31,22 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 import com.bluedelivery.api.shop.adapter.ShopUpdateControllerImpl;
 import com.bluedelivery.api.shop.dto.BusinessHourDay;
 import com.bluedelivery.api.shop.dto.BusinessHoursRequest;
+import com.bluedelivery.api.shop.dto.UpdateDeliveryAreaRequest;
 import com.bluedelivery.application.category.CategoryManagerService;
 import com.bluedelivery.application.shop.RegularClosingParam;
 import com.bluedelivery.application.shop.ShopUpdateService;
 import com.bluedelivery.application.shop.TemporaryClosingParam;
 import com.bluedelivery.application.shop.dto.BusinessHourParam;
 import com.bluedelivery.common.config.GlobalExceptionHandler;
+import com.bluedelivery.domain.address.AddressService;
+import com.bluedelivery.domain.address.CityToDong;
 import com.bluedelivery.domain.closingday.CyclicRegularClosing;
 import com.bluedelivery.domain.shop.BusinessHour;
 import com.bluedelivery.domain.shop.Shop;
@@ -49,22 +57,26 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 @ExtendWith(MockitoExtension.class)
 class ShopUpdateControllerTest {
     
+    @Mock ShopRepository shopRepository;
+    @Mock CategoryManagerService categoryManagerService;
+    @Mock AddressService addressService;
+    
     private MockMvc mvc;
     private ShopUpdateController controller;
     private ShopUpdateService service;
     private ObjectMapper objectMapper;
     
     @BeforeEach
-    void setup(@Mock ShopRepository shopRepository,
-               @Mock CategoryManagerService categoryManagerService) {
+    void setup() {
         Shop shop = new Shop();
         when(shopRepository.findById(1L)).thenReturn(Optional.of(shop));
         objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
-        service = new ShopUpdateService(shopRepository, categoryManagerService);
+        service = new ShopUpdateService(shopRepository, categoryManagerService, addressService);
         controller = new ShopUpdateControllerImpl(service);
         mvc = MockMvcBuilders.standaloneSetup(controller)
                 .setControllerAdvice(new GlobalExceptionHandler())
+                .addFilters(new CharacterEncodingFilter("UTF-8", true))
                 .alwaysDo(print())
                 .build();
     }
@@ -81,7 +93,6 @@ class ShopUpdateControllerTest {
         //when
         MockHttpServletResponse response = mvc.perform(put("/shops/{id}/business-hours", 1)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .characterEncoding("utf-8")
                         .content(objectMapper.writeValueAsString(dto)))
                 .andReturn().getResponse();
         
@@ -97,6 +108,31 @@ class ShopUpdateControllerTest {
                         new BusinessHour(SATURDAY, open, close),
                         new BusinessHour(SUNDAY, open, close)
                 )));
+    }
+    
+    @Test
+    void updateDeliveryAreaTest() throws Exception {
+        //given
+        List<String> townCodes = List.of("1111010200", "1111010300", "1111010400");
+        List<CityToDong> towns = List.of(
+                CityToDong.builder().addressJurisdictionEupMyonDongCode("1111010200").eupMyonDongName("신교동").build(),
+                CityToDong.builder().addressJurisdictionEupMyonDongCode("1111010300").eupMyonDongName("궁정동").build(),
+                CityToDong.builder().addressJurisdictionEupMyonDongCode("1111010200").eupMyonDongName("효자동").build());
+        given(addressService.getTowns(townCodes)).willReturn(towns);
+        UpdateDeliveryAreaRequest dto = new UpdateDeliveryAreaRequest(townCodes);
+        
+        //when
+        ResultActions perform = mvc.perform(put("/shops/{id}/delivery-areas", 1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(dto)));
+    
+        //then
+        perform
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.result").value(SUCCESS))
+                .andExpect(jsonPath("$.data.deliveryAreas[0].townName").value("신교동"))
+                .andExpect(jsonPath("$.data.deliveryAreas[1].townName").value("궁정동"))
+                .andExpect(jsonPath("$.data.deliveryAreas[2].townName").value("효자동"));
     }
     
     @Test
