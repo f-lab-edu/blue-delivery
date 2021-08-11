@@ -1,7 +1,7 @@
 package com.bluedelivery.order.interfaces;
 
-import static com.bluedelivery.Data.chicken;
-import static com.bluedelivery.Data.order;
+import static com.bluedelivery.OrderData.menu;
+import static com.bluedelivery.OrderData.order;
 import static com.bluedelivery.common.response.HttpResponse.SUCCESS;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -40,7 +40,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class OrderControllerTest {
     
     private static String VALID_TOKEN = "valid token";
-    private static  Long VALID_USER_ID = 1L;
+    private static Long VALID_USER_ID = 1L;
     private static Long SHOP_ID = 1L;
     private static Long ORDER_ID = 1L;
     
@@ -65,9 +65,9 @@ public class OrderControllerTest {
     @Test
     void orderTest() throws Exception {
         //given
-        Menu chicken = chicken().build();
+        Menu chicken = menu().build();
         Cart cart = new Cart(SHOP_ID, List.of(CartItem.from(chicken, 1)));
-        Order order = order().orderId(ORDER_ID).orderItemList(cart.toOrderItemList()).build();
+        Order order = order().orderId(ORDER_ID).orderItems(cart.toOrderItemList()).build();
         given(orderService.takeOrder(VALID_USER_ID, cart.toOrderItemList())).willReturn(order);
         
         //when

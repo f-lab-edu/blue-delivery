@@ -1,104 +1,57 @@
 package com.bluedelivery.order.domain;
 
-import static com.bluedelivery.Data.chicken;
-import static com.bluedelivery.Data.order;
-import static com.bluedelivery.order.domain.ExceptionMessage.*;
+import static com.bluedelivery.OrderData.*;
+import static java.util.Collections.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.BDDMockito.given;
 
-import org.junit.jupiter.api.BeforeEach;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bluedelivery.domain.menu.Menu;
-import com.bluedelivery.domain.shop.Shop;
-
-@ExtendWith(MockitoExtension.class)
 public class OrderTest {
     
-    @Mock(lenient = true)
-    private Shop shop;
-    
-    @BeforeEach
-    void setup() {
-        given(shop.isOpen()).willReturn(true);
-        given(shop.getMinimumOrderAmount()).willReturn(0);
-    }
-    
     @Test
-    void exception_if_shop_is_not_open() {
+    void chicken_15000_X2_plus_sidemenu_1000_is_31000_won() {
         //given
-        Order order = order().shop(shop).build();
-        given(shop.isOpen()).willReturn(false);
-        
+        Order order = order()
+                .orderItems(List.of(
+                                orderItem().menuName("맛있는 치킨").price(15000).orderItemOptionGroups(List.of(
+                                                orderItemOptionGroup().name("사이드메뉴").orderItemOptions(List.of(
+                                                                orderItemOption().name("치킨무").price(1000).build()))
+                                                        .build()
+                                        )).quantity(2)
+                                        .build()
+                        )
+                )
+                .build();
         //when
-        String message = assertThrows(IllegalStateException.class, order::validate).getMessage();
+        int amount = order.totalOrderAmount();
         
         //then
-        assertThat(message).contains(SHOP_IS_NOT_OPEN);
+        assertThat(amount).isEqualTo(31000);
     }
     
     @Test
-    void exception_if_ordered_item_list_is_empty() {
+    void chicken_15000_X2__plus_sidemenu_1000_plus_pizza_X1_is_41000_won() {
         //given
-        Order order = order().shop(shop).orderItemList(new OrderItemList()).build();
-        
+        Order order = order()
+                .orderItems(List.of(
+                                orderItem().menuName("맛있는 치킨").price(15000).orderItemOptionGroups(List.of(
+                                                orderItemOptionGroup().name("사이드메뉴").orderItemOptions(List.of(
+                                                                orderItemOption().name("치킨무").price(1000).build()))
+                                                        .build()
+                                        )).quantity(2)
+                                        .build(),
+                                orderItem().menuName("뜨거운 피자").price(10000).orderItemOptionGroups(emptyList())
+                                        .build()
+                        )
+                )
+                .build();
         //when
-        String message = assertThrows(IllegalArgumentException.class, order::validate).getMessage();
+        int amount = order.totalOrderAmount();
         
         //then
-        assertThat(message).contains(ORDER_LIST_IS_EMPTY);
-    }
-    
-    @Test
-    void exception_if_ordered_item_and_menu_are_different() {
-        //given
-        Menu ordered = chicken().name("옛날양념통닭").price(10000).build();
-        Order order = order().shop(shop).orderItemList(new OrderItemList(OrderItem.from(ordered, 1))).build();
-    
-        //when
-        String message = assertThrows(IllegalStateException.class, order::validate).getMessage();
-        
-        //then
-        assertThat(message).contains(ORDERED_AND_MENU_ARE_DIFFERENT);
-    }
-    
-    @Test
-    void exception_if_ordered_amount_is_lower_than_minimum_amount() {
-        //given
-        Order order = order().shop(shop).build();
-        given(shop.getMinimumOrderAmount()).willReturn(30000);
-    
-        //when
-        String message = assertThrows(IllegalArgumentException.class, order::validate).getMessage();
-        
-        //then
-        assertThat(message).isEqualTo(ORDERED_AMOUNT_LOWER_THAN_MINIMUM_ORDER_AMOUNT);
-    }
-    
-    @Test
-    void exception_if_user_does_not_exist() {
-        //given
-        Order order = order().shop(shop).user(null).build();
-        
-        //when
-        String message = assertThrows(IllegalArgumentException.class, order::validate).getMessage();
-    
-        //then
-        assertThat(message).isEqualTo(ORDER_USER_DOES_NOT_EXIST);
-    
-    }
-    
-    @Test
-    void success_when_order_is_validate() {
-        //given
-        Order order = order().shop(shop).build();
-        //when //then
-        assertDoesNotThrow(order::validate);
+        assertThat(amount).isEqualTo(41000);
     }
     
 }

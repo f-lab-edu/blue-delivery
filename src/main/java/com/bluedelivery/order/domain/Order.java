@@ -1,53 +1,49 @@
 package com.bluedelivery.order.domain;
 
-import static com.bluedelivery.order.domain.ExceptionMessage.*;
+import static java.util.stream.Collectors.toList;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-
-import com.bluedelivery.domain.menu.Menu;
-import com.bluedelivery.domain.shop.Shop;
-import com.bluedelivery.domain.user.User;
 
 import lombok.Builder;
 
 public class Order {
     
     public enum OrderStatus {
-        JUST_CREATED, BEFORE_PAYMENT, PAYED, DONE
+        ACCEPT;
     }
     
     private Long orderId;
-    private OrderStatus orderStatus = OrderStatus.JUST_CREATED;
-    private User user;
-    private Shop shop;
-    private OrderItemList orderItemList;
-    private List<Menu> menus;
+    private OrderStatus orderStatus;
+    private Long userId;
+    private Long shopId;
+    private final List<OrderItem> orderItems = new ArrayList<>();
     
     public Order() {
     }
     
     @Builder
-    public Order(Long orderId, OrderStatus orderStatus, User user, Shop shop,
-                 OrderItemList orderItemList, List<Menu> menus) {
+    public Order(Long orderId, OrderStatus orderStatus,
+                 Long userId, Long shopId, List<OrderItem> orderItems) {
         this.orderId = orderId;
         this.orderStatus = orderStatus;
-        this.user = user;
-        this.shop = shop;
-        this.orderItemList = orderItemList;
-        this.menus = menus;
+        this.userId = userId;
+        this.shopId = shopId;
+        this.orderItems.addAll(orderItems);
     }
     
-    public void validate() {
-        if (user == null) {
-            throw new IllegalArgumentException(ORDER_USER_DOES_NOT_EXIST);
-        }
-        if (!shop.isOpen()) {
-            throw new IllegalStateException(SHOP_IS_NOT_OPEN);
-        }
-        orderItemList.validate(menus);
-        if (orderItemList.totalOrderAmount() < shop.getMinimumOrderAmount()) {
-            throw new IllegalArgumentException(ORDERED_AMOUNT_LOWER_THAN_MINIMUM_ORDER_AMOUNT);
-        }
+    public int numberOfOrderItems() {
+        return orderItems.size();
+    }
+    
+    public List<Long> getOrderItemIds() {
+        return orderItems.stream().map(OrderItem::getMenuId).collect(toList());
+    }
+    
+    
+    public int totalOrderAmount() {
+        return orderItems.stream().mapToInt(item -> item.totalOrderAmount()).sum();
     }
     
     public Long getOrderId() {
@@ -56,5 +52,17 @@ public class Order {
     
     public OrderStatus getStatus() {
         return this.orderStatus;
+    }
+    
+    public Long getUserId() {
+        return userId;
+    }
+    
+    public Long getShopId() {
+        return shopId;
+    }
+    
+    public List<OrderItem> getOrderItems() {
+        return Collections.unmodifiableList(orderItems);
     }
 }

@@ -1,17 +1,19 @@
 package com.bluedelivery.order.application;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
 import com.bluedelivery.order.domain.Order;
-import com.bluedelivery.order.domain.OrderItemList;
+import com.bluedelivery.order.domain.OrderItem;
 
 @Service
 public class OrderHttpService implements OrderService {
     
     @Transactional
-    public Order takeOrder(Long userId, OrderItemList orderItemList) {
+    public Order takeOrder(Long userId, List<OrderItem> orderItems) {
         return new Order();
         // TODO 주문 생성
         // TODO ORDER 유효성 검사 order.validate(menus);

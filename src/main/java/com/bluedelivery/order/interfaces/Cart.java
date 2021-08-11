@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.bluedelivery.domain.menu.Menu;
 import com.bluedelivery.order.domain.OrderItem;
-import com.bluedelivery.order.domain.OrderItemList;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,11 +18,10 @@ public class Cart {
     private Long shopId;
     private List<CartItem> cartItems;
     
-    public OrderItemList toOrderItemList() {
-        return new OrderItemList(
-                cartItems.stream()
+    public List<OrderItem> toOrderItemList() {
+        return cartItems.stream()
                         .map(OrderItem::from)
-                        .collect(toList()));
+                        .collect(toList());
     }
     
     @Getter
