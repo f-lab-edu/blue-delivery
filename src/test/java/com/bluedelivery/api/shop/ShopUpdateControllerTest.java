@@ -40,15 +40,16 @@ import com.bluedelivery.api.shop.dto.BusinessHourDay;
 import com.bluedelivery.api.shop.dto.BusinessHoursRequest;
 import com.bluedelivery.api.shop.dto.UpdateDeliveryAreaRequest;
 import com.bluedelivery.application.category.CategoryManagerService;
+import com.bluedelivery.application.shop.AddressMapper;
 import com.bluedelivery.application.shop.RegularClosingParam;
 import com.bluedelivery.application.shop.ShopUpdateService;
 import com.bluedelivery.application.shop.TemporaryClosingParam;
 import com.bluedelivery.application.shop.dto.BusinessHourParam;
 import com.bluedelivery.common.config.GlobalExceptionHandler;
-import com.bluedelivery.domain.address.AddressService;
 import com.bluedelivery.domain.address.CityToDong;
 import com.bluedelivery.domain.closingday.CyclicRegularClosing;
 import com.bluedelivery.domain.shop.BusinessHour;
+import com.bluedelivery.domain.shop.DeliveryArea;
 import com.bluedelivery.domain.shop.Shop;
 import com.bluedelivery.domain.shop.ShopRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -57,9 +58,12 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 @ExtendWith(MockitoExtension.class)
 class ShopUpdateControllerTest {
     
-    @Mock ShopRepository shopRepository;
-    @Mock CategoryManagerService categoryManagerService;
-    @Mock AddressService addressService;
+    @Mock
+    ShopRepository shopRepository;
+    @Mock
+    CategoryManagerService categoryManagerService;
+    @Mock
+    AddressMapper addressMapper;
     
     private MockMvc mvc;
     private ShopUpdateController controller;
@@ -72,7 +76,7 @@ class ShopUpdateControllerTest {
         when(shopRepository.findById(1L)).thenReturn(Optional.of(shop));
         objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
-        service = new ShopUpdateService(shopRepository, categoryManagerService, addressService);
+        service = new ShopUpdateService(shopRepository, categoryManagerService, addressMapper);
         controller = new ShopUpdateControllerImpl(service);
         mvc = MockMvcBuilders.standaloneSetup(controller)
                 .setControllerAdvice(new GlobalExceptionHandler())
@@ -114,18 +118,22 @@ class ShopUpdateControllerTest {
     void updateDeliveryAreaTest() throws Exception {
         //given
         List<String> townCodes = List.of("1111010200", "1111010300", "1111010400");
-        List<CityToDong> towns = List.of(
-                CityToDong.builder().addressJurisdictionEupMyonDongCode("1111010200").eupMyonDongName("신교동").build(),
-                CityToDong.builder().addressJurisdictionEupMyonDongCode("1111010300").eupMyonDongName("궁정동").build(),
-                CityToDong.builder().addressJurisdictionEupMyonDongCode("1111010200").eupMyonDongName("효자동").build());
-        given(addressService.getTowns(townCodes)).willReturn(towns);
+        CityToDong shingyo = CityToDong.builder()
+                .addressJurisdictionEupMyonDongCode("1111010200").eupMyonDongName("신교동").build();
+        CityToDong goongjung = CityToDong.builder()
+                .addressJurisdictionEupMyonDongCode("1111010300").eupMyonDongName("궁정동").build();
+        CityToDong hyoja = CityToDong.builder()
+                .addressJurisdictionEupMyonDongCode("1111010200").eupMyonDongName("효자동").build();
+        List<DeliveryArea> deliveryAreas = List.of(
+                DeliveryArea.of(shingyo), DeliveryArea.of(goongjung), DeliveryArea.of(hyoja));
+        given(addressMapper.deliveryAreas(townCodes)).willReturn(deliveryAreas);
         UpdateDeliveryAreaRequest dto = new UpdateDeliveryAreaRequest(townCodes);
         
         //when
         ResultActions perform = mvc.perform(put("/shops/{id}/delivery-areas", 1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(dto)));
-    
+        
         //then
         perform
                 .andExpect(status().isOk())

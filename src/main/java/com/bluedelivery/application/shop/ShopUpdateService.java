@@ -1,7 +1,6 @@
 package com.bluedelivery.application.shop;
 
 import static com.bluedelivery.common.response.ErrorCode.*;
-import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 
@@ -15,7 +14,6 @@ import com.bluedelivery.application.shop.businesshour.DayOfWeekMapper;
 import com.bluedelivery.application.shop.dto.BusinessHoursTarget;
 import com.bluedelivery.application.shop.dto.UpdateDeliveryAreaTarget;
 import com.bluedelivery.common.response.ApiException;
-import com.bluedelivery.domain.address.AddressService;
 import com.bluedelivery.domain.closingday.LegalHolidayClosing;
 import com.bluedelivery.domain.closingday.Suspension;
 import com.bluedelivery.domain.shop.BusinessHour;
@@ -32,7 +30,7 @@ public class ShopUpdateService {
     
     private final ShopRepository shopRepository;
     private final CategoryManagerService categoryManagerService;
-    private final AddressService addressService;
+    private final AddressMapper addressMapper;
     
     public List<BusinessHour> updateBusinessHour(BusinessHoursTarget target) {
         Shop shop = getShop(target.getShopId());
@@ -93,10 +91,7 @@ public class ShopUpdateService {
     @Transactional
     public List<DeliveryArea> updateDeliveryArea(UpdateDeliveryAreaTarget target) {
         Shop shop = getShop(target.getShopId());
-        List<DeliveryArea> areas = addressService.getTowns(target.getTownCodes())
-                .stream()
-                .map(DeliveryArea::of)
-                .collect(toList());
+        List<DeliveryArea> areas = addressMapper.deliveryAreas(target.getTownCodes());
         shop.updateDeliveryArea(areas);
         return areas;
     }
