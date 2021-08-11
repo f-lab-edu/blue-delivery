@@ -1,33 +1,19 @@
 package com.bluedelivery.domain.shop;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.bluedelivery.application.shop.SearchShopByCategoryParam;
 import com.bluedelivery.domain.shop.Shop;
 
 @Repository
-public interface ShopRepository {
-    Shop findShopById(Long id);
+public interface ShopRepository extends JpaRepository<Shop, Long> {
     
-    void updateIntroduce(Shop shop);
-    
-    void updatePhone(Shop shop);
-    
-    void updateDeliveryAreaGuide(Shop shop);
-    
-    void updateName(Shop shop);
-    
-    void updateCategory(Shop shop);
-    
-    void deleteCategory(Shop shop);
-    
-    void updateBusinessHours(Shop shop);
-    
-    void deleteClosingDays(Shop shop);
-    
-    void updateClosingDays(Shop shop);
-    
-    void updateExposeStatus(Shop shop);
-    
-    void updateSuspension(Shop shop);
+    @Query("select s from Shop s join Category c on c.id = :#{#param.id}")
+    List<Shop> findShopsByCategoryId(@Param("param") SearchShopByCategoryParam param);
     
 }

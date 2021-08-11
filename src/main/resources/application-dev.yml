@@ -7,12 +7,18 @@ spring:
     password: password
 
   flyway:
+    enabled: false
     url: jdbc:mysql://localhost:3306/delivery
     user: root
     password: password
     baseline-on-migrate: true
     ignore-ignored-migrations: true
     clean-on-validation-error: true
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
 
   redis:
     host: localhost

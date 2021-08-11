@@ -32,7 +32,7 @@ class CategoryManagerServiceTest {
         //given
         CreateCategoryParam target = new CreateCategoryParam("chicken");
         Category expected = new Category(target.getName());
-        when(repository.addCategory(expected)).thenReturn(expected);
+        when(repository.save(expected)).thenReturn(expected);
         
         //when
         Category category = service.addCategory(target);
