@@ -1,11 +1,11 @@
 package com.bluedelivery.domain.menu;
 
-import static com.bluedelivery.domain.order.ExceptionMessage.ORDERED_AND_MENU_ARE_DIFFERENT;
+import static com.bluedelivery.order.domain.ExceptionMessage.ORDERED_AND_MENU_ARE_DIFFERENT;
 
 import java.util.List;
 import java.util.Objects;
 
-import com.bluedelivery.domain.order.OrderItem;
+import com.bluedelivery.order.domain.OrderItem;
 
 import lombok.Builder;
 

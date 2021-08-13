@@ -1,6 +1,6 @@
 package com.bluedelivery.domain.menu;
 
-import static com.bluedelivery.domain.order.ExceptionMessage.ORDERED_AND_MENU_ARE_DIFFERENT;
+import static com.bluedelivery.order.domain.ExceptionMessage.ORDERED_AND_MENU_ARE_DIFFERENT;
 
 import java.util.Objects;
 
@@ -14,7 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.bluedelivery.domain.order.OrderItem;
+import com.bluedelivery.order.domain.OrderItem;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Getter;

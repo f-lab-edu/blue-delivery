@@ -1,4 +1,4 @@
-package com.bluedelivery.domain.order;
+package com.bluedelivery.order.domain;
 
 import static com.bluedelivery.OrderData.*;
 import static java.util.Collections.*;

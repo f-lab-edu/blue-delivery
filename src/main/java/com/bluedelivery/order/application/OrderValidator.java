@@ -1,6 +1,6 @@
-package com.bluedelivery.domain.order;
+package com.bluedelivery.order.application;
 
-import static com.bluedelivery.domain.order.ExceptionMessage.*;
+import static com.bluedelivery.order.domain.ExceptionMessage.*;
 
 import java.util.List;
 
@@ -10,6 +10,8 @@ import com.bluedelivery.domain.shop.Shop;
 import com.bluedelivery.domain.shop.ShopRepository;
 import com.bluedelivery.domain.user.User;
 import com.bluedelivery.domain.user.UserRepository;
+import com.bluedelivery.order.domain.Order;
+import com.bluedelivery.order.domain.OrderItem;
 
 import lombok.RequiredArgsConstructor;
 

@@ -1,8 +1,7 @@
-package com.bluedelivery.domain.order;
+package com.bluedelivery.order.domain;
 
 import static com.bluedelivery.OrderData.*;
-import static com.bluedelivery.domain.order.ExceptionMessage.*;
-import static com.bluedelivery.domain.order.ExceptionMessage.ORDER_USER_DOES_NOT_EXIST;
+import static com.bluedelivery.order.domain.ExceptionMessage.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -23,6 +22,7 @@ import com.bluedelivery.domain.shop.Shop;
 import com.bluedelivery.domain.shop.ShopRepository;
 import com.bluedelivery.domain.user.User;
 import com.bluedelivery.domain.user.UserRepository;
+import com.bluedelivery.order.application.OrderValidator;
 
 @ExtendWith(MockitoExtension.class)
 public class OrderValidatorTest {

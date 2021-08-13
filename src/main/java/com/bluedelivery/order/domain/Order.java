@@ -1,4 +1,4 @@
-package com.bluedelivery.domain.order;
+package com.bluedelivery.order.domain;
 
 import static java.util.stream.Collectors.toList;
 
@@ -14,14 +14,19 @@ public class Order {
         ACCEPT;
     }
     
+    private Long orderId;
     private OrderStatus orderStatus;
     private Long userId;
     private Long shopId;
     private final List<OrderItem> orderItems = new ArrayList<>();
     
+    public Order() {
+    }
+    
     @Builder
-    public Order(OrderStatus orderStatus,
+    public Order(Long orderId, OrderStatus orderStatus,
                  Long userId, Long shopId, List<OrderItem> orderItems) {
+        this.orderId = orderId;
         this.orderStatus = orderStatus;
         this.userId = userId;
         this.shopId = shopId;
@@ -39,6 +44,10 @@ public class Order {
     
     public int totalOrderAmount() {
         return orderItems.stream().mapToInt(item -> item.totalOrderAmount()).sum();
+    }
+    
+    public Long getOrderId() {
+        return orderId;
     }
     
     public OrderStatus getStatus() {

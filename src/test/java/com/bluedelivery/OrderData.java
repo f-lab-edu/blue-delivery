@@ -5,20 +5,34 @@ import java.util.List;
 import com.bluedelivery.domain.menu.Menu;
 import com.bluedelivery.domain.menu.MenuOption;
 import com.bluedelivery.domain.menu.MenuOptionGroup;
-import com.bluedelivery.domain.order.Order;
-import com.bluedelivery.domain.order.OrderItem;
+import com.bluedelivery.order.domain.Order;
+import com.bluedelivery.order.domain.OrderItem;
+import com.bluedelivery.order.interfaces.Cart;
+import com.bluedelivery.order.interfaces.Cart.CartItemOption.CartItemOptionBuilder;
+import com.bluedelivery.order.interfaces.Cart.CartItemOptionGroup.CartItemOptionGroupBuilder;
 
 public class OrderData {
+    private static Long menuId = 1L;
+    private static String menuName = "양념치킨";
+    private static String menuComposition = "양념치킨과 치킨무 세트";
+    private static String menuContent = "양념치킨과 치킨무 세트";
+    private static int menuPrice = 15000;
+    private static Long optionGroupId = 1L;
+    private static String optionGroupName = "사이드메뉴";
+    private static Long optionId = 1L;
+    private static String optionName = "치킨무";
+    private static int optionPrice = 500;
+    
     
     public static Menu.MenuBuilder menu() {
         return Menu.builder()
-                .id(1L)
-                .name("양념치킨")
-                .composition("양념치킨과 치킨무 세트")
-                .content("양념이지만 바삭바삭한 양념치킨입니다.")
+                .id(menuId)
+                .name(menuName)
+                .composition(menuComposition)
+                .content(menuContent)
                 .isMain(true)
                 .menuGroupId(1L)
-                .price(15000)
+                .price(menuPrice)
                 .status(Menu.MenuStatus.DEFAULT)
                 .menuOptionGroup(List.of(
                                 menuOptionGroup()
@@ -28,8 +42,8 @@ public class OrderData {
     
     public static MenuOptionGroup menuOptionGroup() {
         MenuOptionGroup menuOptionGroup = new MenuOptionGroup();
-        menuOptionGroup.setId(1L);
-        menuOptionGroup.setName("사이드메뉴");
+        menuOptionGroup.setId(optionGroupId);
+        menuOptionGroup.setName(optionGroupName);
         menuOptionGroup.setOptions(List.of(
                 menuOption()
         ));
@@ -38,9 +52,9 @@ public class OrderData {
     
     public static MenuOption menuOption() {
         MenuOption menuOption = new MenuOption();
-        menuOption.setId(1L);
-        menuOption.setName("치킨무");
-        menuOption.setPrice(500);
+        menuOption.setId(optionId);
+        menuOption.setName(optionName);
+        menuOption.setPrice(optionPrice);
         return menuOption;
     }
     
@@ -81,4 +95,27 @@ public class OrderData {
                 .name(menuOption.getName())
                 .price(menuOption.getPrice());
     }
+    
+    public static Cart.CartItem.CartItemBuilder cartItem() {
+        return Cart.CartItem.builder()
+                .menuId(menuId)
+                .name(menuName)
+                .price(menuPrice)
+                .cartItemOptionGroups(List.of(cartOptionGroup().build()));
+    }
+    
+    public static CartItemOptionGroupBuilder cartOptionGroup() {
+        return Cart.CartItemOptionGroup.builder()
+                .id(optionGroupId)
+                .name(optionGroupName)
+                .orderItemOptions(List.of(cartItemOption().build()));
+    }
+    
+    public static CartItemOptionBuilder cartItemOption() {
+        return Cart.CartItemOption.builder()
+                .id(optionId)
+                .name(optionName)
+                .price(optionPrice);
+    }
+    
 }
