@@ -38,3 +38,7 @@ out/
 
 ### Docker ###
 compose/mysql/data/
+compose/es/data/
+
+### apm agent jar ###
+src/main/jib/*.jar

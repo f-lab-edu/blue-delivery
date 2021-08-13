@@ -1,6 +1,44 @@
 version: '3'
 
-services: # 실행 할 컨테이너 정의
+services:
+  elasticsearch: # ElasticSearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.14.0
+    ports:
+      - 9200:9200
+    environment:
+      - node.name=elasticsearch
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=elasticsearch
+      - cluster.initial_master_nodes=elasticsearch
+      - bootstrap.memory_lock=true # Elastic이 사용할 메모리 락
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits: # elasticsearch 프로세스 자원 제한
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./es/data:/usr/share/elasticsearch/data
+
+
+  kibana: # Kibana
+    image: docker.elastic.co/kibana/kibana:7.14.0
+    ports:
+      - 5601:5601
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200 # Elastic에 연결하기 위한 URL 및 HOST
+
+
+  apm: #APM SERVER
+    image: docker.elastic.co/apm/apm-server:7.14.0
+    ports:
+      - 8200:8200
+    volumes:
+      - ./apm-server.docker.yml:/usr/share/apm-server/apm-server.yml" # 구성한 APM SERVER(apm-server.docker.yml) 마운트
+    environment:
+      output.elasticsearch.hosts: '["elasticsearch:9200"]'
+
+
   db-mysql: # docker run --name db와 같음(컨테이너)
     image: mysql:8.0.25 # 사용할 이미지
     volumes:
@@ -9,9 +47,9 @@ services: # 실행 할 컨테이너 정의
     restart: always
     ports:
       - "3306:3306"
-    env_file: .env
     environment:
-      TZ: Asia/Seoul
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
 
   redis:
     image: redis:6.2.4
@@ -25,7 +63,7 @@ services: # 실행 할 컨테이너 정의
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
     ports:
-      - "8080:80"
+      - 8080:80
 
   blue-delivery1: # app server1
     image: kimstz0/blue-delivery:latest
