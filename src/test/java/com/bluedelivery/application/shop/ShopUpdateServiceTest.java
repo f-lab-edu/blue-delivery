@@ -31,10 +31,11 @@ class ShopUpdateServiceTest {
     
     @BeforeEach
     void setup(@Mock ShopRepository shopRepository,
-               @Mock CategoryManagerService categoryManagerService) {
+               @Mock CategoryManagerService categoryManagerService,
+               @Mock AddressMapper addressMapper) {
         shop = new Shop();
         when(shopRepository.findById(1L)).thenReturn(Optional.of(shop));
-        service = new ShopUpdateService(shopRepository, categoryManagerService);
+        service = new ShopUpdateService(shopRepository, categoryManagerService, addressMapper);
     }
     
     @Test

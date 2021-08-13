@@ -1,7 +1,6 @@
 package com.bluedelivery.api.shop.adapter;
 
-import static com.bluedelivery.common.response.HttpResponse.FAIL;
-import static com.bluedelivery.common.response.HttpResponse.response;
+import static com.bluedelivery.common.response.HttpResponse.*;
 
 import java.util.List;
 
@@ -15,12 +14,16 @@ import com.bluedelivery.api.shop.SuspensionRequest;
 import com.bluedelivery.api.shop.UpdateCategoryRequest;
 import com.bluedelivery.api.shop.UpdateClosingDaysRequest;
 import com.bluedelivery.api.shop.dto.BusinessHoursRequest;
+import com.bluedelivery.api.shop.dto.DeliveryAreaResponse;
+import com.bluedelivery.api.shop.dto.UpdateDeliveryAreaRequest;
 import com.bluedelivery.application.category.CategoryNotFoundException;
 import com.bluedelivery.application.shop.ShopUpdateService;
+import com.bluedelivery.application.shop.dto.UpdateDeliveryAreaTarget;
 import com.bluedelivery.common.response.ApiException;
 import com.bluedelivery.common.response.ErrorCode;
 import com.bluedelivery.common.response.HttpResponse;
 import com.bluedelivery.domain.shop.BusinessHour;
+import com.bluedelivery.domain.shop.DeliveryArea;
 
 @RestController
 public class ShopUpdateControllerImpl implements ShopUpdateController {
@@ -75,6 +78,17 @@ public class ShopUpdateControllerImpl implements ShopUpdateController {
     
     public void suspendShop(Long shopId, SuspensionRequest suspension) {
         updateService.suspend(shopId, suspension.toEntity());
+    }
+    
+    @Override
+    public ResponseEntity<HttpResponse<?>> updateDeliveryArea(Long shopId, UpdateDeliveryAreaRequest dto) {
+        try {
+            List<DeliveryArea> deliveryAreas =
+                    updateService.updateDeliveryArea(UpdateDeliveryAreaTarget.of(shopId, dto.getTownCodes()));
+            return ResponseEntity.ok(response(SUCCESS, DeliveryAreaResponse.of(shopId, deliveryAreas)));
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response(FAIL, ex.getMessage()));
+        }
     }
     
 }
