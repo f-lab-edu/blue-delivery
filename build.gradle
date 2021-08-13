@@ -48,7 +48,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-cache'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis' // redis
     implementation 'redis.clients:jedis:3.6.0' // jedis
-    implementation group: 'co.elastic.apm', name: 'apm-agent-attach', version: '1.25.0'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.4'
     implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16' // log4jdbc (jdbc log)
