@@ -73,7 +73,7 @@ public class ShopUpdateService {
             shop.addClosingDayPolicy(new LegalHolidayClosing());
         }
         temporaries.stream().forEach(
-                temporary -> shop.addClosingDayPolicy(temporary.toEntity()));
+                temporary -> shop.addClosingDayPolicy( temporary.toEntity()));
         regulars.stream().forEach(
                 regular -> shop.addClosingDayPolicy(regular.toEntity()));
     }

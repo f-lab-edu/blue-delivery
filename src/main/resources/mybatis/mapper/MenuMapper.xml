@@ -48,4 +48,8 @@
         SELECT COUNT(IS_MAIN) FROM MENU WHERE IS_MAIN = 1;
     </select>
 
+    <delete id="deleteMenu" parameterType="long">
+        DELETE FROM MENU WHERE ID = #{id};
+    </delete>
+
 </mapper>

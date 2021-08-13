@@ -108,4 +108,19 @@ class MenuServiceTest {
 
     }
 
+    @Test
+    @DisplayName("메뉴 삭제 테스트")
+    public void deleteMenuTest() {
+        Menu getMenu = new Menu();
+        Long menuId = 1L;
+
+        when(service.getMenuById(menuId)).thenReturn(getMenu);
+
+        //when
+        service.deleteMenu(menuId);
+
+        //then
+        verify(menuMapper, times(1)).deleteMenu(menuId);
+    }
+
 }

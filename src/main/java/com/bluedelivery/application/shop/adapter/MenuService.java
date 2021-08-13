@@ -47,4 +47,12 @@ public class MenuService {
         return menuMapper.menuNameCheck(name) == 1;
     }
 
+    public void deleteMenu(Long id) {
+        Menu target = menuMapper.findMenuById(id);
+        if (target == null) {
+            throw new ApiException(MENU_NOT_FOUND);
+        }
+        menuMapper.deleteMenu(id);
+    }
+
 }

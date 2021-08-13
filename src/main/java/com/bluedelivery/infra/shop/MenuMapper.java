@@ -29,4 +29,6 @@ public interface MenuMapper {
 
     List<Menu> findMainMenus();
 
+    void deleteMenu(Long id);
+
 }
