@@ -1,5 +1,7 @@
 package com.bluedelivery.api.menu.adapter;
 
+import static com.bluedelivery.common.response.HttpResponse.*;
+
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -14,38 +16,35 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bluedelivery.api.menu.MenuGroupDto;
-import com.bluedelivery.application.shop.adapter.MenuGroupService;
-import com.bluedelivery.common.response.ApiException;
-import com.bluedelivery.common.response.ErrorCode;
+import com.bluedelivery.api.menu.RegisterMenuGroupDto;
+import com.bluedelivery.application.shop.adapter.MenuGroupServiceImpl;
+import com.bluedelivery.common.response.HttpResponse;
 import com.bluedelivery.domain.menu.MenuGroup;
+
 
 @RestController
 @RequestMapping("/shops")
 public class MenuGroupController {
 
-    private MenuGroupService service;
+    private MenuGroupServiceImpl service;
 
-    public MenuGroupController(MenuGroupService service) {
+    public MenuGroupController(MenuGroupServiceImpl service) {
         this.service = service;
     }
 
     /**
      * 메뉴 그룹을 추가
      *
+     * @param shopId 메뉴 그룹을 추가할 shop의 ID
+     * @param dto 생성할 메뉴 그룹 정보
      *
-     * @param dto 가입할 메뉴 그룹 정보
-     * @return
      */
-
     @PostMapping("/{shopId}/menu-groups")
-    public ResponseEntity<MenuGroup> registerMenuGroup(@Validated @RequestBody MenuGroupDto dto,
-                                                       @PathVariable Long shopId) {
-        if (!dto.checkShopId(shopId)) {
-            throw new ApiException(ErrorCode.SHOP_DOES_NOT_EXIST);
-        }
+    public ResponseEntity<HttpResponse> registerMenuGroup(@PathVariable Long shopId,
+                                                          @Validated @RequestBody RegisterMenuGroupDto dto) {
+        dto.setShopId(shopId);
         service.registerMenuGroup(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(response(dto));
     }
 
     /**
@@ -73,8 +72,8 @@ public class MenuGroupController {
      * @return
      */
     @PutMapping("/{shopId}/menu-groups")
-    public ResponseEntity<MenuGroupDto> updateGroups(@PathVariable Long shopId,
-                                                     @RequestBody MenuGroupDto dto) {
+    public ResponseEntity<RegisterMenuGroupDto> updateGroups(@PathVariable Long shopId,
+                                                             @RequestBody RegisterMenuGroupDto dto) {
         if (dto.getName() == null || dto.getName() == "") {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
@@ -90,8 +89,8 @@ public class MenuGroupController {
      * @return
      */
     @DeleteMapping("/{shopId}/menu-groups/{menuGroupId}")
-    public ResponseEntity<MenuGroupDto> deleteGroups(@PathVariable Long shopId,
-                                                     @PathVariable Long menuGroupId) {
+    public ResponseEntity<RegisterMenuGroupDto> deleteGroups(@PathVariable Long shopId,
+                                                             @PathVariable Long menuGroupId) {
         service.deleteMenuGroup(menuGroupId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

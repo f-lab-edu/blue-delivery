@@ -9,23 +9,6 @@
         <result column="CATEGORY_NAME" property="name" javaType="string"/>
     </resultMap>
 
-    <!-- 카테고리별 가게 조회-->
-    <select id="findShopsByCategoryId" resultMap="com.bluedelivery.infra.shop.ShopMapper.shopResultMap">
-        SELECT S.ID                            SHOP_ID,
-               NAME,
-               INTRODUCE,
-               PHONE,
-               DELIVERY_AREA_GUIDE,
-               IFNULL(SS.FROM_DATETIME, NOW()) SUSPENSION_FROM,
-               IFNULL(SS.TO_DATETIME, NOW())   SUSPENSION_TO
-        FROM SHOP S
-                 JOIN CATEGORY_SHOP CS ON CS.CATEGORY_ID = ${id}
-                 JOIN BUSINESS_HOUR BH ON S.ID = BH.SHOP_ID
-                 LEFT JOIN SHOP_SUSPENSION SS ON S.ID = SS.SHOP_ID
-        WHERE S.ID = CS.SHOP_ID
-          AND S.ID NOT IN (SELECT SHOP_ID FROM CLOSING_DAY WHERE DAY_OF_WEEK = #{dayOfWeek})
-          AND S.EXPOSED = TRUE
-    </select>
 
     <!-- 전체 카테고리 목록 조회-->
     <select id="findAllCategories" resultMap="categoryResultMap">

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bluedelivery.api.menu.RegisterMenuDto;
-import com.bluedelivery.api.shop.UpdateMenuDto;
+import com.bluedelivery.api.menu.UpdateMenuDto;
 import com.bluedelivery.application.shop.adapter.MenuService;
 import com.bluedelivery.common.response.HttpResponse;
 import com.bluedelivery.domain.menu.Menu;
