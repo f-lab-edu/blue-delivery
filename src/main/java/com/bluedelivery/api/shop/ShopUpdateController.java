@@ -11,8 +11,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.bluedelivery.api.shop.dto.BusinessHoursRequest;
+import com.bluedelivery.api.shop.dto.UpdateDeliveryAreaRequest;
 import com.bluedelivery.common.response.HttpResponse;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api(tags = "가게 정보")
 @RequestMapping("/shops/{shopId}")
 public interface ShopUpdateController {
     
@@ -74,4 +79,10 @@ public interface ShopUpdateController {
     @PutMapping("/suspend")
     void suspendShop(@PathVariable Long shopId,
                      @RequestBody SuspensionRequest suspension);
+    
+    @ApiOperation(value = "배달 가능 지역 업데이트", notes = "읍면동 코드를 받아서 가게의 배달 가능 지역으로 설정한다.")
+    @PutMapping("/delivery-areas")
+    ResponseEntity<HttpResponse<?>> updateDeliveryArea(
+            @PathVariable Long shopId, @RequestBody UpdateDeliveryAreaRequest dto);
+    
 }

@@ -3,6 +3,7 @@ package com.bluedelivery.domain.shop;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +35,10 @@ public class Shop {
     private String phone;
     private String deliveryAreaGuide;
     private int minimumOrderAmount;
+    
+    @ElementCollection
+    @CollectionTable(name = "DELIVERY_AREA", joinColumns = @JoinColumn(name = "SHOP_ID"))
+    private List<DeliveryArea> deliveryAreas = new ArrayList<>();
     
     @ElementCollection
     @CollectionTable(name = "BUSINESS_HOUR", joinColumns = @JoinColumn(name = "SHOP_ID"))
@@ -163,5 +168,14 @@ public class Shop {
     
     public void setMinimumOrderAmount(int minimumOrderAmount) {
         this.minimumOrderAmount = minimumOrderAmount;
+    }
+        
+    public boolean updateDeliveryArea(List<DeliveryArea> deliveryAreas) {
+        this.deliveryAreas.clear();
+        return this.deliveryAreas.addAll(deliveryAreas);
+    }
+    
+    public List<DeliveryArea> getDeliveryAreas() {
+        return Collections.unmodifiableList(deliveryAreas);
     }
 }
