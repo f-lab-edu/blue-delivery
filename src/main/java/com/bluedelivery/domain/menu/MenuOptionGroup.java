@@ -8,9 +8,12 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -35,9 +38,6 @@ public class MenuOptionGroup {
     @Column(name = "NAME")
     private String name;
 
-    @Column(name = "MENU_ID")
-    private Long menuId;
-
     @Column(name = "OPTION_REQUIRED")
     private boolean optionRequired;
 
@@ -51,18 +51,22 @@ public class MenuOptionGroup {
     @JsonManagedReference
     private List<MenuOption> options = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MENU_ID")
+    private Menu menu;
+
     public MenuOptionGroup() {
     }
 
-    public MenuOptionGroup(Long id, String name, Long menuId, boolean optionRequired, int minimumOption,
-                           int maximumOption, List<MenuOption> options) {
+    public MenuOptionGroup(Long id, String name, boolean optionRequired, int minimumOption,
+                           int maximumOption, List<MenuOption> options, Menu menu) {
         this.id = id;
         this.name = name;
-        this.menuId = menuId;
         this.optionRequired = optionRequired;
         this.minimumOption = minimumOption;
         this.maximumOption = maximumOption;
         this.options = options;
+        this.menu = menu;
     }
 
     public void addOption(MenuOption option) {
@@ -86,5 +90,60 @@ public class MenuOptionGroup {
                 .orElseThrow(() -> new IllegalStateException(ORDERED_AND_MENU_ARE_DIFFERENT))
                 .validate(orderOption);
     }
-    
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isOptionRequired() {
+        return optionRequired;
+    }
+
+    public void setOptionRequired(boolean optionRequired) {
+        this.optionRequired = optionRequired;
+    }
+
+    public int getMinimumOption() {
+        return minimumOption;
+    }
+
+    public void setMinimumOption(int minimumOption) {
+        this.minimumOption = minimumOption;
+    }
+
+    public int getMaximumOption() {
+        return maximumOption;
+    }
+
+    public void setMaximumOption(int maximumOption) {
+        this.maximumOption = maximumOption;
+    }
+
+    public List<MenuOption> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<MenuOption> options) {
+        this.options = options;
+    }
+
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public void setMenu(Menu menu) {
+        this.menu = menu;
+    }
 }
