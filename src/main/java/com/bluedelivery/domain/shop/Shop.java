@@ -3,6 +3,7 @@ package com.bluedelivery.domain.shop;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +22,8 @@ import com.bluedelivery.domain.closingday.ClosingDayPolicies;
 import com.bluedelivery.domain.closingday.ClosingDayPolicy;
 import com.bluedelivery.domain.closingday.Suspension;
 
+import lombok.Builder;
+
 @Entity
 public class Shop {
     @Id
@@ -31,6 +34,11 @@ public class Shop {
     private String introduce;
     private String phone;
     private String deliveryAreaGuide;
+    private int minimumOrderAmount;
+    
+    @ElementCollection
+    @CollectionTable(name = "DELIVERY_AREA", joinColumns = @JoinColumn(name = "SHOP_ID"))
+    private List<DeliveryArea> deliveryAreas = new ArrayList<>();
     
     @ElementCollection
     @CollectionTable(name = "BUSINESS_HOUR", joinColumns = @JoinColumn(name = "SHOP_ID"))
@@ -47,6 +55,23 @@ public class Shop {
     private Suspension suspension = new Suspension();
     
     public Shop() {
+    }
+    
+    @Builder
+    public Shop(Long id, String name, String introduce, String phone, String deliveryAreaGuide, int minimumOrderAmount,
+                List<BusinessHour> businessHours, List<Long> categoryIds, ClosingDayPolicies closingDayPolicies,
+                boolean exposed, Suspension suspension) {
+        this.id = id;
+        this.name = name;
+        this.introduce = introduce;
+        this.phone = phone;
+        this.deliveryAreaGuide = deliveryAreaGuide;
+        this.minimumOrderAmount = minimumOrderAmount;
+        this.businessHours = businessHours;
+        this.categoryIds = categoryIds;
+        this.closingDayPolicies = closingDayPolicies;
+        this.exposed = exposed;
+        this.suspension = suspension;
     }
     
     public void updateBusinessHours(List<BusinessHour> input) {
@@ -116,8 +141,9 @@ public class Shop {
         return closingDayPolicies.isClosingAt(date);
     }
     
-    public boolean isOpeningAt(LocalDateTime when) {
-        return !suspension.isSuspended(when);
+    public boolean isOpen() {
+        // TODO BusinessHour, ClosingDayPolicy 검사 필요
+        return !suspension.isSuspended(LocalDateTime.now());
     }
     
     public boolean isExposed() {
@@ -136,6 +162,20 @@ public class Shop {
         return suspension;
     }
     
+    public int getMinimumOrderAmount() {
+        return minimumOrderAmount;
+    }
     
-
+    public void setMinimumOrderAmount(int minimumOrderAmount) {
+        this.minimumOrderAmount = minimumOrderAmount;
+    }
+        
+    public boolean updateDeliveryArea(List<DeliveryArea> deliveryAreas) {
+        this.deliveryAreas.clear();
+        return this.deliveryAreas.addAll(deliveryAreas);
+    }
+    
+    public List<DeliveryArea> getDeliveryAreas() {
+        return Collections.unmodifiableList(deliveryAreas);
+    }
 }

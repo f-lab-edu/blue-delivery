@@ -4,7 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 @Entity
 public class CityToDong {
     @Id
