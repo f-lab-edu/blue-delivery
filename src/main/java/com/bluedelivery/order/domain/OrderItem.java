@@ -147,7 +147,7 @@ public class OrderItem {
     
         @Id @GeneratedValue
         @Column(name = "ORDER_OPTION_ID")
-        private Long orderOptionGroupId;
+        private Long orderOptionId;
     
         @Column(name = "MENU_OPTION_ID")
         private Long id;

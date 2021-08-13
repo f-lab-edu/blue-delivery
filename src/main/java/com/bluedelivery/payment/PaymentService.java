@@ -10,7 +10,7 @@ import com.bluedelivery.order.domain.Order;
 @Service
 public class PaymentService {
     public Payment process(Order order) {
-        Payment payment = new Payment();
+        Payment payment = Payment.create();
         payment.pay();
         return payment;
     }

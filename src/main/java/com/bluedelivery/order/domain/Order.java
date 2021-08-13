@@ -5,6 +5,7 @@ import static java.util.stream.Collectors.toList;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -21,7 +22,6 @@ import com.bluedelivery.payment.Payment;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
-
 @Entity
 @Table(name = "ORDERS")
 public class Order {
@@ -95,6 +95,23 @@ public class Order {
     
     public List<OrderItem> getOrderItems() {
         return Collections.unmodifiableList(orderItems);
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Order order = (Order) obj;
+        return Objects.equals(orderId, order.orderId);
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(orderId);
     }
     
     @EqualsAndHashCode
