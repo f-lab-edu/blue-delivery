@@ -30,7 +30,9 @@ jib {
     }
     container {
         creationTime = "USE_CURRENT_TIMESTAMP"
-        jvmFlags = ["-Dspring.profiles.active=prod"]
+        jvmFlags = ["-Dspring.profiles.active=prod", "-javaagent:elastic-apm-agent-1.25.0.jar",
+                    "-Delastic.apm.service_name=blue-delivery", "-Delastic.apm.server_url=http://apm:8200",
+                    "-Delastic.apm.application_packages=com.bluedelivery"]
     }
 }
 

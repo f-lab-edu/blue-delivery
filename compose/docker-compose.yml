@@ -17,7 +17,7 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - ./data:/usr/share/elasticsearch/data
+      - ./es/data:/usr/share/elasticsearch/data
 
 
   kibana: # Kibana
@@ -47,10 +47,9 @@ services:
     restart: always
     ports:
       - "3306:3306"
-    env_file: .env
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      TZ: Asia/Seoul
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
 
   redis:
     image: redis:6.2.4
