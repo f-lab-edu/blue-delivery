@@ -4,6 +4,8 @@ import static com.bluedelivery.order.domain.ExceptionMessage.*;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.bluedelivery.domain.menu.Menu;
 import com.bluedelivery.domain.menu.MenuRepository;
 import com.bluedelivery.domain.shop.Shop;
@@ -16,6 +18,7 @@ import com.bluedelivery.order.domain.OrderItem;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@Component
 public class OrderValidator {
     
     private final MenuRepository menuRepository;

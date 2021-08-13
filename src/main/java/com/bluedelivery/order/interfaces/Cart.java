@@ -5,6 +5,7 @@ import static java.util.stream.Collectors.toList;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bluedelivery.order.domain.Order;
 import com.bluedelivery.order.domain.OrderItem;
 
 import lombok.AllArgsConstructor;
@@ -19,10 +20,15 @@ public class Cart {
     private Long shopId;
     private List<CartItem> cartItems;
     
-    public List<OrderItem> toOrderItems() {
-        return cartItems.stream()
-                        .map(OrderItem::from)
-                        .collect(toList());
+    public Order.OrderForm toOrderForm(Long userId) {
+        return Order.OrderForm.builder()
+                .userId(userId)
+                .shopId(this.shopId)
+                .orderItems(
+                        cartItems.stream()
+                                .map(OrderItem::from)
+                                .collect(toList()))
+                .build();
     }
     
     @Builder
@@ -44,7 +50,7 @@ public class Cart {
     public static class CartItemOptionGroup {
         private Long id;
         private String name;
-        private List<CartItemOption> orderItemOptions = new ArrayList<>();
+        private List<CartItemOption> orderItemOptions;
     }
     
     @Builder

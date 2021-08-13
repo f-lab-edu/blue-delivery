@@ -28,6 +28,8 @@ import com.bluedelivery.application.authentication.AuthenticationService;
 import com.bluedelivery.domain.authentication.Authentication;
 import com.bluedelivery.order.application.OrderService;
 import com.bluedelivery.order.domain.Order;
+import com.bluedelivery.order.domain.Order.OrderForm;
+import com.bluedelivery.order.domain.OrderItem;
 import com.bluedelivery.order.interfaces.impl.OrderControllerImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -59,9 +61,15 @@ public class OrderControllerTest {
     @Test
     void orderTest() throws Exception {
         //given
-        Cart cart = new Cart(SHOP_ID, List.of(cartItem().build()));
-        Order order = order().orderId(ORDER_ID).orderItems(cart.toOrderItems()).build();
-        given(orderService.takeOrder(VALID_USER_ID, cart.toOrderItems())).willReturn(order);
+        Cart.CartItem cartItem = cartItem().build();
+        Cart cart = new Cart(SHOP_ID, List.of(cartItem));
+        Order order = order().orderId(ORDER_ID).orderItems(List.of(OrderItem.from(cartItem))).build();
+        given(orderService.takeOrder(OrderForm.builder()
+                .shopId(SHOP_ID)
+                .userId(VALID_USER_ID)
+                .orderItems(List.of(OrderItem.from(cartItem)))
+                .build()))
+                .willReturn(order);
         
         //when
         ResultActions perform = mockMvc.perform(post("/orders")
