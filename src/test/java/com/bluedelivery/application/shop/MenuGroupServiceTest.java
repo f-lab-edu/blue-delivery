@@ -3,6 +3,8 @@ package com.bluedelivery.application.shop;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,11 +14,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ActiveProfiles;
 
 import com.bluedelivery.api.menu.RegisterMenuGroupDto;
+import com.bluedelivery.api.menu.UpdateMenuGroupDto;
 import com.bluedelivery.application.shop.adapter.MenuGroupServiceImpl;
 import com.bluedelivery.common.response.ApiException;
 import com.bluedelivery.common.response.ErrorCode;
+import com.bluedelivery.domain.menu.MenuGroup;
 import com.bluedelivery.domain.menu.MenuGroupRepository;
-import com.bluedelivery.infra.shop.MenuGroupMapper;
 
 @ExtendWith(MockitoExtension.class)
 @ActiveProfiles("test")
@@ -27,8 +30,6 @@ class MenuGroupServiceTest {
 
     @Mock
     MenuGroupRepository repository;
-
-    MenuGroupMapper menuGroupMapper;
 
     @Test
     @DisplayName("메뉴 그룹 생성 테스트")
@@ -57,6 +58,24 @@ class MenuGroupServiceTest {
 
         assertThrows(ApiException.class, () -> service.registerMenuGroup(dto)).getError();
 
+    }
+
+    @Test
+    @DisplayName("메뉴 그룹 수정 테스트")
+    public void updateMenuGroupTest() {
+        UpdateMenuGroupDto dto = new UpdateMenuGroupDto();
+        dto.setId(1L);
+        dto.setShopId(1L);
+        dto.setName("사이드메뉴");
+        dto.setContent("5000원");
+
+        MenuGroup getMenuGroup = new MenuGroup();
+
+        given(repository.findById(dto.getId())).willReturn(Optional.of(getMenuGroup));
+
+        service.updateMenuGroup(dto);
+
+        verify(repository, times(1)).save(getMenuGroup);
     }
 
 }

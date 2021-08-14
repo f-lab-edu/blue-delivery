@@ -22,8 +22,8 @@ public class MenuGroup {
     @Column(name = "SHOP_ID")
     private Long shopId;
 
-    @Column(name = "GROUP_NAME")
-    private String groupName;
+    @Column(name = "NAME")
+    private String name;
 
     @Column(name = "CONTENT")
     private String content;
@@ -34,10 +34,10 @@ public class MenuGroup {
     public MenuGroup() {
     }
 
-    public MenuGroup(Long id, Long shopId, String groupName, String content, List<Menu> menuList) {
+    public MenuGroup(Long id, Long shopId, String name, String content, List<Menu> menuList) {
         this.id = id;
         this.shopId = shopId;
-        this.groupName = groupName;
+        this.name = name;
         this.content = content;
         this.menuList = menuList;
     }
@@ -58,12 +58,12 @@ public class MenuGroup {
         this.shopId = shopId;
     }
 
-    public String getGroupName() {
-        return groupName;
+    public String getName() {
+        return name;
     }
 
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getContent() {
@@ -92,12 +92,12 @@ public class MenuGroup {
         }
         MenuGroup menuGroup = (MenuGroup) obj;
         return Objects.equals(getShopId(), menuGroup.getShopId())
-                && Objects.equals(getGroupName(), menuGroup.getGroupName())
+                && Objects.equals(getName(), menuGroup.getName())
                 && Objects.equals(getContent(), menuGroup.getContent());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getShopId(), getGroupName(), getContent());
+        return Objects.hash(getShopId(), getName(), getContent());
     }
 }

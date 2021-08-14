@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bluedelivery.api.menu.RegisterMenuGroupDto;
+import com.bluedelivery.api.menu.UpdateMenuGroupDto;
 import com.bluedelivery.application.shop.MenuGroupService;
 import com.bluedelivery.common.response.ApiException;
 import com.bluedelivery.domain.menu.MenuGroup;
@@ -39,8 +40,12 @@ public class MenuGroupServiceImpl implements MenuGroupService {
         return menuGroupMapper.findMenuGroup(id);
     }
 
-    public int updateMenuGroup(RegisterMenuGroupDto dto) {
-        return menuGroupMapper.updateMenuGroup(dto);
+    public void updateMenuGroup(UpdateMenuGroupDto dto) {
+        MenuGroup target = repository.findById(dto.getId()).orElseThrow(() -> new ApiException(GROUP_ALREADY_EXISTS));
+
+        target.setName(dto.getName());
+        target.setContent(dto.getContent());
+        repository.save(target);
     }
 
     public int deleteMenuGroup(Long id) {
@@ -56,4 +61,3 @@ public class MenuGroupServiceImpl implements MenuGroupService {
     }
 
 }
-

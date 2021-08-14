@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bluedelivery.api.menu.RegisterMenuGroupDto;
+import com.bluedelivery.api.menu.UpdateMenuGroupDto;
 import com.bluedelivery.application.shop.adapter.MenuGroupServiceImpl;
 import com.bluedelivery.common.response.HttpResponse;
 import com.bluedelivery.domain.menu.MenuGroup;
@@ -33,7 +34,7 @@ public class MenuGroupController {
     }
 
     /**
-     * 메뉴 그룹을 추가
+     * 메뉴 그룹 추가
      *
      * @param shopId 메뉴 그룹을 추가할 shop의 ID
      * @param dto 생성할 메뉴 그룹 정보
@@ -65,20 +66,21 @@ public class MenuGroupController {
     }
 
     /**
-     * 메뉴 그룹 수정.
+     * 메뉴 그룹 수정
      *
+     * @param shopId 해당 shopId의 메뉴 그룹
+     * @param id 수정할 메뉴 그룹 ID
+     * @param dto 수정할 메뉴 그룹 정보(이름, 설명)
      *
-     * @param dto 수정할 메뉴 그룹
-     * @return
      */
-    @PutMapping("/{shopId}/menu-groups")
-    public ResponseEntity<RegisterMenuGroupDto> updateGroups(@PathVariable Long shopId,
-                                                             @RequestBody RegisterMenuGroupDto dto) {
-        if (dto.getName() == null || dto.getName() == "") {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+    @PutMapping("/{shopId}/menu-groups/{id}")
+    public ResponseEntity<HttpResponse> updateGroups(@PathVariable Long shopId,
+                                                     @PathVariable Long id,
+                                                     @Validated @RequestBody UpdateMenuGroupDto dto) {
+        dto.setShopId(shopId);
+        dto.setId(id);
         service.updateMenuGroup(dto);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body(response(dto));
     }
 
     /**

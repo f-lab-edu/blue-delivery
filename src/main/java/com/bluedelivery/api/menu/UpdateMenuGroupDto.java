@@ -3,14 +3,13 @@ package com.bluedelivery.api.menu;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import com.bluedelivery.domain.menu.MenuGroup;
-
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public class RegisterMenuGroupDto {
+public class UpdateMenuGroupDto {
 
-    @NotNull
+    private Long id;
+
     private Long shopId;
 
     @NotNull @NotBlank
@@ -18,12 +17,12 @@ public class RegisterMenuGroupDto {
 
     private String content;
 
-    public MenuGroup toEntity() {
-        MenuGroup menuGroup = new MenuGroup();
-        menuGroup.setShopId(this.shopId);
-        menuGroup.setName(this.name);
-        menuGroup.setContent(this.content);
-        return menuGroup;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getShopId() {
@@ -38,8 +37,8 @@ public class RegisterMenuGroupDto {
         return name;
     }
 
-    public void setName(String groupName) {
-        this.name = groupName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getContent() {
@@ -49,6 +48,4 @@ public class RegisterMenuGroupDto {
     public void setContent(String content) {
         this.content = content;
     }
-
-
 }

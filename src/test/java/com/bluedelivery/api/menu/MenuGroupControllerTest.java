@@ -45,4 +45,19 @@ public class MenuGroupControllerTest {
                 .andExpect(status().isCreated());
 
     }
+
+    @Test
+    @DisplayName("메뉴 그룹 수정시 200 OK 응답")
+    public void updateMenuGroupTest() throws Exception {
+        UpdateMenuGroupDto request = new UpdateMenuGroupDto();
+        request.setId(1L);
+        request.setShopId(1L);
+        request.setName("사이드메뉴");
+        request.setContent("5000원");
+
+        mockMvc.perform(put("/shops/1/menu-groups/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk());
+    }
 }
