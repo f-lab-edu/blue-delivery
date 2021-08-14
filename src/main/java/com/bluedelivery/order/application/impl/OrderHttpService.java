@@ -5,7 +5,6 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.bluedelivery.order.application.OrderService;
-import com.bluedelivery.order.application.OrderValidator;
 import com.bluedelivery.order.domain.Order;
 import com.bluedelivery.order.domain.OrderRepository;
 import com.bluedelivery.payment.Payment;
@@ -18,13 +17,13 @@ import lombok.RequiredArgsConstructor;
 public class OrderHttpService implements OrderService {
     
     private final OrderRepository orderRepository;
-    private final OrderValidator orderValidator;
+    private final OrderMapper orderMapper;
     private final PaymentService paymentService;
     
     @Transactional
     public Order takeOrder(Order.OrderForm form) {
-        Order order = form.createOrder(orderValidator);
-        Payment payment = paymentService.process(order);
+        Order order = orderMapper.orderMapper(form);
+        Payment payment = paymentService.process(new Payment.PaymentForm(order));
         order.pay(payment);
         orderRepository.save(order);
         return order;

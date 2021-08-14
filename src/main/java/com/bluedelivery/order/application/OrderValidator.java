@@ -30,26 +30,8 @@ public class OrderValidator {
         Shop shop = getShop(order.getShopId());
         getUser(order.getUserId());
         
-        if (!shop.isOpen()) {
-            throw new IllegalStateException(SHOP_IS_NOT_OPEN);
-        }
-    
-        if (shop.getMinimumOrderAmount() > order.totalOrderAmount() ) {
-            throw new IllegalArgumentException(ORDERED_AMOUNT_LOWER_THAN_MINIMUM_ORDER_AMOUNT);
-        }
-        
-        if (order.numberOfOrderItems() == 0) {
-            throw new IllegalArgumentException(ORDER_LIST_IS_EMPTY);
-        }
-    
-        for (OrderItem orderItem : order.getOrderItems()) {
-            menus.stream()
-                    .filter(menu -> menu.getId() == orderItem.getMenuId())
-                    .findFirst()
-                    .orElseThrow(() -> new IllegalStateException(ORDERED_AND_MENU_ARE_DIFFERENT))
-                    .validate(orderItem);
-        }
-        
+        shop.validate(order);
+        order.validate(menus);
     }
     
     private User getUser(Long userId) {
@@ -60,7 +42,6 @@ public class OrderValidator {
     private Shop getShop(Long shopId) {
         return shopRepository.findById(shopId)
                 .orElseThrow(() -> new IllegalArgumentException(SHOP_DOES_NOT_EXIST));
-        
     }
     
     private List<Menu> getMenus(List<Long> menuIds) {

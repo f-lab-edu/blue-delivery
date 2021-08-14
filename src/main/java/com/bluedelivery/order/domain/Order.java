@@ -1,5 +1,7 @@
 package com.bluedelivery.order.domain;
 
+import static com.bluedelivery.order.domain.ExceptionMessage.ORDERED_AND_MENU_ARE_DIFFERENT;
+import static com.bluedelivery.order.domain.ExceptionMessage.ORDER_LIST_IS_EMPTY;
 import static java.util.stream.Collectors.toList;
 
 import java.util.ArrayList;
@@ -17,17 +19,19 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.bluedelivery.order.application.OrderValidator;
+import com.bluedelivery.domain.menu.Menu;
 import com.bluedelivery.payment.Payment;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+
 @Entity
 @Table(name = "ORDERS")
 public class Order {
     
     public enum OrderStatus {
-        CREATED, PAYED, DONE;
+        CREATED, PAYED, ACCEPTED, IN_DELIVERY, DELIVERED;
     }
     
     @Id @GeneratedValue
@@ -64,14 +68,9 @@ public class Order {
         this.paymentId = payment.id();
     }
     
-    public int numberOfOrderItems() {
-        return orderItems.size();
-    }
-    
     public List<Long> getOrderItemIds() {
         return orderItems.stream().map(OrderItem::getMenuId).collect(toList());
     }
-    
     
     public int totalOrderAmount() {
         return orderItems.stream().mapToInt(item -> item.totalOrderAmount()).sum();
@@ -93,8 +92,17 @@ public class Order {
         return shopId;
     }
     
-    public List<OrderItem> getOrderItems() {
-        return Collections.unmodifiableList(orderItems);
+    public void validate(List<Menu> menus) {
+        if (orderItems.size() == 0) {
+            throw new IllegalArgumentException(ORDER_LIST_IS_EMPTY);
+        }
+        for (OrderItem orderItem : this.orderItems) {
+            menus.stream()
+                    .filter(menu -> menu.getId() == orderItem.getMenuId())
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalStateException(ORDERED_AND_MENU_ARE_DIFFERENT))
+                    .validate(orderItem);
+        }
     }
     
     @Override
@@ -116,19 +124,19 @@ public class Order {
     
     @EqualsAndHashCode
     @Builder
+    @Getter
     public static class OrderForm {
         private Long shopId;
         private Long userId;
         private List<OrderItem> orderItems;
         
-        public Order createOrder(OrderValidator validator) {
+        public Order createOrder() {
             Order order = Order.builder()
                     .shopId(this.shopId)
                     .userId(this.userId)
                     .orderItems(this.orderItems)
                     .orderStatus(OrderStatus.CREATED)
                     .build();
-            validator.validate(order);
             return order;
         }
     }

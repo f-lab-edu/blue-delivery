@@ -13,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bluedelivery.order.application.OrderService;
-import com.bluedelivery.order.application.OrderValidator;
 import com.bluedelivery.order.domain.Order;
 import com.bluedelivery.order.domain.OrderRepository;
 import com.bluedelivery.payment.Payment;
@@ -28,28 +27,35 @@ class OrderServiceTest {
     private OrderRepository orderRepository;
     
     @Mock
-    private OrderValidator orderValidator;
+    private OrderMapper orderMapper;
     
     @Mock
     private PaymentService paymentService;
     
+    private Order.OrderForm form;
+    private Order order;
+    private Payment.PaymentForm paymentForm;
+    private Payment payment;
+    
     @BeforeEach
     void setup() {
-        orderService = new OrderHttpService(orderRepository, orderValidator, paymentService);
+        orderService = new OrderHttpService(orderRepository, orderMapper, paymentService);
+        form = orderForm().build();
+        order = form.createOrder();
+        paymentForm = new Payment.PaymentForm(order);
+        payment = paymentForm.createPayment();
+        given(orderMapper.orderMapper(form)).willReturn(order);
+        given(paymentService.process(paymentForm)).willReturn(payment);
     }
     
     @Test
     void if_payment_denied_order_fail() {
         //given
-        Payment payment = Payment.create();
         payment.deny();
-        Order.OrderForm form = orderForm().build();
-        Order order = form.createOrder(orderValidator);
-        given(paymentService.process(order)).willReturn(payment);
-    
+        
         //when
         assertThrows(IllegalStateException.class, () -> orderService.takeOrder(form));
-    
+        
         //then
         verify(orderRepository, never()).save(order);
     }
@@ -57,18 +63,12 @@ class OrderServiceTest {
     @Test
     void takeOrderTest() {
         //given
-        Payment payment = Payment.create();
-        Order.OrderForm form = orderForm().build();
-        Order order = form.createOrder(orderValidator);
-        given(paymentService.process(order)).willReturn(payment);
         
         //when
         Order result = orderService.takeOrder(form);
-    
+        
         //then
         assertThat(result).isEqualTo(order);
         verify(orderRepository, times(1)).save(order);
     }
-    
-    
 }

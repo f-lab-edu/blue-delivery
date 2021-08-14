@@ -69,7 +69,7 @@ public class OrderItem {
     }
     
     public int totalOrderAmount() {
-        return (price * quantity) + orderItemOptionGroups.stream().mapToInt(group -> group.totalOrderAmount()).sum();
+        return (price + orderItemOptionGroups.stream().mapToInt(group -> group.totalOrderAmount()).sum()) * quantity;
     }
     
     public static OrderItem from(Cart.CartItem cartItem) {

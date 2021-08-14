@@ -6,7 +6,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mockStatic;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -55,7 +57,9 @@ public class OrderValidatorTest {
     void exception_if_shop_is_not_open() {
         //given
         Order order = order().build();
-        given(shop.isOpen()).willReturn(false);
+        Shop shop = new Shop();
+        shop.updateExposeStatus(false);
+        given(shopRepository.findById(1L)).willReturn(Optional.of(shop));
         
         //when
         String msg = assertThrows(IllegalStateException.class, () -> orderValidator.validate(order)).getMessage();
@@ -92,7 +96,10 @@ public class OrderValidatorTest {
     void exception_if_ordered_amount_is_lower_than_minimum_amount() {
         //given
         Order order = order().build();
-        given(shop.getMinimumOrderAmount()).willReturn(30000);
+        Shop shop = new Shop();
+        shop.setMinimumOrderAmount(30000);
+        shop.updateExposeStatus(true);
+        given(shopRepository.findById(1L)).willReturn(Optional.of(shop));
         
         //when
         String msg = assertThrows(IllegalArgumentException.class, () -> orderValidator.validate(order)).getMessage();
