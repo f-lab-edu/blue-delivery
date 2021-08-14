@@ -8,8 +8,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdateMenuGroupDto {
 
+    @NotNull
     private Long id;
 
+    @NotNull
     private Long shopId;
 
     @NotNull @NotBlank
