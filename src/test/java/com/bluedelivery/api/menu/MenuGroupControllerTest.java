@@ -60,4 +60,15 @@ public class MenuGroupControllerTest {
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    @DisplayName("메뉴 그룹 삭제 성공시 204 NO CONFLICT 응답")
+    public void deleteMenuGroupTest() throws Exception {
+        Long id = 1L;
+
+        mockMvc.perform(delete("/shops/1/menu-groups/1")
+                .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(id)))
+                .andExpect(status().isNoContent());
+
+    }
 }

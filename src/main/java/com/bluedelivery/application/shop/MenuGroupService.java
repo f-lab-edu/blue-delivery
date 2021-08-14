@@ -9,4 +9,7 @@ public interface MenuGroupService {
     MenuGroup registerMenuGroup(RegisterMenuGroupDto dto);
 
     void updateMenuGroup(UpdateMenuGroupDto dto);
+
+    void deleteMenuGroup(Long id);
+
 }

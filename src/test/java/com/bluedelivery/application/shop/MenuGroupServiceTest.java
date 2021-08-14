@@ -78,4 +78,18 @@ class MenuGroupServiceTest {
         verify(repository, times(1)).save(getMenuGroup);
     }
 
+    @Test
+    @DisplayName("메뉴 그룹 삭제 테스트")
+    public void deleteMenuGroupTest() {
+        Long id = 1L;
+
+        MenuGroup getMenuGroup = new MenuGroup();
+
+        given(repository.findById(id)).willReturn(Optional.of(getMenuGroup));
+
+        service.deleteMenuGroup(id);
+
+        verify(repository, times(1)).delete(getMenuGroup);
+    }
+
 }

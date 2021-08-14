@@ -21,3 +21,8 @@ spring:
 
   session:
     store-type: none
+
+  redis:
+    host: localhost
+    password:
+    port: 6379

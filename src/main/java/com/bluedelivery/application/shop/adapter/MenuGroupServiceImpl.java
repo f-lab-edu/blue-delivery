@@ -2,9 +2,6 @@ package com.bluedelivery.application.shop.adapter;
 
 import static com.bluedelivery.common.response.ErrorCode.*;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bluedelivery.api.menu.RegisterMenuGroupDto;
@@ -13,19 +10,14 @@ import com.bluedelivery.application.shop.MenuGroupService;
 import com.bluedelivery.common.response.ApiException;
 import com.bluedelivery.domain.menu.MenuGroup;
 import com.bluedelivery.domain.menu.MenuGroupRepository;
-import com.bluedelivery.infra.shop.MenuGroupMapper;
 
 
 @Service
 public class MenuGroupServiceImpl implements MenuGroupService {
 
-    @Autowired
-    private MenuGroupMapper menuGroupMapper;
-
-    @Autowired
     private final MenuGroupRepository repository;
 
-    public MenuGroupServiceImpl(MenuGroupMapper menuGroupMapper, MenuGroupRepository repository) {
+    public MenuGroupServiceImpl(MenuGroupRepository repository) {
         this.repository = repository;
     }
 
@@ -36,20 +28,17 @@ public class MenuGroupServiceImpl implements MenuGroupService {
         return repository.save(dto.toEntity());
     }
 
-    public List<MenuGroup> getMenuGroup(Long id)  {
-        return menuGroupMapper.findMenuGroup(id);
-    }
-
     public void updateMenuGroup(UpdateMenuGroupDto dto) {
-        MenuGroup target = repository.findById(dto.getId()).orElseThrow(() -> new ApiException(GROUP_ALREADY_EXISTS));
+        MenuGroup target = repository.findById(dto.getId()).orElseThrow(() -> new ApiException(MENU_GROUP_NOT_FOUND));
 
         target.setName(dto.getName());
         target.setContent(dto.getContent());
         repository.save(target);
     }
 
-    public int deleteMenuGroup(Long id) {
-        return menuGroupMapper.deleteMenuGroup(id);
+    public void deleteMenuGroup(Long id) {
+        MenuGroup target = repository.findById(id).orElseThrow(() -> new ApiException(MENU_GROUP_NOT_FOUND));
+        repository.delete(target);
     }
 
     public boolean duplicateGroupName(String name) {
