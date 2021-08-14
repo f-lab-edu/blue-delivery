@@ -11,12 +11,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.bluedelivery.api.menu.adapter.MenuGroupController;
+import com.bluedelivery.api.menu.adapter.MenuGroupControllerImpl;
 import com.bluedelivery.application.authentication.AuthenticationService;
 import com.bluedelivery.application.shop.adapter.MenuGroupServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@WebMvcTest(MenuGroupController.class)
+@WebMvcTest(MenuGroupControllerImpl.class)
 public class MenuGroupControllerTest {
 
     @Autowired
