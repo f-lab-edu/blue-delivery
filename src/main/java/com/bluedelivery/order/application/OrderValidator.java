@@ -13,7 +13,6 @@ import com.bluedelivery.domain.shop.ShopRepository;
 import com.bluedelivery.domain.user.User;
 import com.bluedelivery.domain.user.UserRepository;
 import com.bluedelivery.order.domain.Order;
-import com.bluedelivery.order.domain.OrderItem;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,8 +29,8 @@ public class OrderValidator {
         Shop shop = getShop(order.getShopId());
         getUser(order.getUserId());
         
-        shop.validate(order);
-        order.validate(menus);
+        shop.isOrderPossible(order);
+        order.isValidMenu(menus);
     }
     
     private User getUser(Long userId) {

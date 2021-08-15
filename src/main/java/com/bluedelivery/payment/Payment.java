@@ -62,7 +62,7 @@ public class Payment {
         this.status = PAYED;
     }
     
-    public boolean denied() {
+    public boolean isDenied() {
         return status == DENIED;
     }
     

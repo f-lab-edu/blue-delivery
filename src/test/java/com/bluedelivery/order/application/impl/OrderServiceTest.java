@@ -44,7 +44,7 @@ class OrderServiceTest {
         order = form.createOrder();
         paymentForm = new Payment.PaymentForm(order);
         payment = paymentForm.createPayment();
-        given(orderMapper.orderMapper(form)).willReturn(order);
+        given(orderMapper.map(form)).willReturn(order);
         given(paymentService.process(paymentForm)).willReturn(payment);
     }
     

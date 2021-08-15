@@ -184,7 +184,7 @@ public class Shop {
         return Collections.unmodifiableList(deliveryAreas);
     }
     
-    public void validate(Order order) {
+    public void isOrderPossible(Order order) {
         if (!isOpen()) {
             throw new IllegalStateException(SHOP_IS_NOT_OPEN);
         }

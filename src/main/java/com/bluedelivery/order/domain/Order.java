@@ -5,7 +5,6 @@ import static com.bluedelivery.order.domain.ExceptionMessage.ORDER_LIST_IS_EMPTY
 import static java.util.stream.Collectors.toList;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -61,7 +60,7 @@ public class Order {
     }
     
     public void pay(Payment payment) {
-        if (payment.denied()) {
+        if (payment.isDenied()) {
             throw new IllegalStateException("결제 실패");
         }
         this.orderStatus = OrderStatus.PAYED;
@@ -92,7 +91,7 @@ public class Order {
         return shopId;
     }
     
-    public void validate(List<Menu> menus) {
+    public void isValidMenu(List<Menu> menus) {
         if (orderItems.size() == 0) {
             throw new IllegalArgumentException(ORDER_LIST_IS_EMPTY);
         }

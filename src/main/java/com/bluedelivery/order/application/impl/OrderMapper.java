@@ -13,7 +13,7 @@ public class OrderMapper {
     
     private final OrderValidator orderValidator;
     
-    public Order orderMapper(Order.OrderForm form) {
+    public Order map(Order.OrderForm form) {
         Order order = form.createOrder();
         orderValidator.validate(order);
         return order;
