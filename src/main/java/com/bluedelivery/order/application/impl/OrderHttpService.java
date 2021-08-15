@@ -1,25 +1,31 @@
 package com.bluedelivery.order.application.impl;
 
-import java.util.List;
-
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
 import com.bluedelivery.order.application.OrderService;
 import com.bluedelivery.order.domain.Order;
-import com.bluedelivery.order.domain.OrderItem;
+import com.bluedelivery.order.domain.OrderRepository;
+import com.bluedelivery.payment.Payment;
+import com.bluedelivery.payment.PaymentService;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Service
 public class OrderHttpService implements OrderService {
     
+    private final OrderRepository orderRepository;
+    private final OrderMapper orderMapper;
+    private final PaymentService paymentService;
+    
     @Transactional
-    public Order takeOrder(Long userId, List<OrderItem> orderItems) {
-        return new Order();
-        // TODO 주문 생성
-        // TODO ORDER 유효성 검사 order.validate(menus);
-        // TODO 결제 (mock)
-        // TODO 결제 완료 상태로 변경
-        // TODO 저장
+    public Order takeOrder(Order.OrderForm form) {
+        Order order = orderMapper.map(form);
+        Payment payment = paymentService.process(new Payment.PaymentForm(order));
+        order.pay(payment);
+        orderRepository.save(order);
+        return order;
     }
 }

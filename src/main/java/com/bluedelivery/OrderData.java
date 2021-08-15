@@ -12,6 +12,8 @@ import com.bluedelivery.order.interfaces.Cart.CartItemOption.CartItemOptionBuild
 import com.bluedelivery.order.interfaces.Cart.CartItemOptionGroup.CartItemOptionGroupBuilder;
 
 public class OrderData {
+    private static final Long SHOP_ID = 1L;
+    private static final Long VALID_USER_ID = 1L;
     private static Long menuId = 1L;
     private static String menuName = "양념치킨";
     private static String menuComposition = "양념치킨과 치킨무 세트";
@@ -23,6 +25,12 @@ public class OrderData {
     private static String optionName = "치킨무";
     private static int optionPrice = 500;
     
+    public static Order.OrderForm.OrderFormBuilder orderForm() {
+        return Order.OrderForm.builder()
+                .shopId(SHOP_ID)
+                .userId(VALID_USER_ID)
+                .orderItems(List.of(OrderItem.from(cartItem().build())));
+    }
     
     public static Menu.MenuBuilder menu() {
         return Menu.builder()

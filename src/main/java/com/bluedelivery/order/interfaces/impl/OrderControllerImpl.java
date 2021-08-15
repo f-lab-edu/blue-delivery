@@ -23,7 +23,7 @@ public class OrderControllerImpl implements OrderController {
     private final OrderService orderService;
     
     public ResponseEntity<HttpResponse<?>> createOrderRequest(Authentication authentication, Cart cart) {
-        Order order = orderService.takeOrder(authentication.getUserId(), cart.toOrderItems());
+        Order order = orderService.takeOrder(cart.toOrderForm(authentication.getUserId()));
         return ResponseEntity.created(URI.create("/orders/" + order.getOrderId())).body(response(order));
     }
 }
