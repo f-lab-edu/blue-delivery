@@ -31,6 +31,9 @@ class MenuGroupServiceTest {
     @Mock
     MenuGroupRepository repository;
 
+    @Mock
+    MenuGroup menuGroup;
+
     @Test
     @DisplayName("메뉴 그룹 생성 테스트")
     public void registerMenuGroupTest() {
@@ -69,13 +72,12 @@ class MenuGroupServiceTest {
         dto.setName("사이드메뉴");
         dto.setContent("5000원");
 
-        MenuGroup getMenuGroup = new MenuGroup();
-
-        given(repository.findById(dto.getId())).willReturn(Optional.of(getMenuGroup));
+        given(repository.findById(dto.getId())).willReturn(Optional.of(menuGroup));
 
         service.updateMenuGroup(dto);
 
-        verify(repository, times(1)).save(getMenuGroup);
+        verify(menuGroup, times(1)).setName(dto.getName());
+        verify(menuGroup, times(1)).setContent(dto.getContent());
     }
 
     @Test

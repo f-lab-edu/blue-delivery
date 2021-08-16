@@ -31,13 +31,6 @@ public class MenuGroupControllerImpl implements MenuGroupController {
         this.service = service;
     }
 
-    /**
-     * 메뉴 그룹 추가
-     *
-     * @param shopId 메뉴 그룹을 추가할 shop의 ID
-     * @param dto 생성할 메뉴 그룹 정보
-     *
-     */
     @Override
     @PostMapping("/{shopId}/menu-groups")
     public ResponseEntity<HttpResponse> registerMenuGroup(@PathVariable Long shopId,
@@ -47,14 +40,6 @@ public class MenuGroupControllerImpl implements MenuGroupController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response(dto));
     }
 
-    /**
-     * 메뉴 그룹 수정
-     *
-     * @param shopId 해당 shopId의 메뉴 그룹
-     * @param id 수정할 메뉴 그룹 ID
-     * @param dto 수정할 메뉴 그룹 정보(이름, 설명)
-     *
-     */
     @Override
     @PutMapping("/{shopId}/menu-groups/{id}")
     public ResponseEntity<HttpResponse> updateGroups(@PathVariable Long shopId,
@@ -66,13 +51,6 @@ public class MenuGroupControllerImpl implements MenuGroupController {
         return ResponseEntity.status(HttpStatus.OK).body(response(dto));
     }
 
-    /**
-     * 메뉴 그룹 삭제
-     *
-     * @param shopId 해당 shopId의 메뉴 그룹
-     * @param id 삭제할 메뉴 그룹
-     *
-     */
     @Override
     @DeleteMapping("/{shopId}/menu-groups/{id}")
     public ResponseEntity<HttpResponse> deleteGroups(@PathVariable Long shopId,

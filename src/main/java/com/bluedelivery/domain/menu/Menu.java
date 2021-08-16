@@ -5,6 +5,7 @@ import static com.bluedelivery.order.domain.ExceptionMessage.ORDERED_AND_MENU_AR
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -50,7 +51,7 @@ public class Menu {
     @JoinColumn(name = "MENU_GROUP_ID")
     private MenuGroup menuGroup;
 
-    @OneToMany(mappedBy = "menu")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private List<MenuOptionGroup> menuOptionGroup;
 
     private boolean isMain;
@@ -73,11 +74,6 @@ public class Menu {
         this.menuGroup = menuGroup;
         this.menuOptionGroup = menuOptionGroup;
         this.isMain = isMain;
-    }
-
-    public void addMenuOption(MenuOptionGroup optionGroup) {
-        menuOptionGroup.add(optionGroup);
-        optionGroup.setMenu(this);
     }
     
     public void validate(OrderItem orderItem) {

@@ -8,12 +8,9 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -51,10 +48,6 @@ public class MenuOptionGroup {
     @JsonManagedReference
     private List<MenuOption> options = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MENU_ID")
-    private Menu menu;
-
     public MenuOptionGroup() {
     }
 
@@ -66,7 +59,6 @@ public class MenuOptionGroup {
         this.minimumOption = minimumOption;
         this.maximumOption = maximumOption;
         this.options = options;
-        this.menu = menu;
     }
 
     public void addOption(MenuOption option) {
@@ -137,13 +129,5 @@ public class MenuOptionGroup {
 
     public void setOptions(List<MenuOption> options) {
         this.options = options;
-    }
-
-    public Menu getMenu() {
-        return menu;
-    }
-
-    public void setMenu(Menu menu) {
-        this.menu = menu;
     }
 }

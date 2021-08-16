@@ -5,8 +5,10 @@ import javax.validation.constraints.NotNull;
 
 import com.bluedelivery.domain.menu.MenuGroup;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @NoArgsConstructor
 public class RegisterMenuGroupDto {
 
@@ -26,29 +28,15 @@ public class RegisterMenuGroupDto {
         return menuGroup;
     }
 
-    public Long getShopId() {
-        return shopId;
-    }
-
     public void setShopId(Long shopId) {
         this.shopId = shopId;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public void setName(String groupName) {
         this.name = groupName;
     }
 
-    public String getContent() {
-        return content;
-    }
-
     public void setContent(String content) {
         this.content = content;
     }
-
-
 }
