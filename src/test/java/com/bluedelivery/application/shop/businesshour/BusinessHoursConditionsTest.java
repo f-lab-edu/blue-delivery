@@ -8,7 +8,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Month;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +28,7 @@ import com.bluedelivery.domain.shop.BusinessHour;
 
 class BusinessHoursConditionsTest {
     
+    private static final LocalDate SOME_FRIDAY = LocalDate.of(2021, Month.AUGUST, 13);
     private DayOfWeekMapper mapper = new DayOfWeekMapper();
     
     @Test
@@ -102,15 +106,14 @@ class BusinessHoursConditionsTest {
     @ValueSource(ints = {13, 14, 15, 21, 23, 0, 1, 2, 10, 11, 12})
     @DisplayName("영업 종료 시간이 전일 오후 1시 ~ 새벽 3시까지인 경우, 현재 시간이 그 안에 포함되면 테스트가 성공한다.")
     void beforeAndAfterMidnight(int hour) {
-        LocalTime now = LocalTime.of(hour, 00).plusNanos(1L);
-        BusinessHour businessHour = new BusinessHour(DayOfWeek.FRIDAY,
+        LocalDateTime now = LocalDateTime.of(SOME_FRIDAY, LocalTime.of(hour, 1));
+        BusinessHour businessHour = new BusinessHour(DayOfWeek.THURSDAY,
                 LocalTime.of(13, 0), LocalTime.of(03, 0));
         
         if ((13 <= hour && hour <= 23) || (0 <= hour && hour <= 3)) {
-            assertThat(businessHour.isOpening(now)).isTrue();
+            assertThat(businessHour.isOpen(now)).isTrue();
         } else {
-            assertThat(businessHour.isOpening(now)).isFalse();
+            assertThat(businessHour.isOpen(now)).isFalse();
         }
     }
-    
 }

@@ -8,4 +8,9 @@ public class LocalDateTimeConverter {
     public static LocalDateTime toLocalDateTime(LocalDate lastMondayOnJune) {
         return LocalDateTime.of(lastMondayOnJune, LocalTime.MIN);
     }
+    
+    public static LocalDateTime toLocalDateTime(LocalTime lastMondayOnJune) {
+        return LocalDateTime.of(LocalDate.MIN, lastMondayOnJune);
+    }
 }
+

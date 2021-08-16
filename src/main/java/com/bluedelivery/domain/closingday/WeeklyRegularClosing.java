@@ -10,7 +10,7 @@ import javax.persistence.Entity;
  *  매주 정기 휴무 정책
  */
 @Entity
-@DiscriminatorValue("WR")
+@DiscriminatorValue("WEEKLY")
 public class WeeklyRegularClosing extends ClosingPolicy {
     
     private DayOfWeek dayOfWeek;

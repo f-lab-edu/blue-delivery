@@ -3,7 +3,6 @@ package com.bluedelivery.domain.shop;
 import static com.bluedelivery.order.domain.ExceptionMessage.ORDERED_AMOUNT_LOWER_THAN_MINIMUM_ORDER_AMOUNT;
 import static com.bluedelivery.order.domain.ExceptionMessage.SHOP_IS_NOT_OPEN;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,12 +18,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Transient;
 
 import com.bluedelivery.domain.category.Category;
 import com.bluedelivery.domain.closingday.ClosingPolicies;
 import com.bluedelivery.domain.closingday.ClosingPolicy;
-import com.bluedelivery.domain.closingday.Suspension;
 import com.bluedelivery.order.domain.Order;
 
 import lombok.Builder;
@@ -57,8 +54,6 @@ public class Shop {
     private ClosingPolicies closingPolicies = new ClosingPolicies();
     
     private boolean exposed;
-    @Transient
-    private Suspension suspension = new Suspension();
     
     public Shop() {
     }
@@ -66,7 +61,7 @@ public class Shop {
     @Builder
     public Shop(Long id, String name, String introduce, String phone, String deliveryAreaGuide, int minimumOrderAmount,
                 List<BusinessHour> businessHours, List<Long> categoryIds, ClosingPolicies closingPolicies,
-                boolean exposed, Suspension suspension) {
+                boolean exposed) {
         this.id = id;
         this.name = name;
         this.introduce = introduce;
@@ -77,7 +72,6 @@ public class Shop {
         this.categoryIds = categoryIds;
         this.closingPolicies = closingPolicies;
         this.exposed = exposed;
-        this.suspension = suspension;
     }
     
     public void updateBusinessHours(List<BusinessHour> input) {
@@ -144,25 +138,15 @@ public class Shop {
     }
     
     public boolean isOpen() {
-        // TODO BusinessHour, ClosingDayPolicy 검사 필요
-        return exposed
-                && !suspension.isClosed(LocalDateTime.now());
+        return exposed && !isClosed(LocalDateTime.now()) && isBusinessHour(LocalDateTime.now());
     }
     
-    public boolean isExposed() {
-        return exposed;
+    private boolean isBusinessHour(LocalDateTime now) {
+        return this.businessHours.stream().anyMatch( x-> x.isOpen(now));
     }
     
     public void updateExposeStatus(Boolean expose) {
         this.exposed = expose;
-    }
-    
-    public void suspend(Suspension suspension) {
-        this.suspension = suspension;
-    }
-    
-    public Suspension getSuspension() {
-        return suspension;
     }
     
     public int getMinimumOrderAmount() {

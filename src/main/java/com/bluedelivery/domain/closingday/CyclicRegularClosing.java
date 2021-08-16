@@ -15,7 +15,7 @@ import javax.persistence.Transient;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@DiscriminatorValue("CR")
+@DiscriminatorValue("CYCLE")
 public class CyclicRegularClosing extends ClosingPolicy {
     
     public enum Cycle {

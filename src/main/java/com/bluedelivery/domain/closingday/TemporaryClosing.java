@@ -10,7 +10,7 @@ import javax.persistence.Entity;
  *  임시 휴무 정책
  */
 @Entity
-@DiscriminatorValue("T")
+@DiscriminatorValue("TEMP")
 public class TemporaryClosing extends ClosingPolicy {
     
     private LocalDate closeFrom;

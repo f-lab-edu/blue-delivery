@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  *  법정공휴일
  */
 @Entity
-@DiscriminatorValue("LH")
+@DiscriminatorValue("HOLIDAY")
 public class LegalHolidayClosing extends ClosingPolicy {
     
     @Transient
