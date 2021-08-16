@@ -32,7 +32,6 @@ public class BusinessHour implements Comparable<BusinessHour> {
      * 그래서 이 경우 다음 두 케이스를 비교한다.
      * - 1. open ~ 자정 직전
      * - 2. 자정 ~ close
-     * midnight.minusNanos(1L) : 자정을 24시 00분으로 표현할 수가 없어서 1 nano 를 깎아 23시 59분 59초 ... 로 최대치를 만들기 위함
      *
      * @param today 영업 시간에 포함되는지 확인할 시간
      * @return 영업중이 맞다면 true
@@ -42,15 +41,16 @@ public class BusinessHour implements Comparable<BusinessHour> {
     }
     
     private boolean isNextDayAndOpen(LocalDateTime today) { // 영업종료시간이 익일인 경우
-        LocalTime now = today.toLocalTime();
-        LocalTime midnight = LocalTime.MIDNIGHT;
         if (close.isBefore(open)) { // 영업종료시간이 익일인 경우
-            if (today.getDayOfWeek() == this.getDayOfWeek().plus(1)
-                    && isOpenOverMidnight(now, midnight)) {
+            if (isNextDay(today) && isOpenOverMidnight(today.toLocalTime())) {
                 return true;
             }
         }
         return false;
+    }
+    
+    private boolean isNextDay(LocalDateTime today) {
+        return this.dayOfWeek.plus(1) == today.getDayOfWeek();
     }
     
     private boolean isOpenToday(LocalDateTime today) {
@@ -59,9 +59,9 @@ public class BusinessHour implements Comparable<BusinessHour> {
                 && (open.isBefore(now) && now.isBefore(close));
     }
     
-    private boolean isOpenOverMidnight(LocalTime now, LocalTime midnight) {
-        return (open.isBefore(now) && now.isBefore(midnight.minusNanos(1L)))
-                || (midnight.isBefore(now) && now.isBefore(close));
+    private boolean isOpenOverMidnight(LocalTime now) {
+        return (open.isBefore(now) && now.isBefore(LocalTime.MAX))
+                || (now.isAfter(LocalTime.MIDNIGHT) && now.isBefore(close));
     }
     
     public DayOfWeek getDayOfWeek() {
