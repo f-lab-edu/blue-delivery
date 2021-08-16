@@ -5,24 +5,46 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 import com.bluedelivery.order.interfaces.Cart;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @EqualsAndHashCode
+@Entity
 public class OrderItem {
-    private final Long menuId;
-    private final String menuName;
-    private final int price;
-    private final int quantity;
-    private final List<OrderItemOptionGroup> orderItemOptionGroups = new ArrayList<>();
+    @Id @GeneratedValue
+    @Column(name = "ORDER_ITEM_ID")
+    private Long id;
+    
+    private Long menuId;
+    private String menuName;
+    private int price;
+    private int quantity;
+    
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "ORDER_ITEM_ID")
+    private List<OrderItemOptionGroup> orderItemOptionGroups = new ArrayList<>();
+    
+    protected OrderItem() {
+    }
     
     @Builder
-    public OrderItem(Long menuId, String menuName, int price, int quantity,
+    public OrderItem(Long id, Long menuId, String menuName, int price, int quantity,
                      List<OrderItemOptionGroup> orderItemOptionGroups) {
+        this.id = id;
         this.menuId = menuId;
         this.menuName = menuName;
         this.price = price;
@@ -47,7 +69,7 @@ public class OrderItem {
     }
     
     public int totalOrderAmount() {
-        return (price * quantity) + orderItemOptionGroups.stream().mapToInt(group -> group.totalOrderAmount()).sum();
+        return (price + orderItemOptionGroups.stream().mapToInt(group -> group.totalOrderAmount()).sum()) * quantity;
     }
     
     public static OrderItem from(Cart.CartItem cartItem) {
@@ -60,16 +82,32 @@ public class OrderItem {
                 .build();
     }
     
+    // TODO OrderItemOptionGroup, OrderOptionGroup의 id, name 필드명 수정 (MenuOption~)
     @Getter
     @EqualsAndHashCode
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @Entity
+    @Table(name = "ORDER_ITEM_OPTION_GROUP")
     public static class OrderItemOptionGroup {
         
-        private final Long id;
-        private final String name;
-        private final List<OrderItemOption> orderItemOptions = new ArrayList<>();
+        @Id @GeneratedValue
+        @Column(name = "ORDER_OPTION_GROUP_ID")
+        private Long orderOptionGroupId;
+    
+        @Column(name = "MENU_OPTION_GROUP_ID")
+        private Long id;
+    
+        @Column(name = "MENU_OPTION_GROUP_NAME")
+        private String name;
+        
+        @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+        @JoinColumn(name = "ORDER_OPTION_GROUP_ID")
+        private List<OrderItemOption> orderItemOptions = new ArrayList<>();
     
         @Builder
-        public OrderItemOptionGroup(Long id, String name, List<OrderItemOption> orderItemOptions) {
+        public OrderItemOptionGroup(Long orderOptionGroupId,
+                Long id, String name, List<OrderItemOption> orderItemOptions) {
+            this.orderOptionGroupId = orderOptionGroupId;
             this.id = id;
             this.name = name;
             this.orderItemOptions.addAll(orderItemOptions);
@@ -100,14 +138,30 @@ public class OrderItem {
                 .collect(Collectors.toList());
     }
     
-    @Builder
     @Getter
-    @RequiredArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
     @EqualsAndHashCode
+    @Entity
+    @Table(name = "ORDER_ITEM_OPTION")
     public static class OrderItemOption {
-        private final Long id;
-        private final String name;
-        private final int price;
+    
+        @Id @GeneratedValue
+        @Column(name = "ORDER_OPTION_ID")
+        private Long orderOptionId;
+    
+        @Column(name = "MENU_OPTION_ID")
+        private Long id;
+        
+        @Column(name = "MENU_OPTION_NAME")
+        private String name;
+        private int price;
+    
+        @Builder
+        public OrderItemOption(Long id, String name, int price) {
+            this.id = id;
+            this.name = name;
+            this.price = price;
+        }
     
         public static OrderItemOption from(Cart.CartItemOption cartItemOption) {
             return OrderItemOption.builder()

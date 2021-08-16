@@ -1,5 +1,8 @@
 package com.bluedelivery.domain.shop;
 
+import static com.bluedelivery.order.domain.ExceptionMessage.ORDERED_AMOUNT_LOWER_THAN_MINIMUM_ORDER_AMOUNT;
+import static com.bluedelivery.order.domain.ExceptionMessage.SHOP_IS_NOT_OPEN;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -21,6 +24,7 @@ import com.bluedelivery.domain.category.Category;
 import com.bluedelivery.domain.closingday.ClosingDayPolicies;
 import com.bluedelivery.domain.closingday.ClosingDayPolicy;
 import com.bluedelivery.domain.closingday.Suspension;
+import com.bluedelivery.order.domain.Order;
 
 import lombok.Builder;
 
@@ -143,7 +147,8 @@ public class Shop {
 
     public boolean isOpen() {
         // TODO BusinessHour, ClosingDayPolicy 검사 필요
-        return !suspension.isSuspended(LocalDateTime.now());
+        return exposed
+                && !suspension.isSuspended(LocalDateTime.now());
     }
 
     public boolean isExposed() {
@@ -177,5 +182,14 @@ public class Shop {
 
     public List<DeliveryArea> getDeliveryAreas() {
         return Collections.unmodifiableList(deliveryAreas);
+    }
+    
+    public void isOrderPossible(Order order) {
+        if (!isOpen()) {
+            throw new IllegalStateException(SHOP_IS_NOT_OPEN);
+        }
+        if (order.totalOrderAmount() < this.minimumOrderAmount) {
+            throw new IllegalArgumentException(ORDERED_AMOUNT_LOWER_THAN_MINIMUM_ORDER_AMOUNT);
+        }
     }
 }
