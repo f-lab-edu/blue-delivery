@@ -1,13 +1,23 @@
 package com.bluedelivery.domain.closingday;
 
 import java.time.DayOfWeek;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-public class WeeklyRegularClosing extends RegularClosingDay {
-    
-    private static final String CLOSING_TYPE = "WEEKLY_REGULAR";
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+/**
+ *  매주 정기 휴무 정책
+ */
+@Entity
+@DiscriminatorValue("WR")
+public class WeeklyRegularClosing extends ClosingPolicy {
     
     private DayOfWeek dayOfWeek;
+    
+    public WeeklyRegularClosing() {
+    
+    }
     
     public WeeklyRegularClosing(DayOfWeek dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
@@ -18,13 +28,8 @@ public class WeeklyRegularClosing extends RegularClosingDay {
      * @param date 확인하고 싶은 날짜
      * @return 주기에 해당된다면 true
      */
-    @Override
-    public boolean isClosedAt(LocalDate date) {
+    public boolean isClosed(LocalDateTime date) {
         return this.dayOfWeek == date.getDayOfWeek();
-    }
-    
-    public String getClosingType() {
-        return CLOSING_TYPE;
     }
     
     public DayOfWeek getDayOfWeek() {

@@ -2,7 +2,7 @@ package com.bluedelivery.domain.closingday;
 
 import java.time.LocalDateTime;
 
-public class Suspension {
+public class Suspension extends ClosingPolicy {
     private LocalDateTime from;
     private LocalDateTime to;
     
@@ -18,7 +18,7 @@ public class Suspension {
         this.to = to;
     }
     
-    public boolean isSuspended(LocalDateTime now) {
+    public boolean isClosed(LocalDateTime now) {
         return now.isAfter(from) && now.isBefore(to);
     }
     

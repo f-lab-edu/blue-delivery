@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,8 +22,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Transient;
 
 import com.bluedelivery.domain.category.Category;
-import com.bluedelivery.domain.closingday.ClosingDayPolicies;
-import com.bluedelivery.domain.closingday.ClosingDayPolicy;
+import com.bluedelivery.domain.closingday.ClosingPolicies;
+import com.bluedelivery.domain.closingday.ClosingPolicy;
 import com.bluedelivery.domain.closingday.Suspension;
 import com.bluedelivery.order.domain.Order;
 
@@ -52,8 +53,9 @@ public class Shop {
     @CollectionTable(name = "SHOP_CATEGORY", joinColumns = @JoinColumn(name = "SHOP_ID"))
     private List<Long> categoryIds = new ArrayList<>();
     
-    @Transient
-    private ClosingDayPolicies closingDayPolicies = new ClosingDayPolicies();
+    @Embedded
+    private ClosingPolicies closingPolicies = new ClosingPolicies();
+    
     private boolean exposed;
     @Transient
     private Suspension suspension = new Suspension();
@@ -63,7 +65,7 @@ public class Shop {
     
     @Builder
     public Shop(Long id, String name, String introduce, String phone, String deliveryAreaGuide, int minimumOrderAmount,
-                List<BusinessHour> businessHours, List<Long> categoryIds, ClosingDayPolicies closingDayPolicies,
+                List<BusinessHour> businessHours, List<Long> categoryIds, ClosingPolicies closingPolicies,
                 boolean exposed, Suspension suspension) {
         this.id = id;
         this.name = name;
@@ -73,7 +75,7 @@ public class Shop {
         this.minimumOrderAmount = minimumOrderAmount;
         this.businessHours = businessHours;
         this.categoryIds = categoryIds;
-        this.closingDayPolicies = closingDayPolicies;
+        this.closingPolicies = closingPolicies;
         this.exposed = exposed;
         this.suspension = suspension;
     }
@@ -133,22 +135,18 @@ public class Shop {
         return introduce;
     }
     
-    public void addClosingDayPolicy(ClosingDayPolicy instance) {
-        closingDayPolicies.addClosingDayPolicy(instance);
+    public void addClosingDayPolicy(ClosingPolicy policy) {
+        this.closingPolicies.add(policy);
     }
     
-    public ClosingDayPolicies getClosingDayPolicies() {
-        return closingDayPolicies;
-    }
-    
-    public boolean isClosingAt(LocalDate date) {
-        return closingDayPolicies.isClosingAt(date);
+    public boolean isClosed(LocalDateTime datetime) {
+        return closingPolicies.isClosed(datetime);
     }
     
     public boolean isOpen() {
         // TODO BusinessHour, ClosingDayPolicy 검사 필요
         return exposed
-                && !suspension.isSuspended(LocalDateTime.now());
+                && !suspension.isClosed(LocalDateTime.now());
     }
     
     public boolean isExposed() {

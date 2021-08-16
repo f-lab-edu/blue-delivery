@@ -1,28 +1,39 @@
 package com.bluedelivery.domain.closingday;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-public class TemporaryClosing implements ClosingDayPolicy {
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+/**
+ *  임시 휴무 정책
+ */
+@Entity
+@DiscriminatorValue("T")
+public class TemporaryClosing extends ClosingPolicy {
     
-    private static final String CLOSING_TYPE = "TEMPORARY";
+    private LocalDate closeFrom;
+    private LocalDate closeTo;
     
-    private LocalDate from;
-    private LocalDate to;
+    public TemporaryClosing() {
+    
+    }
     
     public TemporaryClosing(LocalDate date) {
-        this.from = date;
-        this.to = date;
+        this.closeFrom = date;
+        this.closeTo = date;
     }
     
     public TemporaryClosing(LocalDate from, LocalDate to) {
         if (from.isAfter(to)) { // to가 시간 순서상 앞서는 경우, 순서를 반대로 값을 저장한다.
-            this.from = to;
-            this.to = from;
+            this.closeFrom = to;
+            this.closeTo = from;
             return;
         }
         
-        this.from = from;
-        this.to = to;
+        this.closeFrom = from;
+        this.closeTo = to;
     }
     
     /**
@@ -31,27 +42,15 @@ public class TemporaryClosing implements ClosingDayPolicy {
      * @return 경계값을 포함한 휴무 시작/종료일 사이에 입력한 날짜가 존재하면 true
      */
     @Override
-    public boolean isClosedAt(LocalDate date) {
-        return from.compareTo(date) <= 0 && to.compareTo(date) >= 0;
-    }
-    
-    public String getClosingType() {
-        return CLOSING_TYPE;
-    }
-    
-    public LocalDate getFrom() {
-        return from;
-    }
-    
-    public LocalDate getTo() {
-        return to;
+    public boolean isClosed(LocalDateTime date) {
+        return closeFrom.compareTo(date.toLocalDate()) <= 0 && closeTo.compareTo(date.toLocalDate()) >= 0;
     }
     
     @Override
     public String toString() {
         return "TemporaryClosing{"
-                + "from=" + from
-                + ", to=" + to
+                + "from=" + closeFrom
+                + ", to=" + closeTo
                 + '}';
     }
 }

@@ -2,32 +2,45 @@ package com.bluedelivery.domain.closingday;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.Transient;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class CyclicRegularClosing extends RegularClosingDay {
+@Entity
+@DiscriminatorValue("CR")
+public class CyclicRegularClosing extends ClosingPolicy {
     
     public enum Cycle {
         FIRST(1), SECOND(2), THIRD(3), FOURTH(4), FIFTH(5), LAST(0);
-        
+    
         private int cycle;
-        
+    
         Cycle(int cycle) {
             this.cycle = cycle;
         }
-        
+    
         public int getCycleAsInt() {
             return cycle;
         }
+    
     }
     
-    private static final String CLOSING_TYPE = "CYCLIC_REGULAR";
+    public CyclicRegularClosing() {
+    
+    }
+    
     private Cycle cycle;
     private DayOfWeek dayOfWeek;
-    @JsonIgnore
+    
+    @Transient
     private TemporalField weekFields; // 외부에서 입력받는 LocalDate 의 주(첫째주, 둘째주, ...)를 계산하기 위한 기준
     
     public CyclicRegularClosing(Cycle cycle, DayOfWeek dayOfWeek) {
@@ -42,12 +55,8 @@ public class CyclicRegularClosing extends RegularClosingDay {
      * @param date 확인하고 싶은 날짜
      * @return 주기에 해당되는 날짜면 true
      */
-    @Override
-    public boolean isClosedAt(LocalDate date) {
-        if (checkDayOfWeek(date) && isCyclicWeek(date)) {
-            return true;
-        }
-        return false;
+    public boolean isClosed(LocalDateTime date) {
+        return checkDayOfWeek(date.toLocalDate()) && isCyclicWeek(date.toLocalDate());
     }
     
     /**
@@ -63,10 +72,7 @@ public class CyclicRegularClosing extends RegularClosingDay {
         YearMonth currentYearMonth = YearMonth.from(date);
         int numberOfWeek = getNumberOfWeek(date);
         int last = getNumberOfWeek(currentYearMonth.atEndOfMonth());
-        if (numberOfWeek == last || numberOfWeek == 0) {
-            return true;
-        }
-        return false;
+        return numberOfWeek == last || numberOfWeek == 0;
     }
     
     private boolean isCyclicWeek(LocalDate date) {
@@ -83,20 +89,8 @@ public class CyclicRegularClosing extends RegularClosingDay {
         return date.get(weekFields);
     }
     
-    public String getClosingType() {
-        return CLOSING_TYPE;
-    }
-    
-    public Cycle getCycle() {
-        return cycle;
-    }
-    
     public DayOfWeek getDayOfWeek() {
         return dayOfWeek;
-    }
-    
-    public TemporalField getWeekFields() {
-        return weekFields;
     }
     
     @Override
