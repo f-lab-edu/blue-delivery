@@ -51,7 +51,7 @@ public class Menu {
     @JoinColumn(name = "MENU_GROUP_ID")
     private MenuGroup menuGroup;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.PERSIST)
     private List<MenuOptionGroup> menuOptionGroup;
 
     private boolean isMain;
