@@ -39,7 +39,6 @@ public class OrderData {
                 .composition(menuComposition)
                 .content(menuContent)
                 .isMain(true)
-                .menuGroupId(1L)
                 .price(menuPrice)
                 .status(Menu.MenuStatus.DEFAULT)
                 .menuOptionGroup(List.of(

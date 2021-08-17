@@ -37,7 +37,6 @@ public class MenuOptionGroupDto {
 
     public MenuOptionGroup toEntity() {
         MenuOptionGroup optionGroup = new MenuOptionGroup();
-        optionGroup.setMenuId(menuId);
         optionGroup.setName(name);
         optionGroup.setOptionRequired(optionRequired);
         if (!optionRequired) {

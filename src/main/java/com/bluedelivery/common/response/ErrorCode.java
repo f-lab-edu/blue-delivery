@@ -24,7 +24,8 @@ public enum ErrorCode {
     DUPLICATE_CATEGORY(HttpStatus.CONFLICT, "Category already exists."),
     CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "Category is not found"),
     OPTION_MIN_MAX_SELECT_ERROR(HttpStatus.BAD_REQUEST, "Option min,max select error"),
-    MENU_NOT_FOUND(HttpStatus.NOT_FOUND, "Menu not found");
+    MENU_NOT_FOUND(HttpStatus.NOT_FOUND, "Menu not found"),
+    MENU_GROUP_NOT_FOUND(HttpStatus.NOT_FOUND, "MenuGroup not found");
 
     private final HttpStatus httpStatus;
     private final String result;

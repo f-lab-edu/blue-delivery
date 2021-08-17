@@ -1,4 +1,4 @@
-package com.bluedelivery.api.shop;
+package com.bluedelivery.api.menu;
 
 import javax.validation.constraints.NotNull;
 
@@ -6,7 +6,6 @@ import com.bluedelivery.domain.menu.Menu.MenuStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-
 public class UpdateMenuDto {
 
     private String name;

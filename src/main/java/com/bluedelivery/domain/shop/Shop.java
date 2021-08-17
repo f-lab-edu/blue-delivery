@@ -39,28 +39,28 @@ public class Shop {
     private String phone;
     private String deliveryAreaGuide;
     private int minimumOrderAmount;
-    
+
     @ElementCollection
     @CollectionTable(name = "DELIVERY_AREA", joinColumns = @JoinColumn(name = "SHOP_ID"))
     private List<DeliveryArea> deliveryAreas = new ArrayList<>();
-    
+
     @ElementCollection
     @CollectionTable(name = "BUSINESS_HOUR", joinColumns = @JoinColumn(name = "SHOP_ID"))
     private List<BusinessHour> businessHours = new ArrayList<>();
-    
+
     @ElementCollection
     @CollectionTable(name = "SHOP_CATEGORY", joinColumns = @JoinColumn(name = "SHOP_ID"))
     private List<Long> categoryIds = new ArrayList<>();
-    
+
     @Transient
     private ClosingDayPolicies closingDayPolicies = new ClosingDayPolicies();
     private boolean exposed;
     @Transient
     private Suspension suspension = new Suspension();
-    
+
     public Shop() {
     }
-    
+
     @Builder
     public Shop(Long id, String name, String introduce, String phone, String deliveryAreaGuide, int minimumOrderAmount,
                 List<BusinessHour> businessHours, List<Long> categoryIds, ClosingDayPolicies closingDayPolicies,
@@ -77,109 +77,109 @@ public class Shop {
         this.exposed = exposed;
         this.suspension = suspension;
     }
-    
+
     public void updateBusinessHours(List<BusinessHour> input) {
         this.businessHours.clear();
         this.businessHours.addAll(input);
     }
-    
+
     public void updateCategoryIds(List<Category> categories) {
         List<Long> ids = categories.stream().map(each -> each.getId()).collect(Collectors.toList());
         this.categoryIds.clear();
         this.categoryIds.addAll(ids);
     }
-    
+
     public List<BusinessHour> getBusinessHours() {
         return this.businessHours;
     }
-    
+
     public List<Long> getCategoryIds() {
         return this.categoryIds;
     }
-    
+
     public Long getId() {
         return id;
     }
-    
+
     public void editIntroduce(String introduce) {
         this.introduce = introduce;
     }
-    
+
     public void editPhoneNumber(String phone) {
         this.phone = phone;
     }
-    
+
     public void editDeliveryAreaGuide(String guide) {
         this.deliveryAreaGuide = guide;
     }
-    
+
     public void rename(String name) {
         this.name = name;
     }
-    
+
     public String getPhone() {
         return phone;
     }
-    
+
     public String getName() {
         return name;
     }
-    
+
     public String getDeliveryAreaGuide() {
         return deliveryAreaGuide;
     }
-    
+
     public String getIntroduce() {
         return introduce;
     }
-    
+
     public void addClosingDayPolicy(ClosingDayPolicy instance) {
         closingDayPolicies.addClosingDayPolicy(instance);
     }
-    
+
     public ClosingDayPolicies getClosingDayPolicies() {
         return closingDayPolicies;
     }
-    
+
     public boolean isClosingAt(LocalDate date) {
         return closingDayPolicies.isClosingAt(date);
     }
-    
+
     public boolean isOpen() {
         // TODO BusinessHour, ClosingDayPolicy 검사 필요
         return exposed
                 && !suspension.isSuspended(LocalDateTime.now());
     }
-    
+
     public boolean isExposed() {
         return exposed;
     }
-    
+
     public void updateExposeStatus(Boolean expose) {
         this.exposed = expose;
     }
-    
+
     public void suspend(Suspension suspension) {
         this.suspension = suspension;
     }
-    
+
     public Suspension getSuspension() {
         return suspension;
     }
-    
+
     public int getMinimumOrderAmount() {
         return minimumOrderAmount;
     }
-    
+
     public void setMinimumOrderAmount(int minimumOrderAmount) {
         this.minimumOrderAmount = minimumOrderAmount;
     }
-    
+
     public boolean updateDeliveryArea(List<DeliveryArea> deliveryAreas) {
         this.deliveryAreas.clear();
         return this.deliveryAreas.addAll(deliveryAreas);
     }
-    
+
     public List<DeliveryArea> getDeliveryAreas() {
         return Collections.unmodifiableList(deliveryAreas);
     }
