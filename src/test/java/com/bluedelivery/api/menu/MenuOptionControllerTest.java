@@ -42,7 +42,6 @@ class MenuOptionControllerTest {
         
         MenuOptionGroup request = new MenuOptionGroup();
         request.setId(1L);
-        request.setMenuId(1L);
         request.setName("맛선택");
         request.setOptionRequired(true);
         request.setMinimumOption(1);

@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
-import com.bluedelivery.api.menu.MenuGroupDto;
+import com.bluedelivery.api.menu.RegisterMenuGroupDto;
 import com.bluedelivery.domain.menu.MenuGroup;
 
 
@@ -13,15 +13,11 @@ import com.bluedelivery.domain.menu.MenuGroup;
 @Repository
 public interface MenuGroupMapper {
 
-    int saveMenuGroup(MenuGroupDto dto);
-
-    int groupNameCheck(String name);
-
     List<MenuGroup> findMenuGroup(Long shopId);
 
     List<MenuGroup> findMenuByGroupId(Long groupId);
 
-    int updateMenuGroup(MenuGroupDto dto);
+    int updateMenuGroup(RegisterMenuGroupDto dto);
 
     int deleteMenuGroup(Long id);
 

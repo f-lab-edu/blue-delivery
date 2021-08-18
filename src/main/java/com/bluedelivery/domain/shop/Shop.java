@@ -37,15 +37,15 @@ public class Shop {
     private String phone;
     private String deliveryAreaGuide;
     private int minimumOrderAmount;
-    
+
     @ElementCollection
     @CollectionTable(name = "DELIVERY_AREA", joinColumns = @JoinColumn(name = "SHOP_ID"))
     private List<DeliveryArea> deliveryAreas = new ArrayList<>();
-    
+
     @ElementCollection
     @CollectionTable(name = "BUSINESS_HOUR", joinColumns = @JoinColumn(name = "SHOP_ID"))
     private List<BusinessHour> businessHours = new ArrayList<>();
-    
+
     @ElementCollection
     @CollectionTable(name = "SHOP_CATEGORY", joinColumns = @JoinColumn(name = "SHOP_ID"))
     private List<Long> categoryIds = new ArrayList<>();
@@ -57,7 +57,7 @@ public class Shop {
     
     public Shop() {
     }
-    
+
     @Builder
     public Shop(Long id, String name, String introduce, String phone, String deliveryAreaGuide, int minimumOrderAmount,
                 List<BusinessHour> businessHours, List<Long> categoryIds, ClosingPolicies closingPolicies,
@@ -73,58 +73,58 @@ public class Shop {
         this.closingPolicies = closingPolicies;
         this.exposed = exposed;
     }
-    
+
     public void updateBusinessHours(List<BusinessHour> input) {
         this.businessHours.clear();
         this.businessHours.addAll(input);
     }
-    
+
     public void updateCategoryIds(List<Category> categories) {
         List<Long> ids = categories.stream().map(each -> each.getId()).collect(Collectors.toList());
         this.categoryIds.clear();
         this.categoryIds.addAll(ids);
     }
-    
+
     public List<BusinessHour> getBusinessHours() {
         return this.businessHours;
     }
-    
+
     public List<Long> getCategoryIds() {
         return this.categoryIds;
     }
-    
+
     public Long getId() {
         return id;
     }
-    
+
     public void editIntroduce(String introduce) {
         this.introduce = introduce;
     }
-    
+
     public void editPhoneNumber(String phone) {
         this.phone = phone;
     }
-    
+
     public void editDeliveryAreaGuide(String guide) {
         this.deliveryAreaGuide = guide;
     }
-    
+
     public void rename(String name) {
         this.name = name;
     }
-    
+
     public String getPhone() {
         return phone;
     }
-    
+
     public String getName() {
         return name;
     }
-    
+
     public String getDeliveryAreaGuide() {
         return deliveryAreaGuide;
     }
-    
+
     public String getIntroduce() {
         return introduce;
     }
@@ -136,7 +136,7 @@ public class Shop {
     public boolean isClosed(LocalDateTime datetime) {
         return closingPolicies.isClosed(datetime);
     }
-    
+
     public boolean isOpen() {
         return exposed && !isClosed(LocalDateTime.now()) && isBusinessHour(LocalDateTime.now());
     }
@@ -144,7 +144,7 @@ public class Shop {
     private boolean isBusinessHour(LocalDateTime now) {
         return this.businessHours.stream().anyMatch( x-> x.isOpen(now));
     }
-    
+
     public void updateExposeStatus(Boolean expose) {
         this.exposed = expose;
     }
@@ -152,16 +152,16 @@ public class Shop {
     public int getMinimumOrderAmount() {
         return minimumOrderAmount;
     }
-    
+
     public void setMinimumOrderAmount(int minimumOrderAmount) {
         this.minimumOrderAmount = minimumOrderAmount;
     }
-    
+
     public boolean updateDeliveryArea(List<DeliveryArea> deliveryAreas) {
         this.deliveryAreas.clear();
         return this.deliveryAreas.addAll(deliveryAreas);
     }
-    
+
     public List<DeliveryArea> getDeliveryAreas() {
         return Collections.unmodifiableList(deliveryAreas);
     }

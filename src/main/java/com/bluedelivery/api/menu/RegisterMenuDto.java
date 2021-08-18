@@ -38,7 +38,6 @@ public class RegisterMenuDto {
 
     public Menu toEntity() {
         return Menu.builder()
-                .menuGroupId(getMenuGroupId())
                 .name(getName())
                 .price(getPrice())
                 .composition(getComposition())
