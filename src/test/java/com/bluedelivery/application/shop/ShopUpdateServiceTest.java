@@ -1,5 +1,6 @@
 package com.bluedelivery.application.shop;
 
+import static com.bluedelivery.domain.closingday.LocalDateTimeConverter.toLocalDateTime;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
@@ -54,16 +55,15 @@ class ShopUpdateServiceTest {
         service.updateClosingDays(1L, request);
         
         // 법정공휴일 테스트
-        LegalHolidayClosing.getYearOf(Year.of(2021)).stream().forEach(
-                x -> assertThat(shop.isClosingAt(x)).isTrue()
+        LegalHolidayClosing.getHolidaysOf(Year.of(2021)).forEach(
+                x -> assertThat(shop.isClosed(toLocalDateTime(x))).isTrue()
         );
         // 정기휴무일 테스트
-        assertThat(shop.isClosingAt(lastMondayOnJune)).isTrue();
-        assertThat(shop.isClosingAt(sunday)).isTrue();
+        assertThat(shop.isClosed(toLocalDateTime(lastMondayOnJune))).isTrue();
+        assertThat(shop.isClosed(toLocalDateTime(sunday))).isTrue();
         // 임시휴무일 테스트
         june18.datesUntil(june23.plusDays(1)).forEach(
-                x -> assertThat(shop.isClosingAt(x)).isTrue()
+                x -> assertThat(shop.isClosed(toLocalDateTime(x))).isTrue()
         );
     }
-    
 }

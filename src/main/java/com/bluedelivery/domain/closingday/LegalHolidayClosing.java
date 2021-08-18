@@ -1,25 +1,31 @@
 package com.bluedelivery.domain.closingday;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Year;
 import java.util.Collection;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.Transient;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class LegalHolidayClosing implements ClosingDayPolicy {
+/**
+ *  법정공휴일
+ */
+@Entity
+@DiscriminatorValue("HOLIDAY")
+public class LegalHolidayClosing extends ClosingPolicy {
     
-    private static final String CLOSING_TYPE = "LEGAL_HOLIDAY";
-    @JsonIgnore
+    @Transient
     private static final YearlyLegalHolidays YEARLY = new YearlyLegalHolidays();
     
     public LegalHolidayClosing() {
     }
     
-    // mybatis의 resultMap을 사용할때 매개변수 없는 생성자로 초기화하는 방법을 모르겠어서 임시로 사용함
-    public LegalHolidayClosing(Long nothing) {
-    }
-    
-    public static Collection<LocalDate> getYearOf(Year year) {
+    public static Collection<LocalDate> getHolidaysOf(Year year) {
         return YEARLY.getYearly().get(year);
     }
     
@@ -30,13 +36,8 @@ public class LegalHolidayClosing implements ClosingDayPolicy {
      * @return 법정공휴일에 해당된다면 true
      * @see LegalHoliday
      */
-    @Override
-    public boolean isClosedAt(LocalDate date) {
-        return YEARLY.isHoliday(date);
-    }
-    
-    public String getClosingType() { // static getter는 JsonMappingException 발생하므로 주의
-        return CLOSING_TYPE;
+    public boolean isClosed(LocalDateTime date) {
+        return YEARLY.isHoliday(date.toLocalDate());
     }
     
     @Override

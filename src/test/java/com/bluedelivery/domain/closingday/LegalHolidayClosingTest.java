@@ -1,5 +1,6 @@
 package com.bluedelivery.domain.closingday;
 
+import static com.bluedelivery.domain.closingday.LocalDateTimeConverter.toLocalDateTime;
 import static org.assertj.core.api.Assertions.*;
 
 import java.time.LocalDate;
@@ -17,7 +18,7 @@ class LegalHolidayClosingTest {
     
     @Test
     void holidayTest() {
-        boolean closed = holiday.isClosedAt(LocalDate.of(2021, Month.MAY, 5));
+        boolean closed = holiday.isClosed(toLocalDateTime(LocalDate.of(2021, Month.MAY, 5)));
         assertThat(closed).isTrue();
     }
     
@@ -26,7 +27,7 @@ class LegalHolidayClosingTest {
     @DisplayName("2021년 구정은 양력으로 2월 11~13 +15일. (2020-01-24~26 +27, 2019-02-04~06)")
     void lunarHolidayTesT(int day) {
         // 2021년
-        boolean closed = holiday.isClosedAt(LocalDate.of(2021, Month.FEBRUARY, day));
+        boolean closed = holiday.isClosed(toLocalDateTime(LocalDate.of(2021, Month.FEBRUARY, day)));
         if (day >= 11 && day <= 13 || day == 15) {
             assertThat(closed).isTrue();
         } else {
@@ -34,7 +35,7 @@ class LegalHolidayClosingTest {
         }
         
         // 2020년
-        closed = holiday.isClosedAt(LocalDate.of(2020, Month.JANUARY, day));
+        closed = holiday.isClosed(toLocalDateTime(LocalDate.of(2020, Month.JANUARY, day)));
         if (day >= 24 && day <= 26 || day == 27) {
             assertThat(closed).isTrue();
         } else {
@@ -42,7 +43,7 @@ class LegalHolidayClosingTest {
         }
         
         // 2019년
-        closed = holiday.isClosedAt(LocalDate.of(2019, Month.FEBRUARY, day));
+        closed = holiday.isClosed(toLocalDateTime(LocalDate.of(2019, Month.FEBRUARY, day)));
         if (day >= 4 && day <= 6) {
             assertThat(closed).isTrue();
         } else {
@@ -56,7 +57,7 @@ class LegalHolidayClosingTest {
     void multiThread() {
         for (int i = 0; i < 10000; i++) {
             // isClosedAt()이 사용하는 updateHolidaysIfNotExist()에 System.out 찍어서 확인
-            new Thread(() -> holiday.isClosedAt(LocalDate.now().plusYears(1))).start();
+            new Thread(() -> holiday.isClosed(toLocalDateTime(LocalDate.now()).plusYears(1))).start();
         }
     }
 }

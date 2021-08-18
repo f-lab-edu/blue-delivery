@@ -1,9 +1,11 @@
 package com.bluedelivery.domain.closingday;
 
+import static com.bluedelivery.domain.closingday.LocalDateTimeConverter.toLocalDateTime;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.YearMonth;
 import java.time.temporal.TemporalField;
@@ -14,14 +16,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-class RegularClosingDayPolicyTest {
+class RegularClosingPolicyTest {
     
     @ParameterizedTest
     @ValueSource(ints = {13, 14, 15, 16, 17, 18, 19})
     @DisplayName("매주 일요일을 쉬는 날로 지정하고, 2021/08/13일(일요일)이 닫았는지 확인시 true, 나머지 일에는 false를 리턴한다.")
     void weeklyRegularClosingTest(int day) {
         WeeklyRegularClosing weekly = new WeeklyRegularClosing(DayOfWeek.SUNDAY);
-        boolean closed = weekly.isClosedAt(LocalDate.of(2021, Month.JUNE, day));
+        boolean closed = weekly.isClosed(toLocalDateTime(LocalDate.of(2021, Month.JUNE, day)));
         
         if (day == 13) {
             assertThat(closed).isTrue();
@@ -35,8 +37,8 @@ class RegularClosingDayPolicyTest {
     @DisplayName("매달 마지막주 월요일을 쉬는 날로 지정하고, 2021/06/28일(마지막주 월요일)을 제외한 모든 6월은 false를 리턴한다.")
     void cyclicLastWeekTest(int day) {
         CyclicRegularClosing cyclic = new CyclicRegularClosing(CyclicRegularClosing.Cycle.LAST, DayOfWeek.MONDAY);
-        LocalDate date = LocalDate.of(2021, Month.JUNE, day);
-        boolean isClosed = cyclic.isClosedAt(date);
+        LocalDateTime date = LocalDateTime.of(2021, Month.JUNE, day, 0, 0, 0);
+        boolean isClosed = cyclic.isClosed(date);
         if (day == 28) {
             assertThat(isClosed).isTrue();
         } else {
@@ -49,7 +51,7 @@ class RegularClosingDayPolicyTest {
     void weekUnder4daysIsLastWeekTest() {
         CyclicRegularClosing cyclic = new CyclicRegularClosing(CyclicRegularClosing.Cycle.LAST, DayOfWeek.SUNDAY);
         LocalDate date = LocalDate.of(2021, Month.AUGUST, 1);
-        boolean isClosed = cyclic.isClosedAt(date);
+        boolean isClosed = cyclic.isClosed(toLocalDateTime(date));
         assertThat(isClosed).isTrue();
     }
     
@@ -59,7 +61,7 @@ class RegularClosingDayPolicyTest {
     void thirdWeekTest(int day) {
         CyclicRegularClosing cyclic = new CyclicRegularClosing(CyclicRegularClosing.Cycle.THIRD, DayOfWeek.WEDNESDAY);
         LocalDate date = LocalDate.of(2021, Month.JUNE, day);
-        boolean isClosed = cyclic.isClosedAt(date);
+        boolean isClosed = cyclic.isClosed(toLocalDateTime(date));
         if (day == 16) {
             assertThat(isClosed).isTrue();
         } else {
