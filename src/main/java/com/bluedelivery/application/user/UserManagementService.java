@@ -49,4 +49,5 @@ public interface UserManagementService {
      */
     boolean removeAddress(Long id, Long addressId);
     
+    User getUserById(Long id);
 }

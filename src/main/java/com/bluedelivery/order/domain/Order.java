@@ -67,6 +67,14 @@ public class Order {
         this.paymentId = payment.id();
     }
     
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+    
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+    
     public List<Long> getOrderItemIds() {
         return orderItems.stream().map(OrderItem::getMenuId).collect(toList());
     }
@@ -89,6 +97,10 @@ public class Order {
     
     public Long getShopId() {
         return shopId;
+    }
+    
+    public Long getPaymentId() {
+        return paymentId;
     }
     
     public void isValidMenu(List<Menu> menus) {
