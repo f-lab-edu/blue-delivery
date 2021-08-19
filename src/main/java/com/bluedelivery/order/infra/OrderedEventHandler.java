@@ -24,12 +24,8 @@ public class OrderedEventHandler {
     @TransactionalEventListener
     public void notifyOrderToShop(OrderedNotificationEvent event) {
         log.info("알림 이벤트 발생 orderId: " + event.getOrderId());
-        try {
-            OrderDetails details = searchOrderService.getOrderDetails(event.getOrderId());
-            orderNotificationRepository.save(OrderNotification.from(details));
-        } catch (Exception e) {
-            log.error(String.valueOf(e));
-        }
+        OrderDetails details = searchOrderService.getOrderDetails(event.getOrderId());
+        orderNotificationRepository.save(OrderNotification.from(details));
     }
     
     @Data

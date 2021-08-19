@@ -25,12 +25,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ApiException.class)
     public ResponseEntity<HttpResponse> apiExceptionHandler(final ApiException ex) {
         ErrorCode error = ex.getError();
+        HttpResponse body = new HttpResponse(error.getStatus(), error.getMessage());
+        log.error("#### API EXCEPTION - " + body);
         return ResponseEntity
                 .status(error.getHttpStatus())
-                .body(new HttpResponse(
-                        error.getStatus(),
-                        error.getMessage()
-                ));
+                .body(body);
     }
 
     // 400
