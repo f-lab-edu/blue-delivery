@@ -13,14 +13,14 @@ public class OrderNotificationScheduler {
     
     private final NotificationService notificationService;
     
-    @Scheduled(fixedDelay = 1000L * 60 * 3, initialDelay = 1000L)
-    public void lookupFailedNotifications() {
+    @Scheduled(fixedDelay = 1000L * 30, initialDelay = 1000L)
+    public void lookupNotifications() {
         try {
-            log.info("주문 알림을 재전송합니다. ");
+            log.info("주문 알림을 전송합니다. ");
             notificationService.notifyOrder();
         } catch (RuntimeException exception) {
-            log.error("주문 알림 재전송 실패 : " + exception);
-            throw new IllegalStateException("재전송 실패 : " + exception);
+            log.error("주문 알림 전송 실패 : " + exception);
+            throw new IllegalStateException("주문 알림 전송 실패 : " + exception);
         }
     }
 }

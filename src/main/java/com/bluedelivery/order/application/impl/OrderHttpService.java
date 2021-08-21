@@ -30,12 +30,7 @@ public class OrderHttpService implements OrderService {
         Payment payment = paymentService.process(new Payment.PaymentForm(order));
         order.pay(payment);
         orderRepository.save(order);
-        publisher.publishEvent(new OrderedNotificationEvent(
-                order.getOrderId(),
-                order.getShopId(),
-                order.getUserId(),
-                order.getPaymentId()
-        ));
+        publisher.publishEvent(new OrderedNotificationEvent(order));
         return order;
     }
 
