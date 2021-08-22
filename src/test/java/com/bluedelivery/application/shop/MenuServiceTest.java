@@ -1,10 +1,12 @@
 package com.bluedelivery.application.shop;
 
 import static com.bluedelivery.common.response.ErrorCode.*;
-import static com.bluedelivery.domain.menu.Menu.*;
+import static com.bluedelivery.domain.menu.Menu.MenuStatus.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
+
+import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,9 +19,10 @@ import org.springframework.test.context.ActiveProfiles;
 import com.bluedelivery.api.menu.RegisterMenuDto;
 import com.bluedelivery.application.shop.adapter.MenuService;
 import com.bluedelivery.common.response.ApiException;
-import com.bluedelivery.common.response.ErrorCode;
 import com.bluedelivery.domain.menu.Menu;
-import com.bluedelivery.infra.shop.MenuMapper;
+import com.bluedelivery.domain.menu.MenuGroup;
+import com.bluedelivery.domain.menu.MenuGroupRepository;
+import com.bluedelivery.domain.menu.MenuRepository;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -30,7 +33,10 @@ class MenuServiceTest {
     MenuService service;
 
     @Mock
-    MenuMapper menuMapper;
+    MenuRepository menuRepository;
+
+    @Mock
+    MenuGroupRepository menuGroupRepository;
 
 
     @Test
@@ -42,85 +48,71 @@ class MenuServiceTest {
         dto.setPrice(3500);
         dto.setComposition("1인분");
         dto.setContent("부리또 + 피클");
-        dto.setStatus(MenuStatus.DEFAULT);
+        dto.setStatus(DEFAULT);
 
-        //when
+        MenuGroup getMenuGroup = new MenuGroup();
+        getMenuGroup.setId(1L);
+
+        given(menuGroupRepository.findById(dto.getMenuGroupId()))
+                .willReturn(Optional.of(getMenuGroup));
+
         service.registerMenu(dto);
 
-        //then
-        verify(menuMapper, times(1)).saveMenu(dto.toEntity());
-
+        verify(menuRepository, times(1)).save(dto.toEntity());
     }
 
     @Test
-    @DisplayName("대표메뉴 추가 기능 테스트")
-    public void addMainMenu() {
+    @DisplayName("메뉴 추가시 이름이 중복일때 예외발생 테스트")
+    public void saveMenuFailTest() {
+        RegisterMenuDto dto = new RegisterMenuDto();
+        dto.setName("부리또");
+        dto.setPrice(3500);
 
-        //when
-        service.setMainMenu(1L);
+        given(menuRepository.save(dto.toEntity()))
+                .willThrow(new ApiException(MENU_ALREADY_EXISTS));
 
-        //then
-        verify(menuMapper, times(1)).setMainMenu(1L);
+        assertThrows(ApiException.class,
+                () -> menuRepository.save(dto.toEntity())).getError();
     }
 
     @Test
     @DisplayName("대표메뉴 수 6개 초과 추가시 예외발생")
-    public void addMainMenuMaximumTest() {
-        Menu menu = Menu.builder()
-                .id(7L)
-                .build();
+    public void mainMenuSizeOverTest() {
 
-        when(service.setMainMenu(menu.getId()))
-                .thenThrow(new ApiException(MAXIMUM_NUMBER_OF_MENU));
+        given(menuRepository.findAll()
+                .stream()
+                .filter(m -> (m.getMenuGroup().getId() == 1))
+                .count() == 6)
+                .willThrow(new ApiException(MENU_MENU_SIZE_OVER));
 
-        ErrorCode errorCode =
-                assertThrows(ApiException.class,
-                        () -> service.setMainMenu(menu.getId())).getError();
-
-        assertThat(errorCode).isEqualTo(MAXIMUM_NUMBER_OF_MENU);
-
+        assertThrows(ApiException.class,
+                () -> menuRepository.findAll()).getError();
     }
 
-    @Test
-    @DisplayName("메뉴 이름 중복 테스트")
-    public void menuNameDuplicateTest() {
-
-        //given
-        given(menuMapper.menuNameCheck("부리또")).willReturn(1);
-        given(menuMapper.menuNameCheck("퀘사디아")).willReturn(0);
-
-        //then
-        assertThat(service.menuNameCheck("부리또")).isTrue();
-        assertThat(service.menuNameCheck("퀘사디아")).isFalse();
-
-
-    }
 
     @Test
     @DisplayName("메뉴 상태 변경 테스트")
     public void menuStatusUpdateTest() {
+        Menu menu = new Menu();
+        menu.setStatus(DEFAULT);
 
-        //when
-        service.menuStatusUpdate(1L, MenuStatus.SOLDOUT);
+        given(menuRepository.findById(1L)).willReturn(Optional.of(menu));
 
-        //then
-        verify(menuMapper, times(1)).menuStatusUpdate(1L, MenuStatus.SOLDOUT);
+        service.updateMenuStatus(1L, HIDDEN);
 
+        assertThat(menu.getStatus()).isEqualTo(HIDDEN);
     }
 
     @Test
     @DisplayName("메뉴 삭제 테스트")
     public void deleteMenuTest() {
-        Menu getMenu = new Menu();
-        Long menuId = 1L;
+        Menu menu = new Menu();
 
-        when(service.getMenuById(menuId)).thenReturn(getMenu);
+        given(menuRepository.findById(1L)).willReturn(Optional.of(menu));
 
-        //when
-        service.deleteMenu(menuId);
+        service.deleteMenu(1L);
 
-        //then
-        verify(menuMapper, times(1)).deleteMenu(menuId);
+        verify(menuRepository, times(1)).delete(menu);
     }
 
 }

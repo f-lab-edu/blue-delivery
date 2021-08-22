@@ -7,7 +7,6 @@ import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,10 +18,9 @@ import com.bluedelivery.api.menu.RegisterMenuDto;
 import com.bluedelivery.api.menu.UpdateMenuDto;
 import com.bluedelivery.application.shop.adapter.MenuService;
 import com.bluedelivery.common.response.HttpResponse;
-import com.bluedelivery.domain.menu.Menu;
 
 @RestController
-@RequestMapping("/menu-groups")
+@RequestMapping("/menu-groups/{menuGroupId}")
 public class MenuController {
 
     MenuService menuService;
@@ -36,12 +34,12 @@ public class MenuController {
      * @param dto         추가할 메뉴 정보
      * @return
      */
-    @PostMapping("/{menuGroupId}/menus")
-    public ResponseEntity<RegisterMenuDto> registerMenu(@PathVariable Long menuGroupId,
+    @PostMapping("/menus")
+    public ResponseEntity<HttpResponse> registerMenu(@PathVariable Long menuGroupId,
                                                         @RequestBody @Valid RegisterMenuDto dto) {
         dto.setMenuGroupId(menuGroupId);
         menuService.registerMenu(dto);
-        return new ResponseEntity(HttpResponse.response(SUCCESS, dto), HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response(dto));
     }
 
     /**
@@ -51,11 +49,11 @@ public class MenuController {
      * @param menuId 대표 메뉴로 설정 및 해제할 메뉴 ID
      *
      */
-    @PatchMapping("/{menuGroupId}/menus/main-set/{menuId}")
-    public ResponseEntity<HttpResponse<?>> registerMainMenu(@PathVariable Long menuGroupId,
+    @PatchMapping("/menus/main-set/{menuId}")
+    public ResponseEntity<HttpResponse<?>> setMainMenu(@PathVariable Long menuGroupId,
                                                             @PathVariable Long menuId) {
         menuService.setMainMenu(menuId);
-        return ResponseEntity.status(HttpStatus.OK).body(HttpResponse.response(SUCCESS, menuId));
+        return ResponseEntity.status(HttpStatus.OK).body(response(SUCCESS, menuId));
     }
 
     /**
@@ -66,34 +64,20 @@ public class MenuController {
      * @param dto         변경할 Status 정보
      *
      **/
-    @PatchMapping("/{menuGroupId}/menus/{menuId}")
-    public ResponseEntity<UpdateMenuDto> menuStatusUpdate(@PathVariable Long menuGroupId,
+    // TODO Dto 제거 및 (이름, 가격), (구성, 설명), (상태)로 API 분리
+    @PatchMapping("/menus/{menuId}")
+    public ResponseEntity<HttpResponse> updateMenuStatus(@PathVariable Long menuGroupId,
                                                           @PathVariable Long menuId,
                                                           @RequestBody @Valid UpdateMenuDto dto) {
-        menuService.menuStatusUpdate(menuId, dto.getStatus());
-        return new ResponseEntity(HttpResponse.response(SUCCESS, dto), HttpStatus.OK);
+        menuService.updateMenuStatus(menuId, dto.getStatus());
+        return ResponseEntity.status(HttpStatus.OK).body(response(dto));
     }
 
-    /**
-     * ID에 해당하는 메뉴 조회
-     *
-     * @param menuGroupId 메뉴 그룹 ID
-     * @param menuId      조회할 메뉴 ID
-     *
-     **/
-    // ToDo 옵션 그룹 구현 시 옵션 그룹을 포함하여 조회
-    @GetMapping("/{menuGroupId}/menus/{menuId}")
-    public ResponseEntity<HttpResponse> getMenuById(@PathVariable Long menuGroupId,
-                                                    @PathVariable Long menuId) {
-        Menu menu = menuService.getMenuById(menuId);
-        return new ResponseEntity(HttpResponse.response(SUCCESS, menu), HttpStatus.OK);
-    }
-
-    @DeleteMapping("/{menuGroupId}/menus/{menuId}")
+    @DeleteMapping("/menus/{menuId}")
     public ResponseEntity<HttpResponse> deleteMenu(@PathVariable Long menuGroupId,
                                                    @PathVariable Long menuId) {
         menuService.deleteMenu(menuId);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(HttpResponse.response(menuId));
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response(menuId));
     }
 
 }

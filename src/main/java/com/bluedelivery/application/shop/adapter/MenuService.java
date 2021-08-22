@@ -3,56 +3,98 @@ package com.bluedelivery.application.shop.adapter;
 import static com.bluedelivery.common.response.ErrorCode.*;
 import static com.bluedelivery.domain.menu.Menu.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bluedelivery.api.menu.RegisterMenuDto;
 import com.bluedelivery.common.response.ApiException;
 import com.bluedelivery.domain.menu.Menu;
-import com.bluedelivery.infra.shop.MenuMapper;
+import com.bluedelivery.domain.menu.MenuGroup;
+import com.bluedelivery.domain.menu.MenuGroupRepository;
+import com.bluedelivery.domain.menu.MenuRepository;
 
 @Service
 public class MenuService {
 
-    MenuMapper menuMapper;
+    @Autowired
+    private final MenuRepository menuRepository;
 
-    public MenuService(MenuMapper menuMapper) {
-        this.menuMapper = menuMapper;
+    @Autowired
+    private final MenuGroupRepository menuGroupRepository;
+
+    public MenuService(MenuRepository menuRepository, MenuGroupRepository menuGroupRepository) {
+        this.menuRepository = menuRepository;
+        this.menuGroupRepository = menuGroupRepository;
     }
 
+    public void registerMenu(RegisterMenuDto dto) {
+        Menu menu = dto.toEntity();
+        MenuGroup getMenuGroup = menuGroupRepository.findById(dto.getMenuGroupId())
+                .orElseThrow(() -> new ApiException(MENU_GROUP_NOT_FOUND));
 
-    public int registerMenu(RegisterMenuDto dto) {
-        if (menuNameCheck(dto.getName())) {
+        if (duplicateMenuName(dto.getName())) {
             throw new ApiException(MENU_ALREADY_EXISTS);
         }
-        Menu menu = dto.toEntity();
-        return menuMapper.saveMenu(menu);
+        menu.setMenuGroup(getMenuGroup);
+
+        menuRepository.save(menu);
     }
 
-    public int setMainMenu(Long id) {
-        if (menuMapper.countMainMenu() > 5) {
-            throw new ApiException(MAXIMUM_NUMBER_OF_MENU);
+    @Transactional
+    public void setMainMenu(Long id) {
+        Menu menu = menuRepository.findById(id)
+                .orElseThrow(() -> new ApiException(MENU_NOT_FOUND));
+
+        if (validateMainMenu(menu.getMenuGroup().getId())) {
+            throw new ApiException(MAIN_MENU_NOT_VALIDATED);
         }
-        return menuMapper.setMainMenu(id);
+
+        if (menu.isMain() == false) {
+            menu.setMain(true);
+        }
+        menu.setMain(false);
     }
 
-    public void menuStatusUpdate(Long id, MenuStatus status) {
-        menuMapper.menuStatusUpdate(id, status);
-    }
+    @Transactional
+    public void updateMenuStatus(Long id, MenuStatus status) {
+        Menu target = menuRepository.findById(id)
+                .orElseThrow(() -> new ApiException(MENU_NOT_FOUND));
 
-    public Menu getMenuById(Long id) {
-        return menuMapper.findMenuById(id);
-    }
-
-    public boolean menuNameCheck(String name) {
-        return menuMapper.menuNameCheck(name) == 1;
+        target.setStatus(status);
     }
 
     public void deleteMenu(Long id) {
-        Menu target = menuMapper.findMenuById(id);
-        if (target == null) {
-            throw new ApiException(MENU_NOT_FOUND);
+        Menu target = menuRepository.findById(id)
+                .orElseThrow(() -> new ApiException(MENU_NOT_FOUND));
+
+        menuRepository.delete(target);
+    }
+
+    public boolean duplicateMenuName(String name) {
+        Menu target = menuRepository.findByName(name);
+        if ( target != null) {
+            return true;
         }
-        menuMapper.deleteMenu(id);
+        return false;
+    }
+
+    public boolean validateMainMenu(Long groupId) {
+        if (groupId != 1 || mainMenuSizeOver()) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean mainMenuSizeOver() {
+        Long target = menuRepository.findAll()
+                .stream()
+                .filter(m -> m.isMain() == true)
+                .count();
+        if (target >= 5) {
+            throw new ApiException(MENU_MENU_SIZE_OVER);
+        }
+        return false;
     }
 
 }

@@ -78,6 +78,10 @@ public class MenuGroup {
         return menuList;
     }
 
+    public void setMenu(Menu menu) {
+        menu.setMenuGroup(this);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
