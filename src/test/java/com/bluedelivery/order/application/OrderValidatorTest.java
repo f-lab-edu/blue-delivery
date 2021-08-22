@@ -1,4 +1,4 @@
-package com.bluedelivery.order.domain;
+package com.bluedelivery.order.application;
 
 import static com.bluedelivery.OrderData.*;
 import static com.bluedelivery.order.domain.ExceptionMessage.*;
@@ -8,7 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mockStatic;
 
-import java.time.LocalDateTime;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -20,11 +21,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bluedelivery.domain.menu.MenuRepository;
+import com.bluedelivery.domain.shop.BusinessHour;
 import com.bluedelivery.domain.shop.Shop;
 import com.bluedelivery.domain.shop.ShopRepository;
 import com.bluedelivery.domain.user.User;
 import com.bluedelivery.domain.user.UserRepository;
-import com.bluedelivery.order.application.OrderValidator;
+import com.bluedelivery.order.domain.Order;
 
 @ExtendWith(MockitoExtension.class)
 public class OrderValidatorTest {
@@ -99,6 +101,7 @@ public class OrderValidatorTest {
         Shop shop = new Shop();
         shop.setMinimumOrderAmount(30000);
         shop.updateExposeStatus(true);
+        shop.updateBusinessHours(open24hour());
         given(shopRepository.findById(1L)).willReturn(Optional.of(shop));
         
         //when
@@ -106,6 +109,17 @@ public class OrderValidatorTest {
         
         //then
         assertThat(msg).isEqualTo(ORDERED_AMOUNT_LOWER_THAN_MINIMUM_ORDER_AMOUNT);
+    }
+    
+    private List<BusinessHour> open24hour() {
+        return List.of(
+                new BusinessHour(DayOfWeek.MONDAY, LocalTime.MIN, LocalTime.MAX),
+                new BusinessHour(DayOfWeek.TUESDAY, LocalTime.MIN, LocalTime.MAX),
+                new BusinessHour(DayOfWeek.WEDNESDAY, LocalTime.MIN, LocalTime.MAX),
+                new BusinessHour(DayOfWeek.THURSDAY, LocalTime.MIN, LocalTime.MAX),
+                new BusinessHour(DayOfWeek.FRIDAY, LocalTime.MIN, LocalTime.MAX),
+                new BusinessHour(DayOfWeek.SATURDAY, LocalTime.MIN, LocalTime.MAX),
+                new BusinessHour(DayOfWeek.SUNDAY, LocalTime.MIN, LocalTime.MAX));
     }
     
     @Test

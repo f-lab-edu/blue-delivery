@@ -3,7 +3,7 @@ package com.bluedelivery.application.shop.adapter;
 import static java.lang.Boolean.compare;
 import static java.util.stream.Collectors.toList;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ public class ShopExposeServiceImpl implements ShopExposeService {
     // TODO ShopExposeService에서는 여러가지 조건(영업, 정렬방법 등)을 만족하는 데이터를 내려주도록
     public List<Shop> getShopsByCategory(Long categoryId) {
         return shopRepository.findShopsByCategoryId(categoryId).stream()
-                .filter(shop -> !shop.isClosingAt(LocalDate.now())) // 휴무가 아닌 가게만 선택
+                .filter(shop -> !shop.isClosed(LocalDateTime.now())) // 휴무가 아닌 가게만 선택
                 .sorted((o1, o2) -> compare(o2.isOpen(), o1.isOpen())) // 영업중 가게(true) 순 정렬
                 .collect(toList());
     }

@@ -5,7 +5,7 @@
 
 <mapper namespace="com.bluedelivery.shop.category.ClosingMapper">
 
-    <resultMap id="closingDayResultMap" type="com.bluedelivery.domain.closingday.ClosingDayPolicy">
+    <resultMap id="closingDayResultMap" type="com.bluedelivery.domain.closingday.ClosingPolicy">
         <discriminator javaType="string" column="CLOSING_TYPE">
             <case value="CYCLIC_REGULAR" resultMap="cyclicRegularResultMap"/>
             <case value="WEEKLY_REGULAR" resultMap="weeklyRegularResultMap"/>

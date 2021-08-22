@@ -2,8 +2,8 @@ package com.bluedelivery.application.shop;
 
 import java.time.DayOfWeek;
 
+import com.bluedelivery.domain.closingday.ClosingPolicy;
 import com.bluedelivery.domain.closingday.CyclicRegularClosing;
-import com.bluedelivery.domain.closingday.RegularClosingDay;
 import com.bluedelivery.domain.closingday.WeeklyRegularClosing;
 
 import lombok.NoArgsConstructor;
@@ -23,7 +23,7 @@ public class RegularClosingParam {
         this.dayOfWeek = dayOfWeek;
     }
     
-    public RegularClosingDay toEntity() {
+    public ClosingPolicy toEntity() {
         if (this.cycle == null) {
             return new WeeklyRegularClosing(this.dayOfWeek);
         }

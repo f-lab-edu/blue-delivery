@@ -72,10 +72,8 @@ public class ShopUpdateService {
         if (closingOnLegalHolidays) {
             shop.addClosingDayPolicy(new LegalHolidayClosing());
         }
-        temporaries.stream().forEach(
-                temporary -> shop.addClosingDayPolicy( temporary.toEntity()));
-        regulars.stream().forEach(
-                regular -> shop.addClosingDayPolicy(regular.toEntity()));
+        temporaries.forEach(temporary -> shop.addClosingDayPolicy( temporary.toEntity()));
+        regulars.forEach(regular -> shop.addClosingDayPolicy(regular.toEntity()));
     }
     
     public void expose(Long shopId, Boolean status) {
@@ -85,7 +83,7 @@ public class ShopUpdateService {
     
     public void suspend(Long shopId, Suspension suspension) {
         Shop shop = getShop(shopId);
-        shop.suspend(suspension);
+        shop.addClosingDayPolicy(suspension);
     }
     
     @Transactional
