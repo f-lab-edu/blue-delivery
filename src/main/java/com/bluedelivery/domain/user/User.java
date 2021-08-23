@@ -87,8 +87,8 @@ public class User {
         this.dateOfBirth = dateOfBirth;
     }
     
-    public Addresses getAddresses() {
-        return addresses;
+    public Address getMainAddress() {
+        return addresses.getMainAddress();
     }
     
     public boolean designateAsMainAddress(Address address) {

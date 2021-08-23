@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationEventPublisher;
 
 import com.bluedelivery.order.application.OrderService;
 import com.bluedelivery.order.domain.Order;
@@ -32,6 +33,9 @@ class OrderServiceTest {
     @Mock
     private PaymentService paymentService;
     
+    @Mock
+    private ApplicationEventPublisher publisher;
+    
     private Order.OrderForm form;
     private Order order;
     private Payment.PaymentForm paymentForm;
@@ -39,7 +43,7 @@ class OrderServiceTest {
     
     @BeforeEach
     void setup() {
-        orderService = new OrderHttpService(orderRepository, orderMapper, paymentService);
+        orderService = new OrderHttpService(orderRepository, orderMapper, paymentService, publisher);
         form = orderForm().build();
         order = form.createOrder();
         paymentForm = new Payment.PaymentForm(order);
