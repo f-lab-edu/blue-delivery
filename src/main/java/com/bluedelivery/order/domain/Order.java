@@ -13,8 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -33,7 +33,7 @@ public class Order {
         CREATED, PAYED, ACCEPTED, IN_DELIVERY, DELIVERED;
     }
     
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
     
     @Enumerated(EnumType.STRING)
@@ -42,8 +42,7 @@ public class Order {
     private Long shopId;
     private Long paymentId;
     
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "ORDER_ID")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<OrderItem> orderItems = new ArrayList<>();
     
     protected Order() {
@@ -56,6 +55,7 @@ public class Order {
         this.orderStatus = orderStatus;
         this.userId = userId;
         this.shopId = shopId;
+        orderItems.forEach(item -> item.setOrder(this));
         this.orderItems.addAll(orderItems);
     }
     

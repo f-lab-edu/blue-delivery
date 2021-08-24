@@ -1,17 +1,20 @@
 package com.bluedelivery.order.domain;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -19,37 +22,37 @@ import com.bluedelivery.order.interfaces.Cart;
 
 import lombok.AccessLevel;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@EqualsAndHashCode
 @Entity
 public class OrderItem {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ORDER_ITEM_ID")
-    private Long id;
+    private Long orderItemId;
     
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ORDER_ID")
+    private Order order;
     private Long menuId;
     private String menuName;
     private int price;
     private int quantity;
     
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "ORDER_ITEM_ID")
+    @OneToMany(mappedBy = "orderItem", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItemOptionGroup> orderItemOptionGroups = new ArrayList<>();
     
     protected OrderItem() {
     }
     
     @Builder
-    public OrderItem(Long id, Long menuId, String menuName, int price, int quantity,
+    public OrderItem(Long orderItemId, Long menuId, String menuName, int price, int quantity,
                      List<OrderItemOptionGroup> orderItemOptionGroups) {
-        this.id = id;
+        this.orderItemId = orderItemId;
         this.menuId = menuId;
         this.menuName = menuName;
         this.price = price;
         this.quantity = quantity;
+        orderItemOptionGroups.forEach(item -> item.setOrderItem(this));
         this.orderItemOptionGroups.addAll(orderItemOptionGroups);
     }
     
@@ -83,34 +86,63 @@ public class OrderItem {
                 .build();
     }
     
-    // TODO OrderItemOptionGroup, OrderOptionGroup의 id, name 필드명 수정 (MenuOption~)
-    @Getter
-    @EqualsAndHashCode
+    public Long getOrderItemId() {
+        return orderItemId;
+    }
+    
+    public int getQuantity() {
+        return quantity;
+    }
+    
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        OrderItem orderItem = (OrderItem) obj;
+        return price == orderItem.price
+                && quantity == orderItem.quantity
+                && Objects.equals(menuId, orderItem.menuId)
+                && Objects.equals(menuName, orderItem.menuName)
+                && Objects.equals(orderItemOptionGroups, orderItem.orderItemOptionGroups);
+    }
+    
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     @Entity
     @Table(name = "ORDER_ITEM_OPTION_GROUP")
     public static class OrderItemOptionGroup {
         
-        @Id @GeneratedValue
+        @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "ORDER_OPTION_GROUP_ID")
         private Long orderOptionGroupId;
     
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "ORDER_ITEM_ID")
+        private OrderItem orderItem;
+        
         @Column(name = "MENU_OPTION_GROUP_ID")
         private Long id;
     
         @Column(name = "MENU_OPTION_GROUP_NAME")
         private String name;
         
-        @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-        @JoinColumn(name = "ORDER_OPTION_GROUP_ID")
+        @OneToMany(mappedBy = "orderItemOptionGroup", cascade = CascadeType.ALL, orphanRemoval = true)
         private List<OrderItemOption> orderItemOptions = new ArrayList<>();
     
         @Builder
-        public OrderItemOptionGroup(Long orderOptionGroupId,
-                Long id, String name, List<OrderItemOption> orderItemOptions) {
+        public OrderItemOptionGroup(Long orderOptionGroupId, Long id,
+                                    String name, List<OrderItemOption> orderItemOptions) {
             this.orderOptionGroupId = orderOptionGroupId;
             this.id = id;
             this.name = name;
+            orderItemOptions.forEach(item -> item.setOrderItemOptionGroup(this));
             this.orderItemOptions.addAll(orderItemOptions);
         }
     
@@ -131,6 +163,46 @@ public class OrderItem {
         public int totalOrderAmount() {
             return orderItemOptions.stream().mapToInt(option -> option.getPrice()).sum();
         }
+    
+        public void setOrderItem(OrderItem orderItem) {
+            this.orderItem = orderItem;
+        }
+    
+        public Long getOrderOptionGroupId() {
+            return orderOptionGroupId;
+        }
+    
+        public Long getId() {
+            return id;
+        }
+    
+        public String getName() {
+            return name;
+        }
+    
+        public List<OrderItemOption> getOrderItemOptions() {
+            return orderItemOptions;
+        }
+    
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null || getClass() != obj.getClass()) {
+                return false;
+            }
+            OrderItemOptionGroup that = (OrderItemOptionGroup) obj;
+            return Objects.equals(id, that.id)
+                    && Objects.equals(name, that.name)
+                    && Objects.equals(orderItemOptions, that.orderItemOptions);
+        }
+    
+        @Override
+        public int hashCode() {
+            return Objects.hash(orderOptionGroupId);
+        }
+        
     }
     
     private static List<OrderItemOption> fromList(List<Cart.CartItemOption> cartItemOptions) {
@@ -139,17 +211,19 @@ public class OrderItem {
                 .collect(Collectors.toList());
     }
     
-    @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @EqualsAndHashCode
     @Entity
     @Table(name = "ORDER_ITEM_OPTION")
     public static class OrderItemOption {
     
-        @Id @GeneratedValue
+        @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "ORDER_OPTION_ID")
         private Long orderOptionId;
     
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "ORDER_OPTION_GROUP_ID")
+        private OrderItemOptionGroup orderItemOptionGroup;
+        
         @Column(name = "MENU_OPTION_ID")
         private Long id;
         
@@ -170,6 +244,45 @@ public class OrderItem {
                     .name(cartItemOption.getName())
                     .price(cartItemOption.getPrice())
                     .build();
+        }
+    
+        public void setOrderItemOptionGroup(OrderItemOptionGroup orderItemOptionGroup) {
+            this.orderItemOptionGroup = orderItemOptionGroup;
+        }
+    
+        public Long getOrderOptionId() {
+            return orderOptionId;
+        }
+    
+        public Long getId() {
+            return id;
+        }
+    
+        public String getName() {
+            return name;
+        }
+    
+        public int getPrice() {
+            return price;
+        }
+    
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null || getClass() != obj.getClass()) {
+                return false;
+            }
+            OrderItemOption that = (OrderItemOption) obj;
+            return price == that.price
+                    && Objects.equals(id, that.id)
+                    && Objects.equals(name, that.name);
+        }
+    
+        @Override
+        public int hashCode() {
+            return Objects.hash(orderOptionId);
         }
     }
 }
