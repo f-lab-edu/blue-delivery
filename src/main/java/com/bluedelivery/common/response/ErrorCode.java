@@ -18,14 +18,14 @@ public enum ErrorCode {
     NOT_AUTHORIZED_ACCESS(HttpStatus.FORBIDDEN, "Not Authorized access"),
     INVALID_AUTHENTICATION(HttpStatus.UNAUTHORIZED, "Invalid Authentication"),
     ADDRESS_DOES_NOT_EXIST(HttpStatus.NOT_FOUND, "Address does not exist."),
-    MENU_MENU_SIZE_OVER(HttpStatus.BAD_REQUEST, "Menu size over."),
+    MAIN_MENU_SIZE_OVER(HttpStatus.BAD_REQUEST, "Main menu size over."),
     ALREADY_LOGGED_IN(HttpStatus.CONFLICT, "Already Logged in"),
     OPTION_GROUP_NOT_FOUND(HttpStatus.BAD_REQUEST, "Option group not found"),
     DUPLICATE_CATEGORY(HttpStatus.CONFLICT, "Category already exists."),
     CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "Category is not found"),
     OPTION_MIN_MAX_SELECT_ERROR(HttpStatus.BAD_REQUEST, "Option min,max select error"),
     MENU_NOT_FOUND(HttpStatus.NOT_FOUND, "Menu not found"),
-    MAIN_MENU_NOT_VALIDATED(HttpStatus.BAD_REQUEST, "Group id is not validated."),
+    MAIN_MENU_NOT_VALIDATED(HttpStatus.BAD_REQUEST, "Group id not validated."),
     MENU_GROUP_NOT_FOUND(HttpStatus.NOT_FOUND, "MenuGroup not found");
 
     private final HttpStatus httpStatus;

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bluedelivery.api.menu.RegisterMenuDto;
+import com.bluedelivery.application.shop.MenuService;
 import com.bluedelivery.common.response.ApiException;
 import com.bluedelivery.domain.menu.Menu;
 import com.bluedelivery.domain.menu.MenuGroup;
@@ -15,7 +16,7 @@ import com.bluedelivery.domain.menu.MenuGroupRepository;
 import com.bluedelivery.domain.menu.MenuRepository;
 
 @Service
-public class MenuService {
+public class MenuServiceImpl implements MenuService {
 
     @Autowired
     private final MenuRepository menuRepository;
@@ -23,7 +24,7 @@ public class MenuService {
     @Autowired
     private final MenuGroupRepository menuGroupRepository;
 
-    public MenuService(MenuRepository menuRepository, MenuGroupRepository menuGroupRepository) {
+    public MenuServiceImpl(MenuRepository menuRepository, MenuGroupRepository menuGroupRepository) {
         this.menuRepository = menuRepository;
         this.menuGroupRepository = menuGroupRepository;
     }
@@ -33,7 +34,7 @@ public class MenuService {
         MenuGroup getMenuGroup = menuGroupRepository.findById(dto.getMenuGroupId())
                 .orElseThrow(() -> new ApiException(MENU_GROUP_NOT_FOUND));
 
-        if (duplicateMenuName(dto.getName())) {
+        if (duplicateMenuName(dto.getName(), dto.getMenuGroupId())) {
             throw new ApiException(MENU_ALREADY_EXISTS);
         }
         menu.setMenuGroup(getMenuGroup);
@@ -46,14 +47,15 @@ public class MenuService {
         Menu menu = menuRepository.findById(id)
                 .orElseThrow(() -> new ApiException(MENU_NOT_FOUND));
 
+        if (menu.isMain() == false) {
+            menu.setMain(true);
+        } else {
+            menu.setMain(false);
+        }
+
         if (validateMainMenu(menu.getMenuGroup().getId())) {
             throw new ApiException(MAIN_MENU_NOT_VALIDATED);
         }
-
-        if (menu.isMain() == false) {
-            menu.setMain(true);
-        }
-        menu.setMain(false);
     }
 
     @Transactional
@@ -71,30 +73,30 @@ public class MenuService {
         menuRepository.delete(target);
     }
 
-    public boolean duplicateMenuName(String name) {
+    public boolean duplicateMenuName(String name, Long id) {
         Menu target = menuRepository.findByName(name);
-        if ( target != null) {
+        if (target != null && target.getMenuGroup().getId() == id) {
             return true;
         }
         return false;
     }
 
     public boolean validateMainMenu(Long groupId) {
-        if (groupId != 1 || mainMenuSizeOver()) {
+        mainMenuSizeOver();
+        if (groupId != 1) {
             return true;
         }
         return false;
     }
 
-    public boolean mainMenuSizeOver() {
+    public void mainMenuSizeOver() {
         Long target = menuRepository.findAll()
                 .stream()
                 .filter(m -> m.isMain() == true)
                 .count();
-        if (target >= 5) {
-            throw new ApiException(MENU_MENU_SIZE_OVER);
+        if (target >= 6) {
+            throw new ApiException(MAIN_MENU_SIZE_OVER);
         }
-        return false;
     }
 
 }

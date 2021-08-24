@@ -17,7 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ActiveProfiles;
 
 import com.bluedelivery.api.menu.RegisterMenuDto;
-import com.bluedelivery.application.shop.adapter.MenuService;
+import com.bluedelivery.application.shop.adapter.MenuServiceImpl;
 import com.bluedelivery.common.response.ApiException;
 import com.bluedelivery.domain.menu.Menu;
 import com.bluedelivery.domain.menu.MenuGroup;
@@ -30,7 +30,7 @@ import com.bluedelivery.domain.menu.MenuRepository;
 class MenuServiceTest {
 
     @InjectMocks
-    MenuService service;
+    MenuServiceImpl service;
 
     @Mock
     MenuRepository menuRepository;
@@ -83,7 +83,7 @@ class MenuServiceTest {
                 .stream()
                 .filter(m -> (m.getMenuGroup().getId() == 1))
                 .count() == 6)
-                .willThrow(new ApiException(MENU_MENU_SIZE_OVER));
+                .willThrow(new ApiException(MAIN_MENU_SIZE_OVER));
 
         assertThrows(ApiException.class,
                 () -> menuRepository.findAll()).getError();
