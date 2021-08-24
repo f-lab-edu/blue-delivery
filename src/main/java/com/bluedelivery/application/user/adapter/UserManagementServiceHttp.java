@@ -47,7 +47,7 @@ public class UserManagementServiceHttp implements UserManagementService {
     }
     
     public User updateAccount(UpdateAccountTarget param) {
-        User foundUser = getUserByIdAndCheckNotNull(param.getId());
+        User foundUser = getUserById(param.getId());
         foundUser.changePhone(param.getPhone());
         foundUser.changeNickname(param.getNickname());
         foundUser.setDateOfBirth(param.getDateOfBirth());
@@ -55,14 +55,14 @@ public class UserManagementServiceHttp implements UserManagementService {
     }
     
     public void deleteAccount(DeleteAccountTarget param) {
-        User user = getUserByIdAndCheckNotNull(param.getId());
+        User user = getUserById(param.getId());
         user.validate(param.getPassword());
         userRepository.delete(user);
     }
     
     @Override
     public Address addAddress(AddAddressTarget param) {
-        User user = getUserByIdAndCheckNotNull(param.getId());
+        User user = getUserById(param.getId());
         BuildingInfo buildingInfo =
                 addressService.getBuildingAddress(param.getBuildingManagementNumber());
         Address address = new Address(buildingInfo, param.getDetail());
@@ -72,19 +72,20 @@ public class UserManagementServiceHttp implements UserManagementService {
     
     @Override
     public boolean setMainAddress(Long userId, Long addressId) {
-        User user = getUserByIdAndCheckNotNull(userId);
+        User user = getUserById(userId);
         Address address = addressService.getAddress(addressId, user);
         return user.designateAsMainAddress(address);
     }
     
     @Override
     public boolean removeAddress(Long userId, Long addressId) {
-        User user = getUserByIdAndCheckNotNull(userId);
+        User user = getUserById(userId);
         Address address = addressService.getAddress(addressId, user);
         return user.removeAddress(address);
     }
     
-    private User getUserByIdAndCheckNotNull(Long id) {
+    @Override
+    public User getUserById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new ApiException(ErrorCode.USER_NOT_FOUND));
     }
