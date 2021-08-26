@@ -3,7 +3,6 @@ package com.bluedelivery.application.shop.adapter;
 import static com.bluedelivery.common.response.ErrorCode.*;
 import static com.bluedelivery.domain.menu.Menu.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,10 +17,8 @@ import com.bluedelivery.domain.menu.MenuRepository;
 @Service
 public class MenuServiceImpl implements MenuService {
 
-    @Autowired
     private final MenuRepository menuRepository;
 
-    @Autowired
     private final MenuGroupRepository menuGroupRepository;
 
     public MenuServiceImpl(MenuRepository menuRepository, MenuGroupRepository menuGroupRepository) {
@@ -39,6 +36,7 @@ public class MenuServiceImpl implements MenuService {
         }
         menu.setMenuGroup(getMenuGroup);
 
+        System.out.println(menuRepository.countIsMain());
         menuRepository.save(menu);
     }
 
@@ -52,10 +50,7 @@ public class MenuServiceImpl implements MenuService {
         } else {
             menu.setMain(false);
         }
-
-        if (validateMainMenu(menu.getMenuGroup().getId())) {
-            throw new ApiException(MAIN_MENU_NOT_VALIDATED);
-        }
+        validateMainMenu(menu.getMenuGroup().getId());
     }
 
     @Transactional
@@ -81,20 +76,16 @@ public class MenuServiceImpl implements MenuService {
         return false;
     }
 
-    public boolean validateMainMenu(Long groupId) {
+    public void validateMainMenu(Long groupId) {
         mainMenuSizeOver();
         if (groupId != 1) {
-            return true;
+            throw new ApiException(MAIN_MENU_NOT_VALIDATED);
         }
-        return false;
     }
 
     public void mainMenuSizeOver() {
-        Long target = menuRepository.findAll()
-                .stream()
-                .filter(m -> m.isMain() == true)
-                .count();
-        if (target >= 6) {
+        Long count = menuRepository.countIsMain();
+        if (count >= 6) {
             throw new ApiException(MAIN_MENU_SIZE_OVER);
         }
     }

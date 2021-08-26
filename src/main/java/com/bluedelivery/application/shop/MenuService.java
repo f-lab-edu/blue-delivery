@@ -15,7 +15,7 @@ public interface MenuService {
 
     boolean duplicateMenuName(String name, Long id);
 
-    boolean validateMainMenu(Long groupId);
+    void validateMainMenu(Long groupId);
 
     void mainMenuSizeOver();
 }

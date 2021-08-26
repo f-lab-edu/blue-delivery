@@ -10,8 +10,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RegisterMenuDto {
@@ -42,30 +44,6 @@ public class RegisterMenuDto {
                 .status(getStatus())
                 .isMain(isMain())
                 .build();
-    }
-
-    public void setMenuGroupId(Long menuGroupId) {
-        this.menuGroupId = menuGroupId;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public void setComposition(String composition) {
-        this.composition = composition;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public void setStatus(MenuStatus status) {
-        this.status = status;
     }
 
 }

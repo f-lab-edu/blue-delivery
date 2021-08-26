@@ -17,17 +17,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bluedelivery.api.menu.MenuController;
 import com.bluedelivery.api.menu.RegisterMenuDto;
 import com.bluedelivery.api.menu.UpdateMenuDto;
-import com.bluedelivery.application.shop.adapter.MenuServiceImpl;
+import com.bluedelivery.application.shop.MenuService;
 import com.bluedelivery.common.response.HttpResponse;
 
 @RestController
 @RequestMapping("/menu-groups/{menuGroupId}")
 public class MenuControllerImpl implements MenuController {
 
-    MenuServiceImpl menuService;
+    private final MenuService service;
 
-    public MenuControllerImpl(MenuServiceImpl menuService) {
-        this.menuService = menuService;
+    public MenuControllerImpl(MenuService service) {
+        this.service = service;
     }
 
 
@@ -35,7 +35,7 @@ public class MenuControllerImpl implements MenuController {
     public ResponseEntity<HttpResponse<?>> registerMenu(@PathVariable Long menuGroupId,
                                                         @RequestBody @Valid RegisterMenuDto dto) {
         dto.setMenuGroupId(menuGroupId);
-        menuService.registerMenu(dto);
+        service.registerMenu(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response(dto));
     }
 
@@ -43,7 +43,7 @@ public class MenuControllerImpl implements MenuController {
     @PatchMapping("/menus/main-set/{menuId}")
     public ResponseEntity<HttpResponse<?>> setMainMenu(@PathVariable Long menuGroupId,
                                                             @PathVariable Long menuId) {
-        menuService.setMainMenu(menuId);
+        service.setMainMenu(menuId);
         return ResponseEntity.status(HttpStatus.OK).body(response(SUCCESS, menuId));
     }
 
@@ -53,14 +53,14 @@ public class MenuControllerImpl implements MenuController {
     public ResponseEntity<HttpResponse<?>> updateMenuStatus(@PathVariable Long menuGroupId,
                                                           @PathVariable Long menuId,
                                                           @RequestBody @Valid UpdateMenuDto dto) {
-        menuService.updateMenuStatus(menuId, dto.getStatus());
+        service.updateMenuStatus(menuId, dto.getStatus());
         return ResponseEntity.status(HttpStatus.OK).body(response(dto));
     }
 
     @DeleteMapping("/menus/{menuId}")
     public ResponseEntity<HttpResponse<?>> deleteMenu(@PathVariable Long menuGroupId,
                                                    @PathVariable Long menuId) {
-        menuService.deleteMenu(menuId);
+        service.deleteMenu(menuId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response(menuId));
     }
 
