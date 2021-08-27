@@ -36,7 +36,6 @@ public class MenuServiceImpl implements MenuService {
         }
         menu.setMenuGroup(getMenuGroup);
 
-        System.out.println(menuRepository.countIsMain());
         menuRepository.save(menu);
     }
 

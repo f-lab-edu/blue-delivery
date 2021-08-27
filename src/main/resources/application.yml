@@ -14,7 +14,7 @@ spring:
     show-sql: true
 
   profiles:
-    active: test
+    active: dev
 
 mybatis:
   mapper-locations: mybatis/mapper/*.xml
