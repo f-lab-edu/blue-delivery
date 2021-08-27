@@ -15,9 +15,7 @@ public class SearchOrderService {
     private final OrderRepository orderRepository;
     
     // TODO 구현예정(주문상세조회)
-    public OrderDetails getOrderDetails(Long orderId) {
-        Order order = orderRepository.getFlatOrderById(orderId)
-                .orElseThrow(() -> new IllegalArgumentException("empty order"));
+    public OrderDetails getOrderDetails(Order order) {
         OrderDetails details = new OrderDetails(order.getOrderItems());
         return details;
     }

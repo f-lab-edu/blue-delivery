@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.bluedelivery.order.domain.Order;
@@ -31,7 +32,7 @@ public class Payment {
         CREDIT_CARD, CASH, OFFLINE_CREDIT_CARD
     }
     
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long paymentId;
     
     @Enumerated(EnumType.STRING)
