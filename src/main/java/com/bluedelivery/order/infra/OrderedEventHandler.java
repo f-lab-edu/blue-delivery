@@ -32,7 +32,7 @@ public class OrderedEventHandler {
     @TransactionalEventListener
     public void notifyOrderToShop(OrderedNotificationEvent event) {
         log.info("알림 이벤트 발생 orderId: " + event.getOrder().getOrderId());
-        OrderDetails details = searchOrderService.getOrderDetails(event.getOrder().getOrderId());
+        OrderDetails details = searchOrderService.getOrderDetails(event.getOrder());
         OrderNotification notification = OrderNotification.from(details);
         redisTemplate.boundSetOps(OrderNotification.key).add(notification);
         notificationRepository.save(new Notification(notification.serializeJson()));
