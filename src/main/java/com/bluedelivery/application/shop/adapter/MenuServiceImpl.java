@@ -83,7 +83,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     public void mainMenuSizeOver() {
-        Long count = menuRepository.countIsMain();
+        Long count = menuRepository.countByIsMain(true);
         if (count >= 6) {
             throw new ApiException(MAIN_MENU_SIZE_OVER);
         }
