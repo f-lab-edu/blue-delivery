@@ -5,6 +5,13 @@ import javax.validation.constraints.NotNull;
 import com.bluedelivery.domain.menu.Menu.MenuStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UpdateMenuDto {
 
@@ -19,9 +26,6 @@ public class UpdateMenuDto {
     @NotNull
     private MenuStatus status;
 
-    public UpdateMenuDto() {
-    }
-
     public UpdateMenuDto(String name, int price, String composition, String content, MenuStatus status) {
         this.name = name;
         this.price = price;
@@ -30,43 +34,4 @@ public class UpdateMenuDto {
         this.status = status;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public String getComposition() {
-        return composition;
-    }
-
-    public void setComposition(String composition) {
-        this.composition = composition;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public MenuStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(MenuStatus status) {
-        this.status = status;
-    }
 }

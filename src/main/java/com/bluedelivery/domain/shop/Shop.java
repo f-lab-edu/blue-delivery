@@ -49,12 +49,12 @@ public class Shop {
     @ElementCollection
     @CollectionTable(name = "SHOP_CATEGORY", joinColumns = @JoinColumn(name = "SHOP_ID"))
     private List<Long> categoryIds = new ArrayList<>();
-    
+
     @Embedded
     private ClosingPolicies closingPolicies = new ClosingPolicies();
-    
+
     private boolean exposed;
-    
+
     public Shop() {
     }
 
@@ -128,11 +128,11 @@ public class Shop {
     public String getIntroduce() {
         return introduce;
     }
-    
+
     public void addClosingDayPolicy(ClosingPolicy policy) {
         this.closingPolicies.add(policy);
     }
-    
+
     public boolean isClosed(LocalDateTime datetime) {
         return closingPolicies.isClosed(datetime);
     }
@@ -140,7 +140,7 @@ public class Shop {
     public boolean isOpen() {
         return exposed && !isClosed(LocalDateTime.now()) && isBusinessHour(LocalDateTime.now());
     }
-    
+
     private boolean isBusinessHour(LocalDateTime now) {
         return this.businessHours.stream().anyMatch( x-> x.isOpen(now));
     }
@@ -148,7 +148,7 @@ public class Shop {
     public void updateExposeStatus(Boolean expose) {
         this.exposed = expose;
     }
-    
+
     public int getMinimumOrderAmount() {
         return minimumOrderAmount;
     }
@@ -165,7 +165,7 @@ public class Shop {
     public List<DeliveryArea> getDeliveryAreas() {
         return Collections.unmodifiableList(deliveryAreas);
     }
-    
+
     public void isOrderPossible(Order order) {
         if (!isOpen()) {
             throw new IllegalStateException(SHOP_IS_NOT_OPEN);

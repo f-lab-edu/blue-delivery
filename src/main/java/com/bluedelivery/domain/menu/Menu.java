@@ -51,7 +51,7 @@ public class Menu {
     @JoinColumn(name = "MENU_GROUP_ID")
     private MenuGroup menuGroup;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<MenuOptionGroup> menuOptionGroup;
 
     private boolean isMain;
@@ -75,7 +75,7 @@ public class Menu {
         this.menuOptionGroup = menuOptionGroup;
         this.isMain = isMain;
     }
-    
+
     public void validate(OrderItem orderItem) {
         if (!isEqualTo(orderItem)) {
             throw new IllegalStateException(ORDERED_AND_MENU_ARE_DIFFERENT);
@@ -126,10 +126,6 @@ public class Menu {
         return composition;
     }
 
-    public void setComposition(String composition) {
-        this.composition = composition;
-    }
-
     public String getContent() {
         return content;
     }
@@ -158,10 +154,6 @@ public class Menu {
         return menuOptionGroup;
     }
 
-    public void setMenuOptionGroup(List<MenuOptionGroup> menuOptionGroup) {
-        this.menuOptionGroup = menuOptionGroup;
-    }
-
     public boolean isMain() {
         return isMain;
     }
@@ -180,17 +172,12 @@ public class Menu {
         }
         Menu menu = (Menu) obj;
         return price == menu.price
-                && Objects.equals(id, menu.id)
                 && Objects.equals(name, menu.name)
-                && Objects.equals(composition, menu.composition)
-                && Objects.equals(content, menu.content)
-                && status == menu.status
-                && Objects.equals(menuOptionGroup, menu.menuOptionGroup)
-                && Objects.equals(isMain, menu.isMain);
+                && Objects.equals(content, menu.content);
     }
     
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, price, composition, content, status, menuOptionGroup, isMain);
+        return Objects.hash(name, price, content);
     }
 }
