@@ -1,0 +1,54 @@
+name: CI
+
+# workflow가 실행되는 시점 : 모든 브랜치에 대해 push 발생시
+on:
+  push:
+    branches:
+      - '*'
+
+  # Actions 탭에서 수동 실행 가능
+  workflow_dispatch:
+
+jobs:
+  build:  # "bukld" 라는 하나의 job
+    runs-on: ubuntu-latest # runner 타입
+    steps:
+      # MySQL 데몬
+      - name: Setup MySQL
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          host port: 3306
+          container port: 3306
+          character set server: 'utf8'
+          collation server: 'utf8_general_ci'
+          mysql version: '8.0'
+          mysql database: 'delivery'
+          mysql root password: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+
+      # 브랜치 체크아웃
+      - uses: actions/checkout@v2
+
+      # Cache workflow의 실행 시간을 개선하기 위해 의존성과 빌드 아웃풋을 캐싱한다.
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      # Lint & Test 수행
+      - name: Lint & Run & Unit Test
+        run: ./gradlew check
+
+      # Docker hub login
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_ID }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      # jib을 이용해 애플리케이션을 도커 허브로 배포
+      - name: Run Jib to deploy Application
+        run: ./gradlew jib
