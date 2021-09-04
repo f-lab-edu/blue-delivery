@@ -3,9 +3,9 @@ package com.bluedelivery.order.infra;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import com.bluedelivery.order.application.OrderOutbox;
-import com.bluedelivery.order.application.OrderOutboxRepository;
-import com.bluedelivery.order.domain.OrderCreatedEvent;
+import com.bluedelivery.common.EventEnvelope;
+import com.bluedelivery.common.Outbox;
+import com.bluedelivery.common.OutboxRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -13,11 +13,11 @@ import lombok.RequiredArgsConstructor;
 @Component
 public class OrderEventHandler {
     
-    private final OrderOutboxRepository orderOutboxRepository;
+    private final OutboxRepository outboxRepository;
     
     @EventListener
-    public void saveOutbox(OrderCreatedEvent event) {
-        OrderOutbox outbox = new OrderOutbox(event);
-        orderOutboxRepository.save(outbox);
+    public void saveOutbox(EventEnvelope event) {
+        Outbox outbox = new Outbox(event.getAggregateId(), event.getAggregateType(), event.getEvent());
+        outboxRepository.save(outbox);
     }
 }

@@ -4,6 +4,8 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bluedelivery.common.EventEnvelope;
+import com.bluedelivery.order.application.OrderCreatedEvent;
 import com.bluedelivery.order.application.OrderService;
 import com.bluedelivery.order.domain.Order;
 import com.bluedelivery.order.domain.OrderRepository;
@@ -26,8 +28,11 @@ public class OrderHttpService implements OrderService {
         Order order = orderMapper.map(form);
         order.pay(paymentService.process(new Payment.PaymentForm(order)));
         orderRepository.save(order);
-        publisher.publishEvent(order.event());
+        publisher.publishEvent(EventEnvelope.builder()
+                .aggregateId(order.getOrderId())
+                .aggregateType(Order.class.getSimpleName())
+                .event(OrderCreatedEvent.from(order)).build());
         return order;
     }
-
+    
 }

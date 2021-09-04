@@ -1,11 +1,9 @@
-package com.bluedelivery.order.application;
-
-import java.util.UUID;
+package com.bluedelivery.common;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import org.hibernate.annotations.Type;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,17 +12,21 @@ import lombok.Getter;
 
 @Getter
 @Entity
-public class OrderOutbox {
-    @Id @Type(type = "uuid-char")
-    private UUID outboxId;
+public class Outbox {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long outboxId;
+    private Long aggregateId;
+    private String aggregateType;
     private String payload;
     
-    public OrderOutbox() {
+    public Outbox() {
     
     }
     
-    public OrderOutbox(Object obj) {
-        this.outboxId = UUID.randomUUID();
+    public Outbox(Long aggregateId, String aggregateType, Object obj) {
+        this.aggregateId = aggregateId;
+        this.aggregateType = aggregateType;
         try {
             this.payload = new ObjectMapper().writeValueAsString(obj);
         } catch (JsonProcessingException e) {

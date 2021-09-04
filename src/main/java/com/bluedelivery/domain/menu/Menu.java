@@ -90,7 +90,7 @@ public class Menu {
         menuOptionGroup.stream()
                 .filter( x-> x.getId() == orderGroup.getId())
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException(ORDERED_AND_MENU_ARE_DIFFERENT + orderGroup.getName()))
+                .orElseThrow(() -> new IllegalStateException(ORDERED_AND_MENU_ARE_DIFFERENT))
                 .validate(orderGroup);
     }
     

@@ -16,8 +16,8 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
-import com.bluedelivery.order.application.OrderOutbox;
-import com.bluedelivery.order.application.OrderOutboxRepository;
+import com.bluedelivery.common.Outbox;
+import com.bluedelivery.common.OutboxRepository;
 import com.bluedelivery.order.application.OrderService;
 import com.bluedelivery.order.application.impl.OrderHttpService;
 import com.bluedelivery.order.application.impl.OrderMapper;
@@ -39,7 +39,7 @@ class OrderEventHandlerTest {
     private ApplicationEventPublisher publisher;
     
     @Autowired
-    private OrderOutboxRepository outboxRepository;
+    private OutboxRepository outboxRepository;
     
     @Mock
     private PaymentService paymentService;
@@ -68,7 +68,7 @@ class OrderEventHandlerTest {
         //when
         orderService.takeOrder(form);
         List<Order> ordered = orderRepository.findAll();
-        List<OrderOutbox> outboxes = outboxRepository.findAll();
+        List<Outbox> outboxes = outboxRepository.findAll();
         
         //then
         assertThat(ordered.size()).isEqualTo(originalOrderSize + 1);

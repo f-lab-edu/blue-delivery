@@ -67,10 +67,6 @@ public class Order {
         this.paymentId = payment.id();
     }
     
-    public OrderCreatedEvent event() {
-        return new OrderCreatedEvent(this.orderId, this.paymentId, this.userId, this.shopId);
-    }
-    
     public List<Long> getOrderItemIds() {
         return orderItems.stream().map(OrderItem::getMenuId).collect(toList());
     }
