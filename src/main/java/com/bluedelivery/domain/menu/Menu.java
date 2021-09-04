@@ -52,6 +52,7 @@ public class Menu {
     private MenuGroup menuGroup;
 
     @OneToMany(cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @JoinColumn(name = "MENU_ID")
     private List<MenuOptionGroup> menuOptionGroup;
 
     private boolean isMain;
@@ -89,7 +90,7 @@ public class Menu {
         menuOptionGroup.stream()
                 .filter( x-> x.getId() == orderGroup.getId())
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException(ORDERED_AND_MENU_ARE_DIFFERENT))
+                .orElseThrow(() -> new IllegalStateException(ORDERED_AND_MENU_ARE_DIFFERENT + orderGroup.getName()))
                 .validate(orderGroup);
     }
     

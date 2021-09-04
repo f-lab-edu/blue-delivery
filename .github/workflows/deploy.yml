@@ -24,7 +24,7 @@ jobs:
           script: |
             cd ${{ env.PROJECT }}
             git pull
-            cd techlab-compose
+            cd compose
             docker-compose pull
             docker-compose up --force-recreate
             docker image prune -f

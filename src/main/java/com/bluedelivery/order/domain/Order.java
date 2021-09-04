@@ -67,12 +67,8 @@ public class Order {
         this.paymentId = payment.id();
     }
     
-    public OrderStatus getOrderStatus() {
-        return orderStatus;
-    }
-    
-    public List<OrderItem> getOrderItems() {
-        return orderItems;
+    public OrderCreatedEvent event() {
+        return new OrderCreatedEvent(this.orderId, this.paymentId, this.userId, this.shopId);
     }
     
     public List<Long> getOrderItemIds() {
