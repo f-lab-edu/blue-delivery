@@ -1,0 +1,30 @@
+name: CD
+
+on:
+  pull_request:
+    branches:
+      - 'main'
+    types: [closed]
+
+env:
+  PROJECT: blue-delivery
+
+jobs:
+  merge-PR:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_IP }}
+          username: ${{ secrets.EC2_SSH_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          envs: env.PROJECT
+          script: |
+            cd ${{ env.PROJECT }}
+            git pull
+            cd techlab-compose
+            docker-compose pull
+            docker-compose up --force-recreate
+            docker image prune -f
