@@ -19,12 +19,13 @@ public class Outbox {
     private Long aggregateId;
     private String aggregateType;
     private String payload;
+    private String eventType;
     
     public Outbox() {
     
     }
     
-    public Outbox(Long aggregateId, String aggregateType, Object obj) {
+    public Outbox(Long aggregateId, String aggregateType, Object obj, String eventType) {
         this.aggregateId = aggregateId;
         this.aggregateType = aggregateType;
         try {
@@ -32,5 +33,6 @@ public class Outbox {
         } catch (JsonProcessingException e) {
             throw new IllegalStateException("outbox serialization 실패 : " + e);
         }
+        this.eventType = eventType;
     }
 }

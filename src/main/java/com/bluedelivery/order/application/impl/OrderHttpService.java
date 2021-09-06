@@ -31,7 +31,9 @@ public class OrderHttpService implements OrderService {
         publisher.publishEvent(EventEnvelope.builder()
                 .aggregateId(order.getOrderId())
                 .aggregateType(Order.class.getSimpleName())
-                .event(OrderCreatedEvent.from(order)).build());
+                .event(OrderCreatedEvent.from(order))
+                .eventType(OrderCreatedEvent.class.getSimpleName())
+                .build());
         return order;
     }
     

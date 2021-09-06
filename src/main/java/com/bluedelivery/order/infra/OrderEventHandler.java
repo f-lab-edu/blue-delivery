@@ -17,7 +17,8 @@ public class OrderEventHandler {
     
     @EventListener
     public void saveOutbox(EventEnvelope event) {
-        Outbox outbox = new Outbox(event.getAggregateId(), event.getAggregateType(), event.getEvent());
+        Outbox outbox = new Outbox(
+                event.getAggregateId(), event.getAggregateType(), event.getEvent(), event.getEventType());
         outboxRepository.save(outbox);
     }
 }

@@ -11,4 +11,5 @@ public class EventEnvelope {
     private Long aggregateId;
     private String aggregateType;
     private Object event;
+    private String eventType;
 }
