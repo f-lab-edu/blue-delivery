@@ -11,4 +11,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     
     @Query("select o from Order o join fetch o.orderItems oi where o.orderId = :orderId")
     Optional<Order> getFlatOrderById(Long orderId);
+
+    Long countTotalOrdersByShopId(Long shopId);
+
 }

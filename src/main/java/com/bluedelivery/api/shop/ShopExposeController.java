@@ -1,10 +1,14 @@
 package com.bluedelivery.api.shop;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.bluedelivery.api.category.GetShopsByCategoryResponse;
+import com.bluedelivery.common.response.HttpResponse;
+import com.bluedelivery.domain.shop.Shop;
 
 public interface ShopExposeController {
     
@@ -17,4 +21,7 @@ public interface ShopExposeController {
      */
     @GetMapping("/categories/{categoryId}/shops")
     ResponseEntity<GetShopsByCategoryResponse> getShopsByCategory(@PathVariable("categoryId") Long id);
+
+    @GetMapping("/shops/ranking")
+    ResponseEntity<HttpResponse<List<Shop>>> getTotalOrdersTop();
 }

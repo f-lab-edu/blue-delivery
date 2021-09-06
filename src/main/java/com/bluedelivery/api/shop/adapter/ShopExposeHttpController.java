@@ -13,6 +13,7 @@ import com.bluedelivery.api.category.GetShopsByCategoryResponse;
 import com.bluedelivery.api.shop.SearchedShopData;
 import com.bluedelivery.api.shop.ShopExposeController;
 import com.bluedelivery.application.shop.ShopExposeService;
+import com.bluedelivery.common.response.HttpResponse;
 import com.bluedelivery.domain.shop.Shop;
 
 @RestController
@@ -37,5 +38,10 @@ public class ShopExposeHttpController implements ShopExposeController {
                                 shop.isOpen()))
                         .collect(Collectors.toList()))
                 );
+    }
+
+    public ResponseEntity<HttpResponse<List<Shop>>> getTotalOrdersTop() {
+        List<Shop> list = shopExposeService.getTotalOrdersRanking();
+        return ResponseEntity.ok().body(HttpResponse.response(list));
     }
 }

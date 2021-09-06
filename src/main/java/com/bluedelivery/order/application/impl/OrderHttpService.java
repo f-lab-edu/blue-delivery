@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.bluedelivery.order.application.OrderService;
 import com.bluedelivery.order.domain.Order;
 import com.bluedelivery.order.domain.OrderRepository;
-import com.bluedelivery.order.infra.OrderedEventHandler;
 import com.bluedelivery.order.infra.OrderedEventHandler.OrderedNotificationEvent;
 import com.bluedelivery.payment.Payment;
 import com.bluedelivery.payment.PaymentService;
@@ -23,7 +22,7 @@ public class OrderHttpService implements OrderService {
     private final OrderMapper orderMapper;
     private final PaymentService paymentService;
     private final ApplicationEventPublisher publisher;
-    
+
     @Transactional
     public Order takeOrder(Order.OrderForm form) {
         Order order = orderMapper.map(form);
