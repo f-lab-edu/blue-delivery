@@ -1,7 +1,9 @@
-package com.bluedelivery.notification;
+package com.bluedelivery.order.infra;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import com.bluedelivery.notification.NotificationService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class OrderNotificationScheduler {
+public class OrderMessageRelay {
     
     private final NotificationService notificationService;
     

@@ -52,6 +52,7 @@ public class Menu {
     private MenuGroup menuGroup;
 
     @OneToMany(cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @JoinColumn(name = "MENU_ID")
     private List<MenuOptionGroup> menuOptionGroup;
 
     private boolean isMain;
