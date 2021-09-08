@@ -28,7 +28,7 @@ import com.bluedelivery.payment.PaymentService;
 
 @SpringBootTest
 @ActiveProfiles("test")
-class OrderEventHandlerTest {
+class EventHandlerTest {
     
     private OrderService orderService;
     
