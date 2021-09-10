@@ -4,6 +4,7 @@ import static com.bluedelivery.order.domain.ExceptionMessage.ORDERED_AND_MENU_AR
 import static com.bluedelivery.order.domain.ExceptionMessage.ORDER_LIST_IS_EMPTY;
 import static java.util.stream.Collectors.toList;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -41,6 +42,7 @@ public class Order {
     private Long userId;
     private Long shopId;
     private Long paymentId;
+    private LocalDateTime createDate;
     
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<OrderItem> orderItems = new ArrayList<>();
@@ -50,13 +52,15 @@ public class Order {
     
     @Builder
     public Order(Long orderId, OrderStatus orderStatus,
-                 Long userId, Long shopId, List<OrderItem> orderItems) {
+                 Long userId, Long shopId, List<OrderItem> orderItems,
+                 LocalDateTime createDate) {
         this.orderId = orderId;
         this.orderStatus = orderStatus;
         this.userId = userId;
         this.shopId = shopId;
         orderItems.forEach(item -> item.setOrder(this));
         this.orderItems.addAll(orderItems);
+        this.createDate = createDate;
     }
     
     public void pay(Payment payment) {
@@ -102,7 +106,11 @@ public class Order {
     public Long getPaymentId() {
         return paymentId;
     }
-    
+
+    public LocalDateTime getCreateDate() {
+        return createDate;
+    }
+
     public void isValidMenu(List<Menu> menus) {
         if (orderItems.size() == 0) {
             throw new IllegalArgumentException(ORDER_LIST_IS_EMPTY);
@@ -147,6 +155,7 @@ public class Order {
                     .userId(this.userId)
                     .orderItems(this.orderItems)
                     .orderStatus(OrderStatus.CREATED)
+                    .createDate(LocalDateTime.now())
                     .build();
             return order;
         }
