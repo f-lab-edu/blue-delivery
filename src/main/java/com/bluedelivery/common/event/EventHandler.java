@@ -1,4 +1,4 @@
-package com.bluedelivery.common;
+package com.bluedelivery.common.event;
 
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;

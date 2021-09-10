@@ -1,4 +1,4 @@
-package com.bluedelivery.common;
+package com.bluedelivery.common.event;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

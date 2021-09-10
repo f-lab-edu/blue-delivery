@@ -4,7 +4,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bluedelivery.common.EventEnvelope;
+import com.bluedelivery.common.event.EventEnvelope;
 import com.bluedelivery.order.application.OrderCreatedEvent;
 import com.bluedelivery.order.application.OrderService;
 import com.bluedelivery.order.domain.Order;

@@ -1,4 +1,4 @@
-package com.bluedelivery.common;
+package com.bluedelivery.common.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
