@@ -1,17 +1,13 @@
-package com.bluedelivery.order.infra;
+package com.bluedelivery.common;
 
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-
-import com.bluedelivery.common.EventEnvelope;
-import com.bluedelivery.common.Outbox;
-import com.bluedelivery.common.OutboxRepository;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Component
-public class OrderEventHandler {
+public class EventHandler {
     
     private final OutboxRepository outboxRepository;
     
