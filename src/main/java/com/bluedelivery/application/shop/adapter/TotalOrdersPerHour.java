@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class TotalOrdersPerHour implements OrderRankingStrategy {
 
-    private String key = "shop:ranking:";
+    private final String key = "shop:ranking:";
 
     private final OrderRepository orderRepository;
     private final ShopRepository shopRepository;
