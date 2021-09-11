@@ -3,8 +3,9 @@ name: CI
 # workflow가 실행되는 시점 : 모든 브랜치에 대해 push 발생시
 on:
   push:
-    branches:
-      - '*'
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
   # Actions 탭에서 수동 실행 가능
   workflow_dispatch:

@@ -6,4 +6,6 @@ import com.bluedelivery.domain.shop.Shop;
 
 public interface ShopExposeService {
     List<Shop> getShopsByCategory(Long categoryId);
+
+    List<Shop> getTotalOrdersRanking();
 }
