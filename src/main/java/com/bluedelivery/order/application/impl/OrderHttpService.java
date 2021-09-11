@@ -22,7 +22,7 @@ public class OrderHttpService implements OrderService {
     private final OrderMapper orderMapper;
     private final PaymentService paymentService;
     private final ApplicationEventPublisher publisher;
-    
+
     @Transactional
     public Order takeOrder(Order.OrderForm form) {
         Order order = orderMapper.map(form);
