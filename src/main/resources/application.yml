@@ -16,6 +16,37 @@ spring:
   profiles:
     active: dev
 
+# spring actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: # 보여주고 싶은 application 정보들
+          - "info"
+          - "health"
+          - "flyway"
+          - "metrics"
+          - "scheduledtasks"
+      base-path: /application
+      path-mapping:
+        health: healthcheck
+
+  health:
+    diskspace:
+      enabled: false
+
+  endpoint:
+    health:
+      show-details: always #Application에서 의존하고 있는 시스템의 healthCheck 정보 포함(mysql, redis 등)
+
+  server: # 아무나 접근할 수 없도록 local로 제한
+    port: 8000
+    address: 127.0.0.1
+
+  info: # info에 git 정보 포함
+    git:
+      mode: simple # simple or pull
+
 mybatis:
   mapper-locations: mybatis/mapper/*.xml
   type-aliases-package:
