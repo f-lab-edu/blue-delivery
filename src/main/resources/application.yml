@@ -39,10 +39,6 @@ management:
     health:
       show-details: always #Application에서 의존하고 있는 시스템의 healthCheck 정보 포함(mysql, redis 등)
 
-  server: # 아무나 접근할 수 없도록 local로 제한
-    port: 8000
-    address: 127.0.0.1
-
   info: # info에 git 정보 포함
     git:
       mode: simple # simple or pull
