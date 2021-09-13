@@ -44,6 +44,9 @@ import com.bluedelivery.application.shop.AddressMapper;
 import com.bluedelivery.application.shop.RegularClosingParam;
 import com.bluedelivery.application.shop.ShopUpdateService;
 import com.bluedelivery.application.shop.TemporaryClosingParam;
+import com.bluedelivery.application.shop.businesshour.DayOfWeekMapper;
+import com.bluedelivery.application.shop.businesshour.EverydayBusinessHourCondition;
+import com.bluedelivery.application.shop.businesshour.WeekdayWeekendBusinessHourCondition;
 import com.bluedelivery.application.shop.dto.BusinessHourParam;
 import com.bluedelivery.common.config.GlobalExceptionHandler;
 import com.bluedelivery.domain.address.CityToDong;
@@ -65,6 +68,9 @@ class ShopUpdateControllerTest {
     @Mock
     AddressMapper addressMapper;
     
+    private DayOfWeekMapper mapper = new DayOfWeekMapper(List.of(
+            new EverydayBusinessHourCondition(),
+            new WeekdayWeekendBusinessHourCondition()));
     private MockMvc mvc;
     private ShopUpdateController controller;
     private ShopUpdateService service;
@@ -76,7 +82,7 @@ class ShopUpdateControllerTest {
         when(shopRepository.findById(1L)).thenReturn(Optional.of(shop));
         objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
-        service = new ShopUpdateService(shopRepository, categoryManagerService, addressMapper);
+        service = new ShopUpdateService(shopRepository, categoryManagerService, addressMapper, mapper);
         controller = new ShopUpdateControllerImpl(service);
         mvc = MockMvcBuilders.standaloneSetup(controller)
                 .setControllerAdvice(new GlobalExceptionHandler())

@@ -31,10 +31,11 @@ public class ShopUpdateService {
     private final ShopRepository shopRepository;
     private final CategoryManagerService categoryManagerService;
     private final AddressMapper addressMapper;
+    private final DayOfWeekMapper dayOfWeekMapper;
     
     public List<BusinessHour> updateBusinessHour(BusinessHoursTarget target) {
         Shop shop = getShop(target.getShopId());
-        shop.updateBusinessHours(DayOfWeekMapper.map(target));
+        shop.updateBusinessHours(dayOfWeekMapper.map(target.getBusinessHourType(), target.getBusinessHours()));
         return shop.getBusinessHours();
     }
     
