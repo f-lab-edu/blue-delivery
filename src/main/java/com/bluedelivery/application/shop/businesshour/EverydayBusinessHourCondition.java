@@ -24,8 +24,8 @@ public class EverydayBusinessHourCondition implements BusinessHourCondition {
     @Override
     public List<BusinessHour> mapToDayOfWeek(Map<BusinessHourDay, BusinessHourParam> hours) {
         List<BusinessHour> bhs = new ArrayList<>();
-        for (DayOfWeek day : DayOfWeek.values()) {
-            bhs.add(hours.get(BusinessHourDay.EVERY_DAY).toEntity(day));
+        for (DayOfWeek dayOfWeek : DayOfWeek.values()) {
+            bhs.add(hours.get(BusinessHourDay.EVERY_DAY).toEntity(dayOfWeek));
         }
         return bhs;
     }

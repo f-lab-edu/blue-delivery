@@ -23,13 +23,14 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import com.bluedelivery.api.shop.dto.BusinessHourDay;
 import com.bluedelivery.application.shop.dto.BusinessHourParam;
-import com.bluedelivery.application.shop.dto.BusinessHoursTarget;
 import com.bluedelivery.domain.shop.BusinessHour;
 
 class BusinessHoursConditionsTest {
     
     private static final LocalDate SOME_FRIDAY = LocalDate.of(2021, Month.AUGUST, 13);
-    private DayOfWeekMapper mapper = new DayOfWeekMapper();
+    private DayOfWeekMapper mapper = new DayOfWeekMapper(List.of(
+            new EverydayBusinessHourCondition(),
+            new WeekdayWeekendBusinessHourCondition()));
     
     @Test
     @DisplayName("타입 EVERYDAY만 갖는 BusinessHour를 넘겨주면 모든 요일이 동일한 영업시간을 생성한다.")
@@ -39,10 +40,9 @@ class BusinessHoursConditionsTest {
         LocalTime close = LocalTime.of(20, 0);
         Map<BusinessHourDay, BusinessHourParam> hours = new LinkedHashMap<>();
         hours.put(EVERY_DAY, new BusinessHourParam(open, close));
-        BusinessHoursTarget target = new BusinessHoursTarget(1L, EVERY_SAME_TIME, hours);
         
         //when
-        List<BusinessHour> mapped = DayOfWeekMapper.map(target);
+        List<BusinessHour> mapped = mapper.map(EVERY_SAME_TIME, hours);
         
         //then
         for (BusinessHour each : mapped) {
@@ -65,10 +65,9 @@ class BusinessHoursConditionsTest {
         hours.put(WEEKDAY, new BusinessHourParam(weekdayOpen, weekdayClose));
         hours.put(SATURDAY, new BusinessHourParam(satOpen, satClose));
         hours.put(SUNDAY, new BusinessHourParam(sunOpen, sunClose));
-        BusinessHoursTarget target = new BusinessHoursTarget(1L, WEEKDAY_SAT_SUNDAY, hours);
     
         //when
-        List<BusinessHour> mapped = DayOfWeekMapper.map(target);
+        List<BusinessHour> mapped = mapper.map(WEEKDAY_SAT_SUNDAY, hours);
     
         //then
         for (BusinessHour each : mapped) {
@@ -97,9 +96,8 @@ class BusinessHoursConditionsTest {
         hours.put(WEEKDAY, new BusinessHourParam(everydayOpen, everydayClose));
         hours.put(SATURDAY, new BusinessHourParam(satOpen, satClose));
         hours.put(SUNDAY, new BusinessHourParam(sunOpen, sunClose));
-        BusinessHoursTarget target = new BusinessHoursTarget(1L, EVERY_SAME_TIME, hours);
         
-        assertThrows(IllegalArgumentException.class, () -> mapper.map(target));
+        assertThrows(IllegalArgumentException.class, () -> mapper.map(EVERY_SAME_TIME, hours));
     }
     
     @ParameterizedTest

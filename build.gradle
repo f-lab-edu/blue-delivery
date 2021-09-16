@@ -4,6 +4,7 @@ plugins {
     id 'org.springframework.boot' version '2.4.5'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id "com.gorylenko.gradle-git-properties" version "2.3.1" // actuator git info 정보
 }
 
 group = 'com'
@@ -58,6 +59,10 @@ dependencies {
     implementation 'com.h2database:h2:1.4.200'
     implementation 'com.github.ben-manes.caffeine:caffeine:3.0.2' // caffeine cache
     implementation 'net.time4j:time4j-base:5.7' // time4j 음력->양력 변환을 위해 사용
+
+    // actuator
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
 
     // swagger
     implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
