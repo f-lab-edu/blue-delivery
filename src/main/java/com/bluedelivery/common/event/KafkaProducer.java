@@ -22,15 +22,15 @@ public class KafkaProducer implements MessageProducer {
     private final KafkaTemplate<String, Message> kafkaTemplate;
     
     @Override
-    public List<Outbox> produce(List<Outbox> outboxes) {
+    public List<Outbox> produce(String topic, List<Outbox> outboxes) {
         List<Outbox> successes = new ArrayList<>();
         for (Outbox outbox : outboxes) {
-            insert(outbox).ifPresent(success -> successes.add(success));
+            insert(topic, outbox).ifPresent(success -> successes.add(success));
         }
         return successes;
     }
     
-    private Optional<Outbox> insert(Outbox outbox) {
+    private Optional<Outbox> insert(String topic, Outbox outbox) {
         Map<String, Object> header = new HashMap<>();
         Long eventId = outbox.getOutboxId();
         String eventType = outbox.getEventType();
@@ -40,8 +40,9 @@ public class KafkaProducer implements MessageProducer {
         Message message = new Message(header, outbox.getPayload());
         
         try {
-            RecordMetadata metadata = kafkaTemplate.send(eventType, message).get().getRecordMetadata();
-            log.debug("Partition: {}, Offset: {}", metadata.partition(), metadata.offset());
+            RecordMetadata metadata = kafkaTemplate.send(topic, message).get().getRecordMetadata();
+            log.debug("Topic: {}, Partition: {}, Offset: {}",
+                    metadata.topic(), metadata.partition(), metadata.offset());
         } catch (RuntimeException | InterruptedException | ExecutionException exception) {
             log.error(exception.getMessage());
             return Optional.empty();

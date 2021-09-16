@@ -13,7 +13,6 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import com.bluedelivery.domain.authentication.Authentication;
 import com.bluedelivery.domain.authentication.AuthenticationRepository;
 import com.bluedelivery.infra.authentication.AuthenticationRedisRepository;
-import com.bluedelivery.order.infra.OrderNotification;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -54,19 +53,6 @@ public class RedisConfig {
         redisTemplate.setConnectionFactory(jedisConnectionFactory());
         redisTemplate.setHashKeySerializer(new StringRedisSerializer());
         redisTemplate.setHashValueSerializer(serializer);
-        return redisTemplate;
-    }
-    
-    @Bean
-    public RedisTemplate<String, OrderNotification> orderNotificationRedisTemplate(
-            ObjectMapper om, RedisConnectionFactory rcf) {
-        var serializer = new Jackson2JsonRedisSerializer<>(OrderNotification.class);
-        var redisTemplate = new RedisTemplate<String, OrderNotification>();
-        serializer.setObjectMapper(om);
-        redisTemplate.setConnectionFactory(rcf);
-        redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setValueSerializer(serializer);
-        redisTemplate.setEnableTransactionSupport(true);
         return redisTemplate;
     }
     

@@ -20,7 +20,7 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
       ALLOW_PLAINTEXT_LISTENER: "yes"
-      KAFKA_CREATE_TOPICS: "OrderCreatedEvent:1:1" # Topic:Partition 수:Replica 수
+      KAFKA_CREATE_TOPICS: "order-status:1:1" # Topic:Partition 수:Replica 수
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     depends_on:
       - zookeeper
