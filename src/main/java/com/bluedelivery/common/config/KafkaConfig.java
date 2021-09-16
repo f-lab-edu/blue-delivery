@@ -20,7 +20,6 @@ import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
 import com.bluedelivery.common.event.Message;
-import com.bluedelivery.order.application.OrderCreatedEvent;
 
 @Configuration
 public class KafkaConfig {
@@ -56,7 +55,6 @@ public class KafkaConfig {
     public ConsumerFactory<String, Message> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, server);
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, OrderCreatedEvent.class.getSimpleName());
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
         props.put(JsonDeserializer.TRUSTED_PACKAGES, "com.bluedelivery.common.event");

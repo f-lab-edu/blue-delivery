@@ -12,7 +12,9 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class KafkaProducer implements MessageProducer {
@@ -39,13 +41,10 @@ public class KafkaProducer implements MessageProducer {
         
         try {
             RecordMetadata metadata = kafkaTemplate.send(eventType, message).get().getRecordMetadata();
-            System.out.printf("Partition: %d, Offset: %d", metadata.partition(), metadata.offset());
-        } catch (RuntimeException exception) {
+            log.debug("Partition: {}, Offset: {}", metadata.partition(), metadata.offset());
+        } catch (RuntimeException | InterruptedException | ExecutionException exception) {
+            log.error(exception.getMessage());
             return Optional.empty();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
         return Optional.of(outbox);
     }

@@ -1,6 +1,5 @@
 package com.bluedelivery.notification;
 
-import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 import com.bluedelivery.common.event.Message;
@@ -22,7 +21,6 @@ public class NotificationServer {
     private final ThirdPartyNotifier thirdPartyNotifier;
     private final OrderRepository orderRepository;
     
-    @KafkaListener(topics = "OrderCreatedEvent", groupId = "OrderCreatedEvent")
     public void request(Message message) {
         NotificationForm form;
         try {

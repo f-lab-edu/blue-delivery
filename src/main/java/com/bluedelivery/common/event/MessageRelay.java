@@ -2,6 +2,7 @@ package com.bluedelivery.common.event;
 
 import java.util.List;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +24,7 @@ public class MessageRelay {
     public void notifyOrderEvent() {
         try {
             log.info("주문 알림을 전송합니다. ");
-            List<Outbox> outboxes = outboxRepository.findAll();
+            List<Outbox> outboxes = outboxRepository.findAll(Sort.by("createdDate"));
             List<Outbox> successes = messageProducer.produce(outboxes);
             outboxRepository.deleteAll(successes);
         } catch (RuntimeException exception) {
