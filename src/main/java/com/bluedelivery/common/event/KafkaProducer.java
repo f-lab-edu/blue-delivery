@@ -34,13 +34,14 @@ public class KafkaProducer implements MessageProducer {
         Map<String, Object> header = new HashMap<>();
         Long eventId = outbox.getOutboxId();
         String eventType = outbox.getEventType();
+        String aggregateId = outbox.getAggregateId().toString();
         
         header.put("eventId", eventId);
         header.put("eventType", eventType);
         Message message = new Message(header, outbox.getPayload());
         
         try {
-            RecordMetadata metadata = kafkaTemplate.send(topic, message).get().getRecordMetadata();
+            RecordMetadata metadata = kafkaTemplate.send(topic, aggregateId, message).get().getRecordMetadata();
             log.debug("Topic: {}, Partition: {}, Offset: {}",
                     metadata.topic(), metadata.partition(), metadata.offset());
         } catch (RuntimeException | InterruptedException | ExecutionException exception) {
