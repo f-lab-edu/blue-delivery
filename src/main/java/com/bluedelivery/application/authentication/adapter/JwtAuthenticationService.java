@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.bluedelivery.application.authentication.AuthenticationService;
 import com.bluedelivery.application.authentication.LoginTarget;
 import com.bluedelivery.domain.authentication.Authentication;
+import com.bluedelivery.domain.authentication.TokenType;
 import com.bluedelivery.domain.user.User;
 import com.bluedelivery.domain.user.UserRepository;
 
@@ -35,7 +36,7 @@ public class JwtAuthenticationService implements AuthenticationService {
     @Override
     public Optional<Authentication> getAuthentication(String authenticationHeader) {
         try {
-            String token = extractToken(authenticationHeader);
+            String token = TokenType.BEARER.extract(authenticationHeader);
             Jws<Claims> jws = Jwts.parserBuilder()
                     .setSigningKey(jwtSigningKey)
                     .build()
@@ -51,10 +52,10 @@ public class JwtAuthenticationService implements AuthenticationService {
     public Authentication authenticate(LoginTarget target) {
         User user = userRepository.findByEmail(target.getEmail()).orElseThrow();
         user.validate(target.getPassword());
-        return new Authentication(createToken(user), user.getId());
+        return new Authentication(createJws(user), user.getId());
     }
     
-    private String createToken(User user) {
+    private String createJws(User user) {
         Map<String, Object> headers = new HashMap<>();
         Map<String, Object> payloads = new HashMap<>();
         

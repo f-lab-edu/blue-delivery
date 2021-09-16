@@ -1,6 +1,6 @@
 package com;
 
-import static com.bluedelivery.application.authentication.AuthenticationService.*;
+import static com.bluedelivery.domain.authentication.TokenType.BEARER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
@@ -55,8 +55,8 @@ public class JwtTokenTest {
         authenticationService = new JwtAuthenticationService(key, until, userRepository);
         getToken(until, user);
         
-        Optional<Authentication> authentication = authenticationService.getAuthentication(BEARER_PREFIX + token);
-        assertThat(authentication.isPresent()).isTrue();
+        Optional<Authentication> auth = authenticationService.getAuthentication(BEARER.getType() + " " + token);
+        assertThat(auth.isPresent()).isTrue();
     }
     
     @Test
@@ -65,8 +65,8 @@ public class JwtTokenTest {
         authenticationService = new JwtAuthenticationService(key, until, userRepository);
         getToken(until, user);
         
-        Optional<Authentication> authentication = authenticationService.getAuthentication(BEARER_PREFIX + token);
-        assertThat(authentication.isEmpty()).isTrue();
+        Optional<Authentication> auth = authenticationService.getAuthentication(BEARER.getType() + " " + token);
+        assertThat(auth.isEmpty()).isTrue();
     }
     
     private void getToken(Date until, User user) {
