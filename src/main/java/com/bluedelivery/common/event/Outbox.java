@@ -1,4 +1,6 @@
-package com.bluedelivery.common;
+package com.bluedelivery.common.event;
+
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,6 +22,7 @@ public class Outbox {
     private String aggregateType;
     private String payload;
     private String eventType;
+    private LocalDateTime createdDate;
     
     public Outbox() {
     
@@ -34,5 +37,6 @@ public class Outbox {
             throw new IllegalStateException("outbox serialization 실패 : " + e);
         }
         this.eventType = eventType;
+        this.createdDate = LocalDateTime.now();
     }
 }

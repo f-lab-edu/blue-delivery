@@ -1,0 +1,1 @@
+ALTER TABLE `outbox` ADD COLUMN `created_date` DATETIME NOT NULL;

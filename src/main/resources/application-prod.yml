@@ -25,3 +25,7 @@ db:
   hostname: db-mysql # Docker container에서 localhost는 was 자신이 되기때문에 docker db 호스트 이름을 적어줘야함.
 redis:
   hostname: redis
+
+kafka:
+  bootstrap:
+    server: kafka0:9092

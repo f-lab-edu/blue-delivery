@@ -4,15 +4,16 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.springframework.stereotype.Service;
 
-import com.bluedelivery.order.infra.OrderNotification;
+import com.bluedelivery.order.domain.OrderDetails;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
 public class ThirdPartyNotifier { // 가짜 서비스. 랜덤숫자 5가 나오면 알림 전송에 실패함
-    public boolean request(ACompanyNotificationEvent form) {
+    public boolean request(NotificationForm form) {
         try {
             Thread.sleep(300L);
         } catch (InterruptedException ignored) {
@@ -21,19 +22,17 @@ public class ThirdPartyNotifier { // 가짜 서비스. 랜덤숫자 5가 나오�
         ThreadLocalRandom current = ThreadLocalRandom.current();
         int random = current.nextInt(10);
         if (random == 5) {
-            log.error("3rd party form : fail = " + form.getOrderNotification());
+            log.error("3rd party form : fail = " + form);
             return false;
         }
-        log.info("3rd party form : succeed = " + form.getOrderNotification());
+        log.info("3rd party form : succeed = " + form);
         return true;
     }
     
     @Data
-    public static class ACompanyNotificationEvent {
-        private OrderNotification orderNotification;
-    
-        public ACompanyNotificationEvent(OrderNotification orderNotification) {
-            this.orderNotification = orderNotification;
-        }
+    @AllArgsConstructor
+    public static class NotificationForm {
+        private String token;
+        private OrderDetails orderDetails;
     }
 }

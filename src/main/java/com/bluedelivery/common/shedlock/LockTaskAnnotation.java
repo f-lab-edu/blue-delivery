@@ -1,4 +1,4 @@
-package com.bluedelivery.common;
+package com.bluedelivery.common.shedlock;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;

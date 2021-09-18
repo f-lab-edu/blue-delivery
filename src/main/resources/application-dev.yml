@@ -16,7 +16,7 @@ spring:
     clean-on-validation-error: true
 
   jpa:
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: update
 
@@ -25,3 +25,7 @@ spring:
     password:
     port: 6379
 
+
+kafka:
+  bootstrap:
+    server: localhost:29092
