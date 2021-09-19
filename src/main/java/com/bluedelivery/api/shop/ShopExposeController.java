@@ -1,6 +1,5 @@
 package com.bluedelivery.api.shop;
 
-import io.swagger.annotations.ApiOperation;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -11,6 +10,8 @@ import com.bluedelivery.api.category.GetShopsByCategoryResponse;
 import com.bluedelivery.common.response.HttpResponse;
 import com.bluedelivery.domain.menu.MenuGroup;
 import com.bluedelivery.domain.shop.Shop;
+
+import io.swagger.annotations.ApiOperation;
 
 public interface ShopExposeController {
     

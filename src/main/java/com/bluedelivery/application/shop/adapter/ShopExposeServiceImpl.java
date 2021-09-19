@@ -6,9 +6,9 @@ import static java.util.stream.Collectors.toList;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bluedelivery.application.shop.OrderRankingStrategy;
 import com.bluedelivery.application.shop.ShopExposeService;
@@ -18,7 +18,6 @@ import com.bluedelivery.domain.shop.Shop;
 import com.bluedelivery.domain.shop.ShopRepository;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service

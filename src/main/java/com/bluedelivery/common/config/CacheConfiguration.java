@@ -2,7 +2,6 @@ package com.bluedelivery.common.config;
 
 import java.time.Duration;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +15,8 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.benmanes.caffeine.cache.Caffeine;
+
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Configuration
