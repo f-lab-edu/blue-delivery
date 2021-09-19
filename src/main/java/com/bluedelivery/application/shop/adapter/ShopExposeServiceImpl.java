@@ -6,14 +6,19 @@ import static java.util.stream.Collectors.toList;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.bluedelivery.application.shop.OrderRankingStrategy;
 import com.bluedelivery.application.shop.ShopExposeService;
+import com.bluedelivery.domain.menu.MenuGroup;
+import com.bluedelivery.domain.menu.MenuGroupRepository;
 import com.bluedelivery.domain.shop.Shop;
 import com.bluedelivery.domain.shop.ShopRepository;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -22,7 +27,9 @@ public class ShopExposeServiceImpl implements ShopExposeService {
     private final ShopRepository shopRepository;
 
     private final OrderRankingStrategy orderRankingStrategy;
-    
+
+    private final MenuGroupRepository menuGroupRepository;
+
     // TODO '요청 클라이언트의 위치'에 맞는 카테고리-가게 리스트를 받아오는 캐시서비스를 따로 만들고
     // TODO ShopExposeService에서는 여러가지 조건(영업, 정렬방법 등)을 만족하는 데이터를 내려주도록
     public List<Shop> getShopsByCategory(Long categoryId) {
@@ -36,5 +43,12 @@ public class ShopExposeServiceImpl implements ShopExposeService {
     // TODO 카테고리별 랭킹
     public List<Shop> getTotalOrdersRanking() {
         return orderRankingStrategy.getShopRanking();
+    }
+
+
+    @Cacheable(value = "menus", key = "#shopId", cacheManager = "redisCacheManager")
+    @Transactional
+    public List<MenuGroup> getAllMenusByShopId(Long shopId) {
+        return menuGroupRepository.findAllMenusByShopId(shopId);
     }
 }

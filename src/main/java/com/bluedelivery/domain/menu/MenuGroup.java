@@ -1,9 +1,11 @@
 package com.bluedelivery.domain.menu;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,8 +13,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
-public class MenuGroup {
+public class MenuGroup implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +32,8 @@ public class MenuGroup {
     @Column(name = "CONTENT")
     private String content;
 
-    @OneToMany(mappedBy = "menuGroup")
+    @OneToMany(mappedBy = "menuGroup", cascade = CascadeType.PERSIST)
+    @JsonManagedReference
     private List<Menu> menuList = new ArrayList<>();
 
     public MenuGroup() {
@@ -40,6 +45,11 @@ public class MenuGroup {
         this.name = name;
         this.content = content;
         this.menuList = menuList;
+    }
+
+    public void addMenu(Menu menu) {
+        this.menuList.add(menu);
+        menu.setMenuGroup(this);
     }
 
     public Long getId() {

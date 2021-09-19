@@ -2,6 +2,7 @@ package com.bluedelivery.domain.menu;
 
 import static com.bluedelivery.order.domain.ExceptionMessage.ORDERED_AND_MENU_ARE_DIFFERENT;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -24,7 +25,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "OPTIONS")
-public class MenuOption {
+public class MenuOption implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "OPTION_ID")
