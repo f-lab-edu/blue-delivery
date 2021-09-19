@@ -1,12 +1,14 @@
 package com.bluedelivery.domain.user;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDate;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.bluedelivery.application.authentication.AuthenticationFailedException;
 import com.bluedelivery.domain.user.User;
 
 class UserTest {
@@ -24,7 +26,6 @@ class UserTest {
     
     @Test
     void throwExceptionIfPasswordIsNotEqual() {
-        boolean result = user.validate("Wrong Password");
-        assertThat(result).isFalse();
+        assertThrows(AuthenticationFailedException.class, () -> user.validate("Wrong Password"));
     }
 }
