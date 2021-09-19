@@ -37,8 +37,8 @@ out/
 .vscode/
 
 ### Docker ###
-compose/mysql/data/
-compose/es/data/
+compose/*/data/
+compose/zookeeper/
 
 ### apm agent jar ###
 src/main/jib/*.jar

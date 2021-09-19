@@ -16,8 +16,8 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
-import com.bluedelivery.common.Outbox;
-import com.bluedelivery.common.OutboxRepository;
+import com.bluedelivery.common.event.Outbox;
+import com.bluedelivery.common.event.OutboxRepository;
 import com.bluedelivery.order.application.OrderService;
 import com.bluedelivery.order.application.impl.OrderHttpService;
 import com.bluedelivery.order.application.impl.OrderMapper;
