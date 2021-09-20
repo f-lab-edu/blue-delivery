@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.bluedelivery.application.authentication.AuthenticationFailedException;
 import com.bluedelivery.domain.address.Address;
 import com.bluedelivery.domain.address.Addresses;
 
@@ -44,11 +45,16 @@ public class User {
         this.dateOfBirth = dateOfBirth;
     }
     
-    public boolean validate(String password) {
+    public User(Long id, String email, String password) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+    }
+    
+    public void validate(String password) {
         if (!this.password.equals(password)) {
-            return false;
+            throw new AuthenticationFailedException();
         }
-        return true;
     }
     
     public Long getId() {

@@ -1,6 +1,6 @@
 package com.bluedelivery.api.authentication;
 
-import static com.bluedelivery.application.authentication.AuthenticationService.BEARER_PREFIX;
+import static com.bluedelivery.domain.authentication.TokenType.BEARER;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -50,10 +50,10 @@ class UserAuthInterceptorTest {
     void successWhenEverythingIsOk() throws Exception {
         //given
         Authentication auth = new Authentication("t0ken", 1L);
-        when(authService.getAuthentication(BEARER_PREFIX + "t0ken")).thenReturn(Optional.of(auth));
+        when(authService.getAuthentication(BEARER + "t0ken")).thenReturn(Optional.of(auth));
         //when
         ResultActions perform = mockMvc.perform(get("/{id}", 1)
-                .header(AUTHORIZATION, BEARER_PREFIX + "t0ken"));
+                .header(AUTHORIZATION, BEARER + "t0ken"));
         //then
         perform.andExpect(status().isOk());
     }
@@ -73,7 +73,7 @@ class UserAuthInterceptorTest {
     void throwApiExceptionWhenThereIsWrongAuthentication() throws Exception {
         //given
         Authentication auth = new Authentication("t0ken", 2L);
-        String authenticationHeader = BEARER_PREFIX + "t0ken";
+        String authenticationHeader = BEARER + "t0ken";
         when(authService.getAuthentication(authenticationHeader)).thenReturn(Optional.of(auth));
         //when
         ResultActions perform = mockMvc.perform(get("/{id}", 1).header(AUTHORIZATION, authenticationHeader));
