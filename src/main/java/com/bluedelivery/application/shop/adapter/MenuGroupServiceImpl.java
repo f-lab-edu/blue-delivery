@@ -2,6 +2,7 @@ package com.bluedelivery.application.shop.adapter;
 
 import static com.bluedelivery.common.response.ErrorCode.*;
 
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,7 @@ public class MenuGroupServiceImpl implements MenuGroupService {
         this.repository = repository;
     }
 
+    @CacheEvict(value = "menus", allEntries = true)
     public MenuGroup registerMenuGroup(RegisterMenuGroupDto dto) {
         if (duplicateGroupName(dto.getName())) {
             throw new ApiException(GROUP_ALREADY_EXISTS);
@@ -30,6 +32,7 @@ public class MenuGroupServiceImpl implements MenuGroupService {
     }
 
     @Transactional
+    @CacheEvict(value = "menus", allEntries = true)
     public void updateMenuGroup(UpdateMenuGroupDto dto) {
         MenuGroup target = repository.findById(dto.getId()).orElseThrow(() -> new ApiException(MENU_GROUP_NOT_FOUND));
 
@@ -37,6 +40,7 @@ public class MenuGroupServiceImpl implements MenuGroupService {
         target.setContent(dto.getContent());
     }
 
+    @CacheEvict(value = "menus", allEntries = true)
     public void deleteMenuGroup(Long id) {
         MenuGroup target = repository.findById(id).orElseThrow(() -> new ApiException(MENU_GROUP_NOT_FOUND));
         repository.delete(target);

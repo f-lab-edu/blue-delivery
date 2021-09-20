@@ -16,6 +16,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import com.bluedelivery.api.menu.MenuOptionDto;
 import com.bluedelivery.api.menu.MenuOptionGroupDto;
+import com.bluedelivery.application.shop.adapter.MenuOptionServiceImpl;
 import com.bluedelivery.domain.menu.MenuOption;
 import com.bluedelivery.domain.menu.MenuOptionGroup;
 import com.bluedelivery.domain.menu.MenuOptionGroupRepository;

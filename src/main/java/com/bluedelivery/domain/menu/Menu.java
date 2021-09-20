@@ -2,6 +2,7 @@ package com.bluedelivery.domain.menu;
 
 import static com.bluedelivery.order.domain.ExceptionMessage.ORDERED_AND_MENU_ARE_DIFFERENT;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,12 +20,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.bluedelivery.order.domain.OrderItem;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Builder;
 
 @Builder
 @Entity
-public class Menu {
+public class Menu implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,6 +51,7 @@ public class Menu {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MENU_GROUP_ID")
+    @JsonBackReference
     private MenuGroup menuGroup;
 
     @OneToMany(cascade = CascadeType.PERSIST, orphanRemoval = true)

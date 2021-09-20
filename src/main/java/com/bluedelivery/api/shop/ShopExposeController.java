@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.bluedelivery.api.category.GetShopsByCategoryResponse;
 import com.bluedelivery.common.response.HttpResponse;
+import com.bluedelivery.domain.menu.MenuGroup;
 import com.bluedelivery.domain.shop.Shop;
+
+import io.swagger.annotations.ApiOperation;
 
 public interface ShopExposeController {
     
@@ -24,4 +27,8 @@ public interface ShopExposeController {
 
     @GetMapping("/shops/ranking")
     ResponseEntity<HttpResponse<List<Shop>>> getTotalOrdersTop();
+
+    @ApiOperation(value = "해당 가게의 모든 메뉴 불러오기")
+    @GetMapping("shops/{shopId}/menus")
+    ResponseEntity<List<MenuGroup>> getAllMenusByShopId(@PathVariable Long shopId);
 }

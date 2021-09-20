@@ -13,7 +13,7 @@ import com.bluedelivery.api.menu.MenuOptionController;
 import com.bluedelivery.api.menu.MenuOptionDto;
 import com.bluedelivery.api.menu.MenuOptionGroupDto;
 import com.bluedelivery.application.shop.MenuOptionService;
-import com.bluedelivery.application.shop.MenuOptionServiceImpl;
+import com.bluedelivery.application.shop.adapter.MenuOptionServiceImpl;
 import com.bluedelivery.common.response.HttpResponse;
 
 @RestController

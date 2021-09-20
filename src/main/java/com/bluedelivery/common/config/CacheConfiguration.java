@@ -2,7 +2,6 @@ package com.bluedelivery.common.config;
 
 import java.time.Duration;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,37 +13,41 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.benmanes.caffeine.cache.Caffeine;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Configuration
 public class CacheConfiguration {
-    
-    @Autowired
-    RedisConnectionFactory connectionFactory;
-    
+
+    private final RedisConnectionFactory connectionFactory;
+    private final ObjectMapper objectMapper;
+
     @Bean
+    @Primary
     public RedisCacheManager redisCacheManager() {
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofMinutes(60))  // cache 60분 유지
+                .entryTtl(Duration.ofMinutes(1))
                 .disableCachingNullValues() // null value 저장금지
                 .serializeKeysWith(RedisSerializationContext.SerializationPair
                         .fromSerializer(new StringRedisSerializer()))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair
-                        .fromSerializer(new GenericJackson2JsonRedisSerializer()));
-        
+                        .fromSerializer(new GenericJackson2JsonRedisSerializer(objectMapper)));
+
         return RedisCacheManager.RedisCacheManagerBuilder
                 .fromConnectionFactory(connectionFactory)
                 .cacheDefaults(redisCacheConfiguration).build();
     }
     
     @Bean
-    @Primary
     public CaffeineCacheManager caffeineCacheManager() {
         CaffeineCacheManager caffeineCacheManager = new CaffeineCacheManager();
         caffeineCacheManager.setCaffeine(caffeineConfig());
         return caffeineCacheManager;
     }
-    
+
     // 설정이 적용된 Caffeine 구현체 반환
     public Caffeine<Object, Object> caffeineConfig() {
         return Caffeine.newBuilder()
