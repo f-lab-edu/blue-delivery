@@ -1,11 +1,13 @@
-package com.bluedelivery.application.shop;
+package com.bluedelivery.application.shop.adapter;
 
 import java.util.Optional;
 
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 import com.bluedelivery.api.menu.MenuOptionDto;
 import com.bluedelivery.api.menu.MenuOptionGroupDto;
+import com.bluedelivery.application.shop.MenuOptionService;
 import com.bluedelivery.common.response.ApiException;
 import com.bluedelivery.common.response.ErrorCode;
 import com.bluedelivery.domain.menu.MenuOption;
@@ -25,6 +27,7 @@ public class MenuOptionServiceImpl implements MenuOptionService {
         this.optionRepository = optionRepository;
     }
 
+    @CacheEvict(value = "menus", allEntries = true)
     public void registerMenuOptionGroup(MenuOptionGroupDto dto) {
 
         if (dto.optionRequiredCheck(dto.isOptionRequired())) {
@@ -35,6 +38,7 @@ public class MenuOptionServiceImpl implements MenuOptionService {
     }
 
     @Override
+    @CacheEvict(value = "menus", allEntries = true)
     public void registerMenuOption(MenuOptionDto dto) {
 
         Optional<MenuOptionGroup> optionGroup = optionGroupRepository.findById(dto.getOptionGroupId());

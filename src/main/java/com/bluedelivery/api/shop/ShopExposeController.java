@@ -29,6 +29,6 @@ public interface ShopExposeController {
     ResponseEntity<HttpResponse<List<Shop>>> getTotalOrdersTop();
 
     @ApiOperation(value = "해당 가게의 모든 메뉴 불러오기")
-    @GetMapping("/menus/{shopId}")
+    @GetMapping("shops/{shopId}/menus")
     ResponseEntity<List<MenuGroup>> getAllMenusByShopId(@PathVariable Long shopId);
 }

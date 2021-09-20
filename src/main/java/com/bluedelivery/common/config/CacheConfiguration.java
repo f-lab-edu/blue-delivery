@@ -29,7 +29,7 @@ public class CacheConfiguration {
     @Primary
     public RedisCacheManager redisCacheManager() {
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofSeconds(15))
+                .entryTtl(Duration.ofMinutes(1))
                 .disableCachingNullValues() // null value 저장금지
                 .serializeKeysWith(RedisSerializationContext.SerializationPair
                         .fromSerializer(new StringRedisSerializer()))

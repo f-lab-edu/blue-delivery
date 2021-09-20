@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.bluedelivery.api.menu.adapter.MenuOptionControllerImpl;
 import com.bluedelivery.application.authentication.AuthenticationService;
-import com.bluedelivery.application.shop.MenuOptionServiceImpl;
+import com.bluedelivery.application.shop.adapter.MenuOptionServiceImpl;
 import com.bluedelivery.domain.authentication.AuthenticationRepository;
 import com.bluedelivery.domain.menu.MenuOptionGroup;
 import com.fasterxml.jackson.databind.ObjectMapper;

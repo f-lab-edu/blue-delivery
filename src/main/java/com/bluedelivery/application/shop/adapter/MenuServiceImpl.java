@@ -3,6 +3,7 @@ package com.bluedelivery.application.shop.adapter;
 import static com.bluedelivery.common.response.ErrorCode.*;
 import static com.bluedelivery.domain.menu.Menu.*;
 
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class MenuServiceImpl implements MenuService {
         this.menuGroupRepository = menuGroupRepository;
     }
 
+    @CacheEvict(value = "menus", allEntries = true)
     public void registerMenu(RegisterMenuDto dto) {
         Menu menu = dto.toEntity();
         MenuGroup getMenuGroup = menuGroupRepository.findById(dto.getMenuGroupId())
@@ -40,6 +42,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Transactional
+    @CacheEvict(value = "menus", key = "#shopData.getShopIdByMenuId(id)")
     public void setMainMenu(Long id) {
         Menu menu = menuRepository.findById(id)
                 .orElseThrow(() -> new ApiException(MENU_NOT_FOUND));
@@ -53,6 +56,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Transactional
+    @CacheEvict(value = "menus", allEntries = true)
     public void updateMenuStatus(Long id, MenuStatus status) {
         Menu target = menuRepository.findById(id)
                 .orElseThrow(() -> new ApiException(MENU_NOT_FOUND));
@@ -60,6 +64,7 @@ public class MenuServiceImpl implements MenuService {
         target.setStatus(status);
     }
 
+    @CacheEvict(value = "menus", allEntries = true)
     public void deleteMenu(Long id) {
         Menu target = menuRepository.findById(id)
                 .orElseThrow(() -> new ApiException(MENU_NOT_FOUND));
